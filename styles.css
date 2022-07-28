@@ -1,0 +1,15 @@
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: auto;
+  grid-gap: 10px;
+  background-color: #fff;
+  color: #444;
+  padding: 0px;
+  align-content: center;
+}
+
+.buttons {
+  width: 100px;
+  height: 40px;
+}
