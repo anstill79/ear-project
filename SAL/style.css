@@ -1,0 +1,158 @@
+body {
+  margin: 30px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(11, minmax(70px, 70px));
+  grid-template-rows: auto;
+  grid-gap: 1px;
+  background-color: #fff;
+  color: #444;
+  padding: 0px;
+  align-content: center;
+}
+
+.grid-title {
+  height: auto;
+  background-color: white;
+  color: black;
+  border-radius: 0px;
+  font-weight: normal;
+  font-family: monospace;
+  padding: 1px;
+  align-self: center;
+  justify-self: center;
+}
+
+.grid-item-right {
+  background-color: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.2);
+  color: black;
+  border-style: solid;
+  border-radius: 7px;
+  padding: 5px;
+  align-self: center;
+  justify-self: center;
+}
+
+.grid-item-left {
+  background-color: rgba(0, 0, 255, 0.2);
+  border-color: rgba(0, 0, 255, 0.2);
+  color: black;
+  border-style: solid;
+  border-radius: 7px;
+  padding: 5px;
+  align-self: center;
+  justify-self: center;
+}
+
+.thresh-result-left {
+  background-color: white;
+  border-color: rgba(0, 0, 255, 0.8);
+  font-family: inherit;
+}
+
+.thresh-result-right {
+  background-color: white;
+  border-color: rgba(255, 0, 0, 0.8);
+  font-family: Helvetica, sans-serif;
+}
+
+.border-thing {
+  border-color: black;
+  border-top-width: thick;
+}
+
+.subheading1 {
+  color: black;
+  font-size: 20px;
+  padding: 10px;
+  margin: 0px;
+  text-align: center;
+  font-family: sans-serif;
+  font-style: oblique;
+  grid-column: 2 /span 8;
+}
+
+.subheading2 {
+  color: black;
+  font-size: 20px;
+  padding: 10px;
+  margin: 0px;
+  text-align: center;
+  font-family: sans-serif;
+  font-style: oblique;
+  grid-column: 1 /span 10;
+}
+
+.norm-box {
+  border-style: solid;
+  border-width: 3px;
+  padding: 5px;
+  width: 60px;
+}
+
+.norm-button {
+  padding: 2px;
+  margin: 5px;
+  width: 150px;
+}
+
+.norm-table {
+  border-color: black;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 1px;
+  width: 300px;
+  text-align: center;
+}
+thead {
+  letter-spacing: 0px;
+}
+
+td {
+  letter-spacing: 0px;
+}
+
+.input-box {
+  width: 40px;
+  height: 20px;
+}
+
+.input-box:focus {
+  background-color: rgba(255, 255, 159);
+  padding: 2px;
+  width: 50px;
+  box-shadow: 0 0 7px #C8E0EF;
+  text-indent: 5px;
+  transition: width 0.25s;
+}
+
+.header {
+  height: 90px;
+  padding: 0px;
+  margin: 5px;
+  text-align: left;
+  background: white;
+  border-color: black;
+  border-style: solid;
+  border-radius: 7px;
+  border-width: 2px;
+  color: #956A92;
+  font-family: "Verdana", sans-serif;
+  text-indent: 30px;
+}
+
+.info-header {
+  font-family: "Gill Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+
+}
+
+.info-body {
+  font-family: "Gill Sans", sans-serif;
+  font-size: 16px;
+  padding-left: 50px;
+}
