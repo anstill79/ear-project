@@ -1,20 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
-    <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Roboto&family=Rubik">
-  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Rubik">
+
     <meta charset="UTF-8">
     <title>Audiogram</title>
   </head>
 
   <body>
 
-    <a href="../index.html" style="position: relative;left: 30px;">Back</a>
-    
+    <a href="../index.html" style="position: relative;left: 10px;">Back</a>
+
     <div class="grid-container">
 
       <div class="header" style="grid-column: 1/ span 2;">
@@ -25,15 +22,17 @@
 
       </div>
 
-      <h3 class="grid-title" style="grid-column: 1;">
+      <h3 class="grid-title right-position" style="grid-column: 1; padding-right: 130px;">
         Right:
       </h3>
 
-      <h3 class="grid-title" style="grid-column: 2">
+      <h3 class="grid-title left-position" style="grid-column: 2; padding-left: 175px;">
         Left:
       </h3>
-      
-        <div class="spacer1" style="grid-column: 1/-1;height:10px;"><hr></div>
+
+      <div class="spacer1" style="grid-column: 1/-1;height:10px;">
+        <hr>
+      </div>
 
       <div style="grid-column: 1;justify-self: right; padding-right:5px;">
         <button id="AC button" onClick="toggleTransducer(1)" class="button_T">AC</button>
@@ -43,22 +42,22 @@
       <div style="grid-column: 2; justify-self: left;padding-left:5px;">
         <button id="BC button" onClick="toggleTransducer(2)" class="button_T">BC</button>
       </div>
-      
-            <div class="spacer1" style="grid-column: 1;height:10px;"></div>
-      
+
+      <div class="spacer1" style="grid-column: 1;height:10px;"></div>
+
       <div class="grid-item" style="grid-column: 1;justify-self: right;">
         <canvas id="audiogram_R" class="crosshair" style=" height:350px; width:350px;"> </canvas>
       </div>
 
-      <div class="grid-item" style="grid-column:2;justify-self: right;">
+      <div class="grid-item" style="grid-column:2;justify-self: left;">
         <canvas id="audiogram_L" class="crosshair" style=" height:350px; width:350px;"> </canvas>
       </div>
 
-      <div style="grid-column: 1;justify-self: left;padding-left:47px;">
+      <div style="grid-column: 1;justify-self: right;padding-right:223px;">
         <button onClick="maskAll_AC('R')" class="button_R" style="width: 80px;">Mask All R</button>
       </div>
 
-      <div style="grid-column: 2; justify-self: right;padding-right:15px;">
+      <div style="grid-column: 2; justify-self: left;padding-left:257px;">
         <button onClick="maskAll_AC('L')" class="button_L" style="width:80px;">Mask All L</button>
       </div>
       <div class="spacer2" style="grid-column: 1;"></div>
@@ -80,7 +79,7 @@
 
       </div>
 
-      <div class="grid-item right-position" style="grid-column: 2;">
+      <div class="grid-item left-position" style="grid-column: 2;">
 
         <button onClick="setMask(0,'L', transducer)" class="button_L_two masking">M</button>
         <button onClick="setMask(1,'L', transducer)" class="button_L masking">M</button>
@@ -115,7 +114,7 @@
       </div>
 
 
-      <div class="grid-item right-position" style="grid-column: 2;">
+      <div class="grid-item left-position" style="grid-column: 2;">
 
         <button onClick="setNR(0,'L', transducer)" class="button_L_two NR">NR</button>
         <button onClick="setNR(1,'L', transducer)" class="button_L NR" style="left: 433px;top:395px">NR</button>
@@ -131,49 +130,66 @@
         <button onClick="setNR(11,'L', transducer)" class="button_L NR" style="left: 675px;top:395px">NR</button>
 
       </div>
-      
-            <div class="spacer2" style="grid-column: 1;"></div>
+
+      <div class="spacer2" style="grid-column: 1;"></div>
 
       <div class="bar_R grid-item right-position" style="grid-column: 1;padding-right:5px;">
 
-          <canvas id="change_R"> </canvas>
+        <canvas id="change_R"> </canvas>
 
       </div>
 
-<div class="bar_L grid-item right-position" style="grid-column: 2;padding-right:5px;">
+      <div class="bar_L grid-item left-position" style="grid-column: 2;padding-right:5px;">
 
-          <canvas id="change_L"> </canvas>
+        <canvas id="change_L"> </canvas>
 
       </div>
 
-      <div style="grid-column: 1;justify-self: left;padding-left:47px;">
-        <button onClick="copyEarAC('R')" class="button_R" style="width: 80px;transition-duration: 0.9s">Copy R > L</button>
+      <div style="grid-column: 1;justify-self: right;padding-right:223px;">
+        <button onClick="copyEarAC('R')" class="button_R" style="width: 80px;transition-duration: 0.9s;">Copy R > L</button>
       </div>
-      
-      
-      <div style="grid-column: 2;justify-self: right;padding-right: 15px;">
-      <button onClick="copyEarAC('L')" class="button_L" style="width:80px;transition-duration: 0.9s;">Copy R < L</button>
+
+
+      <div style="grid-column: 2;justify-self: left;padding-left: 257px;">
+        <button onClick="copyEarAC('L')" class="button_L" style="width:80px;transition-duration: 0.9s;">Copy R < L</button>
       </div>
 
 
       <div style="grid-column: 1/span 2;justify-self: center;">
-      
-          <button id="Toggle" onClick="toggleData(); " class="button_AU">Shadow Ears</button>
-          
+
+        <button id="Toggle" onClick="toggleData(); " class="button_AU">Shadow Ears</button>
+
       </div>
-            <div style="grid-column: 1/span 2;justify-self: center;">
-      
-          <button id="HideShade1" onClick="HideShade1();" class="button_AU">Shading</button>
-          
+      <div style="grid-column: 1/span 2;justify-self: center;">
+
+        <button id="HideShade1" onClick="HideShade1();" class="button_AU">Shading</button>
+
       </div>
-            <div style="grid-column: 1/span 2;justify-self: center;">
-      
-          <button id="Crosshair" onClick="toggleCrosshair(); " class="button_AU">Crosshair</button>
-          
+      <div style="grid-column: 1/span 2;justify-self: center;">
+
+        <button id="Crosshair" onClick="toggleCrosshair(); " class="button_AU">Crosshair</button>
+
       </div>
 
 
+      <div>
+        <ul>
+          <li>Session last save <button>
+              Load
+            </button></li>
+          <li>Two<button>
+              Load
+            </button></li>
+        </ul>
+      </div>
 
+      <div>
+        <button>
+          Save
+        </button>
+      </div>
+
+      <!--end of container-->
     </div>
 
 
@@ -203,6 +219,7 @@
     <div style="display:none;">
       <img id="BC_L_M" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAfdJREFUeJzt2ztuFEEUBdA7CDkhcUAMEsisiR2wEm+CHZERkMEOiLBDPk3gxCrkBmm6nouqc6QJRj3qanU93bk90iQAAAAAAAAAAECF02NfAJW250lennGCn0luDrqY5G7+Lu+9v0lOnw88PyTJ9i7ZtoFft1V34knVQgxh9P0uayCj3wiONXq1Nfh0Mfp+G3y6GH2/DT5djL7fZYM/eufjUNuLJG86LnCR5NlfPnOd5OqBY1+S00PH4H+2fdj5OfNj1VWM/tXHWraqhQw+1Yao1wafkUh86MngU03VgYaqw7QkPjQkPtOS+NCQ+NCTwaeaqgMNVYdpSXxoSHzoyeBTTdWBhqrDtCQ+NCQ+05L40JD40JPBp5qqAw1Vh2lJfGhIfOjJ4FNN1YGGqsO0JD40JD70ZPCppupAQ9VhWhIfGhKfaUl8aEh86MngU03VgYaqw7QkPjQkPvRk8Kmm6kBD1YGeDD7V9lK9rAYZfKrtDX7ZPBp8qkl8lvRr55jBZ1qqDkuS+CxJ4rMkic+Shkj8p1ULMYLtbZLrf/jgt+wn8zmudo697rTmHwz+Wi6TvHrsi9hxUbWQqrOW0ffbwy1djL7fHm7pYvT9lvh0McSfQHZ8r1rIw+1aPiV5f+Y5Trl7SD7CbZIf995/Pei8AAAAAAAAAAzvN2nWj+GUvv3MAAAAAElFTkSuQmCC" height=20 width=40 />
     </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
     <script src="https://github.com/chartjs/Chart.js/blob/56661e448d8478e7cbce0f30d70d0bf1d2a2da8c/src/plugins/plugin.filler.js"></script>
