@@ -318,12 +318,13 @@ const mainOptions_R = {
 const ctx = document.getElementById('maskingGraph').getContext('2d');
 const myChart = new Chart(ctx, mainOptions_R);
 
-
 function clearData() {
   //copied from StackOverflow. Seems to start at 0 index then delete count is set to the original length of the array
   activeMeasure.splice(0, activeMeasure.length);
 
   activeMeasure.push(...BCresponses.emptyArray);
+  threshResult.splice(0, 1, null);
+  threshResult.splice(1, 1, null);
   maskedResult = 0;
   maskedIndex = 0;
   myChart.options.plugins.annotation.annotations.line1.yMin = maskedResult;
