@@ -324,6 +324,12 @@ function clearData() {
   activeMeasure.splice(0, activeMeasure.length);
 
   activeMeasure.push(...BCresponses.emptyArray);
+  maskedResult = 0;
+  maskedIndex = 0;
+  myChart.options.plugins.annotation.annotations.line1.yMin = maskedResult;
+  myChart.options.plugins.annotation.annotations.line1.yMax = maskedResult;
+  myChart.options.plugins.annotation.annotations.line2.xMin = maskedIndex;
+  myChart.options.plugins.annotation.annotations.line2.xMax = maskedIndex;
 
   myChart.update();
 
