@@ -1,0 +1,271 @@
+.button-resize {
+  position: absolute;
+right: 0;
+  margin-bottom: 5px;
+  width: 120px;
+  padding-right: 0px;
+  background-color: white;
+  border-width: 1px;
+  border-radius: 3px;
+}
+
+.button-resize:hover {
+  background-color: grey;
+  color: white;
+  cursor: pointer;
+}
+
+.clear-data {
+  margin-bottom: 5px;
+  margin-top: 5px;
+  width: 90px;
+  padding-right: 0px;
+  background-color: white;
+  border-width: 1px;
+  border-radius: 3px;
+}
+
+.clear-data:hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.header {
+  height: 60px;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.chart {
+  width: 500px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3px;
+  justify-self: center;
+  cursor: crosshair;
+  background-color: white;
+  padding: 10px;
+}
+
+h1 {
+  text-align: center;
+  font-family: Rubik;
+  font-weight: normal;
+  font-size: 28px;
+  height: 10px;
+}
+
+a {
+  font-family: Roboto;
+}
+
+h3 {
+  text-decoration: none;
+  font-size: 20px;
+  padding: 0px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, auto));
+  grid-template-rows: auto;
+  grid-gap: 0px;
+  background-color: #fff;
+  color: #444;
+  padding: 0px;
+  border-style: solid;
+  border-width: 1px;
+
+}
+
+.grid-title {
+  height: 10px;
+  background-color: white;
+  color: black;
+  border-radius: 0px;
+  font-weight: normal;
+  font-family: Roboto;
+  padding: 0px;
+  align-self: center;
+  justify-self: center;
+}
+
+.grid-item {
+  background-color: white;
+  color: black;
+  border-radius: 3px;
+  align-self: center;
+  justify-self: center;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.right-position {
+  justify-self: right;
+  padding-right: 15px;
+}
+
+.left-position {
+  justify-self: left;
+  padding-left: 50px;
+}
+
+.button_R {
+  cursor: pointer;
+  height: 20px;
+  width: 60px;
+  background: white;
+  font-size: 12px;
+  padding: 0px 0px;
+  border: 2px solid #ff0000;
+  transition-duration: 0.1s;
+  border-radius: 2px;
+  border-width: 1px;
+  margin: 2px;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+
+.button_R_two {
+  display: inline-block;
+  opacity: 0.4;
+  cursor: pointer;
+  top: 72%;
+  width: 20px;
+  height: 18px;
+  background: white;
+  font-size: 12px;
+  padding: 0px 0px;
+  border: 0.5px solid #ff0000;
+  transition-duration: 0.1s;
+  border-radius: 2px;
+  border-width: 1px;
+}
+
+.button_R:hover {
+  background-color: #ff0000;
+  color: white;
+}
+
+.button_R_two:hover {
+  background-color: #ff0000;
+  color: white;
+}
+
+.button_L {
+  border: 2px solid #0000ff;
+  cursor: pointer;
+  height: 20px;
+  width: 60px;
+  background: white;
+  font-size: 12px;
+  padding: 0px 0px;
+  transition-duration: 0.1s;
+  border-radius: 2px;
+  border-width: 1px;
+  margin: 2px;
+}
+
+.button_L_two {
+  display: inline-block;
+  opacity: 0.4;
+  cursor: pointer;
+  top: 72%;
+  width: 20px;
+  height: 18px;
+  background: white;
+  font-size: 12px;
+  padding: 0px 0px;
+  border: 0.5px solid #0000ff;
+  transition-duration: 0.1s;
+  border-radius: 2px;
+  border-width: 1px;
+}
+
+.button_L:hover {
+  background-color: #0000ff;
+  color: white;
+}
+
+.button_L_two:hover {
+  background-color: #0000ff;
+  color: white;
+}
+
+.button_T {
+  cursor: pointer;
+  top: 72%;
+  width: 70px;
+  height: 20px;
+  z-index: 2;
+  background: white;
+  font-size: 14px;
+  color: rgb(0, 0, 0, 0.3);
+  padding: 1px 5px;
+  border: 2px solid #000000;
+  transition-duration: 0.8s;
+  border-radius: 2px;
+  border-width: 0.5px;
+  border-color: rgb(0, 0, 0, 0.1);
+  background-color: rgb(0, 0, 0, 0.01);
+}
+
+.button_T:hover {
+  background-color: #abdaa9;
+  color: black;
+  font-weight: normal;
+}
+
+.button_U {
+  cursor: pointer;
+  top: 72%;
+  width: 70px;
+  height: 20px;
+  z-index: 3;
+  background: white;
+  font-size: 12px;
+  padding: 1px 5px;
+  border: 2px solid #000000;
+  transition-duration: 0.2s;
+  border-radius: 2px;
+  border-width: 1.5px;
+  background-color: rgb(255, 255, 255, 1);
+  box-shadow: 5px 5px 5px;
+}
+
+.spacer1 {
+  height: 5px;
+}
+
+.spacer2 {
+  height: 2px;
+}
+
+.button_AU {
+  display: inline-block;
+  cursor: pointer;
+  top: 72%;
+  height: 18px;
+  width: 110px;
+  background: white;
+  font-size: 12px;
+  margin: 2px;
+  padding: 0px 0px;
+  border: 1px solid #000000;
+  transition-duration: 0.1s;
+  border-radius: 2px;
+  border-width: 1px;
+}
+
+.button_AU:hover {
+  background-color: #F5F5F5;
+  color: black;
+  border: 2px solid #000000;
+  box-shadow: 5px 5px 5px;
+}
