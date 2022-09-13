@@ -155,6 +155,8 @@ console.log(audiogramData.pointSize_BC_R)
     audiogramData.thresh_BC_R.splice(freqIndex, 1, dB);
   }
   if (ear === 'L' && transducer === 'AC') {
+      audiogramData.thresh_NR_L.splice(freqIndex, 1, null); 
+    audiogramData.pointSize_NR_L.splice(freqIndex, 1, null);
     audiogramData.thresh_AC_L.splice(freqIndex, 1, dB);
     audiogramData.thresh_AC_L.splice(2, 1, nonFreq(audiogramData.thresh_AC_L[1], audiogramData.thresh_AC_L[3], 'L'));
     calcInterOct(freqIndex, dB, 'L');
