@@ -143,7 +143,6 @@ function calcInterOct(index, dB, ear) {
   }
 }
 
-
 //-----------------------------------this is the main function
 
 function moveIt(freqIndex, dB, ear) {
@@ -190,6 +189,9 @@ function updateCharts() {
 
 const changePTA_R = [null];
 const changePTA_L = [null];
+
+let changeResolution_R = 'full';
+let changeResolution_L = 'full';
 
 const audiogramData = {
 
@@ -980,12 +982,17 @@ const options_bar_R = {
   },
   plugins: [ChartDataLabels],
   options: {
-        layout: {
-            padding: {
-                right: 4,
-                left: 3
-            }
-        },
+    animation: {
+      delay: 50,
+      duration: 1000,
+      easing: 'easeOutSine',
+    },
+    layout: {
+      padding: {
+        right: 4,
+        left: 3
+      }
+    },
     responsive: false,
     plugins: {
       datalabels: {
@@ -1090,11 +1097,16 @@ const options_bar_L = {
   },
   plugins: [ChartDataLabels],
   options: {
-          layout: {
-            padding: {
-                right: 13,
-            }
-        },
+    animation: {
+      delay: 50,
+      duration: 1000,
+      easing: 'easeOutSine',
+    },
+    layout: {
+      padding: {
+        right: 13,
+      }
+    },
     responsive: false,
     plugins: {
       datalabels: {
@@ -1182,7 +1194,7 @@ const options_bar_L = {
         reverse: false
       }
     },
-  }
+  },
 };
 
 const ctx = document.getElementById('audiogram_R').getContext('2d');
@@ -1199,6 +1211,9 @@ const myChart4 = new Chart(ctx4, options_bar_L);
 
 change_R.addEventListener('click', function(evt) {
   changeResolution('R');
+})
+change_L.addEventListener('click', function(evt) {
+  changeResolution('L');
 })
 
 function download_image() {
@@ -1396,58 +1411,113 @@ function calcPTA(array) {
 
 }
 
-let changeResolution_R = 1;
-let changeResolution_L = 1;
 
+function LMH(array) {
+  let lowMidHigh = [null, null, null];
+  if (array[1] === null || array[3] === null) {
+    lowMidHigh.splice(0, 1, null)
+  } else {
+    lowMidHigh.splice(0, 1, (array[1] + array[3]) / 2)
+  }
+
+  if (array[5] === null || array[7] === null) {
+    lowMidHigh.splice(1, 1, null)
+  } else {
+    lowMidHigh.splice(1, 1, (array[5] + array[7]) / 2)
+  }
+
+  if (array[9] === null || array[11] === null) {
+    lowMidHigh.splice(2, 1, null)
+  } else {
+    lowMidHigh.splice(2, 1, (array[9] + array[11]) / 2)
+  }
+
+  return lowMidHigh;
+}
 
 function changeResolution(ear) {
 
-  let changeArray = (ear === 'R' ? audiogramData.change_R : audiogramData.change_L);
-  let lowMidHigh = [];
-  let lowMidHigh_labels = ['Low', 'Mid', 'High'];
-  let PTA = calcPTA(changeArray);
-  let reso = (ear === 'R' ? changeResolution_R : changeResolution_L);
-  let chartTarget = (ear === 'R' ? myChart3 : myChart4);
-  let PTAtarget = (ear === 'R' ? changePTA_R : changePTA_L);
+  if (ear === 'R') {
 
-  if (changeArray[1] === null || changeArray[3] === null) {
-    lowMidHigh.splice(0, 1, null)
-  } else {
-    lowMidHigh.splice(0, 1, (changeArray[1] + changeArray[3]) / 2)
+    const PTAchange = calcPTA(audiogramData.change_R);
+
+    if (changeResolution_R === 'full') {
+
+      const lowMidHigh = LMH(audiogramData.change_R);
+
+      myChart3.config.data.datasets[0].data = lowMidHigh;
+      myChart3.config.data.labels = ["Low", "Mid", "High"];
+      changeResolution_R = 'lowMidHigh';
+      myChart3.update();
+      return;
+
+    }
+
+    if (changeResolution_R === 'lowMidHigh') {
+
+      changePTA_R.splice(0, 1, Math.trunc(PTAchange));
+      if (isNaN(changePTA_R[0])) {
+        changePTA_R.splice(0, 1, null)
+      }
+      myChart3.config.data.datasets[0].data = changePTA_R;
+      myChart3.config.data.labels = ["PTA"];
+      changeResolution_R = 'PTA';
+      myChart3.update();
+      return;
+    }
+
+    if (changeResolution_R === 'PTA') {
+
+      myChart3.config.data.datasets[0].data = audiogramData.change_R;
+      myChart3.config.data.labels = lilHz;
+      changeResolution_R = 'full';
+      myChart3.update();
+      return;
+    }
+
   }
-  if (changeArray[5] === null || changeArray[7] === null) {
-    lowMidHigh.splice(1, 1, null)
-  } else {
-    lowMidHigh.splice(1, 1, (changeArray[5] + changeArray[7]) / 2)
+
+  if (ear === 'L') {
+
+    const PTAchange = calcPTA(audiogramData.change_L);
+
+
+    if (changeResolution_L === 'full') {
+
+      const lowMidHigh = LMH(audiogramData.change_L);
+
+      myChart4.config.data.datasets[0].data = lowMidHigh;
+      myChart4.config.data.labels = ["Low", "Mid", "High"];
+
+      changeResolution_L = 'lowMidHigh';
+
+      myChart4.update();
+      return;
+
+    }
+
+    if (changeResolution_L === 'lowMidHigh') {
+
+      changePTA_L.splice(0, 1, Math.trunc(PTAchange));
+      if (isNaN(changePTA_L[0])) {
+        changePTA_L.splice(0, 1, null)
+      }
+      myChart4.config.data.datasets[0].data = changePTA_L;
+      myChart4.config.data.labels = ["PTA"];
+      changeResolution_L = 'PTA';
+      myChart4.update();
+      return;
+    }
+
+    if (changeResolution_L === 'PTA') {
+
+      myChart4.config.data.datasets[0].data = audiogramData.change_L;
+      myChart4.config.data.labels = lilHz;
+      changeResolution_L = 'full';
+      myChart4.update();
+      return;
+    }
   }
-  if (changeArray[9] === null || changeArray[11] === null) {
-    lowMidHigh.splice(2, 1, null)
-  } else {
-    lowMidHigh.splice(2, 1, (changeArray[9] + changeArray[11]) / 2)
-  }
-
-  if (reso === 3) {
-
-    chartTarget.config.data.datasets[0].data = changeArray;
-    chartTarget.config.data.labels = lilHz;
-    reso = 1
-
-  } else if (reso === 2) {
-
-    PTAtarget.splice(0, 0, Math.trunc(PTA));
-
-    chartTarget.config.data.datasets[0].data = PTAtarget;
-    chartTarget.config.data.labels = ["PTA"];
-
-    reso++
-
-  } else if (reso === 1) {
-    chartTarget.config.data.datasets[0].data = lowMidHigh;
-    chartTarget.config.data.labels = lowMidHigh_labels;
-    reso++
-  }
-  chartTarget.update();
-  console.log(PTAtarget);
 }
 
 audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
