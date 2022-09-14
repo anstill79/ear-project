@@ -8,8 +8,10 @@ function setNR(index, ear, transducer) {
   let size_BC = ear === 'R' ? audiogramData.pointSize_NR_BC_R : audiogramData.pointSize_NR_BC_L;
   let changeNR = ear === 'R' ? audiogramData.change_R : audiogramData.change_L;
   let IO = ear === 'R' ? audiogramData.interOctTested_AC_R : audiogramData.interOctTested_AC_L;
-  
-  if (IO[index] === 0) {return}
+
+  if (IO[index] === 0) {
+    return
+  }
 
   if (old_dB !== null && transducer === "AC") {
     NR.splice(index, 1, old_dB);
@@ -19,17 +21,24 @@ function setNR(index, ear, transducer) {
     changeNR.splice(index, 1, null);
   } else if (transducer === "BC") {
     size_BC.splice(index, 1, 10);
-  } 
-  if (transducer === 'BC') {updateCharts(); return;}
+  }
+  if (transducer === 'BC') {
+    updateCharts();
+    return;
+  }
   if (index === 4 || index === 6 || index === 8 || index === 10) {
-  calcInterOct(index, 1, ear)
+    calcInterOct(index, 1, ear)
   } else {
-  calcInterOct(index, null, ear)
+    calcInterOct(index, null, ear)
   }
   updateCharts();
 }
 
 function prepareMovement(index, dB, ear) {
+
+  if (index === 2 || index < 0 || index > 11 || dB < -10 || dB > 120) {
+    return
+  }
 
   let olddB;
   if (ear === 'R') {
@@ -140,28 +149,28 @@ function calcInterOct(index, dB, ear) {
 function moveIt(freqIndex, dB, ear) {
 
   if (ear === 'R' && transducer === 'AC') {
-    audiogramData.thresh_NR_R.splice(freqIndex, 1, null); 
+    audiogramData.thresh_NR_R.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_R.splice(freqIndex, 1, null);
     audiogramData.thresh_AC_R.splice(freqIndex, 1, dB);
     audiogramData.thresh_AC_R.splice(2, 1, nonFreq(audiogramData.thresh_AC_R[1], audiogramData.thresh_AC_R[3], 'R'));
     calcInterOct(freqIndex, dB, 'R');
     calcChange(freqIndex, 'R');
-  } 
+  }
   if (ear === 'R' && transducer === 'BC') {
-  
-console.log(audiogramData.pointSize_BC_R)
+
+    console.log(audiogramData.pointSize_BC_R)
     audiogramData.thresh_NR_BC_R.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_BC_R.splice(freqIndex, 1, null);
     audiogramData.thresh_BC_R.splice(freqIndex, 1, dB);
   }
   if (ear === 'L' && transducer === 'AC') {
-      audiogramData.thresh_NR_L.splice(freqIndex, 1, null); 
+    audiogramData.thresh_NR_L.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_L.splice(freqIndex, 1, null);
     audiogramData.thresh_AC_L.splice(freqIndex, 1, dB);
     audiogramData.thresh_AC_L.splice(2, 1, nonFreq(audiogramData.thresh_AC_L[1], audiogramData.thresh_AC_L[3], 'L'));
     calcInterOct(freqIndex, dB, 'L');
     calcChange(freqIndex, 'L');
-  } 
+  }
   if (ear === 'L' && transducer === 'BC') {
     audiogramData.thresh_NR_BC_L.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_BC_L.splice(freqIndex, 1, null);
@@ -182,11 +191,7 @@ function updateCharts() {
 const changePTA_R = [null];
 const changePTA_L = [null];
 
-const symbols_L = ['crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot'];
-
-const symbols_R = ['circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle'];
-
-let audiogramData = {
+const audiogramData = {
 
   change_R: [null, null, null, null, null, null, null, null, null, null, null, null],
   change_L: [null, null, null, null, null, null, null, null, null, null, null, null],
@@ -209,7 +214,9 @@ let audiogramData = {
   pointSize_NR_BC_R: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   pointSize_NR_BC_L: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   symbols_BC_R: [BC_R, BC_R, BC_R, BC_R, BC_R, BC_R, BC_R, BC_R, BC_R, BC_R, BC_R, BC_R],
-    symbols_BC_L: [BC_L,BC_L,BC_L,BC_L,BC_L,BC_L,BC_L,BC_L,BC_L,BC_L,BC_L,BC_L],
+  symbols_BC_L: [BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L],
+  symbols_R: ['circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle'],
+  symbols_L: ['crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot'],
   maskAll_AC_R_L_BC_R_L: [0, 0, 0, 0]
 };
 
@@ -425,7 +432,7 @@ const options_R = {
         label: 'AC_R',
         data: audiogramData.thresh_AC_R,
         borderWidth: 1,
-        pointStyle: symbols_R,
+        pointStyle: audiogramData.symbols_R,
         pointRadius: audiogramData.pointSize_AC_R,
         pointHoverRadius: audiogramData.pointSize_hover_AC_R,
         pointBorderWidth: 2,
@@ -479,7 +486,7 @@ const options_R = {
         label: 'AC NR thresh',
         data: audiogramData.thresh_NR_R,
         pointRadius: audiogramData.pointSize_NR_R,
-        pointStyle: symbols_R,
+        pointStyle: audiogramData.symbols_R,
         borderWidth: 0,
         pointBorderWidth: 2,
         pointBackgroundColor: 'rgba(0, 0, 0, 0)',
@@ -511,7 +518,7 @@ const options_R = {
         data: audiogramData.thresh_AC_L,
         pointRadius: audiogramData.pointSize_AC_L,
         borderColor: "rgba(0,0,255,0.1)",
-        pointStyle: symbols_L,
+        pointStyle: audiogramData.symbols_L,
         spanGaps: true,
         pointHoverRadius: 0,
         borderWidth: 2,
@@ -695,7 +702,7 @@ const options_L = {
         label: 'AC_L',
         data: audiogramData.thresh_AC_L,
         borderWidth: 1,
-        pointStyle: symbols_L,
+        pointStyle: audiogramData.symbols_L,
         pointRadius: audiogramData.pointSize_AC_L,
         pointHoverRadius: audiogramData.pointSize_hover_AC_L,
         pointBorderWidth: 2,
@@ -749,7 +756,7 @@ const options_L = {
         label: 'AC NR thresh',
         data: audiogramData.thresh_NR_L,
         pointRadius: audiogramData.pointSize_NR_L,
-        pointStyle: symbols_L,
+        pointStyle: audiogramData.symbols_L,
         borderWidth: 0,
         pointBorderWidth: 2,
         pointBackgroundColor: 'rgba(0, 0, 0, 0)',
@@ -782,7 +789,7 @@ const options_L = {
         pointRadius: audiogramData.pointSize_AC_R,
         borderColor: "rgba(255,0,0,0.1)",
         pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        pointStyle: symbols_R,
+        pointStyle: audiogramData.symbols_R,
         spanGaps: true,
         pointHoverRadius: 0,
         borderWidth: 2,
@@ -949,7 +956,7 @@ const options_L = {
         },
       }
     },
-        onClick: function(e) {
+    onClick: function(e) {
       const xLabel = this.scales.x.getValueForPixel(e.x);
       let yLabel = this.scales.y.getValueForPixel(e.y);
       yLabel = Math.round(yLabel / 5) * 5;
@@ -966,13 +973,19 @@ const options_bar_R = {
     datasets: [{
       label: 'R Change',
       data: audiogramData.change_R,
-      borderWidth: 0.2,
+      borderWidth: 0.5,
       backgroundColor: barColors_R,
       borderColor: 'gray',
     }]
   },
   plugins: [ChartDataLabels],
   options: {
+        layout: {
+            padding: {
+                right: 4,
+                left: 3
+            }
+        },
     responsive: false,
     plugins: {
       datalabels: {
@@ -1010,9 +1023,6 @@ const options_bar_R = {
       },
       title: {
         display: false,
-        position: 'bottom',
-        padding: 5,
-        text: 'Change R'
       },
       annotation: {
         annotations: {
@@ -1045,7 +1055,7 @@ const options_bar_R = {
     scales: {
       x: {
         grid: {
-          display: false
+          display: true
         },
         ticks: {
           maxRotation: 0,
@@ -1066,7 +1076,6 @@ const options_bar_R = {
   }
 };
 
-
 const options_bar_L = {
   type: 'bar',
   data: {
@@ -1081,6 +1090,11 @@ const options_bar_L = {
   },
   plugins: [ChartDataLabels],
   options: {
+          layout: {
+            padding: {
+                right: 13,
+            }
+        },
     responsive: false,
     plugins: {
       datalabels: {
@@ -1150,7 +1164,7 @@ const options_bar_L = {
     scales: {
       x: {
         grid: {
-          display: false
+          display: true
         },
         ticks: {
           maxRotation: 0,
@@ -1294,16 +1308,16 @@ function toggleTransducer(input) {
 
 function setMask(index, ear, transducer) {
   if (ear === 'R' && transducer === "AC") {
-    if (symbols_R[index] === 'circle') {
-      symbols_R.splice(index, 1, 'triangle');
+    if (audiogramData.symbols_R[index] === 'circle') {
+      audiogramData.symbols_R.splice(index, 1, 'triangle');
     } else {
-      symbols_R.splice(index, 1, 'circle');
+      audiogramData.symbols_R.splice(index, 1, 'circle');
     }
   } else if (ear === 'L' && transducer === 'AC') {
-    if (symbols_L[index] === 'crossRot') {
-      symbols_L.splice(index, 1, 'rect');
+    if (audiogramData.symbols_L[index] === 'crossRot') {
+      audiogramData.symbols_L.splice(index, 1, 'rect');
     } else {
-      symbols_L.splice(index, 1, 'crossRot');
+      audiogramData.symbols_L.splice(index, 1, 'crossRot');
     }
   } else if (ear === 'R' && transducer === 'BC') {
     if (audiogramData.symbols_BC_R[index] === BC_R) {
@@ -1318,7 +1332,7 @@ function setMask(index, ear, transducer) {
       audiogramData.symbols_BC_L.splice(index, 1, BC_L);
     }
   }
-      updateCharts();
+  updateCharts();
 }
 //used for toggling old threshold curve and or for ghost ears
 function toggleData() {
