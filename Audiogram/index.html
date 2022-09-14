@@ -3,14 +3,21 @@
 
   <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Rubik">
-    <link rel="stylesheet" href="styles.css">
+
     <meta charset="UTF-8">
     <title>Audiogram</title>
   </head>
 
   <body>
 
-    <a href="../index.html" style="position: relative;left: 10px;">Back</a>
+    <nav id="main">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./pages/gallery.html">Print</a></li>
+        <li><a href="./pages/about.html">About</a></li>
+
+      </ul>
+    </nav>
 
     <div class="grid-container">
 
@@ -30,9 +37,13 @@
         Left:
       </h3>
 
-      <div class="spacer1" style="grid-column: 1/-1;height:10px;">
+      <div class="spacer3" style="grid-column: 1/-1;">
+
+
         <hr>
       </div>
+      
+      <div class="spacer3" style="grid-column: 1;"></div>
 
       <div style="grid-column: 1;justify-self: right; padding-right:5px;">
         <button id="AC button" onClick="toggleTransducer(1)" class="button_T">AC</button>
@@ -54,11 +65,11 @@
       </div>
 
       <div style="grid-column: 1;justify-self: right;padding-right:223px;">
-        <button onClick="maskAll_AC('R')" class="button_R" style="width: 80px;">Mask All R</button>
+        <button onClick="maskAll('R')" class="button_R" style="width: 80px;">Mask All R</button>
       </div>
 
       <div style="grid-column: 2; justify-self: left;padding-left:257px;">
-        <button onClick="maskAll_AC('L')" class="button_L" style="width:80px;">Mask All L</button>
+        <button onClick="maskAll('L')" class="button_L" style="width:80px;">Mask All L</button>
       </div>
       <div class="spacer2" style="grid-column: 1;"></div>
 
@@ -98,7 +109,7 @@
       <div class="spacer2" style="grid-column: 1;"></div>
 
       <div class="grid-item right-position" style="grid-column: 1;">
-        <button onClick="setNR(0,'R',transducer)" class="button_R_two NR">NR</button>
+        <button onClick="setNR(0,'R', transducer)" class="button_R_two NR">NR</button>
         <button onClick="setNR(1,'R',transducer)" class="button_R NR">NR</button>
         <button onClick="" class="invisible">..</button>
         <button onClick="setNR(3,'R', transducer)" class="button_R NR">NR</button>
@@ -131,8 +142,8 @@
 
       </div>
 
-      <div class="spacer2" style="grid-column: 1;"></div>
 
+      <div class="spacer2" style="grid-column: 1;"></div>
       <div class="bar_R grid-item right-position" style="grid-column: 1;padding-right:5px;">
 
         <canvas id="change_R"> </canvas>
@@ -171,8 +182,11 @@
 
       </div>
 
+      <div class="spacer1">
 
-      <div>
+      </div>
+
+      <div style="grid-column: 1/ span 2;">
         <ul>
           <li>Session last save <button>
               Load
@@ -188,6 +202,27 @@
           Save
         </button>
       </div>
+
+      <div>
+        <button>
+          Resize Page
+        </button>
+        <button>
+          Print
+        </button>
+
+        <form>
+          Reliability
+          <select id="Reliability" name="Reliability" style="height: 21px;">
+            <option value="blank"></option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </form>
+
+      </div>
+
 
       <!--end of container-->
     </div>
@@ -221,14 +256,8 @@
     </div>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
-    <script src="https://github.com/chartjs/Chart.js/blob/56661e448d8478e7cbce0f30d70d0bf1d2a2da8c/src/plugins/plugin.filler.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.3.0/chartjs-plugin-annotation.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>  
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair"></script>
-      
-    <script src="audiogram.js"></script>
-      
+
   </body>
 
 </html>
