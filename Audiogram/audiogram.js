@@ -1,3 +1,116 @@
+
+
+function calcMasking() {
+  const OKtoCalc = document.getElementById('calc_WR_masking_please');
+  if (OKtoCalc.checked === false) {
+    return
+  }
+  const SRT_R = document.getElementById('SRT_right_advanced').value;
+  const SRT_L = document.getElementById('SRT_left_advanced').value;
+  const WR_R = document.getElementById('WR_right_pres_level').value;
+  const WR_L = document.getElementById('WR_left_pres_level').value;
+  const maskSRT_R = document.getElementById('SRT_right_masking');
+  const maskSRT_L = document.getElementById('SRT_left_masking');
+  const maskWR_R = document.getElementById('WR_right_mask_level');
+  const maskWR_L = document.getElementById('WR_left_mask_level');
+
+  if (SRT_R) {
+    maskSRT_R.value = SRT_R - 35;
+    if (maskSRT_R.value <= SRT_L) {
+      maskSRT_R.value = parseInt(SRT_L) + 5
+    }
+    if (SRT_R <= 40) {
+      maskSRT_R.value = ""
+    }
+  }
+    if (SRT_L) {
+    maskSRT_L.value = SRT_L - 35;
+    if (maskSRT_L.value <= SRT_R) {
+      maskSRT_L.value = parseInt(SRT_R) + 5
+    }
+    if (SRT_L <= 40) {
+      maskSRT_L.value = ""
+    }
+  }
+    if (WR_R) {
+    maskWR_R.value = WR_R - 35;
+    if (maskWR_R.value <= WR_L) {
+      maskWR_R.value = parseInt(WR_L) + 5
+    }
+    if (WR_R <= 40) {
+      maskWR_R.value = ""
+    }
+  }
+      if (WR_L) {
+    maskWR_L.value = WR_L - 35;
+    if (maskWR_L.value <= WR_R) {
+      maskWR_L.value = parseInt(WR_R) + 5
+    }
+    if (WR_L <= 40) {
+      maskWR_L.value = ""
+    }
+  }
+}
+
+function copyData() {
+
+  const RPTA = !audiogramData.PTA_R ? 'Not available' : Math.floor(audiogramData.PTA_R) + ' dB';
+  const LPTA = !audiogramData.PTA_L ? 'Not available' : Math.floor(audiogramData.PTA_L) + ' dB';
+  const RWR = !audiogramData.wordRec_R[0] ? 'Not available' : audiogramData.wordRec_R + ' %';
+  const LWR = !audiogramData.wordRec_L[0] ? 'Not available' : audiogramData.wordRec_L + ' %';
+
+  const resultt =
+    `Right Ear:
+    	PTA: 
+      	${RPTA}.
+      Word Recognition: 
+      	${RWR}.
+        
+Left Ear:
+    	PTA: 
+      	${LPTA}.
+      Word Recognition: 
+      	${LWR}.`
+  alert(resultt);
+}
+
+const WR_modal = document.getElementById("WR_modal");
+const closeWRbutton = document.getElementById("closeWR");
+const command_modal = document.getElementById("command_modal");
+
+function closeWordRec(event) {
+  if (event.target === WR_modal || event.target === closeWRbutton) {
+    WR_modal.style.display = "none";
+    WR_modal.removeEventListener("click", closeWordRec);
+  }
+}
+
+function launchWordRec() {
+  WR_modal.style.display = "block";
+  WR_modal.addEventListener("click", closeWordRec);
+  const PTA_R = document.getElementById('PTA_R_forWR');
+  const PTA_L = document.getElementById('PTA_L_forWR');
+  if (audiogramData.PTA_R !== undefined) {
+    PTA_R.innerText = `PTA ${Math.floor(audiogramData.PTA_R)} dB`;
+  }
+  if (audiogramData.PTA_L !== undefined) {
+    PTA_L.innerText = `PTA ${Math.floor(audiogramData.PTA_L)} dB`;
+  }
+}
+
+function launchCommandPalette() {
+  command_modal.style.display = "block";
+  command_modal.addEventListener("click", closeCommandPalette);
+}
+
+function closeCommandPalette(event) {
+  if (event.target === command_modal) {
+    command_modal.style.display = "none";
+    command_modal.removeEventListener("click", closeCommandPalette);
+  }
+}
+
+
 function setNR(index, ear, transducer) {
 
   let thresh = ear === 'R' ? audiogramData.thresh_AC_R : audiogramData.thresh_AC_L;
@@ -9,7 +122,7 @@ function setNR(index, ear, transducer) {
   let changeNR = ear === 'R' ? audiogramData.change_R : audiogramData.change_L;
   let IO = ear === 'R' ? audiogramData.interOctTested_AC_R : audiogramData.interOctTested_AC_L;
 
-  if (IO[index] === 0) {
+  if (IO[index] === 0 && transducer !== "BC") {
     return
   }
 
@@ -141,10 +254,16 @@ function calcInterOct(index, dB, ear) {
       }
     }
   }
+
+
+  //remove calcChage value at index if !tested 
+  /*   if (tested === 0) {
+      audiogramData.change_R.splice(index, 1 ,null);
+      alert("yo")
+    } */
 }
 
 //-----------------------------------this is the main function
-
 function moveIt(freqIndex, dB, ear) {
 
   if (ear === 'R' && transducer === 'AC') {
@@ -157,7 +276,6 @@ function moveIt(freqIndex, dB, ear) {
   }
   if (ear === 'R' && transducer === 'BC') {
 
-    console.log(audiogramData.pointSize_BC_R)
     audiogramData.thresh_NR_BC_R.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_BC_R.splice(freqIndex, 1, null);
     audiogramData.thresh_BC_R.splice(freqIndex, 1, dB);
@@ -185,6 +303,9 @@ function updateCharts() {
   myChart2.update();
   myChart3.update();
   myChart4.update();
+
+  fillInLegend();
+
 }
 
 const changePTA_R = [null];
@@ -194,7 +315,12 @@ let changeResolution_R = 'full';
 let changeResolution_L = 'full';
 
 const audiogramData = {
-
+  PTA_R: [null],
+  PTA_L: [null],
+  SRT_R: [null],
+  SRT_L: [null],
+  wordRec_R: [null],
+  wordRec_L: [null],
   change_R: [null, null, null, null, null, null, null, null, null, null, null, null],
   change_L: [null, null, null, null, null, null, null, null, null, null, null, null],
   thresh_AC_R: [null, null, null, null, null, null, null, null, null, null, null, null],
@@ -219,8 +345,16 @@ const audiogramData = {
   symbols_BC_L: [BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L, BC_L],
   symbols_R: ['circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle', 'circle'],
   symbols_L: ['crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot', 'crossRot'],
-  maskAll_AC_R_L_BC_R_L: [0, 0, 0, 0]
+  maskAll_AC_R_L_BC_R_L: [0, 0, 0, 0],
+  legend: {
+    ACunmasked: "hide",
+    BCunmasked: "hide",
+    ACmasked: "hide",
+    BCmasked: "hide",
+    NR: "hide"
+  },
 };
+
 
 let oldAudiogramData = {
   thresh_AC_R: [null, 20, null, 35, 35, 40, 45, 55, 55, 60, 70, 80],
@@ -251,51 +385,52 @@ const lilHz = ['', 250, '', 500, '', 1000, '', 2000, '', 4000, '', 8000];
 const barColors_R = ['rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)'];
 const barColors_L = ['rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)'];
 
-const fill_on = {
-  above: 'rgba(0,0,0,0)',
-  below: 'rgba(0,0,0,0.1)',
-  target: {
-    value: 25
+const shaders = {
+  loss_fill_on: {
+    above: 'rgba(0,0,0,0)',
+    below: 'rgba(0,0,0,0.1)',
+    target: {
+      value: 25
+    }
+  },
+  loss_fill_off: {
+    above: 'rgba(0,0,0,0)',
+    below: 'rgba(0,0,0,0)',
+    target: {
+      value: 25
+    }
+  },
+  normAdult: {
+    type: 'box',
+    yMin: 0,
+    yMax: 25,
+    xMin: 1,
+    backgroundColor: "rgba(230, 255, 110, 0.1)",
+    borderColor: 'gray',
+    borderWidth: 0,
+    drawTime: 'beforeDatasetsDraw',
   }
 };
 
-const fill_off = {
-  above: 'rgba(0,0,0,0)',
-  below: 'rgba(0,0,0,0)',
-  target: {
-    value: 25
-  }
-};
+let shadeLossToggle = 'off';
 
-const fill_between = {
-  above: 'rgba(0,0,0,0)',
-  below: 'rgba(0,0,0,0)',
-  target: {
-    value: 25
-  }
-};
-
-let fillToggle = 0;
-
-function HideShade1() {
-  if (fillToggle === 0) {
-    myChart.config.data.datasets[0].fill = fill_off;
-    myChart2.config.data.datasets[0].fill = fill_off;
-    fillToggle = 1;
-    document.getElementById('HideShade1').innerText = 'Shade Loss';
-  } else if (fillToggle === 1) {
-    myChart.config.data.datasets[0].fill = fill_on;
-    myChart2.config.data.datasets[0].fill = fill_on;
-    fillToggle = 0;
-    document.getElementById('HideShade1').innerText = 'Hide Shade';
+function HideShade() {
+  if (shadeLossToggle === 'off') {
+    myChart.config.data.datasets[0].fill = shaders.loss_fill_off;
+    myChart2.config.data.datasets[0].fill = shaders.loss_fill_off;
+    shadeLossToggle = 'on';
+    document.getElementById('shadeLoss').innerText = 'Shading: on';
+  } else if (shadeLossToggle === 'on') {
+    myChart.config.data.datasets[0].fill = shaders.loss_fill_on;
+    myChart2.config.data.datasets[0].fill = shaders.loss_fill_on;
+    shadeLossToggle = 'off';
+    document.getElementById('shadeLoss').innerText = 'Shading: off';
   }
   updateCharts();
 }
 
 let crosshairFlag = "on";
-
 const crosshairOptions = {
-
   audioRight: {
     sync: {
       enabled: false
@@ -367,12 +502,14 @@ function toggleCrosshair() {
     myChart3.config.options.plugins.crosshair = false;
     myChart4.config.options.plugins.crosshair = false;
     crosshairFlag = "off";
+    document.getElementById('Crosshair').innerText = 'Crosshair: off';
   } else {
     myChart.config.options.plugins.crosshair = crosshairOptions.audioRight;
     myChart2.config.options.plugins.crosshair = crosshairOptions.audioLeft;
     myChart3.config.options.plugins.crosshair = crosshairOptions.barRight;
     myChart4.config.options.plugins.crosshair = crosshairOptions.barLeft;
     crosshairFlag = "on";
+    document.getElementById('Crosshair').innerText = 'Crosshair: on';
   }
   updateCharts();
 }
@@ -392,19 +529,29 @@ function calcChange(index, ear) {
   let color3 = ear === 'R' ? 'rgba(255, 0, 0, 0.20)' : 'rgba(0, 0, 255, 0.20)';
   let color4 = ear === 'R' ? 'rgba(255, 0, 0, 0.30)' : 'rgba(0, 0, 255, 0.30)';
 
-  if (threshNew[index] === null || threshOld[index] === null || newNR[index] !== null || oldNR[index] !== null) {} else {
+  if (ioTestNew[index] === 0 && index === 4 || index === 6 || index === 8 || index === 10) {
+    change.splice(index, 1, null);
+    return
+  }
+
+  if (threshNew[index] === null || threshOld[index] === null || newNR[index] !== null || oldNR[index] !== null) {
+
+    change.splice(index, 1, null);
+    return
+
+  } else {
     change.splice(index, 1, threshOld[index] - threshNew[index]);
     change.splice(2, 1, null);
-    if (ioTestNew[3] == 0 || ioTestOld[3] == 0) {
+    if (ioTestNew[3] === 0 || ioTestOld[3] === 0) {
       change.splice(4, 1, null)
     }
-    if (ioTestNew[5] == 0 || ioTestOld[5] == 0) {
+    if (ioTestNew[5] === 0 || ioTestOld[5] === 0) {
       change.splice(6, 1, null)
     }
-    if (ioTestNew[7] == 0 || ioTestOld[7] == 0) {
+    if (ioTestNew[7] === 0 || ioTestOld[7] === 0) {
       change.splice(8, 1, null)
     }
-    if (ioTestNew[9] == 0 || ioTestOld[9] == 0) {
+    if (ioTestNew[9] === 0 || ioTestOld[9] === 0) {
       change.splice(10, 1, null)
     }
     if (Math.abs(threshOld[index] - threshNew[index]) < 10) {
@@ -599,7 +746,7 @@ const options_R = {
       autocolors: false,
       annotation: {
         annotations: {
-          box1: {
+          normAdult: {
             type: 'box',
             yMin: 0,
             yMax: 25,
@@ -608,11 +755,7 @@ const options_R = {
             borderColor: 'gray',
             borderWidth: 0,
             drawTime: 'beforeDatasetsDraw',
-            label: {
-              enabled: false,
-              content: 'Austin',
-            }
-          }
+          },
         }
       },
       legend: {
@@ -870,7 +1013,7 @@ const options_L = {
     plugins: {
       annotation: {
         annotations: {
-          box1: {
+          normAdult: {
             type: 'box',
             yMin: 0,
             yMax: 25,
@@ -1359,14 +1502,16 @@ function toggleData() {
     myChart2.hide(5);
     myChart.show(6);
     myChart2.show(6);
-    document.getElementById('Toggle').innerText = 'Show Ghost';
+    document.getElementById('Toggle').innerText = 'Show: Ghost';
+    previous.style.visibility = "visible"
   }
   if (showValue === false) {
     myChart.hide(6);
     myChart2.hide(6);
     myChart.show(5);
     myChart2.show(5);
-    document.getElementById('Toggle').innerText = 'Show Previous';
+    document.getElementById('Toggle').innerText = 'Show: Previous';
+    previous.style.visibility = "hidden"
   }
 }
 
@@ -1531,4 +1676,75 @@ function turnOffCrosshair() {
   myChart.options.plugins.crosshair = false;
   myChart2.options.plugins.crosshair = false;
   updateCharts();
+}
+
+function fillInLegend() {
+
+  //stops function if legend is full. 
+  if (audiogramData.legend.ACunmasked === "show" && audiogramData.legend.ACmasked === "show" && audiogramData.legend.BCunmasked === "show" && audiogramData.legend.BCmasked === "show" && audiogramData.legend.NR === "show") {
+    return
+  }
+
+  if (audiogramData.legend.ACunmasked !== "show") {
+    //set legend table rows to show if the category has been tested. 
+    const any_R_AC = audiogramData.thresh_AC_R.filter(thresh => thresh !== null);
+    const any_L_AC = audiogramData.thresh_AC_L.filter(thresh => thresh !== null);
+
+    if (any_R_AC.length > 0 || any_L_AC.length > 0) {
+      audiogramData.legend.ACunmasked = "show";
+      ACnormal.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.ACmasked !== "show") {
+    const any_RmaskedAC = audiogramData.symbols_R.filter(symbol => symbol === 'triangle');
+    const any_LmaskedAC = audiogramData.symbols_L.filter(symbol => symbol === 'rect');
+
+    if (any_RmaskedAC.length > 0 || any_LmaskedAC.length > 0) {
+      audiogramData.legend.ACmasked = "show";
+      ACmasked.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.BCunmasked !== "show") {
+    const any_R_BC = audiogramData.thresh_BC_R.filter(thresh => thresh !== null);
+    const any_L_BC = audiogramData.thresh_BC_L.filter(thresh => thresh !== null);
+
+    if (any_L_BC.length > 0 || any_R_BC.length > 0) {
+      audiogramData.legend.BCunmasked = "show";
+      BCnormal.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.BCmasked !== "show") {
+    const any_RmaskedBC = audiogramData.symbols_BC_R.filter(symbol => symbol === BC_R_M);
+    const any_LmaskedBC = audiogramData.symbols_BC_L.filter(symbol => symbol === BC_L_M);
+
+    if (any_RmaskedBC.length > 0 || any_LmaskedBC.length > 0) {
+      audiogramData.legend.BCmasked = "show";
+      BCmasked.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.NR !== "show") {
+    const any_R_NR = audiogramData.thresh_NR_R.filter(thresh => thresh !== null);
+    const any_L_NR = audiogramData.thresh_NR_L.filter(thresh => thresh !== null);
+
+    if (any_L_NR.length > 0 || any_R_NR.length > 0) {
+      audiogramData.legend.NR = "show";
+      NR.style.display = "table-row"
+    }
+
+    const any_R_BC_NR = audiogramData.pointSize_NR_BC_R.filter(thresh => thresh === 10);
+    const any_L_BC_NR = audiogramData.pointSize_NR_BC_L.filter(thresh => thresh === 10);
+
+    if (any_R_BC_NR.length > 0 || any_L_BC_NR.length > 0) {
+      audiogramData.legend.NR = "show";
+      NR.style.display = "table-row"
+    }
+  }
+}
+
+
+const maskingNorms = {
+	insert: [],
+  circumaural: [],
+  supraaural: []
+
 }
