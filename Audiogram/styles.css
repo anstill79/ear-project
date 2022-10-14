@@ -15,7 +15,7 @@
   max-width: 60%;
   min-width: 200px;
   justify-self: center;
-  justify-items: center;
+  justify-content: center;
 }
 
 .top-controls-button {
