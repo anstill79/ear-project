@@ -1,10 +1,3 @@
-function myFunction() {
-  var myWindow = window.open("", "", "width=200,height=100");
-}
-
-myFunction('yo');
-
-return;
 
 const referral = {
   tinnitus: {
@@ -128,7 +121,7 @@ function tinnitusRec() {
 		tinnRec.append("No HNS referral needed for tinnitus.");
   }
   //pulsatile but <6 mos
-  if (pulse === 1 duration < 180) {
+  if (pulse === 1 && duration < 180) {
 		tinnRec.append("No HNS referral needed. Pulsatile ");
   }
 }
