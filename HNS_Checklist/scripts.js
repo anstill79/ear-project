@@ -2,7 +2,7 @@ function myFunction() {
   var myWindow = window.open("", "", "width=200,height=100");
 }
 
-myFunction();
+myFunction('yo');
 
 return;
 
