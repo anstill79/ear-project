@@ -1,542 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Rubik">
-  <link rel="stylesheet" href="styles.css">
-  <meta charset="UTF-8">
-  <title>Audiogram</title>
-</head>
+  <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Rubik">
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Audiogram</title>
+  </head>
 
-<body>
+  <body>
+    <!--container-->
+    <div>
+      <!--flexbox-->
+      <div id="flexy">
 
-  <nav id="main">
-    <ul>
-      <li><a href="../index.html">Home</a></li>
-      <li><a href="./pages/gallery.html">Print</a></li>
-      <li><a href="./pages/about.html">About</a></li>
-    </ul>
-  </nav>
-
-  <div class="grid-container">
-
-    <div id="PHI_box" class="PHI-sub-grid" style="grid-column: 1; grid-row: 1;justify-self: right;margin-right:80px;">
-
-      <div class="PHI-sub-grid-item">
-        Name:
-      </div>
-
-      <div class="PHI-sub-grid-item">
-        <input type="text" id="name">
-      </div>
-
-      <div class="PHI-sub-grid-item">
-        Date:
-      </div>
-
-      <div class="PHI-sub-grid-item">
-        <input type="date">
-      </div>
-
-      <div class="PHI-sub-grid-item">
-        AuD:
-      </div>
-
-      <div class="PHI-sub-grid-item">
-        <input type="text">
-      </div>
-
-    </div>
-
-    <div style="grid-column: span 2 / -1; grid-row: 1;align-self: center;">
-      <h1>
-        Audiogram
-      </h1>
-    </div>
-
-
-    <div class="top-controls-grid">
-      <select name="select_transducer" id="select_transducer" style="width:100%;font-size:12px;padding:0px;"
-        class="top-controls-button">
-        <option value="">--Transducer--</option>
-        <option value="circumaural">Circumaural</option>
-        <option value="circumaural">Insert</option>
-        <option value="circumaural">Supraaural</option>
-      </select>
-      <button id="command_palette" onclick="launchCommandPalette()" class="top-controls-button">
-        Command Palette
-      </button>
-      <button id="word_rec" onclick="launchWordRec()" class="top-controls-button">
-        Word Rec
-      </button>
-    </div>
-
-    <div class="spacer3" style="grid-column: 1/-1;">
-
-      <hr>
-
-    </div>
-
-    <div class="sub-head-controls" style="grid-column: 1">
-
-      <h3 style="padding-right: 55px;">Right:</h3>
-
-      <button id="AC button" onClick="toggleTransducer(1)" class="button_T" style="align-self: center">AC</button>
-
-    </div>
-
-
-
-
-    <div class="sub-head-controls" style="grid-column: 2; justify-self: left;padding-left:5px;">
-      <button id="BC button" onClick="toggleTransducer(2)" class="button_T" style="align-self: center">BC</button>
-      <h3 style="padding-left: 85px;">Left:</h3>
-
-    </div>
-
-
-    <div class="grid-item" style="grid-column: 1;justify-self: right;">
-      <canvas id="audiogram_R" class="crosshair" style=" height:350px; width:350px;"> </canvas>
-    </div>
-
-    <div class="grid-item" style="grid-column:2;justify-self: left;">
-      <canvas id="audiogram_L" class="crosshair" style=" height:350px; width:350px;"> </canvas>
-    </div>
-
-    <div style="grid-column: 1;justify-self: right;padding-right:223px;">
-      <button onClick="maskAll('R')" class="button_R" style="width: 80px;">Mask All R</button>
-    </div>
-
-    <div style="grid-column: 2; justify-self: left;padding-left:257px;">
-      <button onClick="maskAll('L')" class="button_L" style="width:80px;">Mask All L</button>
-    </div>
-    <div class="spacer2" style="grid-column: 1;"></div>
-
-    <div class="grid-item right-position" style="grid-column: 1;">
-
-      <button onClick="setMask(0,'R', transducer)" class="button_R_two masking">M</button>
-      <button onClick="setMask(1,'R', transducer)" class="button_R masking">M</button>
-      <button onClick="" class="invisible">..</button>
-      <button onClick="setMask(3,'R', transducer)" class="button_R masking">M</button>
-      <button onClick="setMask(4,'R', transducer)" class="button_R_two masking">M</button>
-      <button onClick="setMask(5,'R', transducer)" class="button_R masking">M</button>
-      <button onClick="setMask(6,'R', transducer)" class="button_R_two masking">M</button>
-      <button onClick="setMask(7,'R', transducer)" class="button_R masking">M</button>
-      <button onClick="setMask(8,'R', transducer)" class="button_R_two masking">M</button>
-      <button onClick="setMask(9,'R',transducer) " class="button_R masking">M</button>
-      <button onClick="setMask(10,'R',transducer) " class="button_R_two masking">M</button>
-      <button onClick="setMask(11,'R', transducer)" class="button_R masking">M</button>
-
-    </div>
-
-    <div class="grid-item left-position" style="grid-column: 2;">
-
-      <button onClick="setMask(0,'L', transducer)" class="button_L_two masking">M</button>
-      <button onClick="setMask(1,'L', transducer)" class="button_L masking">M</button>
-      <button onClick="" class="invisible">..</button>
-      <button onClick="setMask(3,'L', transducer)" class="button_L masking">M</button>
-      <button onClick="setMask(4,'L', transducer)" class="button_L_two masking">M</button>
-      <button onClick="setMask(5,'L', transducer)" class="button_L masking">M</button>
-      <button onClick="setMask(6,'L', transducer)" class="button_L_two masking">M</button>
-      <button onClick="setMask(7,'L', transducer)" class="button_L masking">M</button>
-      <button onClick="setMask(8,'L', transducer)" class="button_L_two masking">M</button>
-      <button onClick="setMask(9,'L',transducer) " class="button_L masking">M</button>
-      <button onClick="setMask(10,'L',transducer) " class="button_L_two masking">M</button>
-      <button onClick="setMask(11,'L', transducer)" class="button_L masking">M</button>
-
-    </div>
-    <div class="spacer2" style="grid-column: 1;"></div>
-
-    <div class="grid-item right-position" style="grid-column: 1;">
-      <button onClick="setNR(0,'R', transducer)" class="button_R_two NR">NR</button>
-      <button onClick="setNR(1,'R',transducer)" class="button_R NR">NR</button>
-      <button onClick="" class="invisible">..</button>
-      <button onClick="setNR(3,'R', transducer)" class="button_R NR">NR</button>
-      <button onClick="setNR(4,'R', transducer)" class="button_R_two NR">NR</button>
-      <button onClick="setNR(5,'R', transducer)" class="button_R NR">NR</button>
-      <button onClick="setNR(6,'R', transducer)" class="button_R_two NR">NR</button>
-      <button onClick="setNR(7,'R',transducer)" class="button_R NR">NR</button>
-      <button onClick="setNR(8,'R',transducer)" class="button_R_two NR">NR</button>
-      <button onClick="setNR(9,'R', transducer)" class="button_R NR">NR</button>
-      <button onClick="setNR(10,'R', transducer)" class="button_R_two NR">NR</button>
-      <button onClick="setNR(11,'R', transducer)" class="button_R NR">NR</button>
-
-    </div>
-
-
-    <div class="grid-item left-position" style="grid-column: 2;">
-
-      <button onClick="setNR(0,'L', transducer)" class="button_L_two NR">NR</button>
-      <button onClick="setNR(1,'L', transducer)" class="button_L NR" style="left: 433px;top:395px">NR</button>
-      <button onClick="" class="invisible">..</button>
-      <button onClick="setNR(3,'L', transducer)" class="button_L NR" style="left: 481px;top:395px">NR</button>
-      <button onClick="setNR(4,'L', transducer)" class="button_L_two NR" style="left: 505px;top:395px">NR</button>
-      <button onClick="setNR(5,'L', transducer)" class="button_L NR" style="left: 530px;top:395px">NR</button>
-      <button onClick="setNR(6,'L', transducer)" class="button_L_two NR" style="left: 554px;top:395px">NR</button>
-      <button onClick="setNR(7,'L', transducer)" class="button_L NR" style="left: 578px;top:395px">NR</button>
-      <button onClick="setNR(8,'L', transducer)" class="button_L_two NR" style="left: 603px;top:395px">NR</button>
-      <button onClick="setNR(9,'L',transducer) " class="button_L NR" style="left: 627px;top:395px">NR</button>
-      <button onClick="setNR(10,'L',transducer) " class="button_L_two NR" style="left: 651px;top:395px">NR</button>
-      <button onClick="setNR(11,'L', transducer)" class="button_L NR" style="left: 675px;top:395px">NR</button>
-
-    </div>
-
-
-    <div class="spacer2" style="grid-column: 1;"></div>
-    <div class="bar_R grid-item right-position" style="grid-column: 1;padding-right:5px;">
-
-      <canvas id="change_R"> </canvas>
-
-    </div>
-
-    <div class="bar_L grid-item left-position" style="grid-column: 2;padding-right:5px;">
-
-      <canvas id="change_L"> </canvas>
-
-    </div>
-
-    <div style="grid-column: 1;justify-self: right;padding-right:223px;">
-      <button onClick="copyEarAC('R')" class="button_R" style="width: 80px;transition-duration: 0.9s;">Copy R >
-        L</button>
-    </div>
-
-
-    <div style="grid-column: 2;justify-self: left;padding-left: 257px;">
-      <button onClick="copyEarAC('L')" class="button_L" style="width:80px;transition-duration: 0.9s;">Copy R <
-          L</button>
-    </div>
-
-
-    <div style="grid-column: 1/span 2;justify-self: center;">
-
-      <button id="Toggle" onClick="toggleData(); " class="button_AU">Show: shadow</button>
-
-    </div>
-
-
-
-
-
-    <div class="word-rec-simple">
-      <div>
-        Right
-      </div>
-      <div>
-        Left
-      </div>
-      <div style="grid-column: 1/span 2;justify-self: center;">
-        SRT
-      </div>
-
-      <div id="SRT_right_simple" class="word-rec-simple-item-right" style="grid-row: 3;grid-column: 1;">
+        <div class="itemy">
+        <p>
+        1
+        </p>
+          
+        </div>
+        <div class="itemy">
+        <p>
+        2
+        </p>
+        </div>
 
       </div>
-      <div id="SRT_left_simple" class="word-rec-simple-item-left" style="grid-row: 3;grid-column: 2;">
-        125 dB
-      </div>
 
-      <div style="grid-column: 1/span 2;justify-self: center;">
-        Word Rec
-      </div>
 
-      <div id="WR_right_simple" class="word-rec-simple-item-right" style="grid-column: 1; grid-row: 5;">
-
-      </div>
-      <div id="WR_left_simple" class="word-rec-simple-item-left" style="grid-column: 2; grid-row: 5;">
-        58 %
-      </div>
     </div>
 
-
-    <div class="legend-table-container">
-      <table>
-        <tr>
-          <th style="width: 70px;font-style:italic;">Legend:</th>
-          <th>
-            Right
-          </th>
-          <th>
-            Left
-          </th>
-        </tr>
-        <tr id="ACnormal" style="display: none;">
-          <td>Air Conduction (AC)</td>
-          <td>O</td>
-          <td>X</td>
-        </tr>
-        <tr id="ACmasked" style="display: none;">
-          <td>AC masked</td>
-          <td>△</td>
-          <td>□</td>
-        </tr>
-        <tr id="BCnormal" style="display: none;">
-          <td>Bone Conduction (BC)</td>
-          <td>
-            < </td>
-          <td>></td>
-        </tr>
-        <tr id="BCmasked" style="display: none;">
-          <td>BC masked</td>
-          <td>[</td>
-          <td>]</td>
-        </tr>
-        <tr id="NR" style="display: none;">
-          <td>No response</td>
-          <td>↙</td>
-          <td>↘</td>
-        </tr>
-        <tr id="previous" style="display: none;">
-          <td>Previous</td>
-          <td>.</td>
-          <td>.</td>
-        </tr>
-      </table>
-    </div>
-
-
-    <div style="grid-column: 1/ span 2;">
-      <ul>
-        <li>Session last save <button>
-            Load
-          </button></li>
-        <li>Two<button>
-            Load
-          </button></li>
+    <div class="heading-container">
+      <ul class="heading-list">
+        <li class="heading-list"><a href="../index.html">Home</a></li>
+        <li class="heading-list"><a href="./pages/gallery.html">Print</a></li>
+        <li class="heading-list"><a href="./pages/about.html">About</a></li>
       </ul>
+      <div>
+        <h1 id="title">
+          Audiogram
+        </h1>
+      </div>
+
     </div>
 
-    <div>
-      <button>
-        Save
-      </button>
-    </div>
 
-    <div>
-      <button>
-        Resize Page
-      </button>
-      <button>
-        Print
-      </button>
 
-      <form>
-        Reliability
-        <select id="Reliability" name="Reliability" style="height: 21px;margin: 5px;">
-          <option value="blank"></option>
-          <option value="Good">Good</option>
-          <option value="Fair">Fair</option>
-          <option value="Poor">Poor</option>
+    <div class="grid-container">
+
+      <div id="PHI_box" class="PHI-sub-grid" style="grid-column: 1; grid-row: 1;justify-self: right;margin-right:80px;">
+
+        <div class="PHI-sub-grid-item">
+          Name:
+        </div>
+
+        <div class="PHI-sub-grid-item">
+          <input type="text" id="name">
+        </div>
+
+        <div class="PHI-sub-grid-item">
+          Date:
+        </div>
+
+        <div class="PHI-sub-grid-item">
+          <input type="date">
+        </div>
+
+        <div class="PHI-sub-grid-item">
+          AuD:
+        </div>
+
+        <div class="PHI-sub-grid-item">
+          <input type="text">
+        </div>
+
+      </div>
+
+      <div class="top-controls-grid">
+        <select name="select_transducer" id="select_transducer" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
+          <option value="">--Transducer--</option>
+          <option value="circumaural">Circumaural</option>
+          <option value="circumaural">Insert</option>
+          <option value="circumaural">Supraaural</option>
         </select>
-      </form>
+        <button id="command_palette" onclick="launchCommandPalette()" class="top-controls-button">
+          Command Palette
+        </button>
+        <button id="word_rec" onclick="launchWordRec()" class="top-controls-button">
+          Word Rec
+        </button>
+      </div>
 
-    </div>
+      <div class="spacer3" style="grid-column: 1/-1;">
+
+        <hr>
+
+      </div>
+
+      <div class="sub-head-controls" style="grid-column: 1">
+
+        <h3 style="padding-right: 55px;">Right:</h3>
+
+        <button id="AC button" onClick="toggleTransducer(1)" class="button_T" style="align-self: center">AC</button>
+
+      </div>
 
 
-    <!--end of container-->
-  </div>
 
 
-  <!-- The Modal, word rec-->
-  <div id="WR_modal" class="WR-modal">
-    <!-- Modal content -->
-    <div id="WR_modal_content" class="WR-modal-content">
+      <div class="sub-head-controls" style="grid-column: 2; justify-self: left;padding-left:5px;">
+        <button id="BC button" onClick="toggleTransducer(2)" class="button_T" style="align-self: center">BC</button>
+        <h3 style="padding-left: 85px;">Left:</h3>
 
-      <div class="word-rec-advanced">
+      </div>
 
-        <div style="grid-column: 3; padding: 10px;">
+
+      <div class="grid-item" style="grid-column: 1;justify-self: right;">
+        <canvas id="audiogram_R" class="crosshair" style=" height:350px; width:350px;"> </canvas>
+      </div>
+
+      <div class="grid-item" style="grid-column:2;justify-self: left;">
+        <canvas id="audiogram_L" class="crosshair" style=" height:350px; width:350px;"> </canvas>
+      </div>
+
+      <div style="grid-column: 1;justify-self: right;padding-right:223px;">
+        <button onClick="maskAll('R')" class="button_R" style="width: 80px;">Mask All R</button>
+      </div>
+
+      <div style="grid-column: 2; justify-self: left;padding-left:257px;">
+        <button onClick="maskAll('L')" class="button_L" style="width:80px;">Mask All L</button>
+      </div>
+      <div class="spacer2" style="grid-column: 1;"></div>
+
+      <div class="grid-item right-position" style="grid-column: 1;">
+
+        <button onClick="setMask(0,'R', transducer)" class="button_R_two masking">M</button>
+        <button onClick="setMask(1,'R', transducer)" class="button_R masking">M</button>
+        <button onClick="" class="invisible">..</button>
+        <button onClick="setMask(3,'R', transducer)" class="button_R masking">M</button>
+        <button onClick="setMask(4,'R', transducer)" class="button_R_two masking">M</button>
+        <button onClick="setMask(5,'R', transducer)" class="button_R masking">M</button>
+        <button onClick="setMask(6,'R', transducer)" class="button_R_two masking">M</button>
+        <button onClick="setMask(7,'R', transducer)" class="button_R masking">M</button>
+        <button onClick="setMask(8,'R', transducer)" class="button_R_two masking">M</button>
+        <button onClick="setMask(9,'R',transducer) " class="button_R masking">M</button>
+        <button onClick="setMask(10,'R',transducer) " class="button_R_two masking">M</button>
+        <button onClick="setMask(11,'R', transducer)" class="button_R masking">M</button>
+
+      </div>
+
+      <div class="grid-item left-position" style="grid-column: 2;">
+
+        <button onClick="setMask(0,'L', transducer)" class="button_L_two masking">M</button>
+        <button onClick="setMask(1,'L', transducer)" class="button_L masking">M</button>
+        <button onClick="" class="invisible">..</button>
+        <button onClick="setMask(3,'L', transducer)" class="button_L masking">M</button>
+        <button onClick="setMask(4,'L', transducer)" class="button_L_two masking">M</button>
+        <button onClick="setMask(5,'L', transducer)" class="button_L masking">M</button>
+        <button onClick="setMask(6,'L', transducer)" class="button_L_two masking">M</button>
+        <button onClick="setMask(7,'L', transducer)" class="button_L masking">M</button>
+        <button onClick="setMask(8,'L', transducer)" class="button_L_two masking">M</button>
+        <button onClick="setMask(9,'L',transducer) " class="button_L masking">M</button>
+        <button onClick="setMask(10,'L',transducer) " class="button_L_two masking">M</button>
+        <button onClick="setMask(11,'L', transducer)" class="button_L masking">M</button>
+
+      </div>
+      <div class="spacer2" style="grid-column: 1;"></div>
+
+      <div class="grid-item right-position" style="grid-column: 1;">
+        <button onClick="setNR(0,'R', transducer)" class="button_R_two NR">NR</button>
+        <button onClick="setNR(1,'R',transducer)" class="button_R NR">NR</button>
+        <button onClick="" class="invisible">..</button>
+        <button onClick="setNR(3,'R', transducer)" class="button_R NR">NR</button>
+        <button onClick="setNR(4,'R', transducer)" class="button_R_two NR">NR</button>
+        <button onClick="setNR(5,'R', transducer)" class="button_R NR">NR</button>
+        <button onClick="setNR(6,'R', transducer)" class="button_R_two NR">NR</button>
+        <button onClick="setNR(7,'R',transducer)" class="button_R NR">NR</button>
+        <button onClick="setNR(8,'R',transducer)" class="button_R_two NR">NR</button>
+        <button onClick="setNR(9,'R', transducer)" class="button_R NR">NR</button>
+        <button onClick="setNR(10,'R', transducer)" class="button_R_two NR">NR</button>
+        <button onClick="setNR(11,'R', transducer)" class="button_R NR">NR</button>
+
+      </div>
+
+
+      <div class="grid-item left-position" style="grid-column: 2;">
+
+        <button onClick="setNR(0,'L', transducer)" class="button_L_two NR">NR</button>
+        <button onClick="setNR(1,'L', transducer)" class="button_L NR" style="left: 433px;top:395px">NR</button>
+        <button onClick="" class="invisible">..</button>
+        <button onClick="setNR(3,'L', transducer)" class="button_L NR" style="left: 481px;top:395px">NR</button>
+        <button onClick="setNR(4,'L', transducer)" class="button_L_two NR" style="left: 505px;top:395px">NR</button>
+        <button onClick="setNR(5,'L', transducer)" class="button_L NR" style="left: 530px;top:395px">NR</button>
+        <button onClick="setNR(6,'L', transducer)" class="button_L_two NR" style="left: 554px;top:395px">NR</button>
+        <button onClick="setNR(7,'L', transducer)" class="button_L NR" style="left: 578px;top:395px">NR</button>
+        <button onClick="setNR(8,'L', transducer)" class="button_L_two NR" style="left: 603px;top:395px">NR</button>
+        <button onClick="setNR(9,'L',transducer) " class="button_L NR" style="left: 627px;top:395px">NR</button>
+        <button onClick="setNR(10,'L',transducer) " class="button_L_two NR" style="left: 651px;top:395px">NR</button>
+        <button onClick="setNR(11,'L', transducer)" class="button_L NR" style="left: 675px;top:395px">NR</button>
+
+      </div>
+
+
+      <div class="spacer2" style="grid-column: 1;"></div>
+      <div class="bar_R grid-item right-position" style="grid-column: 1;padding-right:5px;">
+
+        <canvas id="change_R"> </canvas>
+
+      </div>
+
+      <div class="bar_L grid-item left-position" style="grid-column: 2;padding-right:5px;">
+
+        <canvas id="change_L"> </canvas>
+
+      </div>
+
+      <div style="grid-column: 1;justify-self: right;padding-right:223px;">
+        <button onClick="copyEarAC('R')" class="button_R" style="width: 80px;transition-duration: 0.9s;">Copy R >
+          L</button>
+      </div>
+
+
+      <div style="grid-column: 2;justify-self: left;padding-left: 257px;">
+        <button onClick="copyEarAC('L')" class="button_L" style="width:80px;transition-duration: 0.9s;">Copy R < L</button>
+      </div>
+
+
+      <div style="grid-column: 1/span 2;justify-self: center;">
+
+        <button id="Toggle" onClick="toggleData(); " class="button_AU">Show: shadow</button>
+
+      </div>
+
+
+
+
+
+      <div class="word-rec-simple">
+        <div>
           Right
         </div>
-        <div style="grid-column: 5; padding: 10px;">
+        <div>
           Left
         </div>
-
-        <div id="PTA_R_forWR" style="grid-row: 2;grid-column: 1;"></div>
-        <div id="PTA_L_forWR" style="grid-row: 2;grid-column: 7;"></div>
-
-
-        <div style="grid-row: 2;grid-column: 3;">
-          <input type="number" id="SRT_right_advanced" class="word-rec-advanced-item-right" step="5" min="0" max="120"
-            onclick="calcMasking()" onblur="calcMasking()" value="90">
-        </div>
-        <div style="grid-column: 1/span 7;grid-row: 2;margin: auto;">SRT</div>
-        <div style="grid-row: 2;grid-column: 5;">
-          <input type="number" id="SRT_left_advanced" class="word-rec-advanced-item-left" step="5" min="0" max="120"
-            onclick="calcMasking()" onblur="calcMasking()">
+        <div style="grid-column: 1/span 2;justify-self: center;">
+          SRT
         </div>
 
-        <div class="labels" style="grid-row: 3;grid-column: 1;">masking</div>
-        <div style="grid-row: 3;grid-column: 2;margin-bottom: 20px;">
-          <input type="number" id="SRT_right_masking" class="word-rec-advanced-item-right word-rec-sub-item" step="5"
-            min="0" max="120">
+        <div id="SRT_right_simple" class="word-rec-simple-item-right" style="grid-row: 3;grid-column: 1;">
+
+        </div>
+        <div id="SRT_left_simple" class="word-rec-simple-item-left" style="grid-row: 3;grid-column: 2;">
+          125 dB
         </div>
 
-        <div style="grid-row: 3;grid-column: 6;">
-          <input type="number" id="SRT_left_masking" class="word-rec-advanced-item-left word-rec-sub-item" step="5"
-            min="0" max="120">
-        </div>
-
-        <div class="labels" style="grid-row: 3;grid-column: 7;">masking</div>
-
-        <div style="grid-column: 1/span 7;justify-self: center;grid-row: 4;margin: auto;">
+        <div style="grid-column: 1/span 2;justify-self: center;">
           Word Rec
         </div>
 
-        <div id="WR_right_advanced" class="word-rec-advanced-item-right" style="grid-column: 3; grid-row: 4;">
+        <div id="WR_right_simple" class="word-rec-simple-item-right" style="grid-column: 1; grid-row: 5;">
 
         </div>
-        <div id="WR_left_advanced" class="word-rec-advanced-item-left" style="grid-column: 5; grid-row: 4;">58 %</div>
-
-
-
-        <div class="labels" style="grid-column: 1; grid-row: 5;">pres. level</div>
-
-        <div style="grid-column: 2; grid-row: 5;"><input type="number" id="WR_right_pres_level"
-            class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120" onclick="calcMasking()"
-            onblur="calcMasking()"></div>
-
-        <div style="grid-column: 6; grid-row: 5;"><input type="number" id="WR_left_pres_level"
-            class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120" onclick="calcMasking()"
-            onblur="calcMasking()"></div>
-
-        <div class="labels" style="grid-column: 7; grid-row: 5;">
-          pres. level
+        <div id="WR_left_simple" class="word-rec-simple-item-left" style="grid-column: 2; grid-row: 5;">
+          58 %
         </div>
-
-        <div class="labels" style="grid-column: 1; grid-row: 6;">masking</div>
-
-        <div style="grid-column: 2; grid-row: 6;"> <input type="number" id="WR_right_mask_level"
-            class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120"></div>
-
-        <div style="grid-column: 6; grid-row: 6;"><input type="number" id="WR_left_mask_level"
-            class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120"></div>
-
-        <div class="labels" style="grid-column: 7; grid-row: 6;">masking</div>
-
-        <div class="labels" style="grid-row: 7;grid-column: 1;">list
-        </div>
-        <div id="WR_right_list" class="word-rec-advanced-item-right word-rec-sub-item"
-          style="grid-row: 7;grid-column: 2/span 2;width:80px;justify-self: left;">NU-6 List 1A
-        </div>
-        <div id="WR_left_list" class="word-rec-advanced-item-left word-rec-sub-item"
-          style="grid-row: 7;grid-column: 5/span 2;width: 80px;justify-self: right;">NU-6 List 2A</div>
-        <div class="labels" style="grid-row: 7;grid-column: 7">list</div>
+      </div>
 
 
-        <div style="grid-row: 9; grid-column: 1/span 6;">
+      <div class="legend-table-container">
+        <table>
+          <tr>
+            <th style="width: 70px;font-style:italic;">Legend:</th>
+            <th>
+              Right
+            </th>
+            <th>
+              Left
+            </th>
+          </tr>
+          <tr id="ACnormal" style="display: none;">
+            <td>Air Conduction (AC)</td>
+            <td>O</td>
+            <td>X</td>
+          </tr>
+          <tr id="ACmasked" style="display: none;">
+            <td>AC masked</td>
+            <td>△</td>
+            <td>□</td>
+          </tr>
+          <tr id="BCnormal" style="display: none;">
+            <td>Bone Conduction (BC)</td>
+            <td>
+              < </td>
+            <td>></td>
+          </tr>
+          <tr id="BCmasked" style="display: none;">
+            <td>BC masked</td>
+            <td>[</td>
+            <td>]</td>
+          </tr>
+          <tr id="NR" style="display: none;">
+            <td>No response</td>
+            <td>↙</td>
+            <td>↘</td>
+          </tr>
+          <tr id="previous" style="display: none;">
+            <td>Previous</td>
+            <td>.</td>
+            <td>.</td>
+          </tr>
+        </table>
+      </div>
 
-          <label for "WR_mode" class="labels" style="text-align:right;margin-top:2px;">Mode:</label>
-          <select name="WR_mode" id="WR_mode">
-            <option value="">--</option>
-            <option value="recorded">Recorded</option>
-            <option value="live voice">Live Voice</option>
+
+      <div style="grid-column: 1/ span 2;">
+        <ul>
+          <li>Session last save <button>
+              Load
+            </button></li>
+          <li>Two<button>
+              Load
+            </button></li>
+        </ul>
+      </div>
+
+      <div>
+        <button>
+          Save
+        </button>
+      </div>
+
+      <div>
+        <button>
+          Resize Page
+        </button>
+        <button>
+          Print
+        </button>
+
+        <form>
+          Reliability
+          <select id="Reliability" name="Reliability" style="height: 21px;margin: 5px;">
+            <option value="blank"></option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
           </select>
-        </div>
+        </form>
+
+      </div>
 
 
-        <div style="grid-row: 10; grid-column: 1/span 5;">
-          <label for="calc_WR_masking" class="labels" style="width:140px;text-align:right;margin-top:2px;">Calculate
-            masking levels:</label>
-          <input type="checkbox" id="calc_WR_masking_please" name="calc_WR_masking">
+      <!--end of container-->
+    </div>
+
+
+    <!-- The Modal, word rec-->
+    <div id="WR_modal" class="WR-modal">
+      <!-- Modal content -->
+      <div id="WR_modal_content" class="WR-modal-content">
+
+        <div class="word-rec-advanced">
+
+          <div style="grid-column: 3; padding: 10px;">
+            Right
+          </div>
+          <div style="grid-column: 5; padding: 10px;">
+            Left
+          </div>
+
+          <div id="PTA_R_forWR" style="grid-row: 2;grid-column: 1;"></div>
+          <div id="PTA_L_forWR" style="grid-row: 2;grid-column: 7;"></div>
+
+
+          <div style="grid-row: 2;grid-column: 3;">
+            <input type="number" id="SRT_right_advanced" class="word-rec-advanced-item-right" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()" value="90">
+          </div>
+          <div style="grid-column: 1/span 7;grid-row: 2;margin: auto;">SRT</div>
+          <div style="grid-row: 2;grid-column: 5;">
+            <input type="number" id="SRT_left_advanced" class="word-rec-advanced-item-left" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()">
+          </div>
+
+          <div class="labels" style="grid-row: 3;grid-column: 1;">masking</div>
+          <div style="grid-row: 3;grid-column: 2;margin-bottom: 20px;">
+            <input type="number" id="SRT_right_masking" class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120">
+          </div>
+
+          <div style="grid-row: 3;grid-column: 6;">
+            <input type="number" id="SRT_left_masking" class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120">
+          </div>
+
+          <div class="labels" style="grid-row: 3;grid-column: 7;">masking</div>
+
+          <div style="grid-column: 1/span 7;justify-self: center;grid-row: 4;margin: auto;">
+            Word Rec
+          </div>
+
+          <div id="WR_right_advanced" class="word-rec-advanced-item-right" style="grid-column: 3; grid-row: 4;">
+
+          </div>
+          <div id="WR_left_advanced" class="word-rec-advanced-item-left" style="grid-column: 5; grid-row: 4;">58 %</div>
+
+
+
+          <div class="labels" style="grid-column: 1; grid-row: 5;">pres. level</div>
+
+          <div style="grid-column: 2; grid-row: 5;"><input type="number" id="WR_right_pres_level" class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()"></div>
+
+          <div style="grid-column: 6; grid-row: 5;"><input type="number" id="WR_left_pres_level" class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()"></div>
+
+          <div class="labels" style="grid-column: 7; grid-row: 5;">
+            pres. level
+          </div>
+
+          <div class="labels" style="grid-column: 1; grid-row: 6;">masking</div>
+
+          <div style="grid-column: 2; grid-row: 6;"> <input type="number" id="WR_right_mask_level" class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120"></div>
+
+          <div style="grid-column: 6; grid-row: 6;"><input type="number" id="WR_left_mask_level" class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120"></div>
+
+          <div class="labels" style="grid-column: 7; grid-row: 6;">masking</div>
+
+          <div class="labels" style="grid-row: 7;grid-column: 1;">list
+          </div>
+          <div id="WR_right_list" class="word-rec-advanced-item-right word-rec-sub-item" style="grid-row: 7;grid-column: 2/span 2;width:80px;justify-self: left;">NU-6 List 1A
+          </div>
+          <div id="WR_left_list" class="word-rec-advanced-item-left word-rec-sub-item" style="grid-row: 7;grid-column: 5/span 2;width: 80px;justify-self: right;">NU-6 List 2A</div>
+          <div class="labels" style="grid-row: 7;grid-column: 7">list</div>
+
+
+          <div style="grid-row: 9; grid-column: 1/span 6;">
+
+            <label for "WR_mode" class="labels" style="text-align:right;margin-top:2px;">Mode:</label>
+            <select name="WR_mode" id="WR_mode">
+              <option value="">--</option>
+              <option value="recorded">Recorded</option>
+              <option value="live voice">Live Voice</option>
+            </select>
+          </div>
+
+
+          <div style="grid-row: 10; grid-column: 1/span 5;">
+            <label for="calc_WR_masking" class="labels" style="width:140px;text-align:right;margin-top:2px;">Calculate
+              masking levels:</label>
+            <input type="checkbox" id="calc_WR_masking_please" name="calc_WR_masking">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Command Palette modal-->
-  <div id="command_modal" class="command-modal" style="background-color:transparent;">
-    
-    <!-- Modal content -->
-    <div>
-    <div id="command_modal_content" class="command-modal-content">
+    <!-- Command Palette modal-->
+    <div id="command_modal" class="command-modal" style="background-color:transparent;">
 
-      <div style="grid-column: 1/ span 3;">
-        <h3 style="font-weight: bold;">Command Palette</h3>
-      </div>
-      <div style="grid-column: 1; grid-row: 2;">Shade Norm:</div>
-      <div style="grid-column: 2; grid-row: 2;">
-        <button id="shadeNorm" onClick="" class="toggle-button-on">On</button>
-      </div>
-      <div style="grid-column: 3; grid-row: 2;">
-        <button id="shadeNorm" onClick="" class="toggle-button-off">Off</button>
-      </div>
+      <!-- Modal content -->
+      <div>
+        <div id="command_modal_content" class="command-modal-content">
 
-      <div style="grid-column: 1; grid-row: 3;">Shade Loss:</div>
-      <div style="grid-column: 2; grid-row: 3;">
-        <button id="shadeLoss" onClick="HideShade();" class="toggle-button-on">On</button>
-      </div>
-      <div style="grid-column: 3; grid-row: 3;">
-        <button id="shadeLoss" onClick="HideShade();" class="toggle-button-off">Off</button>
-      </div>
-      <div style="grid-column: 1; grid-row: 4;">Crosshair:</div>
-      <div style="grid-column: 2; grid-row: 4;">
-        <button id="Crosshair" onClick="toggleCrosshair();" class="toggle-button-on">On</button>
-      </div>
-      <div style="grid-column: 3; grid-row: 4;">
-        <button id="Crosshair" onClick="toggleCrosshair();" class="toggle-button-off">Off</button>
-      </div>
-      <div style="grid-column: 1; grid-row: 5;">PTA:</div>
-      <div style="grid-column: 2; grid-row: 5;">
-        <button id="annotatePTA" onClick="annotatePTA(); " class="toggle-button-on">On</button>
-      </div>
-      <div style="grid-column: 3; grid-row: 5;">
-        <button id="annotatePTA" onClick="annotatePTA(); " class="toggle-button-off">Off</button>
-      </div>
-      <div style="grid-column: 2/ span 2; grid-row: 6;"><button id="copyData" onclick="copyData()"
-          class="top-controls-button">
-          Copy Data
-        </button></div>
+          <div style="grid-column: 1/ span 3;">
+            <h3 style="font-weight: bold;">Command Palette</h3>
+          </div>
+          <div style="grid-column: 1; grid-row: 2;">Shade Norm:</div>
+          <div style="grid-column: 2; grid-row: 2;">
+            <button id="shadeNorm" onClick="" class="toggle-button-on">On</button>
+          </div>
+          <div style="grid-column: 3; grid-row: 2;">
+            <button id="shadeNorm" onClick="" class="toggle-button-off">Off</button>
+          </div>
 
-      <div style="grid-column: 2/ span 2; grid-row: 7;"><button id="print" class="top-controls-button">Print</button>
-      </div>
+          <div style="grid-column: 1; grid-row: 3;">Shade Loss:</div>
+          <div style="grid-column: 2; grid-row: 3;">
+            <button id="shadeLoss" onClick="HideShade();" class="toggle-button-on">On</button>
+          </div>
+          <div style="grid-column: 3; grid-row: 3;">
+            <button id="shadeLoss" onClick="HideShade();" class="toggle-button-off">Off</button>
+          </div>
+          <div style="grid-column: 1; grid-row: 4;">Crosshair:</div>
+          <div style="grid-column: 2; grid-row: 4;">
+            <button id="Crosshair" onClick="toggleCrosshair();" class="toggle-button-on">On</button>
+          </div>
+          <div style="grid-column: 3; grid-row: 4;">
+            <button id="Crosshair" onClick="toggleCrosshair();" class="toggle-button-off">Off</button>
+          </div>
+          <div style="grid-column: 1; grid-row: 5;">PTA:</div>
+          <div style="grid-column: 2; grid-row: 5;">
+            <button id="annotatePTA" onClick="annotatePTA(); " class="toggle-button-on">On</button>
+          </div>
+          <div style="grid-column: 3; grid-row: 5;">
+            <button id="annotatePTA" onClick="annotatePTA(); " class="toggle-button-off">Off</button>
+          </div>
+          <div style="grid-column: 2/ span 2; grid-row: 6;"><button id="copyData" onclick="copyData()" class="top-controls-button">
+              Copy Data
+            </button></div>
 
+          <div style="grid-column: 2/ span 2; grid-row: 7;"><button id="print" class="top-controls-button">Print</button>
+          </div>
+
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
 
-  <div style="display:none;">
-    <img id="R_NR"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABZCAYAAADIBoEnAAAAAXNSR0IArs4c6QAAAkJJREFUeF7t3D1OG1EAReH7CorUWQIroKbKBlhFVsBPWkQZoiRLyCLYAAU1LWIJNFH6FIOs2BIxFjN+8zw+Nse1Z3x9v7k2lkaU+EA1UFBpDBNBYBeBIILAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGC/N9Al5wneSzJDaybrcTZ6kLmGN/m7/xElGzvv5IuYSyuxneP0ruQLjlYtd2S/K3ddJdcJLlecfzPkpzWnncfjhsCcpTkfunNfizJ75oC3sD4UZKzmnPu0zGTgojRf+lMBiJGP8bsGZOAiDEMYxIQMYZjbBxEjPUwNgoixvoYGwMRow5jIyBi1GM0BxFjHEZTkC75kuTrikj+Al/DqcnvEDHWaLznqaNBxGiHMfojS4y2GKNAknz2O4MDcpXk0i9wDsiqJP411cCn9kt9+aW/l383K/gY2cAQkOMkd2+8zq8kixsVquKU5KHqwD08qAXI2Fo+leR27En25XhBYJKCCPKqAT+yXlQyZCGHST4s1Ti7J+tPq4urJE+tzrXr5+kF2fU3uGv5BYGJCSIIrAFYHBciCKwBWBwXAgN5BpdlhFrvSb7vAAAAAElFTkSuQmCC"
-      height=40 width=40 />
-  </div>
-  <div style="display:none;">
-    <img id="L_NR"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABZCAYAAADIBoEnAAAAAXNSR0IArs4c6QAAAjdJREFUeF7t2jFKxFAYxPEJIoKtndhZCBaewkbxAJbeTQtrUfAggmDrOSRLoivZyMb3Nu99meK/rdnNMD8nkayNeFk10FilIYwAMfslAAQQswbM4rAQQMwaMIvDQgAxa8AsDgsBxKwBszgsBBCzBszisBBAzBowi8NCADFrwCwOCwHErAGzOCwEELMGzOKwEEDMGjCLw0IAMWvALA4LAcSsAbM4LAQQswbM4rAQQMwaMIvDQgAxa8AsDgsBxKwBszgsBBCzBszisBBAzBowi8NCADFrwCwOCwHErAGzOCwEELMGzOKwEEDMGjCLw0IAMWvALA4LAcSsAbM4LAQQswbM4rAQQMwa+I3TXkg6lprXJROykL79HuNF0omkqyVRANnEWI9jMRRA1H7+LGN4pfqSdLPEUgBReyDpWdLl6N4xE6XtLn9Po8+8lZqPqXsUIN/3kAooPUi3vuHrDJDkP5lKowCSXP32A0uiAFIApOTlC5BCIKVQACkIUgIFkMIgc1EAqQAyBwWQSiC7ogBSEWQXFEAqg+SiABIAkoMCSBBIKgoggSApKHrj4WIwyT9Pie8k3fO01wtlD5BwkMnL1zgN34fE+Wx9dD+MAEgeSHst6THvPX+OPpQ0vlStDzqXmvepz+cr3I12epDu34FqvQDJaxaQvL6qHw1I9YrzTtCD7Oe9Z+vRR5JORz994B5SqN2oj+GmHtV04nkASSwq6jBAoppOPA8giUVFHQZIVNOJ5wEksaiow1a9dZJayhugKgAAAABJRU5ErkJggg=="
-      height=40 width=40 />
-  </div>
-  <div style="display:none;">
-    <img id="BC_R"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAA1xJREFUeJzt3UnLUHUYhvFLzawMQog2LYOglZ+jdmXDKrRJyAajQMoGowGtbLaCImyeLQqabFcfoUW0CiIiog8QZt0tPAuD8H3kf/SB814/OPt7cS3O4XDOHyRJkiRJkiRJkiRJkiRJ0nwCl3RvkE6rwEOBI4HLu7dIp0Xg4UCmy/i1fIFHjove+LV8gUf/J3rj13IF9p8g+uPj39y9VZpFYG8h+gSe6t4qDQusCTxTjP7J7r3SsCn6Z4vR7+/eKw2bon+uGP0T3XulYVP0zxejf7x7rzRsiv5AMfrHuvdKw6boXyhGv697rzTM6LXqTNG/WIx+T/deaVhgbeBgMfoHuvdKw6boXytGf3/3XmlYYN1JRH9f915p2BT968Xo7+3eKw2bon+jGP3u7r3SsCn6N4vR39O9Vxo2Rf9WMfq7u/dKw6bo3y4E/09gZ/deadgU/TvF6G/v3isNC6wPHCpGf1v3XmnYFP3Hxehv7d4rDQucGfikGP0t3XulYYENgc+K0W/v3isNm6L/tBj9ju690rDAOYHDxehv7t4rDQtsDPxYiP7vwLbuvdKwwHmBX4rRb+3eKw0LbAr8Woj+aODa7r3SMKPXqhO4IPB7IfojgS3de6VZBK4pRJ/A94GN3Xul2QR2FeP/LnBu915pNoHdxfi/NX4tSv57FtVK8Xvbo+VI7aSSBL4JnN29V5rN9MD7ZyH+w8avRQlcWoz/68BZ3Xul2QQuM36tSoErppdXK8X/lfFrUU4i/i+NX4sS2BL4qxD/F4EN3Xul2QSuNH6tSoGrivF/bvxalMDVxfgPBdZ375VmY/xataY3vEcL8X8UOKN7rzSbwNYc+wZ3pfg/NH4tSmCb8WtVClxXjP8D49eiBK4vxv++8WtRAjcU43/P+LUogRuL8b8bWNe9V5pNYEeO/VtzpfgPBtZ275VmE7ipGP+rxq9FCWwvxv9yYE33Xmk2gZ3F+J/u3irNKnBHIfwE9ndvlWYVuKsY/57urdKsAncW49/dvVWaVeDBYvy7urdKswrsLYT/R+D87q3SrAL7ThD9b4HN3Rul2QXWBA78T/Q/By7u3iedMlP8Lx0X/U+Bi7p3SafcFP8rgR8CF3bvkU6bwLrApu4dkiRJkiRJkiRJkiRJWnX+BRLrklVFEsApAAAAAElFTkSuQmCC"
-      height=20 width=40 />
-  </div>
-  <div style="display:none;">
-    <img id="BC_L"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAA1hJREFUeJzt3d1r1mUcx/EPuaYt2aLWNtPNHvbQzGi5LKkoPRAG4VkEiaf9Lf0fnnYQRBEkyJAEwUaBpj1oK1sPWj7WHE7j48F9D0ZE+95wbV+4fu8X/M528Dl4M+79uHbdEgAAAAAAAAAAAAAAAAAAwPrwJslvZK8ANpC7JB+V/I/kI9lrgA3gzZI/lOz2c0/yu9mrgHXkhyV/tir61fG/k70OWAfuk3zyP6Jfee5IPpS9EijM7/9P9CvPkuSD2UuBgtwt+aNA/LclH8heCxTkbsmfBOJf5FUnKuMeyccD8d+UvC97LVCQeyTPBuN/JXstUJB7JZ8KxH+D+FEZ90k+HYz/5ey1QEF+RPJcMP692WuBgjwg+Uwg/muS92SvBQry48H4r0t+KXstUJAHJJ8Nxj+dvRYoKBz/NeJHZTwo+etA/FckP5+9FiiI+NFYHpR8Lhj/7uy1QEEeknw+EP9lyc9lrwUK8g7JF4gfDeThDuLflb0WKMjDki8G4v+d+FEZj3QQ/2T2WqAgj0j+IRD/b8SPyoTj/1nyaPZaoCDvlDwfjP+Z7LVAQeH4LxE/KuNRyQvB+J/OXgsU5LFg/AutnwWq4THJvwTiXyR+VMbjHcTP2x7UhPjRWJ6Q/Gswft72oCaeUetbV9aK//vspUAh4bc8y+KmNtTB40SPhgn/YbssriVEHTzRQfRcR4gahKP/g+hRCT8bfHXJ+XzUIhw95/JRC0+2f4tHTmUSPWrgF9qf1zmHj6YIR/8T0aMSnuogev7pBDXwlOQ/A9H/KPmp7LVAAX6R6NEw3iP5aiD6eclPZq8FCiB6NI6ng9F/J3l79lqgAE+r9T1Xa0X/LdGjEn5V8s1g9E9krwUKCEf/DdGjEn5N8i2iR4P49WD05yVvy14LFOD9kv8ORH9G8kD2WqAAvyn5r0D05yQPZa8FCvCM5NuB6L+S3J+9FijAb0leIno0iN9W66aDtaL/kuhRCR+WfDcQ/ZzkR7PXAgWEo/9C8mPZa4EC/J5iF7h+Lrk3ey1QgB+QfCwQ/azkrdlrgYLcI/kE0aOB3Nf+/P7v6D+V/FD2OmAduV/y2VXRfyx5S/YqYAN4UK0Tlh9IfjB7DbCBvE1yV/YKAAAAAAAAAAAAAACABrgPXwCewlG1+uEAAAAASUVORK5CYII="
-      height=20 width=40 />
-  </div>
-  <div style="display:none;">
-    <img id="BC_R_M"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAi1JREFUeJzt2jFuE2EQBeAxBJqAuAQSBQfhEDkKx0jDGTgENSUNNHAFaECKQShLYQoQIhs59vNI831Smmzi+eV9ep6VXAUAAAAAAAAAACRsEkOWqidV9fSPX22r6uqAIx5W1fkd/n+7qXp/qMNAVVUtVZdL1dL458Op3yOy7oXm3A/N2VfqfaAJwd8R/GFSN/wsNGdfkWcd+hD8HY0/jFVnR/CHSTXxu6q6uOH6y6r6eMP1n1X19aAn+tv2iK9NQ6ngf165/mZT9TZyEqg+H/EeLonqEnyISgV/Cc2BW+nS+FYdojQ+I2l8RuoSfIiy6jBSl8a36hCl8RlJ4zNSl+BDlFWHkbo0vlWHKI3PSBqfkboEH6KsOozUpfGtOkRpfEbS+IzUJfgQZdVhpC6Nb9UhSuMzksZnpC7BhyirDiN1aXyrDlEan5E0PiN1CT5EWXUYqUvjW3WI0viMpPEZqUvwIcqqw0hdGt+qQ5TGZySNz0hdgg9RVh1G6tL4Vh2iugQfoqw6jNSl8a06RHVpfMEnKhX8tWBfR04Bv6WCvzbHMwBRGp+RugRf4xNl1WGkLo1v1SGqS/A1PlFWHUbS+Ix0FprzfOX6q6Xq25FmP6qqByt/82lT9eJI82koFfzzlevPIqf4vx8nnk9YatVZa9xT6/JlPUJSNzz1ybIvwR9G4+8I/jCpG/49NGdfgj9MagV5Xf+G6/GB5l9V1faOr/HlAOcAAAAAAAAAAG7tFyd5hGqL2tB8AAAAAElFTkSuQmCC"
-      height=20 width=40 />
-  </div>
-  <div style="display:none;">
-    <img id="BC_L_M"
-      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAfdJREFUeJzt2ztuFEEUBdA7CDkhcUAMEsisiR2wEm+CHZERkMEOiLBDPk3gxCrkBmm6nouqc6QJRj3qanU93bk90iQAAAAAAAAAAECF02NfAJW250lennGCn0luDrqY5G7+Lu+9v0lOnw88PyTJ9i7ZtoFft1V34knVQgxh9P0uayCj3wiONXq1Nfh0Mfp+G3y6GH2/DT5djL7fZYM/eufjUNuLJG86LnCR5NlfPnOd5OqBY1+S00PH4H+2fdj5OfNj1VWM/tXHWraqhQw+1Yao1wafkUh86MngU03VgYaqw7QkPjQkPtOS+NCQ+NCTwaeaqgMNVYdpSXxoSHzoyeBTTdWBhqrDtCQ+NCQ+05L40JD40JPBp5qqAw1Vh2lJfGhIfOjJ4FNN1YGGqsO0JD40JD70ZPCppupAQ9VhWhIfGhKfaUl8aEh86MngU03VgYaqw7QkPjQkPvRk8Kmm6kBD1YGeDD7V9lK9rAYZfKrtDX7ZPBp8qkl8lvRr55jBZ1qqDkuS+CxJ4rMkic+Shkj8p1ULMYLtbZLrf/jgt+wn8zmudo697rTmHwz+Wi6TvHrsi9hxUbWQqrOW0ffbwy1djL7fHm7pYvT9lvh0McSfQHZ8r1rIw+1aPiV5f+Y5Trl7SD7CbZIf995/Pei8AAAAAAAAAAzvN2nWj+GUvv3MAAAAAElFTkSuQmCC"
-      height=20 width=40 />
-  </div>
+    <div style="display:none;">
+      <img id="R_NR" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABZCAYAAADIBoEnAAAAAXNSR0IArs4c6QAAAkJJREFUeF7t3D1OG1EAReH7CorUWQIroKbKBlhFVsBPWkQZoiRLyCLYAAU1LWIJNFH6FIOs2BIxFjN+8zw+Nse1Z3x9v7k2lkaU+EA1UFBpDBNBYBeBIILAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGC/N9Al5wneSzJDaybrcTZ6kLmGN/m7/xElGzvv5IuYSyuxneP0ruQLjlYtd2S/K3ddJdcJLlecfzPkpzWnncfjhsCcpTkfunNfizJ75oC3sD4UZKzmnPu0zGTgojRf+lMBiJGP8bsGZOAiDEMYxIQMYZjbBxEjPUwNgoixvoYGwMRow5jIyBi1GM0BxFjHEZTkC75kuTrikj+Al/DqcnvEDHWaLznqaNBxGiHMfojS4y2GKNAknz2O4MDcpXk0i9wDsiqJP411cCn9kt9+aW/l383K/gY2cAQkOMkd2+8zq8kixsVquKU5KHqwD08qAXI2Fo+leR27En25XhBYJKCCPKqAT+yXlQyZCGHST4s1Ti7J+tPq4urJE+tzrXr5+kF2fU3uGv5BYGJCSIIrAFYHBciCKwBWBwXAgN5BpdlhFrvSb7vAAAAAElFTkSuQmCC" height=40 width=40 />
+    </div>
+    <div style="display:none;">
+      <img id="L_NR" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABZCAYAAADIBoEnAAAAAXNSR0IArs4c6QAAAjdJREFUeF7t2jFKxFAYxPEJIoKtndhZCBaewkbxAJbeTQtrUfAggmDrOSRLoivZyMb3Nu99meK/rdnNMD8nkayNeFk10FilIYwAMfslAAQQswbM4rAQQMwaMIvDQgAxa8AsDgsBxKwBszgsBBCzBszisBBAzBowi8NCADFrwCwOCwHErAGzOCwEELMGzOKwEEDMGjCLw0IAMWvALA4LAcSsAbM4LAQQswbM4rAQQMwaMIvDQgAxa8AsDgsBxKwBszgsBBCzBszisBBAzBowi8NCADFrwCwOCwHErAGzOCwEELMGzOKwEEDMGjCLw0IAMWvALA4LAcSsAbM4LAQQswbM4rAQQMwa+I3TXkg6lprXJROykL79HuNF0omkqyVRANnEWI9jMRRA1H7+LGN4pfqSdLPEUgBReyDpWdLl6N4xE6XtLn9Po8+8lZqPqXsUIN/3kAooPUi3vuHrDJDkP5lKowCSXP32A0uiAFIApOTlC5BCIKVQACkIUgIFkMIgc1EAqQAyBwWQSiC7ogBSEWQXFEAqg+SiABIAkoMCSBBIKgoggSApKHrj4WIwyT9Pie8k3fO01wtlD5BwkMnL1zgN34fE+Wx9dD+MAEgeSHst6THvPX+OPpQ0vlStDzqXmvepz+cr3I12epDu34FqvQDJaxaQvL6qHw1I9YrzTtCD7Oe9Z+vRR5JORz994B5SqN2oj+GmHtV04nkASSwq6jBAoppOPA8giUVFHQZIVNOJ5wEksaiow1a9dZJayhugKgAAAABJRU5ErkJggg==" height=40 width=40 />
+    </div>
+    <div style="display:none;">
+      <img id="BC_R" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAA1xJREFUeJzt3UnLUHUYhvFLzawMQog2LYOglZ+jdmXDKrRJyAajQMoGowGtbLaCImyeLQqabFcfoUW0CiIiog8QZt0tPAuD8H3kf/SB814/OPt7cS3O4XDOHyRJkiRJkiRJkiRJkiRJ0nwCl3RvkE6rwEOBI4HLu7dIp0Xg4UCmy/i1fIFHjove+LV8gUf/J3rj13IF9p8g+uPj39y9VZpFYG8h+gSe6t4qDQusCTxTjP7J7r3SsCn6Z4vR7+/eKw2bon+uGP0T3XulYVP0zxejf7x7rzRsiv5AMfrHuvdKw6boXyhGv697rzTM6LXqTNG/WIx+T/deaVhgbeBgMfoHuvdKw6boXytGf3/3XmlYYN1JRH9f915p2BT968Xo7+3eKw2bon+jGP3u7r3SsCn6N4vR39O9Vxo2Rf9WMfq7u/dKw6bo3y4E/09gZ/deadgU/TvF6G/v3isNC6wPHCpGf1v3XmnYFP3Hxehv7d4rDQucGfikGP0t3XulYYENgc+K0W/v3isNm6L/tBj9ju690rDAOYHDxehv7t4rDQtsDPxYiP7vwLbuvdKwwHmBX4rRb+3eKw0LbAr8Woj+aODa7r3SMKPXqhO4IPB7IfojgS3de6VZBK4pRJ/A94GN3Xul2QR2FeP/LnBu915pNoHdxfi/NX4tSv57FtVK8Xvbo+VI7aSSBL4JnN29V5rN9MD7ZyH+w8avRQlcWoz/68BZ3Xul2QQuM36tSoErppdXK8X/lfFrUU4i/i+NX4sS2BL4qxD/F4EN3Xul2QSuNH6tSoGrivF/bvxalMDVxfgPBdZ375VmY/xataY3vEcL8X8UOKN7rzSbwNYc+wZ3pfg/NH4tSmCb8WtVClxXjP8D49eiBK4vxv++8WtRAjcU43/P+LUogRuL8b8bWNe9V5pNYEeO/VtzpfgPBtZ275VmE7ipGP+rxq9FCWwvxv9yYE33Xmk2gZ3F+J/u3irNKnBHIfwE9ndvlWYVuKsY/57urdKsAncW49/dvVWaVeDBYvy7urdKswrsLYT/R+D87q3SrAL7ThD9b4HN3Rul2QXWBA78T/Q/By7u3iedMlP8Lx0X/U+Bi7p3SafcFP8rgR8CF3bvkU6bwLrApu4dkiRJkiRJkiRJkiRJWnX+BRLrklVFEsApAAAAAElFTkSuQmCC" height=20 width=40 />
+    </div>
+    <div style="display:none;">
+      <img id="BC_L" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAA1hJREFUeJzt3d1r1mUcx/EPuaYt2aLWNtPNHvbQzGi5LKkoPRAG4VkEiaf9Lf0fnnYQRBEkyJAEwUaBpj1oK1sPWj7WHE7j48F9D0ZE+95wbV+4fu8X/M528Dl4M+79uHbdEgAAAAAAAAAAAAAAAAAAwPrwJslvZK8ANpC7JB+V/I/kI9lrgA3gzZI/lOz2c0/yu9mrgHXkhyV/tir61fG/k70OWAfuk3zyP6Jfee5IPpS9EijM7/9P9CvPkuSD2UuBgtwt+aNA/LclH8heCxTkbsmfBOJf5FUnKuMeyccD8d+UvC97LVCQeyTPBuN/JXstUJB7JZ8KxH+D+FEZ90k+HYz/5ey1QEF+RPJcMP692WuBgjwg+Uwg/muS92SvBQry48H4r0t+KXstUJAHJJ8Nxj+dvRYoKBz/NeJHZTwo+etA/FckP5+9FiiI+NFYHpR8Lhj/7uy1QEEeknw+EP9lyc9lrwUK8g7JF4gfDeThDuLflb0WKMjDki8G4v+d+FEZj3QQ/2T2WqAgj0j+IRD/b8SPyoTj/1nyaPZaoCDvlDwfjP+Z7LVAQeH4LxE/KuNRyQvB+J/OXgsU5LFg/AutnwWq4THJvwTiXyR+VMbjHcTP2x7UhPjRWJ6Q/Gswft72oCaeUetbV9aK//vspUAh4bc8y+KmNtTB40SPhgn/YbssriVEHTzRQfRcR4gahKP/g+hRCT8bfHXJ+XzUIhw95/JRC0+2f4tHTmUSPWrgF9qf1zmHj6YIR/8T0aMSnuogev7pBDXwlOQ/A9H/KPmp7LVAAX6R6NEw3iP5aiD6eclPZq8FCiB6NI6ng9F/J3l79lqgAE+r9T1Xa0X/LdGjEn5V8s1g9E9krwUKCEf/DdGjEn5N8i2iR4P49WD05yVvy14LFOD9kv8ORH9G8kD2WqAAvyn5r0D05yQPZa8FCvCM5NuB6L+S3J+9FijAb0leIno0iN9W66aDtaL/kuhRCR+WfDcQ/ZzkR7PXAgWEo/9C8mPZa4EC/J5iF7h+Lrk3ey1QgB+QfCwQ/azkrdlrgYLcI/kE0aOB3Nf+/P7v6D+V/FD2OmAduV/y2VXRfyx5S/YqYAN4UK0Tlh9IfjB7DbCBvE1yV/YKAAAAAAAAAAAAAACABrgPXwCewlG1+uEAAAAASUVORK5CYII=" height=20 width=40 />
+    </div>
+    <div style="display:none;">
+      <img id="BC_R_M" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAi1JREFUeJzt2jFuE2EQBeAxBJqAuAQSBQfhEDkKx0jDGTgENSUNNHAFaECKQShLYQoQIhs59vNI831Smmzi+eV9ep6VXAUAAAAAAAAAACRsEkOWqidV9fSPX22r6uqAIx5W1fkd/n+7qXp/qMNAVVUtVZdL1dL458Op3yOy7oXm3A/N2VfqfaAJwd8R/GFSN/wsNGdfkWcd+hD8HY0/jFVnR/CHSTXxu6q6uOH6y6r6eMP1n1X19aAn+tv2iK9NQ6ngf165/mZT9TZyEqg+H/EeLonqEnyISgV/Cc2BW+nS+FYdojQ+I2l8RuoSfIiy6jBSl8a36hCl8RlJ4zNSl+BDlFWHkbo0vlWHKI3PSBqfkboEH6KsOozUpfGtOkRpfEbS+IzUJfgQZdVhpC6Nb9UhSuMzksZnpC7BhyirDiN1aXyrDlEan5E0PiN1CT5EWXUYqUvjW3WI0viMpPEZqUvwIcqqw0hdGt+qQ5TGZySNz0hdgg9RVh1G6tL4Vh2iugQfoqw6jNSl8a06RHVpfMEnKhX8tWBfR04Bv6WCvzbHMwBRGp+RugRf4xNl1WGkLo1v1SGqS/A1PlFWHUbS+Ix0FprzfOX6q6Xq25FmP6qqByt/82lT9eJI82koFfzzlevPIqf4vx8nnk9YatVZa9xT6/JlPUJSNzz1ybIvwR9G4+8I/jCpG/49NGdfgj9MagV5Xf+G6/GB5l9V1faOr/HlAOcAAAAAAAAAAG7tFyd5hGqL2tB8AAAAAElFTkSuQmCC" height=20 width=40 />
+    </div>
+    <div style="display:none;">
+      <img id="BC_L_M" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL4AAABfCAYAAABWbH26AAAACXBIWXMAAAHaAAAB2gGFomX7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAfdJREFUeJzt2ztuFEEUBdA7CDkhcUAMEsisiR2wEm+CHZERkMEOiLBDPk3gxCrkBmm6nouqc6QJRj3qanU93bk90iQAAAAAAAAAAECF02NfAJW250lennGCn0luDrqY5G7+Lu+9v0lOnw88PyTJ9i7ZtoFft1V34knVQgxh9P0uayCj3wiONXq1Nfh0Mfp+G3y6GH2/DT5djL7fZYM/eufjUNuLJG86LnCR5NlfPnOd5OqBY1+S00PH4H+2fdj5OfNj1VWM/tXHWraqhQw+1Yao1wafkUh86MngU03VgYaqw7QkPjQkPtOS+NCQ+NCTwaeaqgMNVYdpSXxoSHzoyeBTTdWBhqrDtCQ+NCQ+05L40JD40JPBp5qqAw1Vh2lJfGhIfOjJ4FNN1YGGqsO0JD40JD70ZPCppupAQ9VhWhIfGhKfaUl8aEh86MngU03VgYaqw7QkPjQkPvRk8Kmm6kBD1YGeDD7V9lK9rAYZfKrtDX7ZPBp8qkl8lvRr55jBZ1qqDkuS+CxJ4rMkic+Shkj8p1ULMYLtbZLrf/jgt+wn8zmudo697rTmHwz+Wi6TvHrsi9hxUbWQqrOW0ffbwy1djL7fHm7pYvT9lvh0McSfQHZ8r1rIw+1aPiV5f+Y5Trl7SD7CbZIf995/Pei8AAAAAAAAAAzvN2nWj+GUvv3MAAAAAElFTkSuQmCC" height=20 width=40 />
+    </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.3.0/chartjs-plugin-annotation.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.3.0/chartjs-plugin-annotation.min.js"></script>
 
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair"></script>
 
-  <script src="audiogram.js"></script>
+    <script src="audiogram.js"></script>
 
-</body>
+  </body>
 
 </html>
