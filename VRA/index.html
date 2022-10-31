@@ -37,14 +37,10 @@ function spin2() {
 
 //takes in toggler var at time the subscript is fired and compares to current toggler. If they match it lets it fade out. 
 function fadeOutIf3SecondsHavePassed(togglerAtTrigger) {
-
   setTimeout(() => {
-    if (togglerAtTrigger === toggler) {
       img.removeAttribute('class');
       img.classList.add('fade-out');
-    }
   }, "3000")
-
 }
 </script>
 
