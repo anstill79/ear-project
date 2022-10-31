@@ -23,46 +23,15 @@ var toggler = 'spin';
 
 div.addEventListener("click", spin2);
 
-img.classList.add('spin');
+img.classList.add('threeD');
 
 function spin2() {
 
   img.removeAttribute('class');
 
-  if (toggler === "spin") {
-    toggler = "bounce";
-    img.classList.add('bounce');
-    fadeOutIf3SecondsHavePassed(toggler);
-    return;
-  }
-/*   if (toggler === "bounce") {
-    toggler = "slidein";
-    img.classList.add('slidein');
-    img.offsetHeight; trigger reflow
-    fadeOutIf3SecondsHavePassed(toggler);
-    return;
-  } */
-  if (toggler === 'bounce') {
-    toggler = "flip";
-    img.classList.add('flip');
-    img.offsetHeight;
-    fadeOutIf3SecondsHavePassed(toggler);
-    return;
-  }
-  if (toggler === 'flip') {
-    toggler = "orbit";
-    img.classList.add('orbit');
-    img.offsetHeight;
-    fadeOutIf3SecondsHavePassed(toggler);
-    return;
-  }
-  if (toggler === 'orbit') {
-    toggler = "spin";
-    img.classList.add('spin');
-    img.offsetHeight;
-    fadeOutIf3SecondsHavePassed(toggler);
-    return;
-  }
+  img.classList.add('flip');
+  img.offsetHeight;
+  fadeOutIf3SecondsHavePassed(toggler);
 
 }
 
@@ -87,35 +56,8 @@ div {
   justify-content: center;
   background: linear-gradient(to bottom left, rgba(100, 25, 100, 0.6), lightgreen);
   padding: 20px;
-
 }
 
-.spin {
-  visibility: visible;
-  animation-name: spin;
-  animation-duration: 2s;
-  animation-timing-function: cubic-bezier;
-  animation-iteration-count: 1;
-  border-radius: 100px;
-}
-
-.bounce {
-  visibility: visible;
-  animation-name: bounce;
-  animation-duration: 1s;
-  animation-timing-function: easeOutElastic;
-  animation-iteration-count: 1;
-  border-radius: 100px;
-}
-
-.slidein {
-  visibility: visible;
-  animation-name: slidein;
-  animation-duration: 1s;
-  animation-timing-function: cubic-bezier;
-  animation-iteration-count: 1;
-  border-radius: 100px;
-}
 
 .flip {
   visibility: visible;
@@ -126,98 +68,21 @@ div {
   border-radius: 100px;
 }
 
-.orbit {
-  visibility: visible;
-  animation-name: orbit;
-  animation-duration: 1s;
-  animation-timing-function: cubic-bezier;
-  animation-iteration-count: 1;
-  border-radius: 100px;
-}
 
 .fade-out {
   transition: 1s;
   opacity: 0;
 }
 
-@keyframes orbit {
-    from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
-    to   { transform: rotate(360deg) translateX(0px) rotate(-360deg); }
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes bounce {
-  0% {
-    transform: translateY(0);
-  }
-
-  33% {
-    transform: translateY(-100px);
-  }
-  66% {
-    transform: translateY(100px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slidein {
-  from {
-    margin-left: 50%;
-  }
-
-  to {
-    margin-left: 0%;
-  }
-}
 
 @keyframes flip {
   from {
-	transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
+
   to {
-	transform: rotateY(359deg);
+    transform: rotateY(359deg);
   }
-}
-
-
-
-
-
-@keyframes flash-hop {
-  0% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-
-  25% {
-    opacity: 1;
-  }
-
-  50% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-
-  75% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-
 }
 
 </style>
