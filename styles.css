@@ -1,11 +1,10 @@
-
 h1 {
   display: flex;
   justify-content: center;
 }
 
 .main-div {
-      box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3);
   margin: 20px;
   padding: 5px;
   padding-top: 20px;
@@ -15,31 +14,29 @@ h1 {
   background: hsla(160, 50%, 51%, 1);
 
   background: linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
-
   background: -moz-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
-
   background: -webkit-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
-
   filter: progid: dximagetransform.microsoft.gradient(startColorstr="#43C197", endColorstr="#1C1554", GradientType=1);
-  
-  
+  min-width: 380px;
 }
-
 
 .nav-grid {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
+  grid-template-columns: repeat(3, 200px);
   grid-template-rows: auto;
-  grid-gap: 10px;
+  grid-gap: 20px;
   background-color: transparent;
   color: #444;
   padding: 0px;
-  align-content: center;
+  justify-content: center;
+  width: 80%;
+  min-width: 360px;
+  background-color: yellow;
 }
 
 .buttons {
-  width: 100px;
-  height: 40px;
+  width: 200px;
+  height: 80px;
 }
 
 .buttons:hover {
