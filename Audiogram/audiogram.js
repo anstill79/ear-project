@@ -1417,6 +1417,9 @@ function copyEarAC(ear) {
       audiogramData.pointSize_NR_L.splice(0, audiogramData.pointSize_NR_L.length, ...audiogramData.pointSize_NR_R);
       audiogramData.thresh_NR_L.splice(0, audiogramData.thresh_NR_L.length, ...audiogramData.thresh_NR_R);
       audiogramData.interOctTested_AC_L.splice(0, audiogramData.interOctTested_AC_L.length, ...audiogramData.interOctTested_AC_R);
+	          for(let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
+      calcChange(i, 'L');
+      }
     }
   } else {
     if (confirm('Are you sure you want to copy left AC to right AC?')) {
@@ -1426,6 +1429,9 @@ function copyEarAC(ear) {
       audiogramData.pointSize_NR_R.splice(0, audiogramData.pointSize_NR_R.length, ...audiogramData.pointSize_NR_L);
       audiogramData.thresh_NR_R.splice(0, audiogramData.thresh_NR_R.length, ...audiogramData.thresh_NR_L);
       audiogramData.interOctTested_AC_R.splice(0, audiogramData.interOctTested_AC_R.length, ...audiogramData.interOctTested_AC_L);
+	          for(let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
+      calcChange(i, 'R');
+      }
     }
   }
   updateCharts();
