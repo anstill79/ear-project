@@ -1,5 +1,3 @@
-
-
 function calcMasking() {
   const OKtoCalc = document.getElementById('calc_WR_masking_please');
   if (OKtoCalc.checked === false) {
@@ -23,7 +21,7 @@ function calcMasking() {
       maskSRT_R.value = ""
     }
   }
-    if (SRT_L) {
+  if (SRT_L) {
     maskSRT_L.value = SRT_L - 35;
     if (maskSRT_L.value <= SRT_R) {
       maskSRT_L.value = parseInt(SRT_R) + 5
@@ -32,7 +30,7 @@ function calcMasking() {
       maskSRT_L.value = ""
     }
   }
-    if (WR_R) {
+  if (WR_R) {
     maskWR_R.value = WR_R - 35;
     if (maskWR_R.value <= WR_L) {
       maskWR_R.value = parseInt(WR_L) + 5
@@ -41,7 +39,7 @@ function calcMasking() {
       maskWR_R.value = ""
     }
   }
-      if (WR_L) {
+  if (WR_L) {
     maskWR_L.value = WR_L - 35;
     if (maskWR_L.value <= WR_R) {
       maskWR_L.value = parseInt(WR_R) + 5
@@ -104,7 +102,7 @@ function launchCommandPalette() {
 }
 
 function closeCommandPalette(event) {
-  if (event.target === command_modal) {
+  if (event.target.id === "command_modal") {
     command_modal.style.display = "none";
     command_modal.removeEventListener("click", closeCommandPalette);
   }
@@ -254,13 +252,6 @@ function calcInterOct(index, dB, ear) {
       }
     }
   }
-
-
-  //remove calcChage value at index if !tested 
-  /*   if (tested === 0) {
-      audiogramData.change_R.splice(index, 1 ,null);
-      alert("yo")
-    } */
 }
 
 //-----------------------------------this is the main function
@@ -303,9 +294,7 @@ function updateCharts() {
   myChart2.update();
   myChart3.update();
   myChart4.update();
-
   fillInLegend();
-
 }
 
 const changePTA_R = [null];
@@ -376,7 +365,7 @@ let oldAudiogramData = {
   pointSize_NR_BC_R: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   pointSize_NR_BC_L: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   maskAll_AC_R_L_BC_R_L: [0, 0, 0, 0],
-  DateOfTest: null
+  DateOfTest: "6/1/2021"
 };
 
 const bigHz = [125, 250, '', 500, '', 1000, '', 2000, '', 4000, '', 8000];
@@ -412,19 +401,23 @@ const shaders = {
   }
 };
 
-let shadeLossToggle = 'off';
+function HideHrgLossShade(bool) {
 
-function HideShade() {
-  if (shadeLossToggle === 'off') {
+  const onButton = document.getElementById("shadeLossOn");
+  const offButton = document.getElementById("shadeLossOff");
+  onButton.removeAttribute('class');
+  offButton.removeAttribute('class');
+
+  if (bool === 'off') {
     myChart.config.data.datasets[0].fill = shaders.loss_fill_off;
     myChart2.config.data.datasets[0].fill = shaders.loss_fill_off;
-    shadeLossToggle = 'on';
-    document.getElementById('shadeLoss').innerText = 'Shading: on';
-  } else if (shadeLossToggle === 'on') {
+    onButton.classList.add("toggle-button-disabled");
+    offButton.classList.add("toggle-button-enabled");
+  } else if (bool === 'on') {
     myChart.config.data.datasets[0].fill = shaders.loss_fill_on;
     myChart2.config.data.datasets[0].fill = shaders.loss_fill_on;
-    shadeLossToggle = 'off';
-    document.getElementById('shadeLoss').innerText = 'Shading: off';
+    onButton.classList.add("toggle-button-enabled");
+    offButton.classList.add("toggle-button-disabled");
   }
   updateCharts();
 }
@@ -494,22 +487,51 @@ const crosshairOptions = {
 
 }
 
-function toggleCrosshair() {
+function toggleNormShade(bool) {
 
-  if (crosshairFlag === "on") {
+  const normOn = document.getElementById('shadeNormOn');
+  const normOff = document.getElementById('shadeNormOff');
+  normOn.removeAttribute('class');
+  normOff.removeAttribute('class');
+
+  if (bool === "off") {
+    myChart.config.options.plugins.annotation.annotations.normAdult.yMax = 0;
+    myChart2.config.options.plugins.annotation.annotations.normAdult.yMax = 0;
+    normOn.classList.add('toggle-button-disabled');
+    normOff.classList.add('toggle-button-enabled');
+  }
+  if (bool === "on") {
+    myChart.config.options.plugins.annotation.annotations.normAdult.yMax = 25;
+    myChart2.config.options.plugins.annotation.annotations.normAdult.yMax = 25;
+    normOff.classList.add('toggle-button-disabled');
+    normOn.classList.add('toggle-button-enabled');
+  }
+  updateCharts();
+}
+
+function toggleCrosshair(bool) {
+
+  const cHairOn = document.getElementById('crosshairOn');
+  const cHairOff = document.getElementById('crosshairOff');
+  cHairOn.removeAttribute('class');
+  cHairOff.removeAttribute('class');
+
+  if (bool === "off") {
     myChart.config.options.plugins.crosshair = false;
     myChart2.config.options.plugins.crosshair = false;
     myChart3.config.options.plugins.crosshair = false;
     myChart4.config.options.plugins.crosshair = false;
-    crosshairFlag = "off";
-    document.getElementById('Crosshair').innerText = 'Crosshair: off';
-  } else {
+    cHairOn.classList.add('toggle-button-disabled');
+    cHairOff.classList.add('toggle-button-enabled');
+
+  }
+  if (bool === "on") {
     myChart.config.options.plugins.crosshair = crosshairOptions.audioRight;
     myChart2.config.options.plugins.crosshair = crosshairOptions.audioLeft;
     myChart3.config.options.plugins.crosshair = crosshairOptions.barRight;
     myChart4.config.options.plugins.crosshair = crosshairOptions.barLeft;
-    crosshairFlag = "on";
-    document.getElementById('Crosshair').innerText = 'Crosshair: on';
+    cHairOn.classList.add('toggle-button-enabled');
+    cHairOff.classList.add('toggle-button-disabled');
   }
   updateCharts();
 }
@@ -1417,8 +1439,8 @@ function copyEarAC(ear) {
       audiogramData.pointSize_NR_L.splice(0, audiogramData.pointSize_NR_L.length, ...audiogramData.pointSize_NR_R);
       audiogramData.thresh_NR_L.splice(0, audiogramData.thresh_NR_L.length, ...audiogramData.thresh_NR_R);
       audiogramData.interOctTested_AC_L.splice(0, audiogramData.interOctTested_AC_L.length, ...audiogramData.interOctTested_AC_R);
-	          for(let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
-      calcChange(i, 'L');
+      for (let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
+        calcChange(i, 'L');
       }
     }
   } else {
@@ -1429,8 +1451,8 @@ function copyEarAC(ear) {
       audiogramData.pointSize_NR_R.splice(0, audiogramData.pointSize_NR_R.length, ...audiogramData.pointSize_NR_L);
       audiogramData.thresh_NR_R.splice(0, audiogramData.thresh_NR_R.length, ...audiogramData.thresh_NR_L);
       audiogramData.interOctTested_AC_R.splice(0, audiogramData.interOctTested_AC_R.length, ...audiogramData.interOctTested_AC_L);
-	          for(let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
-      calcChange(i, 'R');
+      for (let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
+        calcChange(i, 'R');
       }
     }
   }
@@ -1509,7 +1531,7 @@ function toggleData() {
     myChart.show(6);
     myChart2.show(6);
     document.getElementById('Toggle').innerText = 'Show: Ghost';
-    previous.style.visibility = "visible"
+    previousLegend.style.display = "table-row"
   }
   if (showValue === false) {
     myChart.hide(6);
@@ -1517,15 +1539,9 @@ function toggleData() {
     myChart.show(5);
     myChart2.show(5);
     document.getElementById('Toggle').innerText = 'Show: Previous';
-    previous.style.visibility = "hidden"
+    previousLegend.style.display = "none"
   }
 }
-
-window.onload = () => {
-  toggleTransducer(1);
-  toggleData(5);
-  toggleData(6);
-};
 
 function calcChangeOnLoad() {
 
@@ -1684,6 +1700,15 @@ function turnOffCrosshair() {
   updateCharts();
 }
 
+function fillInLegendPrevDate() {
+  if (oldAudiogramData.DateOfTest === null || oldAudiogramData.DateOfTest === "") {
+    return
+  }
+  previousLegend.style.display = "table-row";
+  previous_dateContent.innerText = oldAudiogramData.DateOfTest;
+
+}
+
 function fillInLegend() {
 
   //stops function if legend is full. 
@@ -1749,8 +1774,15 @@ function fillInLegend() {
 
 
 const maskingNorms = {
-	insert: [],
+  insert: [],
   circumaural: [],
   supraaural: []
 
 }
+
+window.onload = () => {
+  toggleTransducer(1);
+  toggleData(5);
+  toggleData(6);
+  fillInLegendPrevDate();
+};
