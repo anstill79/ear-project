@@ -264,6 +264,7 @@ function moveIt(freqIndex, dB, ear) {
     audiogramData.thresh_AC_R.splice(2, 1, nonFreq(audiogramData.thresh_AC_R[1], audiogramData.thresh_AC_R[3], 'R'));
     calcInterOct(freqIndex, dB, 'R');
     calcChange(freqIndex, 'R');
+
   }
   if (ear === 'R' && transducer === 'BC') {
 
@@ -284,9 +285,10 @@ function moveIt(freqIndex, dB, ear) {
     audiogramData.pointSize_NR_BC_L.splice(freqIndex, 1, null);
     audiogramData.thresh_BC_L.splice(freqIndex, 1, dB);
   }
-  updateCharts();
   audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
   audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+  updateCharts();
+  annotatePTA();
 }
 
 function updateCharts() {
@@ -304,8 +306,8 @@ let changeResolution_R = 'full';
 let changeResolution_L = 'full';
 
 const audiogramData = {
-  PTA_R: [null],
-  PTA_L: [null],
+  PTA_R: null,
+  PTA_L: null,
   SRT_R: [null],
   SRT_L: [null],
   wordRec_R: [null],
@@ -343,7 +345,6 @@ const audiogramData = {
     NR: "hide"
   },
 };
-
 
 let oldAudiogramData = {
   thresh_AC_R: [null, 20, null, 35, 35, 40, 45, 55, 55, 60, 70, 80],
@@ -388,16 +389,6 @@ const shaders = {
     target: {
       value: 25
     }
-  },
-  normAdult: {
-    type: 'box',
-    yMin: 0,
-    yMax: 25,
-    xMin: 1,
-    backgroundColor: "rgba(230, 255, 110, 0.1)",
-    borderColor: 'gray',
-    borderWidth: 0,
-    drawTime: 'beforeDatasetsDraw',
   }
 };
 
@@ -778,6 +769,16 @@ const options_R = {
             borderWidth: 0,
             drawTime: 'beforeDatasetsDraw',
           },
+          linePTA: {
+            type: 'line',
+            yMin: 0,
+            yMax: 0,
+            xMin: 3,
+            xMax: 7,
+            borderColor: "rgba(255, 0, 0, 0.4)",
+            borderWidth: 0,
+            drawTime: 'beforeDatasetsDraw',
+          },
         }
       },
       legend: {
@@ -1044,11 +1045,17 @@ const options_L = {
             borderColor: 'gray',
             borderWidth: 0,
             drawTime: 'beforeDatasetsDraw',
-            label: {
-              enabled: false,
-              content: 'Austin',
-            }
-          }
+          },
+          linePTA: {
+            type: 'line',
+            yMin: 0,
+            yMax: 0,
+            xMin: 3,
+            xMax: 7,
+            borderColor: "rgba(0, 0, 255, 0.4)",
+            borderWidth: 0,
+            drawTime: 'beforeDatasetsDraw',
+          },
         }
       },
       legend: {
@@ -1575,7 +1582,70 @@ function calcPTA(array) {
 
   if (array[3] === null || array[5] === null || array[7] === null) {} else
     return (array[3] + array[5] + array[7]) / 3;
+}
 
+let annotatePTAprefFlag = 'off';
+
+function annotatePTA(flagControl) {
+
+  const buttonOn = document.getElementById('annotatePTAon');
+  const buttonOff = document.getElementById('annotatePTAoff');
+  //first part adjusts the flag to control if the second part happens or not
+  if (flagControl === 'off') {
+    annotatePTAprefFlag = 'off';
+    buttonOn.removeAttribute('class');
+    buttonOff.removeAttribute('class');
+    myChart.options.plugins.annotation.annotations.linePTA.yMin = 0;
+    myChart.options.plugins.annotation.annotations.linePTA.yMax = 0;
+    myChart.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
+    myChart2.options.plugins.annotation.annotations.linePTA.yMin = 0;
+    myChart2.options.plugins.annotation.annotations.linePTA.yMax = 0;
+    myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
+    updateCharts();
+    buttonOn.classList.add('toggle-button-disabled');
+    buttonOff.classList.add('toggle-button-enabled');
+    return
+  }
+
+  buttonOn.removeAttribute('class');
+  buttonOff.removeAttribute('class');
+  if (flagControl === 'on' || annotatePTAprefFlag === 'on') {
+    annotatePTAprefFlag = 'on';
+    buttonOn.classList.add('toggle-button-enabled');
+    buttonOff.classList.add('toggle-button-disabled');
+  }
+
+  if (annotatePTAprefFlag === 'off') {
+    buttonOn.classList.add('toggle-button-disabled');
+    buttonOff.classList.add('toggle-button-enabled');
+    return
+  }
+
+  let valueR;
+  let valueL;
+  let lineR = 4;
+  let lineL = 4;
+
+  if (audiogramData.PTA_R === undefined) {
+    valueR = 0;
+    lineR = 0
+  } else {
+    valueR = audiogramData.PTA_R
+  }
+  if (audiogramData.PTA_L === undefined) {
+    valueL = 0;
+    lineL = 0
+  } else {
+    valueL = audiogramData.PTA_L
+  }
+
+  myChart.options.plugins.annotation.annotations.linePTA.yMin = valueR;
+  myChart.options.plugins.annotation.annotations.linePTA.yMax = valueR;
+  myChart.options.plugins.annotation.annotations.linePTA.borderWidth = lineR;
+  myChart2.options.plugins.annotation.annotations.linePTA.yMin = valueL;
+  myChart2.options.plugins.annotation.annotations.linePTA.yMax = valueL;
+  myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = lineL;
+  updateCharts();
 }
 
 
@@ -1598,7 +1668,6 @@ function LMH(array) {
   } else {
     lowMidHigh.splice(2, 1, (array[9] + array[11]) / 2)
   }
-
   return lowMidHigh;
 }
 
