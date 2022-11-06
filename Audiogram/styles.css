@@ -92,9 +92,10 @@
 
 .top-controls-grid {
   display: grid;
-  width: 150px;
-  grid-template-columns: auto;
-  grid-gap: 2px;
+  width: 300px;
+  grid-template-columns: auto auto;
+  grid-template-rows: 25px 25px;
+  grid-gap: 4px;
   border: solid;
   border-color: grey;
   border-radius: 3px;
@@ -104,8 +105,9 @@
   grid-column: 2;
   grid-row: 1;
   justify-self: left;
-  margin-left: 105px;
+  margin-left: 70px;
   justify-content: center;
+  align-content: center;
 }
 
 select {
