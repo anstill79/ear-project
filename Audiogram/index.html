@@ -67,15 +67,21 @@
 
       <div class="top-controls-grid">
         <select name="select_transducer" id="select_transducer" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
-          <option value="">--Transducer--</option>
+          <option value="blank">--Transducer--</option>
           <option value="circumaural">Circumaural</option>
           <option value="circumaural">Insert</option>
           <option value="circumaural">Supraaural</option>
         </select>
-
-        <button id="word_rec" onclick="launchWordRec()" class="top-controls-button">
+                <button id="word_rec" onclick="launchWordRec()" class="top-controls-button">
           Word Rec
         </button>
+          <select id="Reliability" name="Reliability" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
+            <option value="blank">--Reliability--</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+
         <button id="command_palette" onclick="launchCommandPalette()" class="top-controls-button">
           Command Palette
         </button>
@@ -328,19 +334,7 @@
           Print
         </button>
 
-        <form>
-          Reliability
-          <select id="Reliability" name="Reliability" style="height: 21px;margin: 5px;">
-            <option value="blank"></option>
-            <option value="Good">Good</option>
-            <option value="Fair">Fair</option>
-            <option value="Poor">Poor</option>
-          </select>
-        </form>
-
       </div>
-
-
       <!--end of container-->
     </div>
 
