@@ -16,11 +16,8 @@
     <button onclick="goShow()">
   show
   </button>
-<div id="div">
 
 <img id="photo" src="https://www.w3schools.com/tags/img_girl.jpg">
-
-</div>
 
 
 <script>
@@ -28,7 +25,7 @@ var img = document.getElementById("photo");
 
 var toggler = 'spin';
 
-div.addEventListener('touchstart', spin);
+img.addEventListener('click', spin);
 
 img.classList.add('threeD');
 
@@ -52,15 +49,15 @@ function fadeOutIf3SecondsHavePassed(togglerAtTrigger) {
   
   
 function goHide() {
-div.style.display = "none";
+img.style.display = "none";
 }
 function goShow() {
-div.style.display = "block";
+img.style.display = "block";
 }
 </script>
 
 <style>
-div {
+body {
   overflow: hidden;
   justify-items: center;
   display: flex;
