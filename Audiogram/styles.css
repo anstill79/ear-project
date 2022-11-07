@@ -39,6 +39,7 @@
   font-weight: normal;
   font-size: 12px;
   backdrop-filter: blur(10px);
+  -webkit- backdrop-filter: blur(10px);
   background-color: rgba(140, 20, 252, 0.09);
   border-radius: 7px;
   max-width: 60%;
