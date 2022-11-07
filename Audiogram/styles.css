@@ -12,12 +12,12 @@
 
 .heading-container {
   display: flex;
+  flex-direction: row;
   margin-bottom: 5px;
   padding-bottom: 10px;
-  /*background-image: linear-gradient(to top, #a8edea 50%, #fed6e3 80%);*/
-  text-align: left;
+  justify-content: end;
+  background-image: linear-gradient(to top, #a8edea 50%, #fed6e3 80%);
   height: 25px;
-  position: relative;
 }
 
 .heading-list {
@@ -66,29 +66,24 @@
   box-shadow: 2px 2px 2px;
 }
 
-.toggle-button-off {
-  cursor: pointer;
+.toggle-button-disabled {
   height: 25px;
-  width: 100%;
-  background: white;
-  font-size: 12px;
-  border: 2px solid rgba(0, 0, 0, 0.8);
-  border-top-width: 1px;
-  border-right-width: 1px;
-  border-left-width: 1px;
+  width: 40px;
+  background-color: #FEDEE6;
+  border: 1px solid gray;
   border-radius: 3px;
-  box-shadow: 0px 1px rgba(0, 0, 0, 0.8);
-  background-color: #FDFEFF;
+  cursor: pointer;
 }
 
-.toggle-button-on {
-  background-color: rgba(239, 239, 240, 1);
-  border: solid 1px;
+.toggle-button-enabled {
+  height: 25px;
+  width: 40px;
+  background-color: #3277DF;
+  border: 1px solid black;
   border-radius: 3px;
-  position: relative;
-  left: 1px;
-  top: 1px;
-  height: 24px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .top-controls-grid {
@@ -296,7 +291,6 @@ td {
   grid-column-start: 2;
   grid-row-start: 16;
   grid-row-end: span 2;
-
 }
 
 .PHI-sub-grid {
@@ -337,7 +331,7 @@ td {
 
 body {
   min-width: 720px;
-
+  max-width: 900px;
 }
 
 h1 {
