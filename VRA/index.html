@@ -3,8 +3,6 @@
 
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>VRA</title>
   </head>
 
@@ -16,6 +14,7 @@
     <button onclick="goShow()">
   show
   </button>
+    <br>
 
 <img id="photo" src="https://www.w3schools.com/tags/img_girl.jpg">
 
@@ -23,31 +22,6 @@
 <script>
 var img = document.getElementById("photo");
 
-var toggler = 'spin';
-
-img.addEventListener('click', spin);
-
-img.classList.add('threeD');
-
-function spin() {
-
-  img.removeAttribute('class');
-
-  img.classList.add('flip');
-  img.offsetHeight;
-  fadeOutIf3SecondsHavePassed(toggler);
-
-}
-
-//takes in toggler var at time the subscript is fired and compares to current toggler. If they match it lets it fade out. 
-function fadeOutIf3SecondsHavePassed(togglerAtTrigger) {
-  setTimeout(() => {
-      img.removeAttribute('class');
-      img.classList.add('fade-out');
-  }, "3000")
-}
-  
-  
 function goHide() {
 img.style.display = "none";
 }
@@ -58,39 +32,8 @@ img.style.display = "block";
 
 <style>
 body {
-  overflow: hidden;
-  justify-items: center;
-  display: flex;
-  justify-content: center;
   background: linear-gradient(to bottom left, rgba(100, 25, 100, 0.6), lightgreen);
   padding: 20px;
-}
-
-
-.flip {
-  visibility: visible;
-  animation-name: flip;
-  animation-duration: 1s;
-  animation-timing-function: cubic-bezier;
-  animation-iteration-count: 1;
-  border-radius: 100px;
-}
-
-
-.fade-out {
-  transition: 1s;
-  opacity: 0;
-}
-
-
-@keyframes flip {
-  from {
-    transform: rotateY(0deg);
-  }
-
-  to {
-    transform: rotateY(359deg);
-  }
 }
 
 </style>
