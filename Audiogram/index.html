@@ -432,7 +432,6 @@
         </div>
       </div>
     </div>
-
     <!-- Command Palette modal-->
     <div id="command_modal" class="command-modal" style="background-color:transparent;">
 
@@ -479,10 +478,23 @@
         </div>
         <div style="grid-column: 2/ span 2; grid-row: 8;"><button id="save_image" class="top-controls-button" style="height: 20px;">DL Image</button>
         </div>
+        <div style="grid-column: 1; grid-row: 9;">WR defaults:</div>
+        <div style="grid-column: 2/ span 2; grid-row: 9;justify-self: center;"><input type="number" step="5" id="default_WR_level_R" style="height: 20px;width:30px;"></input>
+        </div>
+
+        <div style="grid-column: 1; grid-row: 10;">Default transd.:</div>
+                
+        <div style="grid-column: 2/ span 2; grid-row: 10;">
+                <select name="default_transducer" id="default_transducer" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
+          <option value="blank">--Transducer--</option>
+          <option value="circumaural">Circumaural</option>
+          <option value="insert">Insert</option>
+          <option value="supraaural">Supraaural</option>
+        </select>
+
+        </div>
       </div>
     </div>
-
-
 
     <div style="display:none;">
       <img id="R_NR" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABZCAYAAADIBoEnAAAAAXNSR0IArs4c6QAAAkJJREFUeF7t3D1OG1EAReH7CorUWQIroKbKBlhFVsBPWkQZoiRLyCLYAAU1LWIJNFH6FIOs2BIxFjN+8zw+Nse1Z3x9v7k2lkaU+EA1UFBpDBNBYBeBIILAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGC/N9Al5wneSzJDaybrcTZ6kLmGN/m7/xElGzvv5IuYSyuxneP0ruQLjlYtd2S/K3ddJdcJLlecfzPkpzWnncfjhsCcpTkfunNfizJ75oC3sD4UZKzmnPu0zGTgojRf+lMBiJGP8bsGZOAiDEMYxIQMYZjbBxEjPUwNgoixvoYGwMRow5jIyBi1GM0BxFjHEZTkC75kuTrikj+Al/DqcnvEDHWaLznqaNBxGiHMfojS4y2GKNAknz2O4MDcpXk0i9wDsiqJP411cCn9kt9+aW/l383K/gY2cAQkOMkd2+8zq8kixsVquKU5KHqwD08qAXI2Fo+leR27En25XhBYJKCCPKqAT+yXlQyZCGHST4s1Ti7J+tPq4urJE+tzrXr5+kF2fU3uGv5BYGJCSIIrAFYHBciCKwBWBwXAgN5BpdlhFrvSb7vAAAAAElFTkSuQmCC" height=40 width=40 />
