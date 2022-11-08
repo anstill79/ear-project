@@ -134,7 +134,7 @@ label {
 
 .word-rec-advanced {
   display: grid;
-  grid-template-columns: repeat(2, 1fr) 50px 75px 50px repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr) 50px 75px 50px 1fr;
   grid-gap: 3px;
   justify-self: center;
   justify-items: center;
@@ -331,7 +331,9 @@ td {
 
 body {
   min-width: 720px;
-  max-width: 900px;
+  max-width: 740px;
+  margin-left: auto;
+    margin-right: auto;
 }
 
 h1 {
