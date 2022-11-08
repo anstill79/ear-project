@@ -1,4 +1,4 @@
-import { hereItComes } from 'yoMaker.js';
+import { hereItComes } from '/Audiogram/yoMaker.js';
 
 hereItComes();
 
