@@ -1,3 +1,7 @@
+import { hereItComes } from './yoMaker';
+
+hereItComes();
+
 function calcMasking() {
   const OKtoCalc = document.getElementById('calc_WR_masking_please');
   if (OKtoCalc.checked === false) {
