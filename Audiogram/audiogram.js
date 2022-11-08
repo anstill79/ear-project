@@ -1,4 +1,4 @@
-import { hereItComes } from './yoMaker';
+import { hereItComes } from '/yoMaker';
 
 hereItComes();
 
