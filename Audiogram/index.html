@@ -10,30 +10,22 @@
 
   <body>
 
-    <div class="heading-container">
 
-      <!--wrapper for half section-->
-      <div>
-        <div>
 
-          <ul class="heading-list">
-            <li class="heading-list"><a href="../index.html">Home</a></li>
-            <li class="heading-list"><a href="./pages/gallery.html">Print</a></li>
-          </ul>
 
-        </div>
-        <div>
-          <h1 id="title">
-            Audiogram
-          </h1>
-        </div>
+    <div class="grid-container" style="border-bottom-width: 0px;">
+      <div class="grid-item right-position" style="padding-right:270px;">
+        <li class="heading-list"><a href="../index.html">Home</a>
       </div>
-
-      <div>
-        Empty 2nd half
+      <div class="grid-item right-position" style="height:45px;padding-right:130px;">
+        <h1 id="title">
+          Audiogram
+        </h1>
       </div>
 
     </div>
+
+
 
     <div class="grid-container">
 
@@ -69,18 +61,18 @@
         <select name="select_transducer" id="select_transducer" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
           <option value="blank">--Transducer--</option>
           <option value="circumaural">Circumaural</option>
-          <option value="circumaural">Insert</option>
-          <option value="circumaural">Supraaural</option>
+          <option value="insert">Insert</option>
+          <option value="supraaural">Supraaural</option>
         </select>
-                <button id="word_rec" onclick="launchWordRec()" class="top-controls-button">
+        <button id="word_rec" onclick="launchWordRec()" class="top-controls-button">
           Word Rec
         </button>
-          <select id="Reliability" name="Reliability" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
-            <option value="blank">--Reliability--</option>
-            <option value="Good">Good</option>
-            <option value="Fair">Fair</option>
-            <option value="Poor">Poor</option>
-          </select>
+        <select id="Reliability" name="Reliability" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
+          <option value="blank">--Reliability--</option>
+          <option value="Good">Good</option>
+          <option value="Fair">Fair</option>
+          <option value="Poor">Poor</option>
+        </select>
 
         <button id="command_palette" onclick="launchCommandPalette()" class="top-controls-button">
           Command Palette
@@ -229,9 +221,6 @@
       </div>
 
 
-
-
-
       <div class="word-rec-simple">
         <div>
           Right
@@ -326,15 +315,7 @@
         </button>
       </div>
 
-      <div>
-        <button>
-          Resize Page
-        </button>
-        <button>
-          Print
-        </button>
 
-      </div>
       <!--end of container-->
     </div>
 
@@ -346,10 +327,10 @@
 
         <div class="word-rec-advanced">
 
-          <div style="grid-column: 3; padding: 10px;">
+          <div style="grid-column: 2; padding: 10px;">
             Right
           </div>
-          <div style="grid-column: 5; padding: 10px;">
+          <div style="grid-column: 4; padding: 10px;">
             Left
           </div>
 
@@ -357,63 +338,60 @@
           <div id="PTA_L_forWR" style="grid-row: 2;grid-column: 7;"></div>
 
 
-          <div style="grid-row: 2;grid-column: 3;">
+          <div style="grid-row: 2;grid-column: 2;">
             <input type="number" id="SRT_right_advanced" class="word-rec-advanced-item-right" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()" value="90">
           </div>
-          <div style="grid-column: 1/span 7;grid-row: 2;margin: auto;">SRT</div>
-          <div style="grid-row: 2;grid-column: 5;">
+          <div style="grid-column: 2/span 3;grid-row: 2;margin: auto;">SRT</div>
+          <div style="grid-row: 2;grid-column: 4;">
             <input type="number" id="SRT_left_advanced" class="word-rec-advanced-item-left" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()">
           </div>
 
           <div class="labels" style="grid-row: 3;grid-column: 1;">masking</div>
-          <div style="grid-row: 3;grid-column: 2;margin-bottom: 20px;">
-            <input type="number" id="SRT_right_masking" class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120">
+          <div style="grid-row: 3;grid-column: 3;margin-bottom: 20px;">
+            <input type="number" id="SRT_right_masking" class="word-rec-advanced-item-right word-rec-sub-item" style="color: black;border-color:black;" step="5" min="0" max="120">
           </div>
 
-          <div style="grid-row: 3;grid-column: 6;">
-            <input type="number" id="SRT_left_masking" class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120">
+          <div style="grid-row: 3;grid-column: 5;">
+            <input type="number" id="SRT_left_masking" class="word-rec-advanced-item-left word-rec-sub-item" style="color: black;border-color:black;" step="5" min="0" max="120">
           </div>
 
-          <div class="labels" style="grid-row: 3;grid-column: 7;">masking</div>
+          <div class="labels" style="grid-row: 3;grid-column: 6;">masking</div>
 
-          <div style="grid-column: 1/span 7;justify-self: center;grid-row: 4;margin: auto;">
+          <div style="grid-column: 2/span 3;justify-self: center;grid-row: 4;margin: auto;">
             Word Rec
           </div>
 
-          <div id="WR_right_advanced" class="word-rec-advanced-item-right" style="grid-column: 3; grid-row: 4;">
-
+          <div id="WR_right_advanced" class="word-rec-advanced-item-right" style="grid-column: 2; grid-row: 4;">
           </div>
-          <div id="WR_left_advanced" class="word-rec-advanced-item-left" style="grid-column: 5; grid-row: 4;">58 %</div>
-
-
+          <div id="WR_left_advanced" class="word-rec-advanced-item-left" style="grid-column: 4; grid-row: 4;">58 %</div>
 
           <div class="labels" style="grid-column: 1; grid-row: 5;">pres. level</div>
 
           <div style="grid-column: 2; grid-row: 5;"><input type="number" id="WR_right_pres_level" class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()"></div>
 
-          <div style="grid-column: 6; grid-row: 5;"><input type="number" id="WR_left_pres_level" class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()"></div>
+          <div style="grid-column: 4; grid-row: 5;"><input type="number" id="WR_left_pres_level" class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120" onclick="calcMasking()" onblur="calcMasking()"></div>
 
-          <div class="labels" style="grid-column: 7; grid-row: 5;">
+          <div class="labels" style="grid-column: 6; grid-row: 5;">
             pres. level
           </div>
 
           <div class="labels" style="grid-column: 1; grid-row: 6;">masking</div>
 
-          <div style="grid-column: 2; grid-row: 6;"> <input type="number" id="WR_right_mask_level" class="word-rec-advanced-item-right word-rec-sub-item" step="5" min="0" max="120"></div>
+          <div style="grid-column: 3; grid-row: 6;"> <input type="number" id="WR_right_mask_level" class="word-rec-advanced-item-right word-rec-sub-item" style="color: black;border-color:black;" step="5" min="0" max="120"></div>
 
-          <div style="grid-column: 6; grid-row: 6;"><input type="number" id="WR_left_mask_level" class="word-rec-advanced-item-left word-rec-sub-item" step="5" min="0" max="120"></div>
+          <div style="grid-column: 5; grid-row: 6;"><input type="number" id="WR_left_mask_level" class="word-rec-advanced-item-left word-rec-sub-item" style="color: black;border-color:black;" step="5" min="0" max="120"></div>
 
-          <div class="labels" style="grid-column: 7; grid-row: 6;">masking</div>
+          <div class="labels" style="grid-column: 6; grid-row: 6;">masking</div>
 
           <div class="labels" style="grid-row: 7;grid-column: 1;">list
           </div>
           <div id="WR_right_list" class="word-rec-advanced-item-right word-rec-sub-item" style="grid-row: 7;grid-column: 2/span 2;width:80px;justify-self: left;">NU-6 List 1A
           </div>
-          <div id="WR_left_list" class="word-rec-advanced-item-left word-rec-sub-item" style="grid-row: 7;grid-column: 5/span 2;width: 80px;justify-self: right;">NU-6 List 2A</div>
-          <div class="labels" style="grid-row: 7;grid-column: 7">list</div>
+          <div id="WR_left_list" class="word-rec-advanced-item-left word-rec-sub-item" style="grid-row: 7;grid-column: 4/span 2;width: 80px;justify-self: right;">NU-6 List 2A</div>
+          <div class="labels" style="grid-row: 7;grid-column: 6">list</div>
 
 
-          <div style="grid-row: 9; grid-column: 1/span 6;">
+          <div style="grid-row: 9; grid-column: 1/span 5;">
 
             <label for "WR_mode" class="labels" style="text-align:right;margin-top:2px;">Mode:</label>
             <select name="WR_mode" id="WR_mode">
@@ -424,7 +402,7 @@
           </div>
 
 
-          <div style="grid-row: 10; grid-column: 1/span 5;">
+          <div style="grid-row: 10; grid-column: 1/span 4;">
             <label for="calc_WR_masking" class="labels" style="width:140px;text-align:right;margin-top:2px;">Calculate
               masking levels:</label>
             <input type="checkbox" id="calc_WR_masking_please" name="calc_WR_masking">
@@ -432,6 +410,7 @@
         </div>
       </div>
     </div>
+
     <!-- Command Palette modal-->
     <div id="command_modal" class="command-modal" style="background-color:transparent;">
 
@@ -483,18 +462,25 @@
         </div>
 
         <div style="grid-column: 1; grid-row: 10;">Default transd.:</div>
-                
+
         <div style="grid-column: 2/ span 2; grid-row: 10;">
-                <select name="default_transducer" id="default_transducer" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
-          <option value="blank">--Transducer--</option>
-          <option value="circumaural">Circumaural</option>
-          <option value="insert">Insert</option>
-          <option value="supraaural">Supraaural</option>
-        </select>
+          <select name="default_transducer" id="default_transducer" style="width:100%;font-size:12px;padding:0px;" class="top-controls-button">
+            <option value="blank">--Transducer--</option>
+            <option value="circumaural">Circumaural</option>
+            <option value="insert">Insert</option>
+            <option value="supraaural">Supraaural</option>
+          </select>
 
         </div>
+        <div style="grid-column: 2/ span 2; grid-row: 11;">
+        <button class="top-controls-button"  style="height:20px;">
+        Save Defaults
+        </button>
+        </div>
+       
       </div>
     </div>
+
 
     <div style="display:none;">
       <img id="R_NR" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABZCAYAAADIBoEnAAAAAXNSR0IArs4c6QAAAkJJREFUeF7t3D1OG1EAReH7CorUWQIroKbKBlhFVsBPWkQZoiRLyCLYAAU1LWIJNFH6FIOs2BIxFjN+8zw+Nse1Z3x9v7k2lkaU+EA1UFBpDBNBYBeBIILAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGCwBqAxXEhgsAagMVxIYLAGoDFcSGC/N9Al5wneSzJDaybrcTZ6kLmGN/m7/xElGzvv5IuYSyuxneP0ruQLjlYtd2S/K3ddJdcJLlecfzPkpzWnncfjhsCcpTkfunNfizJ75oC3sD4UZKzmnPu0zGTgojRf+lMBiJGP8bsGZOAiDEMYxIQMYZjbBxEjPUwNgoixvoYGwMRow5jIyBi1GM0BxFjHEZTkC75kuTrikj+Al/DqcnvEDHWaLznqaNBxGiHMfojS4y2GKNAknz2O4MDcpXk0i9wDsiqJP411cCn9kt9+aW/l383K/gY2cAQkOMkd2+8zq8kixsVquKU5KHqwD08qAXI2Fo+leR27En25XhBYJKCCPKqAT+yXlQyZCGHST4s1Ti7J+tPq4urJE+tzrXr5+kF2fU3uGv5BYGJCSIIrAFYHBciCKwBWBwXAgN5BpdlhFrvSb7vAAAAAElFTkSuQmCC" height=40 width=40 />
@@ -523,7 +509,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-crosshair"></script>
 
-    <script type="module" src="audiogram.js"></script>
+    <script src="audiogram.js"></script>
 
   </body>
 
