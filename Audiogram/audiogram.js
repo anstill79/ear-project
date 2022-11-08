@@ -1,6 +1,4 @@
-import { hereItComes } from '/Audiogram/yoMaker.js';
 
-hereItComes();
 
 function calcMasking() {
   const OKtoCalc = document.getElementById('calc_WR_masking_please');
