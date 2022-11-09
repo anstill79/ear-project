@@ -1,4 +1,13 @@
+const CrosshairRemover = {
+  id: 'crosshair-remover',
+  afterEvent: (chart, args, options) => {
+    if(args.event.type == 'mouseout') {
+      chart.update('none')
+    }
+  }
+}
 
+Chart.register(CrosshairRemover);
 
 function calcMasking() {
   const OKtoCalc = document.getElementById('calc_WR_masking_please');
