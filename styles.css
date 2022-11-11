@@ -5,7 +5,7 @@ h1 {
 
 .main-div {
   box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3);
-  margin: 20px;
+  margin: 50px;
   padding: 5px;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -17,12 +17,13 @@ h1 {
   background: -moz-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
   background: -webkit-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
   filter: progid: dximagetransform.microsoft.gradient(startColorstr="#43C197", endColorstr="#1C1554", GradientType=1);
-  min-width: 380px;
+  min-width: 50%;
+
 }
 
 .nav-grid {
   display: grid;
-  grid-template-columns: repeat(3, 200px);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
   grid-gap: 20px;
   background-color: transparent;
@@ -30,17 +31,45 @@ h1 {
   padding: 0px;
   justify-content: center;
   width: 80%;
-  min-width: 360px;
+  min-width: 50%;
+  /*background-color: yellow;*/
 }
 
 .buttons {
-  width: 200px;
+  width: 100%;
   height: 80px;
+}
+
+.but-shadow-leftside {
+  box-shadow:
+  6.7px 6.7px 5.5px rgba(0, 0, 0, 0.3),
+  22.3px 22.3px 18.5px rgba(0, 0, 0, 0.179),
+  100px 100px 83px rgba(0, 0, 0, 0.121);
+}
+
+.but-shadow-rightside {
+  box-shadow:
+  -6.7px 6.7px 5.5px rgba(0, 0, 0, 0.3),
+  -22.3px 22.3px 18.5px rgba(0, 0, 0, 0.179),
+  -100px 100px 83px rgba(0, 0, 0, 0.121);
+}
+
+.but-shadow-middle {
+  box-shadow:
+  0px 10.4px 14.3px rgba(0, 0, 0, 0.3),
+  0px 34.8px 48px rgba(0, 0, 0, 0.179),
+  0px 156px 215px rgba(0, 0, 0, 0.121)
+;
 }
 
 .buttons:hover {
   cursor: pointer;
   border-radius: 1px;
-  transition: 0.1s;
+  transition: 0.3s;
+  scale: 102%;
   background-color: yellow;
+    box-shadow: 0;
+}
+.but-shadow-leftside:hover {
+      box-shadow: 0;
 }
