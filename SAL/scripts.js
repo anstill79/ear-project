@@ -1,6 +1,11 @@
 function exportTextBlob() {
  
   //format a little blob showing unmasked, masked, shift, and recommended SAL value. 
+ const blob = 
+       `Initial AC thresholds:
+        Right Ear: ${if (thresholds.unMasked.R500 === null) {return "not tested"} else {thresholds.unMasked.R500}}`
+         
+         
   
 }
 
