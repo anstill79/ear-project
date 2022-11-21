@@ -12,8 +12,13 @@ function exportTextBlob() {
 function toggleInfo() {
 
 const infoo = document.getElementById('Info'); 
- if (infoo.style.display === "none") {infoo.style.display = "block"} else {
-infoo.style.display = "none"}
+ if (infoo.style.display === "none") {
+ infoo.style.display = "block";
+ infoo.innerText = "Hide info";
+ } else {
+infoo.style.display = "none";
+ infoo.innerText = "Show info";
+ }
 }
 
 
