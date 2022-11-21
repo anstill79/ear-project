@@ -4,10 +4,11 @@ function exportTextBlob() {
   
 }
 
-function yoo() {
+function toggleInfo() {
 
 const infoo = document.getElementById('Info'); 
-infoo.style.display = "none";
+ if (infoo.style.display === "none") {infoo.style.display = "block"} else {
+infoo.style.display = "none"}
 }
 
 
