@@ -10,14 +10,14 @@ function exportTextBlob() {
 }
 
 function toggleInfo() {
-
+const button = document.getElementById('toggleInfoButton');
 const infoo = document.getElementById('Info'); 
  if (infoo.style.display === "none") {
  infoo.style.display = "block";
- infoo.innerText = "Hide info";
+ button.innerText = "Hide info";
  } else {
 infoo.style.display = "none";
- infoo.innerText = "Show info";
+ button.innerText = "Show info";
  }
 }
 
