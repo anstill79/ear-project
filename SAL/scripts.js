@@ -1,4 +1,8 @@
-
+function exportTextBlob() {
+ 
+  //format a little blob showing unmasked, masked, shift, and recommended SAL value. 
+  
+}
 
 function yoo() {
 
