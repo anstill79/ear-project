@@ -6,10 +6,14 @@
     data: {
       labels: ['No Suspicion', 'Low Suspicion', 'High Suspicion', 'Very High Suspicion'],
       datasets: [{
-        label: 'Index of Suspicion',
+        label: 'Right Score',
         data: [0, 1, 2, 3],
         borderWidth: 1
-      }]
+      },{
+        label: 'Left Score',
+        data: [0, 1, 2, 3],
+        borderWidth: 1
+      }, ]
     },
     options: {
       scales: {
