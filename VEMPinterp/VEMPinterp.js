@@ -6,7 +6,7 @@
     data: {
       labels: ['No Suspicion', 'Low Suspicion', 'High Suspicion', 'Very High Suspicion'],
       datasets: [{
-        label: '# of Votes',
+        label: 'Index of Suspicion',
         data: [0, 1, 2, 3],
         borderWidth: 1
       }]
