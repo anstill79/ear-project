@@ -1,5 +1,5 @@
 
-  const ctx = document.getElementById('VEMPinterp');
+  const ctx = document.getElementById('VEMPchart');
 
   new Chart(ctx, {
     type: 'bar',
