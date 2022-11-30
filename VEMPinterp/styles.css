@@ -5,3 +5,7 @@
 .container-item {
     background-color: bisque;
 }
+
+#VEMPchart {
+    max-width: 70%;
+}
