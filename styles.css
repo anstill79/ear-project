@@ -17,7 +17,8 @@ h1 {
   background: -moz-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
   background: -webkit-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
   filter: progid: dximagetransform.microsoft.gradient(startColorstr="#43C197", endColorstr="#1C1554", GradientType=1);
-  min-width: 50%;
+  max-width: 900px;
+  width: 80%;
 
 }
 
