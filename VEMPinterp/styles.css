@@ -3,30 +3,17 @@
     grid-template-columns: repeat(4, minmax(100px, auto));
     grid-template-areas: 
     "head head head head"
-    "section . . ."
-    ". sub score score"
-    ". sub score score"
-    "section . . ."
-    ". sub score score";
+    "section1 . . ."
+    ". sub score1 score2"
+    ". sub2 score3 score4"
+    "section2 . . ."
+    ". sub3 score5 score6";
     max-width: 800px;
     margin: auto;
 }
 
 .container-item {
     background-color: bisque;
-}
-
-.con-header {
-    grid-area: head;
-}
-.con-section {
-    grid-area: section;
-}
-.con-sub {
-    grid-area: sub;
-}
-.con-score {
-    grid-area: score;
 }
 
 .container-for-charts {
