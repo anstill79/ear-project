@@ -1,6 +1,13 @@
 .container {
     display: grid;
-    grid-template-columns: repeat(3, minmax(100px, auto));
+    grid-template-columns: repeat(4, minmax(100px, auto));
+    grid-template-areas: 
+    "head head head head"
+    "section . . . "
+    ". sub score score"
+    ". sub score score"
+    "section . . . "
+    ". sub score score";
     max-width: 800px;
     margin: auto;
 }
@@ -9,9 +16,22 @@
     background-color: bisque;
 }
 
+.con-header {
+    grid-area: head;
+}
+.con-section {
+    grid-area: section;
+}
+.con-sub {
+    grid-area: sub;
+}
+.con-score {
+    grid-area: score;
+}
+
 .container-for-charts {
 display: grid;
-grid-template-columns: repeat(2, minmax(300px, auto));
+grid-template-columns: repeat(2, 1fr);
 max-width: 800px;
 margin: auto;
 }
