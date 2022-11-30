@@ -9,6 +9,9 @@
     background-color: bisque;
 }
 
-#VEMPchart {
-    max-width: 70%;
+.container-for-charts {
+display: grid;
+grid-template-columns: repeat(2, minmax(300px, auto));
+max-width: 800px;
+margin: auto;
 }
