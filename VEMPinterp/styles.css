@@ -1,5 +1,7 @@
 .container {
     display: grid;
+    grid-template-columns: repeat(3, minmax(100px, auto));
+    max-width: 800px;
 }
 
 .container-item {
