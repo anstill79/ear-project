@@ -18,7 +18,7 @@ const chartOptions = {
                     if (label) {
                         label += ': ';
                     }
-                    if (context.parsed.y !== null && ) {
+                    if (context.parsed.y !== null) {
 
 
 
