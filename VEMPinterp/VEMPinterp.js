@@ -21,8 +21,8 @@ const chartOptions = {
                     if (context.parsed.y !== null) {
 
 
-
-                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                        label += context.parsed.y + context.parsed.y + context.parsed.y;
+                        //label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
                     }
                     return label;
                 }
