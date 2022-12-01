@@ -13,11 +13,15 @@ const chartOptions = {
             callbacks: {
                 label: function(context) {
                     let label = context.dataset.label || '';
+
     
                     if (label) {
                         label += ': ';
                     }
-                    if (context.parsed.y !== null) {
+                    if (context.parsed.y !== null && ) {
+
+
+
                         label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
                     }
                     return label;
@@ -27,7 +31,7 @@ const chartOptions = {
     }
 }
 
-new Chart(ctx_R, {
+const chartRight = new Chart(ctx_R, {
     type: 'bar',
     data: {
         labels: ['No Suspicion', 'Low Suspicion', 'High Suspicion', 'Very High Suspicion'],
@@ -41,7 +45,7 @@ options: chartOptions
 });
 
 
-new Chart(ctx_L, {
+const chartLeft =new Chart(ctx_L, {
     type: 'bar',
     data: {
         labels: ['No Suspicion', 'Low Suspicion', 'High Suspicion', 'Very High Suspicion'],
@@ -53,3 +57,4 @@ new Chart(ctx_L, {
     },
     options: chartOptions
 });
+
