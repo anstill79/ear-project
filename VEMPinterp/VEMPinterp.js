@@ -13,16 +13,17 @@ const chartOptions = {
             callbacks: {
                 label: function(context) {
                     let label = context.dataset.label || '';
-
-    
                     if (label) {
                         label += ': ';
                     }
-                    if (context.parsed.y !== null) {
-
-
-                        label += context.parsed.y + context.parsed.y + context.parsed.y;
-                        //label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                    if (context.parsed.y === 1) {
+                        label += "low suspicion";
+                    }
+                    if (context.parsed.y === 2) {
+                        label += "high suspicion";
+                    }
+                    if (context.parsed.y === 3) {
+                        label += "very high suspicion";
                     }
                     return label;
                 }
