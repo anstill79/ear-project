@@ -22,3 +22,7 @@ grid-template-columns: repeat(2, 1fr);
 max-width: 800px;
 margin: auto;
 }
+
+h1 {
+    text-align: center;
+}
