@@ -5,14 +5,17 @@ function updateScore(id) {
     const target = id;
     button.removeAttribute('class');
 
-    const ear = function() {
+let ear;
+
+function setEar() {
         if (target === "fourKayR" || "fiveHunR" || "threshR") {
-            return 'R';
+            ear = 'R';
         }
         else {
-            return 'L'
+            ear = 'L'
         }
     }
+setEar();
 
     console.log(ear)
 
