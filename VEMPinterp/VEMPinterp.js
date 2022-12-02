@@ -1,23 +1,71 @@
 
 
-function toggleScore() {
-    console.log(this)
+function updateScore(id) {
+    const button = document.getElementById(id);
+    button.removeAttribute('class');
+
+    const ear = (id) => {
+        if (id === "fourKayR" || "fiveHunR" || "threshR") {
+            return 'R';
+        }
+        else {
+            return 'L'
+        }
+    }
+
+    const index = (id) => {
+        if (id === "fourKayR" || "fourKayL") {
+            return 0;
+        }
+        if (id === "fiveHunR" || "fiveHunL") {
+            return 1;
+        }
+        if (id === "threshR" || "threshL") {
+            return 2;
+        }
+    }
+
+
+    if (ear === 'R') {
+        if (data.scoresR[index] === 0) {
+            data.scoresR[index] = 1; 
+            button.classList.add('toggle-button-enabled');
+            return
+        } else 
+        data.scoresR[index] = 0; 
+        button.classList.add('toggle-button-disabled');
+    } 
+    if (ear === 'L') {
+        if (data.scoresL[index] === 0) {
+            data.scoresL[index] = 1; 
+            button.classList.add('toggle-button-enabled');
+            return
+        } else {
+            data.scoresL[index] = 0; 
+            button.classList.add('toggle-button-disabled');
+        }
+    } 
+
+    setColorStyles();
 }
 
+
 const data = {
-    scoreR: [1],
-    scoreL: [3],
-    bgR: 'rgba(255, 0, 0, 0.2)',
-    bgL: "",
-    borderR: "",
-    borderL: ""
+    scoresR: [0, 0, 0],
+    scoresL: [0, 0, 0],
+    scoreTotalR: [1],
+    scoreTotalL: [3],
+    bg_R: 'rgba(255, 0, 0, 0.2)',
+    bg_L: 'rgba(0, 0, 255, 0.2)',
+    border_R: 'rgba(255, 0, 0, 0.4)',
+    border_L: 'rgba(0, 0, 255, 0.4)'
 }
 
 function setColorStyles() {
-//updates alpha for both ears each time data changes for either
+    //updates alpha for both ears each time data changes for either
 
-
-
+    data.bg_R = `rgba(255, 0, 0, ${data.scoreR[0] / 10})`;
+    data.border_R = `rgba(255, 0, 0, ${(data.scoreR[0] / 10) * 2})`;
 }
 
 const chartOptions = {
@@ -27,8 +75,8 @@ const chartOptions = {
             min: 0,
             max: 3,
             ticks: {
-              stepSize: 1,
-              padding: 20,
+                stepSize: 1,
+                padding: 20,
 
             },
         }
@@ -36,7 +84,7 @@ const chartOptions = {
     plugins: {
         tooltip: {
             callbacks: {
-                label: function(context) {
+                label: function (context) {
                     let label = context.dataset.label || '';
                     if (label) {
                         label += ': ';
@@ -62,20 +110,22 @@ const chartRight = new Chart(document.getElementById('VEMPchart'), {
     data: {
         labels: ['Suspicion Level'],
         datasets: [{
-            label: 'Right Score',
-            data: data.scoreR,
+            label: 'Right',
+            data: data.scoreTotalR,
             borderWidth: 1,
-            backgroundColor: 'rgba(255, 0, 0, 0.2)',
-            color: 'rgba(255, 0, 0, 0.2)'
-        }, 
+            backgroundColor: data.bg_R,
+            color: data.border_R
+        },
         {
-            label: 'Left Score',
-            data: data.scoreL,
+            label: 'Left',
+            data: data.scoreTotalL,
             borderWidth: 1,
             backgroundColor: 'rgba(0, 0, 255, 0.2)'
         }]
     },
-options: chartOptions
+    options: chartOptions
 });
 
 
+//runs to set initial data
+updateScore();
