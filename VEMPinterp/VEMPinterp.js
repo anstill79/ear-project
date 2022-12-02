@@ -2,6 +2,7 @@
 
 function updateScore(id) {
     const button = document.getElementById(id);
+    console.log(id, button.id)
     button.removeAttribute('class');
 
     const ear = (id) => {
@@ -12,6 +13,8 @@ function updateScore(id) {
             return 'L'
         }
     }
+
+console.log(ear)
 
     const index = (id) => {
         if (id === "fourKayR" || "fourKayL") {
@@ -25,7 +28,7 @@ function updateScore(id) {
         }
     }
 
-
+console.log(index)
     if (ear === 'R') {
         if (data.scoresR[index] === 0) {
             data.scoresR[index] = 1; 
