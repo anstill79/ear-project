@@ -47,6 +47,7 @@ function updateScore(id) {
     } 
 
     setColorStyles();
+    chartVEMP.update();
 }
 
 
@@ -107,7 +108,7 @@ const chartOptions = {
     }
 }
 
-const chartRight = new Chart(document.getElementById('VEMPchart'), {
+const chartVEMP = new Chart(document.getElementById('VEMPchart'), {
     type: 'bar',
     data: {
         labels: ['Suspicion Level'],
@@ -129,5 +130,3 @@ const chartRight = new Chart(document.getElementById('VEMPchart'), {
 });
 
 
-//runs to set initial data
-updateScore();
