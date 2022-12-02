@@ -64,8 +64,10 @@ const data = {
 function setColorStyles() {
     //updates alpha for both ears each time data changes for either
 
-    data.bg_R = `rgba(255, 0, 0, ${data.scoreR[0] / 10})`;
-    data.border_R = `rgba(255, 0, 0, ${(data.scoreR[0] / 10) * 2})`;
+    data.bg_R = `rgba(255, 0, 0, ${data.scoreTotalR[0] / 10})`;
+    data.border_R = `rgba(255, 0, 0, ${(data.scoreTotalR[0] / 10) * 2})`;
+    data.bg_L = `rgba(0, 0, 255, ${data.scoreTotalL[0] / 10})`;
+    data.border_L = `rgba(0, 0, 255, ${(data.scoreTotalL[0] / 10) * 2})`;
 }
 
 const chartOptions = {
