@@ -6,8 +6,18 @@ function toggleScore() {
 const chartOptions = {
     scales: {
         y: {
-            beginAtZero: true
+            beginAtZero: true,
+            min: 0,
+            max: 3,
+            ticks: {
+              stepSize: 1,
+              padding: 20,
+
+            },
         }
+
+
+
     },
     plugins: {
         tooltip: {
