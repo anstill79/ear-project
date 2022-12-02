@@ -49,13 +49,13 @@ const chartRight = new Chart(document.getElementById('VEMPchart'), {
             label: 'Right Score',
             data: [ 1],
             borderWidth: 1,
-            backgroundColor: rgba(255, 0, 0 / 0.2)
+            backgroundColor: 'rgba(255, 0, 0 / 0.2)'
         }, 
         {
             label: 'Left Score',
             data: [ 3],
             borderWidth: 1,
-            backgroundColor: rgba(0, 0, 255 / 0.2)
+            backgroundColor: 'rgba(0, 0, 255 / 0.2)'
         }]
     },
 options: chartOptions
