@@ -4,6 +4,22 @@ function toggleScore() {
     console.log(this)
 }
 
+const data = {
+    scoreR: [1],
+    scoreL: [3],
+    bgR: 'rgba(255, 0, 0, 0.2)',
+    bgL: "",
+    borderR: "",
+    borderL: ""
+}
+
+function setColorStyles() {
+//updates alpha for both ears each time data changes for either
+
+
+
+}
+
 const chartOptions = {
     scales: {
         y: {
@@ -47,14 +63,14 @@ const chartRight = new Chart(document.getElementById('VEMPchart'), {
         labels: ['Suspicion Level'],
         datasets: [{
             label: 'Right Score',
-            data: [ 1],
+            data: data.scoreR,
             borderWidth: 1,
             backgroundColor: 'rgba(255, 0, 0, 0.2)',
             color: 'rgba(255, 0, 0, 0.2)'
         }, 
         {
             label: 'Left Score',
-            data: [ 3],
+            data: data.scoreL,
             borderWidth: 1,
             backgroundColor: 'rgba(0, 0, 255, 0.2)'
         }]
