@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto';
+
 
 function toggleScore() {
     console.log(this)
