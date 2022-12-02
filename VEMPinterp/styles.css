@@ -16,9 +16,7 @@
     background-color: bisque;
 }
 
-.container-for-charts {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
+.container-for-chart {
 max-width: 800px;
 margin: auto;
 }
@@ -26,3 +24,23 @@ margin: auto;
 h1 {
     text-align: center;
 }
+
+.toggle-button-enabled {
+    height: 25px;
+    width: 40px;
+    background-color: #3277DF;
+    border: 1px solid black;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .toggle-button-disabled {
+    height: 25px;
+    width: 40px;
+    background-color: #FEDEE6;
+    border: 1px solid gray;
+    border-radius: 3px;
+    cursor: pointer;
+  }

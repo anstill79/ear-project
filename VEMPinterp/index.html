@@ -21,7 +21,9 @@
 
         <div class="container-item" style="grid-area: section1">oVEMP</div>
         <div class="container-item" style="grid-area: sub">4k Present & Repeatable</div>
-        <div class="container-item" style="grid-area: score1">[]</div>
+        <div class="container-item" style="grid-area: score1">
+            <button id="shadeNormOn" onClick="toggleScore()" class="toggle-button-enabled">On</button>
+        </div>
         <div class="container-item" style="grid-area: score2">[]</div>
         <div class="container-item" style="grid-area: sub2">500Hz large?</div>
         <div class="container-item" style="grid-area: score3">[]</div>
@@ -33,15 +35,8 @@
 
     </div>
 
-<div class="container-for-charts">
-
-    <div>
-        <canvas id="VEMPchart_R"></canvas>
-    </div>
-    <div>
-        <canvas id="VEMPchart_L"></canvas>
-    </div>
-
+<div class="container-for-chart">
+        <canvas id="VEMPchart"></canvas>
 </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

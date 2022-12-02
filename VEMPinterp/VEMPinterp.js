@@ -1,6 +1,7 @@
 
-const ctx_R = document.getElementById('VEMPchart_R');
-const ctx_L = document.getElementById('VEMPchart_L');
+function toggleScore() {
+    console.log(this)
+}
 
 const chartOptions = {
     scales: {
@@ -32,30 +33,22 @@ const chartOptions = {
     }
 }
 
-const chartRight = new Chart(ctx_R, {
+const chartRight = new Chart(document.getElementById('VEMPchart'), {
     type: 'bar',
     data: {
         labels: ['No Suspicion', 'Low Suspicion', 'High Suspicion', 'Very High Suspicion'],
         datasets: [{
             label: 'Right Score',
-            data: [0, 1, 2, 3],
+            data: [ 1],
+            borderWidth: 1
+        }, 
+        {
+            label: 'Left Score',
+            data: [ 3],
             borderWidth: 1
         }]
     },
 options: chartOptions
 });
 
-
-const chartLeft =new Chart(ctx_L, {
-    type: 'bar',
-    data: {
-        labels: ['No Suspicion', 'Low Suspicion', 'High Suspicion', 'Very High Suspicion'],
-        datasets: [{
-            label: 'Left Score',
-            data: [0, 1, 2, 3],
-            borderWidth: 1
-        }]
-    },
-    options: chartOptions
-});
 
