@@ -6,7 +6,7 @@ function updateScore(id) {
     button.removeAttribute('class');
 
     const ear = () => {
-        if (id === "fourKayR" || "fiveHunR" || "threshR") {
+        if (target === "fourKayR" || "fiveHunR" || "threshR") {
             return 'R';
         }
         else {
