@@ -2,7 +2,7 @@
 
 function updateScore(id) {
     const button = document.getElementById(id);
-    const id = id;
+    const target = id;
     button.removeAttribute('class');
 
     const ear = () => {
