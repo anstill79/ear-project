@@ -35,21 +35,21 @@ function updateScore(id) {
         if (data.scoresR[index] === 0) {
             data.scoresR[index] = 1;
             button.classList.add('toggle-button-enabled');
-            return
+            
         } else
             data.scoresR[index] = 0;
         button.classList.add('toggle-button-disabled');
-        return
+        
     }
     if (ear === 'L') {
         if (data.scoresL[index] === 0) {
             data.scoresL[index] = 1;
             button.classList.add('toggle-button-enabled');
-            return
+            
         } else {
             data.scoresL[index] = 0;
             button.classList.add('toggle-button-disabled');
-            return
+            
         }
     }
 
