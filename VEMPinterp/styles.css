@@ -4,7 +4,6 @@
   grid-gap: 2px;
   grid-template-areas:
     "head head head head"
-    "spacer spacer spacer spacer"
     "section1 . right left"
     "sub sub score1 score2"
     "sub2 sub2 score3 score4"
@@ -17,16 +16,12 @@
   padding: 10px;
 }
 
-#spacer {
-  width: 10px;
-  height: 10px;
-  grid-area: spacer;
-}
-
 #section1,
 #section2,
 #head {
   font-size: 30px;
+  margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .sub-head {
