@@ -1,139 +1,155 @@
-
-
 function updateScore(id) {
-    const button = document.getElementById(id);
-    const target = id;
-    button.removeAttribute('class');
+  const button = document.getElementById(id);
+  const target = id;
+  button.removeAttribute('class');
 
-    let ear;
-    let index;
+  const ear = ['fourKayR', 'fiveHunR', 'threshR'].includes(id) ? 'R' : 'L';
 
-    function setEar() {
-        if (target === "fourKayR" || "fiveHunR" || "threshR") {
-            ear = 'R';
-        }
-        else {
-            ear = 'L'
-        }
+  function setIndex(id) {
+    const idMap = {
+      "fourKayR": 0,
+      "fourKayL": 0,
+      "fiveHunR": 1,
+      "fiveHunL": 1,
+      "threshR": 2,
+      "threshL": 2
+    };
+    index = idMap[id];
+  }
+  setIndex(id)
+
+  if (ear === 'R') {
+    if (data.scoresR[index] === 0) {
+      data.scoresR[index] = 1;
+      button.classList.add('toggle-button-enabled');
+      button.innerText = '+'
+    } else {
+      data.scoresR[index] = 0;
+      button.classList.add('toggle-button-disabled');
+            button.innerText = '-'
     }
-    setEar();
-
-    function setIndex() {
-        if (id === "fourKayR" || "fourKayL") {
-            index = 0;
-        }
-        if (id === "fiveHunR" || "fiveHunL") {
-            index = 1;
-        }
-        if (id === "threshR" || "threshL") {
-            index = 2;
-        };
+  }
+  if (ear === 'L') {
+    if (data.scoresL[index] === 0) {
+      data.scoresL[index] = 1;
+      button.classList.add('toggle-button-enabled');
+            button.innerText = '+'
+    } else {
+      data.scoresL[index] = 0;
+      button.classList.add('toggle-button-disabled');
+            button.innerText = '-'
     }
-    setIndex();
+  }
+  data.scoreTotalR[0] = sumScore(data.scoresR);
+  data.scoreTotalL[0] = sumScore(data.scoresL);
 
-    if (ear === 'R') {
-        if (data.scoresR[index] === 0) {
-            data.scoresR[index] = 1;
-            button.classList.add('toggle-button-enabled');
-            
-        } else
-            data.scoresR[index] = 0;
-        button.classList.add('toggle-button-disabled');
-        
-    }
-    if (ear === 'L') {
-        if (data.scoresL[index] === 0) {
-            data.scoresL[index] = 1;
-            button.classList.add('toggle-button-enabled');
-            
-        } else {
-            data.scoresL[index] = 0;
-            button.classList.add('toggle-button-disabled');
-            
-        }
-    }
-
-    setColorStyles();
-    chartVEMP.update();
+  setStyles();
+  chartVEMP.update();
 }
 
+function sumScore(scores) {
+  return scores.reduce((a, b) => a + b, 0);
+}
 
 const data = {
-    scoresR: [0, 0, 0],
-    scoresL: [0, 0, 0],
-    scoreTotalR: [1],
-    scoreTotalL: [3],
-    bg_R: 'rgba(255, 0, 0, 0.2)',
-    bg_L: 'rgba(0, 0, 255, 0.2)',
-    border_R: 'rgba(255, 0, 0, 0.4)',
-    border_L: 'rgba(0, 0, 255, 0.4)'
+  scoresR: [0, 0, 0],
+  scoresL: [0, 0, 0],
+  scoreTotalR: [0],
+  scoreTotalL: [0],
+  bg_R: 'rgba(255, 0, 0, 0.2)',
+  bg_L: 'rgba(0, 0, 255, 0.2)',
+  border_R: 'rgba(255, 0, 0, 0.4)',
+  border_L: 'rgba(0, 0, 255, 0.4)',
+  barSize_R: 0.2,
+  barSize_L: 0.2,
 }
 
-function setColorStyles() {
-    //updates alpha for both ears each time data changes for either
+function setStyles() {
+  //updates alpha for both ears each time data changes for either
 
-    data.bg_R = `rgba(255, 0, 0, ${data.scoreTotalR[0] / 10})`;
-    data.border_R = `rgba(255, 0, 0, ${(data.scoreTotalR[0] / 10) * 2})`;
-    data.bg_L = `rgba(0, 0, 255, ${data.scoreTotalL[0] / 10})`;
-    data.border_L = `rgba(0, 0, 255, ${(data.scoreTotalL[0] / 10) * 2})`;
+  data.bg_R = `rgba(255, 0, 0, ${data.scoreTotalR[0] / 10})`;
+  data.border_R = `rgba(255, 0, 0, ${(data.scoreTotalR[0] / 10) * 2})`;
+  data.bg_L = `rgba(0, 0, 255, ${data.scoreTotalL[0] / 10})`;
+  data.border_L = `rgba(0, 0, 255, ${(data.scoreTotalL[0] / 10) * 2})`;
+  data.barSize_R = (data.scoreTotalR[0] / 10) * 2;
+  data.barSize_L = (data.scoreTotalL[0] / 10) * 2;
+  chartVEMP.data.datasets[0].backgroundColor = data.bg_R;
+  chartVEMP.data.datasets[0].borderColor = data.border_R;
+  chartVEMP.data.datasets[1].backgroundColor = data.bg_L;
+  chartVEMP.data.datasets[1].borderColor = data.border_L;
+  chartVEMP.data.datasets[0].barPercentage = data.barSize_R;
+  chartVEMP.data.datasets[1].barPercentage = data.barSize_L;
 }
 
 const chartOptions = {
-    scales: {
-        y: {
-            beginAtZero: true,
-            min: 0,
-            max: 3,
-            ticks: {
-                stepSize: 1,
-                padding: 20,
-
-            },
-        }
-    },
-    plugins: {
-        tooltip: {
-            callbacks: {
-                label: function (context) {
-                    let label = context.dataset.label || '';
-                    if (label) {
-                        label += ': ';
-                    }
-                    if (context.parsed.y === 1) {
-                        label += "low suspicion";
-                    }
-                    if (context.parsed.y === 2) {
-                        label += "high suspicion";
-                    }
-                    if (context.parsed.y === 3) {
-                        label += "very high suspicion";
-                    }
-                    return label;
-                }
-            }
-        }
+aspectRatio: 1,
+  layout: {
+    padding: 0
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      min: 0,
+      max: 3,
+      ticks: {
+        stepSize: 1,
+        padding: 20,
+      },
     }
+  },
+  plugins: {
+    legend: {
+    display: false,
+      position: 'right',
+      labels: {
+        boxWidth: 20,
+        padding: 10,
+      }
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context) {
+          let label = context.dataset.label || '';
+          if (label) {
+            label += ': ';
+          }
+          if (context.parsed.y === 1) {
+            label += "low suspicion";
+          }
+          if (context.parsed.y === 2) {
+            label += "high suspicion";
+          }
+          if (context.parsed.y === 3) {
+            label += "very high suspicion";
+          }
+          return label;
+        }
+      }
+    }
+  }
 }
 
 const chartVEMP = new Chart(document.getElementById('VEMPchart'), {
-    type: 'bar',
-    data: {
-        labels: ['Suspicion Level'],
-        datasets: [{
-            label: 'Right',
-            data: data.scoreTotalR,
-            borderWidth: 1,
-            backgroundColor: data.bg_R,
-            color: data.border_R
-        },
-        {
-            label: 'Left',
-            data: data.scoreTotalL,
-            borderWidth: 1,
-            backgroundColor: 'rgba(0, 0, 255, 0.2)'
-        }]
-    },
-    options: chartOptions
+  type: 'bar',
+  data: {
+    labels: ['Suspicion Level'],
+    datasets: [{
+        label: 'Right',
+        data: data.scoreTotalR,
+        borderWidth: data.scoreTotalR,
+        backgroundColor: data.bg_R,
+        borderColor: data.border_R,
+        barPercentage: data.barSize_R,
+      },
+      {
+        label: 'Left',
+        data: data.scoreTotalL,
+        borderWidth: data.scoreTotalL,
+        backgroundColor: data.bg_L,
+        borderColor: data.border_L,
+        barPercentage: data.barSize_L
+      }
+    ]
+  },
+  options: chartOptions
 });
-
-
