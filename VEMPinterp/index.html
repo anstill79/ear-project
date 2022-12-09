@@ -1,58 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="styles.css" rel="stylesheet">
     <title>VEMP Interp</title>
-</head>
+  </head>
 
-<body>
+  <body>
 
-<a href="../index.html">Home</a>
+    <a href="../index.html">Home</a>
 
-<h1>Is it third window?</h1>
+    <h1>Is it third window?</h1>
 
     <div class="container">
 
-        <div class="container-item container-header" style="grid-area: head">Indicators</div>
+      <div id="head" class="container-item container-header" style="grid-area: head">Indicators</div>
 
-        <div class="container-item" style="grid-area: section1">oVEMP</div>
-        <div class="container-item" style="grid-area: sub">4k Present & Repeatable</div>
-        <div class="container-item" style="grid-area: score1">
-            <button id="fourKayR" onClick="updateScore(id)" class="toggle-button-disabled">--</button>
-        </div>
-        <div class="container-item" style="grid-area: score2">
-            <button id="fourKayL" onClick="updateScore(id)" class="toggle-button-disabled">--</button></div>
-        <div class="container-item" style="grid-area: sub2">500Hz large?</div>
-        <div class="container-item" style="grid-area: score3">
-            <button id="fiveHunR" onClick="updateScore(id)" class="toggle-button-disabled">--</button>
-        </div>
-        <div class="container-item" style="grid-area: score4">
-            <button id="fiveHunL" onClick="updateScore(id)" class="toggle-button-disabled">--</button>
-        </div>
-        <div class="container-item" style="grid-area: section2">cVEMP</div>
-        <div class="container-item" style="grid-area: sub3">Low thresh?</div>
-        <div class="container-item" style="grid-area: score5">
-            <button id="threshL" onClick="updateScore(id)" class="toggle-button-disabled">--</button>
-        </div>
-        <div class="container-item" style="grid-area: score6">
-            <button id="threshR" onClick="updateScore(id)" class="toggle-button-disabled">--</button>
-        </div>
+      <div id="spacer">
 
+      </div>
+
+      <div id="section1" class="container-item" style="grid-area: section1">oVEMP:</div>
+
+      <div style="grid-area: right; padding-left: 3px;">
+        Right
+      </div>
+      <div style="grid-area: left; padding-left: 5px;">
+        Left
+      </div>
+
+      <div class="container-item sub-head" style="grid-area: sub">4k Present & Repeatable?</div>
+      <div class="container-item" style="grid-area: score1">
+        <button id="fourKayR" onClick="updateScore(id)" class="toggle-button-disabled">-</button>
+      </div>
+      <div class="container-item" style="grid-area: score2">
+        <button id="fourKayL" onClick="updateScore(id)" class="toggle-button-disabled">-</button></div>
+      <div class="container-item sub-head" style="grid-area: sub2">500Hz large?</div>
+      <div class="container-item" style="grid-area: score3">
+        <button id="fiveHunR" onClick="updateScore(id)" class="toggle-button-disabled">-</button>
+      </div>
+      <div class="container-item" style="grid-area: score4">
+        <button id="fiveHunL" onClick="updateScore(id)" class="toggle-button-disabled">-</button>
+      </div>
+      <div id="section2" class="container-item" style="grid-area: section2">cVEMP:</div>
+      <div class="container-item sub-head" style="grid-area: sub3">Low thresh?</div>
+      <div class="container-item" style="grid-area: score5">
+        <button id="threshR" onClick="updateScore(id)" class="toggle-button-disabled">-</button>
+      </div>
+      <div class="container-item" style="grid-area: score6">
+        <button id="threshL" onClick="updateScore(id)" class="toggle-button-disabled">-</button>
+      </div>
+      <div id="container-for-chart" style="grid-area: chart">
+        <canvas id="VEMPchart"></canvas>
+      </div>
     </div>
 
-<div class="container-for-chart">
-        <canvas id="VEMPchart"></canvas>
-</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script src="VEMPinterp.js"></script>
 
 
-</body>
+  </body>
 
 </html>
