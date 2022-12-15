@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styles.css" rel="stylesheet">
+    <title>Caloric Chart-er</title>
+  </head>
+
+  <body>
+
+    <a href="../index.html">Home</a>
+
+    <h1>Caloric</h1>
+
+    <div class="container">
+
+      <div id="section1" class="container-item" style="grid-area: section1;">Values</div>
+
+      <div style="grid-area: right; padding-left: 3px; align-self: center;">
+        Right
+      </div>
+      <div style="grid-area: left; padding-left: 5px; align-self: center;">
+        Left
+      </div>
+
+      <div style="grid-area: total; padding-left: 0px; align-self: center;">
+        Total Response
+      </div>
+
+      <div class="container-item sub-head" style="grid-area: sub;">Warm</div>
+
+      <div class="container-item" style="grid-area: score1">
+        <input id="right_warm" onClick="updateScore(id)" class="toggle-button-disabled">
+      </div>
+
+      <div class="container-item" style="grid-area: score2">
+        <input id="left_warm" onblur="updateScore(id)" class="toggle-button-disabled">
+      </div>
+
+      <div class="container-item" style="grid-area: tr">
+        <span id="tr_score">:</span>
+      </div>
+
+      <div class="container-item sub-head" style="grid-area: sub2">Cool</div>
+      <div class="container-item" style="grid-area: score3">
+        <input id="right_cool" onClick="updateScore(id)" class="toggle-button-disabled">
+      </div>
+      <div class="container-item" style="grid-area: score4">
+        <input id="left_cool" onClick="updateScore(id)" class="toggle-button-disabled">
+      </div>
+      <div id="container-for-chart" style="grid-area: chart">
+        <canvas id="VEMPchart"></canvas>
+      </div>
+      <div id="container-for-chart2" style="grid-area: chart2">
+        <canvas id="MWSTchart"></canvas>
+      </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="VEMPinterp.js"></script>
+
+
+  </body>
+
+</html>
