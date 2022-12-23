@@ -1,0 +1,95 @@
+.main-container {
+  border: solid 1px orange;
+  min-width: 200px;
+  max-width: 470px;
+  margin: auto;
+  padding: 2px;
+}
+
+#shader {
+	height: 70px;
+	width: 90px;
+	background-color: white;
+	opacity: 0.8;
+}
+
+li {
+	list-style: circle;
+}
+h2 {
+  font-size: 30px;
+  text-align: left;
+  font-family: Rubik;
+  padding: 10px;
+}
+h1 {
+	font-size: 40px;
+  text-align: center;
+  font-family: Rubik;
+  padding: 0px;
+	margin: 0px;
+}
+.lefty {
+  text-align: left;
+}
+
+.test-screen {
+  height: 250px;
+  width: 300px;
+	position: absolute;
+	padding-left: 90px;
+}
+
+.head-shaper {
+  height: 150px;
+  width: 125px;
+	padding-top: 50px;
+	margin-left: -40px;
+		margin-right: -40px;
+}
+
+.key-images {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  flex-wrap: nowrap;
+	border: solid 1px lightcoral;
+	border-radius: 2% / 5%;
+}
+
+#left_ear,
+#right_ear {
+  text-align: center;
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.rightEars, 
+.leftEars {
+	height: 60px;
+	width: 60px;
+		padding-top: 70px;
+}
+
+.key-images:hover {
+  border: solid 1px black;
+}
+
+#image_step_1,
+#image_step_2 {
+  transform: rotate(0deg);
+  transition: transform 1s ease-in-out;
+	display: flex;
+	align-items: center;
+}
+
+.image-container {
+  display: flex;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
