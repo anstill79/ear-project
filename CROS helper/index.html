@@ -1,12 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Rubik">
     <title>CROS Helper</title>
-</head>
-<body>
-    
-</body>
+  </head>
+
+  <body>
+
+    <div class="main-container">
+
+      <div class="scenario">
+
+        <h1>
+          CROS Helper
+        </h1>
+        <h2>Mode:</h2>
+
+      </div>
+
+      <div class="key-images" onclick="inputs.setEar()">
+
+        <div id="left_ear">
+          <div>Left ear <span id="left_text">CROS (deaf)</span></div>
+          <img class="leftEars" id="left_ear_image">
+        </div>
+
+        <div>
+          <img id="head" class="head-shaper">
+        </div>
+
+        <div id="right_ear">
+
+          <img class="rightEars" id="right_ear_image">
+          <div>Right ear <span id="right_text">normal (better)</span></div>
+        </div>
+
+      </div>
+
+      <div class="scenario">
+
+        <h2>
+				<span id="placeholder">Setup: (please choose an ear configuration) </span>
+        <span id="scenario_text" style="display: none;">Setup: Insertion gain, <span id="setup_ear">Left</span> ear </span></h2>
+
+      </div>
+
+      <h2>Step 1:</h2>
+
+      <div class="image-container">
+
+        <img class="test-screen" src="https://raw.githubusercontent.com/anstill79/ear-project/main/CROS%20helper/testScreen.png">
+
+        <div id="image_step_1">
+          <img id="step1leftEar" class="leftEars">
+          <img src="https://raw.githubusercontent.com/anstill79/ear-project/main/CROS%20helper/head.png" class="head-shaper">
+          <img id="step1rightEar" class="rightEars">
+        </div>
+
+      </div>
+
+      <div>
+        <ul>
+
+          <li>*** Ear: Microphone module on ear with probe in canal.</li>
+          <li>*** Ear: Microphone module on ear without any probe in canal.</li>
+
+          <li>Hearing aids turned on and placed in ears.</li>
+          <li>Test mode set to 'BTE'.</li>
+          <li>Run 'Test 1' pink noise at 55dB. </li>
+
+        </ul>
+      </div>
+
+      <h2>Step 2:</h2>
+
+      <div class="image-container">
+			
+<img class="test-screen" src="https://raw.githubusercontent.com/anstill79/ear-project/main/CROS%20helper/testScreen.png">
+				<div id="shader">
+				
+				</div>
+      <div id="image_step_2" >
+			          <img id="step2leftEar" class="leftEars">
+        <img src="https://raw.githubusercontent.com/anstill79/ear-project/main/CROS%20helper/head.png" class="head-shaper">
+				          <img id="step2rightEar" class="rightEars">
+				</div>
+      </div>
+      <div>
+        <ul>
+
+          <li>Turn head 45 degrees to ***</li>
+
+          <li>Test mode set to 'CROS'.</li>
+          <li>Run 'Test 2' pink noise at 55dB. </li>
+
+        </ul>
+      </div>
+      <!--end of container-->
+    </div>
+
+
+
+  </body>
+
 </html>
