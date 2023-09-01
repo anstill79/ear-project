@@ -1,7 +1,7 @@
 const CrosshairRemover = {
   id: 'crosshair-remover',
   afterEvent: (chart, args, options) => {
-    if(args.event.type == 'mouseout') {
+    if (args.event.type == 'mouseout') {
       chart.update('none')
     }
   }
@@ -197,9 +197,9 @@ function calcInterOct(index, dB, ear) {
     if (ear === 'R') {
       audiogramData.interOctTested_AC_R.splice(index, 1, tested)
     } else
-    if (ear === 'L') {
-      audiogramData.interOctTested_AC_L.splice(index, 1, tested)
-    }
+      if (ear === 'L') {
+        audiogramData.interOctTested_AC_L.splice(index, 1, tested)
+      }
     interOct = 1;
   }
 
@@ -214,7 +214,7 @@ function calcInterOct(index, dB, ear) {
       if (audiogramData.interOctTested_AC_R[i] === 0) {
         let a = audiogramData.thresh_AC_R[i - 1];
         let b = audiogramData.thresh_AC_R[i + 1];
-        if (a === null || b === null) {} else {
+        if (a === null || b === null) { } else {
           audiogramData.thresh_AC_R.splice(i, 1, (a + b) / 2);
           audiogramData.pointSize_AC_R.splice(i, 1, 0);
         }
@@ -244,7 +244,7 @@ function calcInterOct(index, dB, ear) {
       if (audiogramData.interOctTested_AC_L[i] === 0) {
         let a = audiogramData.thresh_AC_L[i - 1];
         let b = audiogramData.thresh_AC_L[i + 1];
-        if (a === null || b === null) {} else {
+        if (a === null || b === null) { } else {
           audiogramData.thresh_AC_L.splice(i, 1, (a + b) / 2);
           audiogramData.pointSize_AC_L.splice(i, 1, 0);
         }
@@ -581,15 +581,15 @@ function calcChange(index, ear) {
     if (Math.abs(threshOld[index] - threshNew[index]) < 10) {
       barColors.splice(index, 1, color1)
     } else
-    if (Math.abs(threshOld[index] - threshNew[index]) > 9 && Math.abs(threshOld[index] - threshNew[index]) < 20) {
-      barColors.splice(index, 1, color2)
-    } else
-    if (Math.abs(threshOld[index] - threshNew[index]) > 19 && Math.abs(threshOld[index] - threshNew[index]) < 30) {
-      barColors.splice(index, 1, color3)
-    } else
-    if (Math.abs(threshOld[index] - threshNew[index]) > 29) {
-      barColors.splice(index, 1, color4)
-    }
+      if (Math.abs(threshOld[index] - threshNew[index]) > 9 && Math.abs(threshOld[index] - threshNew[index]) < 20) {
+        barColors.splice(index, 1, color2)
+      } else
+        if (Math.abs(threshOld[index] - threshNew[index]) > 19 && Math.abs(threshOld[index] - threshNew[index]) < 30) {
+          barColors.splice(index, 1, color3)
+        } else
+          if (Math.abs(threshOld[index] - threshNew[index]) > 29) {
+            barColors.splice(index, 1, color4)
+          }
     updateCharts();
   }
 }
@@ -602,118 +602,118 @@ const options_R = {
   data: {
     labels: bigHz,
     datasets: [{
-        label: 'AC_R',
-        data: audiogramData.thresh_AC_R,
-        borderWidth: 1,
-        pointStyle: audiogramData.symbols_R,
-        pointRadius: audiogramData.pointSize_AC_R,
-        pointHoverRadius: audiogramData.pointSize_hover_AC_R,
-        pointBorderWidth: 2,
-        pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        lineTension: 0,
-        spanGaps: false,
-        borderColor: "rgba(255,0,0,0.7)",
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        },
-        fill: {
-          above: 'rgba(0,0,0,0)',
-          below: 'rgba(0,0,0,0.1)',
-          target: {
-            value: 25
-          }
+      label: 'AC_R',
+      data: audiogramData.thresh_AC_R,
+      borderWidth: 1,
+      pointStyle: audiogramData.symbols_R,
+      pointRadius: audiogramData.pointSize_AC_R,
+      pointHoverRadius: audiogramData.pointSize_hover_AC_R,
+      pointBorderWidth: 2,
+      pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+      lineTension: 0,
+      spanGaps: false,
+      borderColor: "rgba(255,0,0,0.7)",
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      },
+      fill: {
+        above: 'rgba(0,0,0,0)',
+        below: 'rgba(0,0,0,0.1)',
+        target: {
+          value: 25
         }
+      }
+    },
+    {
+      label: 'BC_R',
+      data: audiogramData.thresh_BC_R,
+      borderWidth: 0,
+      pointStyle: audiogramData.symbols_BC_R,
+      pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+      pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+      lineTension: 0,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'AC NR arrow',
+      data: audiogramData.thresh_NR_R,
+      pointRadius: audiogramData.pointSize_NR_R,
+      pointStyle: R_NR,
+      borderWidth: 0,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'AC NR thresh',
+      data: audiogramData.thresh_NR_R,
+      pointRadius: audiogramData.pointSize_NR_R,
+      pointStyle: audiogramData.symbols_R,
+      borderWidth: 0,
+      pointBorderWidth: 2,
+      pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+      borderColor: "rgba(255,0,0,0.3)",
+      spanGaps: false,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'BC NR arrow',
+      data: audiogramData.thresh_BC_R,
+      pointRadius: audiogramData.pointSize_NR_BC_R,
+      pointStyle: R_NR,
+      pointHoverRadius: 0,
+      borderWidth: 0,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
       },
-      {
-        label: 'BC_R',
-        data: audiogramData.thresh_BC_R,
-        borderWidth: 0,
-        pointStyle: audiogramData.symbols_BC_R,
-        pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-        lineTension: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'AC NR arrow',
-        data: audiogramData.thresh_NR_R,
-        pointRadius: audiogramData.pointSize_NR_R,
-        pointStyle: R_NR,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'AC NR thresh',
-        data: audiogramData.thresh_NR_R,
-        pointRadius: audiogramData.pointSize_NR_R,
-        pointStyle: audiogramData.symbols_R,
-        borderWidth: 0,
-        pointBorderWidth: 2,
-        pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        borderColor: "rgba(255,0,0,0.3)",
-        spanGaps: false,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'BC NR arrow',
-        data: audiogramData.thresh_BC_R,
-        pointRadius: audiogramData.pointSize_NR_BC_R,
-        pointStyle: R_NR,
-        pointHoverRadius: 0,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        },
-      },
-      {
-        label: 'ghost',
-        data: audiogramData.thresh_AC_L,
-        pointRadius: audiogramData.pointSize_AC_L,
-        borderColor: "rgba(0,0,255,0.1)",
-        pointStyle: audiogramData.symbols_L,
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'old',
-        data: oldAudiogramData.thresh_AC_R,
-        pointRadius: oldAudiogramData.pointSize_AC_R,
-        borderColor: "rgba(255,0,0,0.1)",
-        pointStyle: 'circle',
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5]
-      },
+    },
+    {
+      label: 'ghost',
+      data: audiogramData.thresh_AC_L,
+      pointRadius: audiogramData.pointSize_AC_L,
+      borderColor: "rgba(0,0,255,0.1)",
+      pointStyle: audiogramData.symbols_L,
+      spanGaps: true,
+      pointHoverRadius: 0,
+      borderWidth: 2,
+      borderDash: [5, 5],
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'old',
+      data: oldAudiogramData.thresh_AC_R,
+      pointRadius: oldAudiogramData.pointSize_AC_R,
+      borderColor: "rgba(255,0,0,0.1)",
+      pointStyle: 'circle',
+      spanGaps: true,
+      pointHoverRadius: 0,
+      borderWidth: 2,
+      borderDash: [5, 5]
+    },
     ]
   },
   options: {
@@ -864,7 +864,7 @@ const options_R = {
         },
       }
     },
-    onClick: function(e) {
+    onClick: function (e) {
       const xLabel = this.scales.x.getValueForPixel(e.x);
       let yLabel = this.scales.y.getValueForPixel(e.y);
       yLabel = Math.round(yLabel / 5) * 5;
@@ -878,125 +878,125 @@ const options_L = {
   data: {
     labels: bigHz,
     datasets: [{
-        label: 'AC_L',
-        data: audiogramData.thresh_AC_L,
-        borderWidth: 1,
-        pointStyle: audiogramData.symbols_L,
-        pointRadius: audiogramData.pointSize_AC_L,
-        pointHoverRadius: audiogramData.pointSize_hover_AC_L,
-        pointBorderWidth: 2,
-        pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        lineTension: 0,
-        spanGaps: false,
-        borderColor: "rgba(0,0,255,0.7)",
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        },
-        fill: {
-          above: 'rgba(0,0,0,0)',
-          below: 'rgba(0,0,0,0.1)',
-          target: {
-            value: 25
-          }
-        }
+      label: 'AC_L',
+      data: audiogramData.thresh_AC_L,
+      borderWidth: 1,
+      pointStyle: audiogramData.symbols_L,
+      pointRadius: audiogramData.pointSize_AC_L,
+      pointHoverRadius: audiogramData.pointSize_hover_AC_L,
+      pointBorderWidth: 2,
+      pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+      lineTension: 0,
+      spanGaps: false,
+      borderColor: "rgba(0,0,255,0.7)",
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
       },
-      {
-        label: 'BC_L',
-        data: audiogramData.thresh_BC_L,
-        borderWidth: 0,
-        pointStyle: audiogramData.symbols_BC_L,
-        pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-        lineTension: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
+      fill: {
+        above: 'rgba(0,0,0,0)',
+        below: 'rgba(0,0,0,0.1)',
+        target: {
+          value: 25
         }
-      },
-      {
-        label: 'AC NR arrow',
-        data: audiogramData.thresh_NR_L,
-        pointRadius: audiogramData.pointSize_NR_L,
-        pointStyle: L_NR,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'AC NR thresh',
-        data: audiogramData.thresh_NR_L,
-        pointRadius: audiogramData.pointSize_NR_L,
-        pointStyle: audiogramData.symbols_L,
-        borderWidth: 0,
-        pointBorderWidth: 2,
-        pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        borderColor: "rgba(0,0,255,0.3)",
-        spanGaps: false,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'BC NR arrow',
-        data: audiogramData.thresh_BC_L,
-        pointRadius: audiogramData.pointSize_NR_BC_L,
-        pointStyle: L_NR,
-        pointHoverRadius: 0,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'ghost',
-        data: audiogramData.thresh_AC_R,
-        pointRadius: audiogramData.pointSize_AC_R,
-        borderColor: "rgba(255,0,0,0.1)",
-        pointBackgroundColor: 'rgba(0, 0, 0, 0)',
-        pointStyle: audiogramData.symbols_R,
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
-      {
-        label: 'old',
-        data: oldAudiogramData.thresh_AC_L,
-        pointRadius: oldAudiogramData.pointSize_AC_L,
-        borderColor: "rgba(0,0,255,0.1)",
-        pointStyle: 'circle',
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false
-        }
-      },
+      }
+    },
+    {
+      label: 'BC_L',
+      data: audiogramData.thresh_BC_L,
+      borderWidth: 0,
+      pointStyle: audiogramData.symbols_BC_L,
+      pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+      pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+      lineTension: 0,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'AC NR arrow',
+      data: audiogramData.thresh_NR_L,
+      pointRadius: audiogramData.pointSize_NR_L,
+      pointStyle: L_NR,
+      borderWidth: 0,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'AC NR thresh',
+      data: audiogramData.thresh_NR_L,
+      pointRadius: audiogramData.pointSize_NR_L,
+      pointStyle: audiogramData.symbols_L,
+      borderWidth: 0,
+      pointBorderWidth: 2,
+      pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+      borderColor: "rgba(0,0,255,0.3)",
+      spanGaps: false,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'BC NR arrow',
+      data: audiogramData.thresh_BC_L,
+      pointRadius: audiogramData.pointSize_NR_BC_L,
+      pointStyle: L_NR,
+      pointHoverRadius: 0,
+      borderWidth: 0,
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'ghost',
+      data: audiogramData.thresh_AC_R,
+      pointRadius: audiogramData.pointSize_AC_R,
+      borderColor: "rgba(255,0,0,0.1)",
+      pointBackgroundColor: 'rgba(0, 0, 0, 0)',
+      pointStyle: audiogramData.symbols_R,
+      spanGaps: true,
+      pointHoverRadius: 0,
+      borderWidth: 2,
+      borderDash: [5, 5],
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
+    {
+      label: 'old',
+      data: oldAudiogramData.thresh_AC_L,
+      pointRadius: oldAudiogramData.pointSize_AC_L,
+      borderColor: "rgba(0,0,255,0.1)",
+      pointStyle: 'circle',
+      spanGaps: true,
+      pointHoverRadius: 0,
+      borderWidth: 2,
+      borderDash: [5, 5],
+      clip: {
+        left: false,
+        top: false,
+        right: false,
+        bottom: false
+      }
+    },
     ]
   },
   options: {
@@ -1141,7 +1141,7 @@ const options_L = {
         },
       }
     },
-    onClick: function(e) {
+    onClick: function (e) {
       const xLabel = this.scales.x.getValueForPixel(e.x);
       let yLabel = this.scales.y.getValueForPixel(e.y);
       yLabel = Math.round(yLabel / 5) * 5;
@@ -1180,7 +1180,7 @@ const options_bar_R = {
     plugins: {
       datalabels: {
         color: 'red',
-        formatter: function(value, context) {
+        formatter: function (value, context) {
           var i = context.dataIndex;
           var direction = context.dataset.data[i];
           var glyph = direction > 0 ? '▲' : direction < 0 ? '▼' : '=';
@@ -1294,18 +1294,18 @@ const options_bar_L = {
     plugins: {
       datalabels: {
         color: 'blue',
-        formatter: function(value, context) {
+        formatter: function (value, context) {
           var i = context.dataIndex;
           var direction = context.dataset.data[i];
           var glyph = direction > 0 ? '▲' : direction < 0 ? '▼' : '=';
           return (value === null ? '' : glyph + ' ' + Math.abs(value))
         },
-        align: function(context) {
+        align: function (context) {
           var index = context.dataIndex;
           var position = context.dataset.data[index];
           return position > 0 ? 'end' :
             position < 0 ? 'start' :
-            'center';
+              'center';
         },
         padding: 15,
       },
@@ -1392,10 +1392,10 @@ const myChart3 = new Chart(ctx3, options_bar_R);
 const ctx4 = document.getElementById('change_L').getContext('2d');
 const myChart4 = new Chart(ctx4, options_bar_L);
 
-change_R.addEventListener('click', function(evt) {
+change_R.addEventListener('click', function (evt) {
   changeResolution('R');
 })
-change_L.addEventListener('click', function(evt) {
+change_L.addEventListener('click', function (evt) {
   changeResolution('L');
 })
 
@@ -1428,441 +1428,459 @@ function maskAll(ear) {
   }
   //mutate the array
   if (transducer === 'AC' && ear === 'R') {
-    audiogramData.symbols_R.forEach(function(part, index, theArray) {
+    audiogramData.symbols_R.forEach(function (part, index, theArray) {
       audiogramData.symbols_R[index] = rightSymbol[0];
     })
   } else if (transducer === 'AC' && ear === 'L') {
-    audiogramData.symbols_L.forEach(function(part, index, theArray) {
+    audiogramData.symbols_L.forEach(function (part, index, theArray) {
       audiogramData.symbols_L[index] = leftSymbol[0];
     })
   } else if (transducer === 'BC' && ear === 'R') {
-    audiogramData.symbols_BC_R.forEach(function(part, index, theArray) {
+    audiogramData.symbols_BC_R.forEach(function (part, index, theArray) {
       audiogramData.symbols_BC_R[index] = rightBC[0];
     })
   } else if (transducer === 'BC' && ear === 'L') {
-    audiogramData.symbols_BC_L.forEach(function(part, index, theArray) {
+    audiogramData.symbols_BC_L.forEach(function (part, index, theArray) {
       audiogramData.symbols_BC_L[index] = leftBC[0];
     })
   }
   updateCharts();
 }
 
-function copyEarAC(ear) {
-
-  if (ear === 'R') {
-    if (confirm('Are you sure you want to copy right AC to left AC?')) {
-
-      audiogramData.thresh_AC_L.splice(0, audiogramData.thresh_AC_L.length, ...audiogramData.thresh_AC_R);
-      audiogramData.pointSize_AC_L.splice(0, audiogramData.pointSize_AC_L.length, ...audiogramData.pointSize_AC_R);
-      audiogramData.pointSize_NR_L.splice(0, audiogramData.pointSize_NR_L.length, ...audiogramData.pointSize_NR_R);
-      audiogramData.thresh_NR_L.splice(0, audiogramData.thresh_NR_L.length, ...audiogramData.thresh_NR_R);
-      audiogramData.interOctTested_AC_L.splice(0, audiogramData.interOctTested_AC_L.length, ...audiogramData.interOctTested_AC_R);
-      for (let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
-        calcChange(i, 'L');
-      }
-    }
-  } else {
-    if (confirm('Are you sure you want to copy left AC to right AC?')) {
-
-      audiogramData.thresh_AC_R.splice(0, audiogramData.thresh_AC_R.length, ...audiogramData.thresh_AC_L);
-      audiogramData.pointSize_AC_R.splice(0, audiogramData.pointSize_AC_R.length, ...audiogramData.pointSize_AC_L);
-      audiogramData.pointSize_NR_R.splice(0, audiogramData.pointSize_NR_R.length, ...audiogramData.pointSize_NR_L);
-      audiogramData.thresh_NR_R.splice(0, audiogramData.thresh_NR_R.length, ...audiogramData.thresh_NR_L);
-      audiogramData.interOctTested_AC_R.splice(0, audiogramData.interOctTested_AC_R.length, ...audiogramData.interOctTested_AC_L);
-      for (let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
-        calcChange(i, 'R');
-      }
-    }
+function copyEarAC(ear, transducer) {
+  //create var to hold the other ear, if ear === 'R' then otherEar = 'L' and vice versa
+  const otherEar = (ear) => {
+    if (ear === 'R') { return 'left' } else { return 'right' }
   }
-  updateCharts();
-}
+  const copyAlertMessage = `Are you sure you want to copy {ear} {transducer} to {otherEar} {transducer}?`;
 
-//fx used to handle freq between 250 and 500. Takes input and returns 375 interpolation if valid. The calling script does the splice.
-function nonFreq(a, b, ear) {
-  //AC branch
-  if (transducer === 'AC') {
+  const sourceEar = (ear) => {
     if (ear === 'R') {
-      if (a === null || b === null) {
-        return null
+      return {
+        sourceThresh: audiogramData.thresh_AC_R,
+        sourcePS: audiogramData.pointSize_AC_R,
+        sourcePsNr: audiogramData.pointSize_NR_R,
+        sourceThreshNR: audiogramData.thresh_NR_R,
+        sourceInterOctTested: audiogramData.interOctTested_AC_R,
+        targetThresh: audiogramData.thresh_AC_L,
+        targetPS: audiogramData.pointSize_AC_L,
+        targetPsNr: audiogramData.pointSize_NR_L,
+        targetThreshNR: audiogramData.thresh_NR_L,
+        targetinterOctTested: audiogramData.interOctTested_AC_L
+      }
+    } else {
+      return {
+        sourceThresh: audiogramData.thresh_AC_L,
+        sourcePS: audiogramData.pointSize_AC_L,
+        sourcePsNr: audiogramData.pointSize_NR_L,
+        sourceThreshNR: audiogramData.thresh_NR_L;
+        sourceInterOctTested: audiogramData.interOctTested_AC_L,
+        targetThresh: audiogramData.thresh_AC_R,
+        targetPS: audiogramData.pointSize_AC_R,
+        targetPsNr: audiogramData.pointSize_NR_R,
+        targetThreshNR: audiogramData.thresh_NR_R,
+        targetinterOctTested: audiogramData.interOctTested_AC_R
+      }
+    }
+    if (confirm(copyAlertMessage)) {
+      targetThresh.splice(0, targetThresh.length, ...sourceThresh);
+      targetPS.splice(0, targetPS.length, ...sourcePS);
+      targetPsNr.splice(0, targetPsNr.length, ...sourcePsNr);
+      targetThreshNR.splice(0, targetThreshNR.length, ...sourceThreshNR);
+      targetinterOctTested.splice(0, targetinterOctTested.length, ...sourceInterOctTested);
+      for (let i = 0; i < targetThresh.length; i++) {
+        calcChange(i, ear);
+      }
+    };
+    updateCharts();
+  }
+
+  //fx used to handle freq between 250 and 500. Takes input and returns 375 interpolation if valid. The calling script does the splice.
+  function nonFreq(a, b, ear) {
+    //AC branch
+    if (transducer === 'AC') {
+      if (ear === 'R') {
+        if (a === null || b === null) {
+          return null
+        } else
+          return (a + b) / 2;
       } else
-        return (a + b) / 2;
-    } else
-    if (ear === 'L') {
-      if (a === null || b === null) {
-        return null
-      } else
-        return (a + b) / 2;
+        if (ear === 'L') {
+          if (a === null || b === null) {
+            return null
+          } else
+            return (a + b) / 2;
+        }
     }
   }
-}
 
-function toggleTransducer(input) {
-  if (input === 1) {
-    transducer = "AC";
-    document.getElementById('AC button').className = "button_U";
-    document.getElementById('BC button').className = "button_T";
-  } else if (input === 2) {
-    transducer = "BC";
-    document.getElementById('BC button').className = "button_U";
-    document.getElementById('AC button').className = "button_T";
-  } else if (input === '') {
-    transducer = ''
-  }
-}
-
-function setMask(index, ear, transducer) {
-  if (ear === 'R' && transducer === "AC") {
-    if (audiogramData.symbols_R[index] === 'circle') {
-      audiogramData.symbols_R.splice(index, 1, 'triangle');
-    } else {
-      audiogramData.symbols_R.splice(index, 1, 'circle');
-    }
-  } else if (ear === 'L' && transducer === 'AC') {
-    if (audiogramData.symbols_L[index] === 'crossRot') {
-      audiogramData.symbols_L.splice(index, 1, 'rect');
-    } else {
-      audiogramData.symbols_L.splice(index, 1, 'crossRot');
-    }
-  } else if (ear === 'R' && transducer === 'BC') {
-    if (audiogramData.symbols_BC_R[index] === BC_R) {
-      audiogramData.symbols_BC_R.splice(index, 1, BC_R_M);
-    } else {
-      audiogramData.symbols_BC_R.splice(index, 1, BC_R);
-    }
-  } else if (ear === 'L' && transducer === 'BC') {
-    if (audiogramData.symbols_BC_L[index] === BC_L) {
-      audiogramData.symbols_BC_L.splice(index, 1, BC_L_M);
-    } else {
-      audiogramData.symbols_BC_L.splice(index, 1, BC_L);
+  function toggleTransducer(input) {
+    if (input === 1) {
+      transducer = "AC";
+      document.getElementById('AC button').className = "button_U";
+      document.getElementById('BC button').className = "button_T";
+    } else if (input === 2) {
+      transducer = "BC";
+      document.getElementById('BC button').className = "button_U";
+      document.getElementById('AC button').className = "button_T";
+    } else if (input === '') {
+      transducer = ''
     }
   }
-  updateCharts();
-}
-//used for toggling old threshold curve and or for ghost ears
-function toggleData() {
 
-  const showValue = myChart.isDatasetVisible(5);
-
-  if (showValue === true) {
-    myChart.hide(5);
-    myChart2.hide(5);
-    myChart.show(6);
-    myChart2.show(6);
-    document.getElementById('Toggle').innerText = 'Show: Ghost';
-    previousLegend.style.display = "table-row"
+  function setMask(index, ear, transducer) {
+    if (ear === 'R' && transducer === "AC") {
+      if (audiogramData.symbols_R[index] === 'circle') {
+        audiogramData.symbols_R.splice(index, 1, 'triangle');
+      } else {
+        audiogramData.symbols_R.splice(index, 1, 'circle');
+      }
+    } else if (ear === 'L' && transducer === 'AC') {
+      if (audiogramData.symbols_L[index] === 'crossRot') {
+        audiogramData.symbols_L.splice(index, 1, 'rect');
+      } else {
+        audiogramData.symbols_L.splice(index, 1, 'crossRot');
+      }
+    } else if (ear === 'R' && transducer === 'BC') {
+      if (audiogramData.symbols_BC_R[index] === BC_R) {
+        audiogramData.symbols_BC_R.splice(index, 1, BC_R_M);
+      } else {
+        audiogramData.symbols_BC_R.splice(index, 1, BC_R);
+      }
+    } else if (ear === 'L' && transducer === 'BC') {
+      if (audiogramData.symbols_BC_L[index] === BC_L) {
+        audiogramData.symbols_BC_L.splice(index, 1, BC_L_M);
+      } else {
+        audiogramData.symbols_BC_L.splice(index, 1, BC_L);
+      }
+    }
+    updateCharts();
   }
-  if (showValue === false) {
-    myChart.hide(6);
-    myChart2.hide(6);
-    myChart.show(5);
-    myChart2.show(5);
-    document.getElementById('Toggle').innerText = 'Show: Previous';
-    previousLegend.style.display = "none"
-  }
-}
+  //used for toggling old threshold curve and or for ghost ears
+  function toggleData() {
 
-function calcChangeOnLoad() {
+    const showValue = myChart.isDatasetVisible(5);
 
-  for (let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
-    calcChange(i, 'R')
-  }
-  for (let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
-    calcChange(i, 'L')
-  }
-}
-
-calcChangeOnLoad();
-
-function reduceOldPointSizes() {
-
-  for (let i = 0; i < oldAudiogramData.pointSize_AC_R.length; i++) {
-    if (oldAudiogramData.pointSize_AC_R[i] === null) {} else {
-      oldAudiogramData.pointSize_AC_R.splice(i, 1, 2)
+    if (showValue === true) {
+      myChart.hide(5);
+      myChart2.hide(5);
+      myChart.show(6);
+      myChart2.show(6);
+      document.getElementById('Toggle').innerText = 'Show: Ghost';
+      previousLegend.style.display = "table-row"
+    }
+    if (showValue === false) {
+      myChart.hide(6);
+      myChart2.hide(6);
+      myChart.show(5);
+      myChart2.show(5);
+      document.getElementById('Toggle').innerText = 'Show: Previous';
+      previousLegend.style.display = "none"
     }
   }
-  for (let i = 0; i < oldAudiogramData.pointSize_AC_L.length; i++) {
-    if (oldAudiogramData.pointSize_AC_L[i] === null) {} else {
-      oldAudiogramData.pointSize_AC_L.splice(i, 1, 2)
+
+  function calcChangeOnLoad() {
+
+    for (let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
+      calcChange(i, 'R')
+    }
+    for (let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
+      calcChange(i, 'L')
     }
   }
-}
 
-reduceOldPointSizes();
+  calcChangeOnLoad();
 
-function calcPTA(array) {
+  function reduceOldPointSizes() {
 
-  if (array[3] === null || array[5] === null || array[7] === null) {} else
-    return (array[3] + array[5] + array[7]) / 3;
-}
+    for (let i = 0; i < oldAudiogramData.pointSize_AC_R.length; i++) {
+      if (oldAudiogramData.pointSize_AC_R[i] === null) { } else {
+        oldAudiogramData.pointSize_AC_R.splice(i, 1, 2)
+      }
+    }
+    for (let i = 0; i < oldAudiogramData.pointSize_AC_L.length; i++) {
+      if (oldAudiogramData.pointSize_AC_L[i] === null) { } else {
+        oldAudiogramData.pointSize_AC_L.splice(i, 1, 2)
+      }
+    }
+  }
 
-let annotatePTAprefFlag = 'off';
+  reduceOldPointSizes();
 
-function annotatePTA(flagControl) {
+  function calcPTA(array) {
 
-  const buttonOn = document.getElementById('annotatePTAon');
-  const buttonOff = document.getElementById('annotatePTAoff');
-  //first part adjusts the flag to control if the second part happens or not
-  if (flagControl === 'off') {
-    annotatePTAprefFlag = 'off';
+    if (array[3] === null || array[5] === null || array[7] === null) { } else
+      return (array[3] + array[5] + array[7]) / 3;
+  }
+
+  let annotatePTAprefFlag = 'off';
+
+  function annotatePTA(flagControl) {
+
+    const buttonOn = document.getElementById('annotatePTAon');
+    const buttonOff = document.getElementById('annotatePTAoff');
+    //first part adjusts the flag to control if the second part happens or not
+    if (flagControl === 'off') {
+      annotatePTAprefFlag = 'off';
+      buttonOn.removeAttribute('class');
+      buttonOff.removeAttribute('class');
+      myChart.options.plugins.annotation.annotations.linePTA.yMin = 0;
+      myChart.options.plugins.annotation.annotations.linePTA.yMax = 0;
+      myChart.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
+      myChart2.options.plugins.annotation.annotations.linePTA.yMin = 0;
+      myChart2.options.plugins.annotation.annotations.linePTA.yMax = 0;
+      myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
+      updateCharts();
+      buttonOn.classList.add('toggle-button-disabled');
+      buttonOff.classList.add('toggle-button-enabled');
+      return
+    }
+
     buttonOn.removeAttribute('class');
     buttonOff.removeAttribute('class');
-    myChart.options.plugins.annotation.annotations.linePTA.yMin = 0;
-    myChart.options.plugins.annotation.annotations.linePTA.yMax = 0;
-    myChart.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
-    myChart2.options.plugins.annotation.annotations.linePTA.yMin = 0;
-    myChart2.options.plugins.annotation.annotations.linePTA.yMax = 0;
-    myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
+    if (flagControl === 'on' || annotatePTAprefFlag === 'on') {
+      annotatePTAprefFlag = 'on';
+      buttonOn.classList.add('toggle-button-enabled');
+      buttonOff.classList.add('toggle-button-disabled');
+    }
+
+    if (annotatePTAprefFlag === 'off') {
+      buttonOn.classList.add('toggle-button-disabled');
+      buttonOff.classList.add('toggle-button-enabled');
+      return
+    }
+
+    let valueR;
+    let valueL;
+    let lineR = 4;
+    let lineL = 4;
+
+    if (audiogramData.PTA_R === undefined) {
+      valueR = 0;
+      lineR = 0
+    } else {
+      valueR = audiogramData.PTA_R
+    }
+    if (audiogramData.PTA_L === undefined) {
+      valueL = 0;
+      lineL = 0
+    } else {
+      valueL = audiogramData.PTA_L
+    }
+
+    myChart.options.plugins.annotation.annotations.linePTA.yMin = valueR;
+    myChart.options.plugins.annotation.annotations.linePTA.yMax = valueR;
+    myChart.options.plugins.annotation.annotations.linePTA.borderWidth = lineR;
+    myChart2.options.plugins.annotation.annotations.linePTA.yMin = valueL;
+    myChart2.options.plugins.annotation.annotations.linePTA.yMax = valueL;
+    myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = lineL;
     updateCharts();
-    buttonOn.classList.add('toggle-button-disabled');
-    buttonOff.classList.add('toggle-button-enabled');
-    return
   }
 
-  buttonOn.removeAttribute('class');
-  buttonOff.removeAttribute('class');
-  if (flagControl === 'on' || annotatePTAprefFlag === 'on') {
-    annotatePTAprefFlag = 'on';
-    buttonOn.classList.add('toggle-button-enabled');
-    buttonOff.classList.add('toggle-button-disabled');
-  }
 
-  if (annotatePTAprefFlag === 'off') {
-    buttonOn.classList.add('toggle-button-disabled');
-    buttonOff.classList.add('toggle-button-enabled');
-    return
-  }
-
-  let valueR;
-  let valueL;
-  let lineR = 4;
-  let lineL = 4;
-
-  if (audiogramData.PTA_R === undefined) {
-    valueR = 0;
-    lineR = 0
-  } else {
-    valueR = audiogramData.PTA_R
-  }
-  if (audiogramData.PTA_L === undefined) {
-    valueL = 0;
-    lineL = 0
-  } else {
-    valueL = audiogramData.PTA_L
-  }
-
-  myChart.options.plugins.annotation.annotations.linePTA.yMin = valueR;
-  myChart.options.plugins.annotation.annotations.linePTA.yMax = valueR;
-  myChart.options.plugins.annotation.annotations.linePTA.borderWidth = lineR;
-  myChart2.options.plugins.annotation.annotations.linePTA.yMin = valueL;
-  myChart2.options.plugins.annotation.annotations.linePTA.yMax = valueL;
-  myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = lineL;
-  updateCharts();
-}
-
-
-function LMH(array) {
-  let lowMidHigh = [null, null, null];
-  if (array[1] === null || array[3] === null) {
-    lowMidHigh.splice(0, 1, null)
-  } else {
-    lowMidHigh.splice(0, 1, (array[1] + array[3]) / 2)
-  }
-
-  if (array[5] === null || array[7] === null) {
-    lowMidHigh.splice(1, 1, null)
-  } else {
-    lowMidHigh.splice(1, 1, (array[5] + array[7]) / 2)
-  }
-
-  if (array[9] === null || array[11] === null) {
-    lowMidHigh.splice(2, 1, null)
-  } else {
-    lowMidHigh.splice(2, 1, (array[9] + array[11]) / 2)
-  }
-  return lowMidHigh;
-}
-
-function changeResolution(ear) {
-
-  if (ear === 'R') {
-
-    const PTAchange = calcPTA(audiogramData.change_R);
-
-    if (changeResolution_R === 'full') {
-
-      const lowMidHigh = LMH(audiogramData.change_R);
-
-      myChart3.config.data.datasets[0].data = lowMidHigh;
-      myChart3.config.data.labels = ["Low", "Mid", "High"];
-      changeResolution_R = 'lowMidHigh';
-      myChart3.update();
-      return;
-
+  function LMH(array) {
+    let lowMidHigh = [null, null, null];
+    if (array[1] === null || array[3] === null) {
+      lowMidHigh.splice(0, 1, null)
+    } else {
+      lowMidHigh.splice(0, 1, (array[1] + array[3]) / 2)
     }
 
-    if (changeResolution_R === 'lowMidHigh') {
+    if (array[5] === null || array[7] === null) {
+      lowMidHigh.splice(1, 1, null)
+    } else {
+      lowMidHigh.splice(1, 1, (array[5] + array[7]) / 2)
+    }
 
-      changePTA_R.splice(0, 1, Math.trunc(PTAchange));
-      if (isNaN(changePTA_R[0])) {
-        changePTA_R.splice(0, 1, null)
+    if (array[9] === null || array[11] === null) {
+      lowMidHigh.splice(2, 1, null)
+    } else {
+      lowMidHigh.splice(2, 1, (array[9] + array[11]) / 2)
+    }
+    return lowMidHigh;
+  }
+
+  function changeResolution(ear) {
+
+    if (ear === 'R') {
+
+      const PTAchange = calcPTA(audiogramData.change_R);
+
+      if (changeResolution_R === 'full') {
+
+        const lowMidHigh = LMH(audiogramData.change_R);
+
+        myChart3.config.data.datasets[0].data = lowMidHigh;
+        myChart3.config.data.labels = ["Low", "Mid", "High"];
+        changeResolution_R = 'lowMidHigh';
+        myChart3.update();
+        return;
+
       }
-      myChart3.config.data.datasets[0].data = changePTA_R;
-      myChart3.config.data.labels = ["PTA"];
-      changeResolution_R = 'PTA';
-      myChart3.update();
-      return;
-    }
 
-    if (changeResolution_R === 'PTA') {
+      if (changeResolution_R === 'lowMidHigh') {
 
-      myChart3.config.data.datasets[0].data = audiogramData.change_R;
-      myChart3.config.data.labels = lilHz;
-      changeResolution_R = 'full';
-      myChart3.update();
-      return;
-    }
-
-  }
-
-  if (ear === 'L') {
-
-    const PTAchange = calcPTA(audiogramData.change_L);
-
-
-    if (changeResolution_L === 'full') {
-
-      const lowMidHigh = LMH(audiogramData.change_L);
-
-      myChart4.config.data.datasets[0].data = lowMidHigh;
-      myChart4.config.data.labels = ["Low", "Mid", "High"];
-
-      changeResolution_L = 'lowMidHigh';
-
-      myChart4.update();
-      return;
-
-    }
-
-    if (changeResolution_L === 'lowMidHigh') {
-
-      changePTA_L.splice(0, 1, Math.trunc(PTAchange));
-      if (isNaN(changePTA_L[0])) {
-        changePTA_L.splice(0, 1, null)
+        changePTA_R.splice(0, 1, Math.trunc(PTAchange));
+        if (isNaN(changePTA_R[0])) {
+          changePTA_R.splice(0, 1, null)
+        }
+        myChart3.config.data.datasets[0].data = changePTA_R;
+        myChart3.config.data.labels = ["PTA"];
+        changeResolution_R = 'PTA';
+        myChart3.update();
+        return;
       }
-      myChart4.config.data.datasets[0].data = changePTA_L;
-      myChart4.config.data.labels = ["PTA"];
-      changeResolution_L = 'PTA';
-      myChart4.update();
-      return;
+
+      if (changeResolution_R === 'PTA') {
+
+        myChart3.config.data.datasets[0].data = audiogramData.change_R;
+        myChart3.config.data.labels = lilHz;
+        changeResolution_R = 'full';
+        myChart3.update();
+        return;
+      }
+
     }
 
-    if (changeResolution_L === 'PTA') {
+    if (ear === 'L') {
 
-      myChart4.config.data.datasets[0].data = audiogramData.change_L;
-      myChart4.config.data.labels = lilHz;
-      changeResolution_L = 'full';
-      myChart4.update();
-      return;
+      const PTAchange = calcPTA(audiogramData.change_L);
+
+
+      if (changeResolution_L === 'full') {
+
+        const lowMidHigh = LMH(audiogramData.change_L);
+
+        myChart4.config.data.datasets[0].data = lowMidHigh;
+        myChart4.config.data.labels = ["Low", "Mid", "High"];
+
+        changeResolution_L = 'lowMidHigh';
+
+        myChart4.update();
+        return;
+
+      }
+
+      if (changeResolution_L === 'lowMidHigh') {
+
+        changePTA_L.splice(0, 1, Math.trunc(PTAchange));
+        if (isNaN(changePTA_L[0])) {
+          changePTA_L.splice(0, 1, null)
+        }
+        myChart4.config.data.datasets[0].data = changePTA_L;
+        myChart4.config.data.labels = ["PTA"];
+        changeResolution_L = 'PTA';
+        myChart4.update();
+        return;
+      }
+
+      if (changeResolution_L === 'PTA') {
+
+        myChart4.config.data.datasets[0].data = audiogramData.change_L;
+        myChart4.config.data.labels = lilHz;
+        changeResolution_L = 'full';
+        myChart4.update();
+        return;
+      }
     }
   }
-}
 
-audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
-audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+  audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
+  audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
 
-oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R);
-oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L);
+  oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R);
+  oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L);
 
 
-function turnOffCrosshair() {
-  myChart.options.plugins.crosshair = false;
-  myChart2.options.plugins.crosshair = false;
-  updateCharts();
-}
-
-function fillInLegendPrevDate() {
-  if (oldAudiogramData.DateOfTest === null || oldAudiogramData.DateOfTest === "") {
-    return
-  }
-  previousLegend.style.display = "table-row";
-  previous_dateContent.innerText = oldAudiogramData.DateOfTest;
-
-}
-
-function fillInLegend() {
-
-  //stops function if legend is full. 
-  if (audiogramData.legend.ACunmasked === "show" && audiogramData.legend.ACmasked === "show" && audiogramData.legend.BCunmasked === "show" && audiogramData.legend.BCmasked === "show" && audiogramData.legend.NR === "show") {
-    return
+  function turnOffCrosshair() {
+    myChart.options.plugins.crosshair = false;
+    myChart2.options.plugins.crosshair = false;
+    updateCharts();
   }
 
-  if (audiogramData.legend.ACunmasked !== "show") {
-    //set legend table rows to show if the category has been tested. 
-    const any_R_AC = audiogramData.thresh_AC_R.filter(thresh => thresh !== null);
-    const any_L_AC = audiogramData.thresh_AC_L.filter(thresh => thresh !== null);
-
-    if (any_R_AC.length > 0 || any_L_AC.length > 0) {
-      audiogramData.legend.ACunmasked = "show";
-      ACnormal.style.display = "table-row"
+  function fillInLegendPrevDate() {
+    if (oldAudiogramData.DateOfTest === null || oldAudiogramData.DateOfTest === "") {
+      return
     }
-  }
-  if (audiogramData.legend.ACmasked !== "show") {
-    const any_RmaskedAC = audiogramData.symbols_R.filter(symbol => symbol === 'triangle');
-    const any_LmaskedAC = audiogramData.symbols_L.filter(symbol => symbol === 'rect');
+    previousLegend.style.display = "table-row";
+    previous_dateContent.innerText = oldAudiogramData.DateOfTest;
 
-    if (any_RmaskedAC.length > 0 || any_LmaskedAC.length > 0) {
-      audiogramData.legend.ACmasked = "show";
-      ACmasked.style.display = "table-row"
-    }
   }
-  if (audiogramData.legend.BCunmasked !== "show") {
-    const any_R_BC = audiogramData.thresh_BC_R.filter(thresh => thresh !== null);
-    const any_L_BC = audiogramData.thresh_BC_L.filter(thresh => thresh !== null);
 
-    if (any_L_BC.length > 0 || any_R_BC.length > 0) {
-      audiogramData.legend.BCunmasked = "show";
-      BCnormal.style.display = "table-row"
-    }
-  }
-  if (audiogramData.legend.BCmasked !== "show") {
-    const any_RmaskedBC = audiogramData.symbols_BC_R.filter(symbol => symbol === BC_R_M);
-    const any_LmaskedBC = audiogramData.symbols_BC_L.filter(symbol => symbol === BC_L_M);
+  function fillInLegend() {
 
-    if (any_RmaskedBC.length > 0 || any_LmaskedBC.length > 0) {
-      audiogramData.legend.BCmasked = "show";
-      BCmasked.style.display = "table-row"
-    }
-  }
-  if (audiogramData.legend.NR !== "show") {
-    const any_R_NR = audiogramData.thresh_NR_R.filter(thresh => thresh !== null);
-    const any_L_NR = audiogramData.thresh_NR_L.filter(thresh => thresh !== null);
-
-    if (any_L_NR.length > 0 || any_R_NR.length > 0) {
-      audiogramData.legend.NR = "show";
-      NR.style.display = "table-row"
+    //stops function if legend is full. 
+    if (audiogramData.legend.ACunmasked === "show" && audiogramData.legend.ACmasked === "show" && audiogramData.legend.BCunmasked === "show" && audiogramData.legend.BCmasked === "show" && audiogramData.legend.NR === "show") {
+      return
     }
 
-    const any_R_BC_NR = audiogramData.pointSize_NR_BC_R.filter(thresh => thresh === 10);
-    const any_L_BC_NR = audiogramData.pointSize_NR_BC_L.filter(thresh => thresh === 10);
+    if (audiogramData.legend.ACunmasked !== "show") {
+      //set legend table rows to show if the category has been tested. 
+      const any_R_AC = audiogramData.thresh_AC_R.filter(thresh => thresh !== null);
+      const any_L_AC = audiogramData.thresh_AC_L.filter(thresh => thresh !== null);
 
-    if (any_R_BC_NR.length > 0 || any_L_BC_NR.length > 0) {
-      audiogramData.legend.NR = "show";
-      NR.style.display = "table-row"
+      if (any_R_AC.length > 0 || any_L_AC.length > 0) {
+        audiogramData.legend.ACunmasked = "show";
+        ACnormal.style.display = "table-row"
+      }
+    }
+    if (audiogramData.legend.ACmasked !== "show") {
+      const any_RmaskedAC = audiogramData.symbols_R.filter(symbol => symbol === 'triangle');
+      const any_LmaskedAC = audiogramData.symbols_L.filter(symbol => symbol === 'rect');
+
+      if (any_RmaskedAC.length > 0 || any_LmaskedAC.length > 0) {
+        audiogramData.legend.ACmasked = "show";
+        ACmasked.style.display = "table-row"
+      }
+    }
+    if (audiogramData.legend.BCunmasked !== "show") {
+      const any_R_BC = audiogramData.thresh_BC_R.filter(thresh => thresh !== null);
+      const any_L_BC = audiogramData.thresh_BC_L.filter(thresh => thresh !== null);
+
+      if (any_L_BC.length > 0 || any_R_BC.length > 0) {
+        audiogramData.legend.BCunmasked = "show";
+        BCnormal.style.display = "table-row"
+      }
+    }
+    if (audiogramData.legend.BCmasked !== "show") {
+      const any_RmaskedBC = audiogramData.symbols_BC_R.filter(symbol => symbol === BC_R_M);
+      const any_LmaskedBC = audiogramData.symbols_BC_L.filter(symbol => symbol === BC_L_M);
+
+      if (any_RmaskedBC.length > 0 || any_LmaskedBC.length > 0) {
+        audiogramData.legend.BCmasked = "show";
+        BCmasked.style.display = "table-row"
+      }
+    }
+    if (audiogramData.legend.NR !== "show") {
+      const any_R_NR = audiogramData.thresh_NR_R.filter(thresh => thresh !== null);
+      const any_L_NR = audiogramData.thresh_NR_L.filter(thresh => thresh !== null);
+
+      if (any_L_NR.length > 0 || any_R_NR.length > 0) {
+        audiogramData.legend.NR = "show";
+        NR.style.display = "table-row"
+      }
+
+      const any_R_BC_NR = audiogramData.pointSize_NR_BC_R.filter(thresh => thresh === 10);
+      const any_L_BC_NR = audiogramData.pointSize_NR_BC_L.filter(thresh => thresh === 10);
+
+      if (any_R_BC_NR.length > 0 || any_L_BC_NR.length > 0) {
+        audiogramData.legend.NR = "show";
+        NR.style.display = "table-row"
+      }
     }
   }
-}
 
 
-const maskingNorms = {
-  insert: [],
-  circumaural: [],
-  supraaural: []
+  const maskingNorms = {
+    insert: [],
+    circumaural: [],
+    supraaural: []
 
-}
+  }
 
-window.onload = () => {
-  toggleTransducer(1);
-  toggleData(5);
-  toggleData(6);
-  fillInLegendPrevDate();
-};
+  window.onload = () => {
+    toggleTransducer(1);
+    toggleData(5);
+    toggleData(6);
+    fillInLegendPrevDate();
+  };
