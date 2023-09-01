@@ -1473,7 +1473,7 @@ function copyEarAC(ear, transducer) {
         sourceThresh: audiogramData.thresh_AC_L,
         sourcePS: audiogramData.pointSize_AC_L,
         sourcePsNr: audiogramData.pointSize_NR_L,
-        sourceThreshNR: audiogramData.thresh_NR_L;
+        sourceThreshNR: audiogramData.thresh_NR_L,
         sourceInterOctTested: audiogramData.interOctTested_AC_L,
         targetThresh: audiogramData.thresh_AC_R,
         targetPS: audiogramData.pointSize_AC_R,
