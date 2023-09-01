@@ -1494,393 +1494,394 @@ function copyEarAC(ear, transducer) {
     };
     updateCharts();
   }
+}
 
-  //fx used to handle freq between 250 and 500. Takes input and returns 375 interpolation if valid. The calling script does the splice.
-  function nonFreq(a, b, ear) {
-    //AC branch
-    if (transducer === 'AC') {
-      if (ear === 'R') {
+//fx used to handle freq between 250 and 500. Takes input and returns 375 interpolation if valid. The calling script does the splice.
+function nonFreq(a, b, ear) {
+  //AC branch
+  if (transducer === 'AC') {
+    if (ear === 'R') {
+      if (a === null || b === null) {
+        return null
+      } else
+        return (a + b) / 2;
+    } else
+      if (ear === 'L') {
         if (a === null || b === null) {
           return null
         } else
           return (a + b) / 2;
-      } else
-        if (ear === 'L') {
-          if (a === null || b === null) {
-            return null
-          } else
-            return (a + b) / 2;
-        }
-    }
-  }
-
-  function toggleTransducer(input) {
-    if (input === 1) {
-      transducer = "AC";
-      document.getElementById('AC button').className = "button_U";
-      document.getElementById('BC button').className = "button_T";
-    } else if (input === 2) {
-      transducer = "BC";
-      document.getElementById('BC button').className = "button_U";
-      document.getElementById('AC button').className = "button_T";
-    } else if (input === '') {
-      transducer = ''
-    }
-  }
-
-  function setMask(index, ear, transducer) {
-    if (ear === 'R' && transducer === "AC") {
-      if (audiogramData.symbols_R[index] === 'circle') {
-        audiogramData.symbols_R.splice(index, 1, 'triangle');
-      } else {
-        audiogramData.symbols_R.splice(index, 1, 'circle');
       }
-    } else if (ear === 'L' && transducer === 'AC') {
-      if (audiogramData.symbols_L[index] === 'crossRot') {
-        audiogramData.symbols_L.splice(index, 1, 'rect');
-      } else {
-        audiogramData.symbols_L.splice(index, 1, 'crossRot');
-      }
-    } else if (ear === 'R' && transducer === 'BC') {
-      if (audiogramData.symbols_BC_R[index] === BC_R) {
-        audiogramData.symbols_BC_R.splice(index, 1, BC_R_M);
-      } else {
-        audiogramData.symbols_BC_R.splice(index, 1, BC_R);
-      }
-    } else if (ear === 'L' && transducer === 'BC') {
-      if (audiogramData.symbols_BC_L[index] === BC_L) {
-        audiogramData.symbols_BC_L.splice(index, 1, BC_L_M);
-      } else {
-        audiogramData.symbols_BC_L.splice(index, 1, BC_L);
-      }
-    }
-    updateCharts();
   }
-  //used for toggling old threshold curve and or for ghost ears
-  function toggleData() {
+}
 
-    const showValue = myChart.isDatasetVisible(5);
-
-    if (showValue === true) {
-      myChart.hide(5);
-      myChart2.hide(5);
-      myChart.show(6);
-      myChart2.show(6);
-      document.getElementById('Toggle').innerText = 'Show: Ghost';
-      previousLegend.style.display = "table-row"
-    }
-    if (showValue === false) {
-      myChart.hide(6);
-      myChart2.hide(6);
-      myChart.show(5);
-      myChart2.show(5);
-      document.getElementById('Toggle').innerText = 'Show: Previous';
-      previousLegend.style.display = "none"
-    }
+function toggleTransducer(input) {
+  if (input === 1) {
+    transducer = "AC";
+    document.getElementById('AC button').className = "button_U";
+    document.getElementById('BC button').className = "button_T";
+  } else if (input === 2) {
+    transducer = "BC";
+    document.getElementById('BC button').className = "button_U";
+    document.getElementById('AC button').className = "button_T";
+  } else if (input === '') {
+    transducer = ''
   }
+}
 
-  function calcChangeOnLoad() {
-
-    for (let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
-      calcChange(i, 'R')
+function setMask(index, ear, transducer) {
+  if (ear === 'R' && transducer === "AC") {
+    if (audiogramData.symbols_R[index] === 'circle') {
+      audiogramData.symbols_R.splice(index, 1, 'triangle');
+    } else {
+      audiogramData.symbols_R.splice(index, 1, 'circle');
     }
-    for (let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
-      calcChange(i, 'L')
+  } else if (ear === 'L' && transducer === 'AC') {
+    if (audiogramData.symbols_L[index] === 'crossRot') {
+      audiogramData.symbols_L.splice(index, 1, 'rect');
+    } else {
+      audiogramData.symbols_L.splice(index, 1, 'crossRot');
+    }
+  } else if (ear === 'R' && transducer === 'BC') {
+    if (audiogramData.symbols_BC_R[index] === BC_R) {
+      audiogramData.symbols_BC_R.splice(index, 1, BC_R_M);
+    } else {
+      audiogramData.symbols_BC_R.splice(index, 1, BC_R);
+    }
+  } else if (ear === 'L' && transducer === 'BC') {
+    if (audiogramData.symbols_BC_L[index] === BC_L) {
+      audiogramData.symbols_BC_L.splice(index, 1, BC_L_M);
+    } else {
+      audiogramData.symbols_BC_L.splice(index, 1, BC_L);
     }
   }
+  updateCharts();
+}
+//used for toggling old threshold curve and or for ghost ears
+function toggleData() {
 
-  calcChangeOnLoad();
+  const showValue = myChart.isDatasetVisible(5);
 
-  function reduceOldPointSizes() {
+  if (showValue === true) {
+    myChart.hide(5);
+    myChart2.hide(5);
+    myChart.show(6);
+    myChart2.show(6);
+    document.getElementById('Toggle').innerText = 'Show: Ghost';
+    previousLegend.style.display = "table-row"
+  }
+  if (showValue === false) {
+    myChart.hide(6);
+    myChart2.hide(6);
+    myChart.show(5);
+    myChart2.show(5);
+    document.getElementById('Toggle').innerText = 'Show: Previous';
+    previousLegend.style.display = "none"
+  }
+}
 
-    for (let i = 0; i < oldAudiogramData.pointSize_AC_R.length; i++) {
-      if (oldAudiogramData.pointSize_AC_R[i] === null) { } else {
-        oldAudiogramData.pointSize_AC_R.splice(i, 1, 2)
-      }
-    }
-    for (let i = 0; i < oldAudiogramData.pointSize_AC_L.length; i++) {
-      if (oldAudiogramData.pointSize_AC_L[i] === null) { } else {
-        oldAudiogramData.pointSize_AC_L.splice(i, 1, 2)
-      }
+function calcChangeOnLoad() {
+
+  for (let i = 0; i < audiogramData.thresh_AC_R.length; i++) {
+    calcChange(i, 'R')
+  }
+  for (let i = 0; i < audiogramData.thresh_AC_L.length; i++) {
+    calcChange(i, 'L')
+  }
+}
+
+calcChangeOnLoad();
+
+function reduceOldPointSizes() {
+
+  for (let i = 0; i < oldAudiogramData.pointSize_AC_R.length; i++) {
+    if (oldAudiogramData.pointSize_AC_R[i] === null) { } else {
+      oldAudiogramData.pointSize_AC_R.splice(i, 1, 2)
     }
   }
-
-  reduceOldPointSizes();
-
-  function calcPTA(array) {
-
-    if (array[3] === null || array[5] === null || array[7] === null) { } else
-      return (array[3] + array[5] + array[7]) / 3;
-  }
-
-  let annotatePTAprefFlag = 'off';
-
-  function annotatePTA(flagControl) {
-
-    const buttonOn = document.getElementById('annotatePTAon');
-    const buttonOff = document.getElementById('annotatePTAoff');
-    //first part adjusts the flag to control if the second part happens or not
-    if (flagControl === 'off') {
-      annotatePTAprefFlag = 'off';
-      buttonOn.removeAttribute('class');
-      buttonOff.removeAttribute('class');
-      myChart.options.plugins.annotation.annotations.linePTA.yMin = 0;
-      myChart.options.plugins.annotation.annotations.linePTA.yMax = 0;
-      myChart.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
-      myChart2.options.plugins.annotation.annotations.linePTA.yMin = 0;
-      myChart2.options.plugins.annotation.annotations.linePTA.yMax = 0;
-      myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
-      updateCharts();
-      buttonOn.classList.add('toggle-button-disabled');
-      buttonOff.classList.add('toggle-button-enabled');
-      return
+  for (let i = 0; i < oldAudiogramData.pointSize_AC_L.length; i++) {
+    if (oldAudiogramData.pointSize_AC_L[i] === null) { } else {
+      oldAudiogramData.pointSize_AC_L.splice(i, 1, 2)
     }
+  }
+}
 
+reduceOldPointSizes();
+
+function calcPTA(array) {
+
+  if (array[3] === null || array[5] === null || array[7] === null) { } else
+    return (array[3] + array[5] + array[7]) / 3;
+}
+
+let annotatePTAprefFlag = 'off';
+
+function annotatePTA(flagControl) {
+
+  const buttonOn = document.getElementById('annotatePTAon');
+  const buttonOff = document.getElementById('annotatePTAoff');
+  //first part adjusts the flag to control if the second part happens or not
+  if (flagControl === 'off') {
+    annotatePTAprefFlag = 'off';
     buttonOn.removeAttribute('class');
     buttonOff.removeAttribute('class');
-    if (flagControl === 'on' || annotatePTAprefFlag === 'on') {
-      annotatePTAprefFlag = 'on';
-      buttonOn.classList.add('toggle-button-enabled');
-      buttonOff.classList.add('toggle-button-disabled');
-    }
-
-    if (annotatePTAprefFlag === 'off') {
-      buttonOn.classList.add('toggle-button-disabled');
-      buttonOff.classList.add('toggle-button-enabled');
-      return
-    }
-
-    let valueR;
-    let valueL;
-    let lineR = 4;
-    let lineL = 4;
-
-    if (audiogramData.PTA_R === undefined) {
-      valueR = 0;
-      lineR = 0
-    } else {
-      valueR = audiogramData.PTA_R
-    }
-    if (audiogramData.PTA_L === undefined) {
-      valueL = 0;
-      lineL = 0
-    } else {
-      valueL = audiogramData.PTA_L
-    }
-
-    myChart.options.plugins.annotation.annotations.linePTA.yMin = valueR;
-    myChart.options.plugins.annotation.annotations.linePTA.yMax = valueR;
-    myChart.options.plugins.annotation.annotations.linePTA.borderWidth = lineR;
-    myChart2.options.plugins.annotation.annotations.linePTA.yMin = valueL;
-    myChart2.options.plugins.annotation.annotations.linePTA.yMax = valueL;
-    myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = lineL;
+    myChart.options.plugins.annotation.annotations.linePTA.yMin = 0;
+    myChart.options.plugins.annotation.annotations.linePTA.yMax = 0;
+    myChart.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
+    myChart2.options.plugins.annotation.annotations.linePTA.yMin = 0;
+    myChart2.options.plugins.annotation.annotations.linePTA.yMax = 0;
+    myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
     updateCharts();
+    buttonOn.classList.add('toggle-button-disabled');
+    buttonOff.classList.add('toggle-button-enabled');
+    return
   }
 
-
-  function LMH(array) {
-    let lowMidHigh = [null, null, null];
-    if (array[1] === null || array[3] === null) {
-      lowMidHigh.splice(0, 1, null)
-    } else {
-      lowMidHigh.splice(0, 1, (array[1] + array[3]) / 2)
-    }
-
-    if (array[5] === null || array[7] === null) {
-      lowMidHigh.splice(1, 1, null)
-    } else {
-      lowMidHigh.splice(1, 1, (array[5] + array[7]) / 2)
-    }
-
-    if (array[9] === null || array[11] === null) {
-      lowMidHigh.splice(2, 1, null)
-    } else {
-      lowMidHigh.splice(2, 1, (array[9] + array[11]) / 2)
-    }
-    return lowMidHigh;
+  buttonOn.removeAttribute('class');
+  buttonOff.removeAttribute('class');
+  if (flagControl === 'on' || annotatePTAprefFlag === 'on') {
+    annotatePTAprefFlag = 'on';
+    buttonOn.classList.add('toggle-button-enabled');
+    buttonOff.classList.add('toggle-button-disabled');
   }
 
-  function changeResolution(ear) {
-
-    if (ear === 'R') {
-
-      const PTAchange = calcPTA(audiogramData.change_R);
-
-      if (changeResolution_R === 'full') {
-
-        const lowMidHigh = LMH(audiogramData.change_R);
-
-        myChart3.config.data.datasets[0].data = lowMidHigh;
-        myChart3.config.data.labels = ["Low", "Mid", "High"];
-        changeResolution_R = 'lowMidHigh';
-        myChart3.update();
-        return;
-
-      }
-
-      if (changeResolution_R === 'lowMidHigh') {
-
-        changePTA_R.splice(0, 1, Math.trunc(PTAchange));
-        if (isNaN(changePTA_R[0])) {
-          changePTA_R.splice(0, 1, null)
-        }
-        myChart3.config.data.datasets[0].data = changePTA_R;
-        myChart3.config.data.labels = ["PTA"];
-        changeResolution_R = 'PTA';
-        myChart3.update();
-        return;
-      }
-
-      if (changeResolution_R === 'PTA') {
-
-        myChart3.config.data.datasets[0].data = audiogramData.change_R;
-        myChart3.config.data.labels = lilHz;
-        changeResolution_R = 'full';
-        myChart3.update();
-        return;
-      }
-
-    }
-
-    if (ear === 'L') {
-
-      const PTAchange = calcPTA(audiogramData.change_L);
-
-
-      if (changeResolution_L === 'full') {
-
-        const lowMidHigh = LMH(audiogramData.change_L);
-
-        myChart4.config.data.datasets[0].data = lowMidHigh;
-        myChart4.config.data.labels = ["Low", "Mid", "High"];
-
-        changeResolution_L = 'lowMidHigh';
-
-        myChart4.update();
-        return;
-
-      }
-
-      if (changeResolution_L === 'lowMidHigh') {
-
-        changePTA_L.splice(0, 1, Math.trunc(PTAchange));
-        if (isNaN(changePTA_L[0])) {
-          changePTA_L.splice(0, 1, null)
-        }
-        myChart4.config.data.datasets[0].data = changePTA_L;
-        myChart4.config.data.labels = ["PTA"];
-        changeResolution_L = 'PTA';
-        myChart4.update();
-        return;
-      }
-
-      if (changeResolution_L === 'PTA') {
-
-        myChart4.config.data.datasets[0].data = audiogramData.change_L;
-        myChart4.config.data.labels = lilHz;
-        changeResolution_L = 'full';
-        myChart4.update();
-        return;
-      }
-    }
+  if (annotatePTAprefFlag === 'off') {
+    buttonOn.classList.add('toggle-button-disabled');
+    buttonOff.classList.add('toggle-button-enabled');
+    return
   }
 
-  audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
-  audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+  let valueR;
+  let valueL;
+  let lineR = 4;
+  let lineL = 4;
 
-  oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R);
-  oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L);
-
-
-  function turnOffCrosshair() {
-    myChart.options.plugins.crosshair = false;
-    myChart2.options.plugins.crosshair = false;
-    updateCharts();
+  if (audiogramData.PTA_R === undefined) {
+    valueR = 0;
+    lineR = 0
+  } else {
+    valueR = audiogramData.PTA_R
+  }
+  if (audiogramData.PTA_L === undefined) {
+    valueL = 0;
+    lineL = 0
+  } else {
+    valueL = audiogramData.PTA_L
   }
 
-  function fillInLegendPrevDate() {
-    if (oldAudiogramData.DateOfTest === null || oldAudiogramData.DateOfTest === "") {
-      return
+  myChart.options.plugins.annotation.annotations.linePTA.yMin = valueR;
+  myChart.options.plugins.annotation.annotations.linePTA.yMax = valueR;
+  myChart.options.plugins.annotation.annotations.linePTA.borderWidth = lineR;
+  myChart2.options.plugins.annotation.annotations.linePTA.yMin = valueL;
+  myChart2.options.plugins.annotation.annotations.linePTA.yMax = valueL;
+  myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = lineL;
+  updateCharts();
+}
+
+
+function LMH(array) {
+  let lowMidHigh = [null, null, null];
+  if (array[1] === null || array[3] === null) {
+    lowMidHigh.splice(0, 1, null)
+  } else {
+    lowMidHigh.splice(0, 1, (array[1] + array[3]) / 2)
+  }
+
+  if (array[5] === null || array[7] === null) {
+    lowMidHigh.splice(1, 1, null)
+  } else {
+    lowMidHigh.splice(1, 1, (array[5] + array[7]) / 2)
+  }
+
+  if (array[9] === null || array[11] === null) {
+    lowMidHigh.splice(2, 1, null)
+  } else {
+    lowMidHigh.splice(2, 1, (array[9] + array[11]) / 2)
+  }
+  return lowMidHigh;
+}
+
+function changeResolution(ear) {
+
+  if (ear === 'R') {
+
+    const PTAchange = calcPTA(audiogramData.change_R);
+
+    if (changeResolution_R === 'full') {
+
+      const lowMidHigh = LMH(audiogramData.change_R);
+
+      myChart3.config.data.datasets[0].data = lowMidHigh;
+      myChart3.config.data.labels = ["Low", "Mid", "High"];
+      changeResolution_R = 'lowMidHigh';
+      myChart3.update();
+      return;
+
     }
-    previousLegend.style.display = "table-row";
-    previous_dateContent.innerText = oldAudiogramData.DateOfTest;
+
+    if (changeResolution_R === 'lowMidHigh') {
+
+      changePTA_R.splice(0, 1, Math.trunc(PTAchange));
+      if (isNaN(changePTA_R[0])) {
+        changePTA_R.splice(0, 1, null)
+      }
+      myChart3.config.data.datasets[0].data = changePTA_R;
+      myChart3.config.data.labels = ["PTA"];
+      changeResolution_R = 'PTA';
+      myChart3.update();
+      return;
+    }
+
+    if (changeResolution_R === 'PTA') {
+
+      myChart3.config.data.datasets[0].data = audiogramData.change_R;
+      myChart3.config.data.labels = lilHz;
+      changeResolution_R = 'full';
+      myChart3.update();
+      return;
+    }
 
   }
 
-  function fillInLegend() {
+  if (ear === 'L') {
 
-    //stops function if legend is full. 
-    if (audiogramData.legend.ACunmasked === "show" && audiogramData.legend.ACmasked === "show" && audiogramData.legend.BCunmasked === "show" && audiogramData.legend.BCmasked === "show" && audiogramData.legend.NR === "show") {
-      return
+    const PTAchange = calcPTA(audiogramData.change_L);
+
+
+    if (changeResolution_L === 'full') {
+
+      const lowMidHigh = LMH(audiogramData.change_L);
+
+      myChart4.config.data.datasets[0].data = lowMidHigh;
+      myChart4.config.data.labels = ["Low", "Mid", "High"];
+
+      changeResolution_L = 'lowMidHigh';
+
+      myChart4.update();
+      return;
+
     }
 
-    if (audiogramData.legend.ACunmasked !== "show") {
-      //set legend table rows to show if the category has been tested. 
-      const any_R_AC = audiogramData.thresh_AC_R.filter(thresh => thresh !== null);
-      const any_L_AC = audiogramData.thresh_AC_L.filter(thresh => thresh !== null);
+    if (changeResolution_L === 'lowMidHigh') {
 
-      if (any_R_AC.length > 0 || any_L_AC.length > 0) {
-        audiogramData.legend.ACunmasked = "show";
-        ACnormal.style.display = "table-row"
+      changePTA_L.splice(0, 1, Math.trunc(PTAchange));
+      if (isNaN(changePTA_L[0])) {
+        changePTA_L.splice(0, 1, null)
       }
+      myChart4.config.data.datasets[0].data = changePTA_L;
+      myChart4.config.data.labels = ["PTA"];
+      changeResolution_L = 'PTA';
+      myChart4.update();
+      return;
     }
-    if (audiogramData.legend.ACmasked !== "show") {
-      const any_RmaskedAC = audiogramData.symbols_R.filter(symbol => symbol === 'triangle');
-      const any_LmaskedAC = audiogramData.symbols_L.filter(symbol => symbol === 'rect');
 
-      if (any_RmaskedAC.length > 0 || any_LmaskedAC.length > 0) {
-        audiogramData.legend.ACmasked = "show";
-        ACmasked.style.display = "table-row"
-      }
-    }
-    if (audiogramData.legend.BCunmasked !== "show") {
-      const any_R_BC = audiogramData.thresh_BC_R.filter(thresh => thresh !== null);
-      const any_L_BC = audiogramData.thresh_BC_L.filter(thresh => thresh !== null);
+    if (changeResolution_L === 'PTA') {
 
-      if (any_L_BC.length > 0 || any_R_BC.length > 0) {
-        audiogramData.legend.BCunmasked = "show";
-        BCnormal.style.display = "table-row"
-      }
-    }
-    if (audiogramData.legend.BCmasked !== "show") {
-      const any_RmaskedBC = audiogramData.symbols_BC_R.filter(symbol => symbol === BC_R_M);
-      const any_LmaskedBC = audiogramData.symbols_BC_L.filter(symbol => symbol === BC_L_M);
-
-      if (any_RmaskedBC.length > 0 || any_LmaskedBC.length > 0) {
-        audiogramData.legend.BCmasked = "show";
-        BCmasked.style.display = "table-row"
-      }
-    }
-    if (audiogramData.legend.NR !== "show") {
-      const any_R_NR = audiogramData.thresh_NR_R.filter(thresh => thresh !== null);
-      const any_L_NR = audiogramData.thresh_NR_L.filter(thresh => thresh !== null);
-
-      if (any_L_NR.length > 0 || any_R_NR.length > 0) {
-        audiogramData.legend.NR = "show";
-        NR.style.display = "table-row"
-      }
-
-      const any_R_BC_NR = audiogramData.pointSize_NR_BC_R.filter(thresh => thresh === 10);
-      const any_L_BC_NR = audiogramData.pointSize_NR_BC_L.filter(thresh => thresh === 10);
-
-      if (any_R_BC_NR.length > 0 || any_L_BC_NR.length > 0) {
-        audiogramData.legend.NR = "show";
-        NR.style.display = "table-row"
-      }
+      myChart4.config.data.datasets[0].data = audiogramData.change_L;
+      myChart4.config.data.labels = lilHz;
+      changeResolution_L = 'full';
+      myChart4.update();
+      return;
     }
   }
+}
+
+audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
+audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+
+oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R);
+oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L);
 
 
-  const maskingNorms = {
-    insert: [],
-    circumaural: [],
-    supraaural: []
+function turnOffCrosshair() {
+  myChart.options.plugins.crosshair = false;
+  myChart2.options.plugins.crosshair = false;
+  updateCharts();
+}
 
+function fillInLegendPrevDate() {
+  if (oldAudiogramData.DateOfTest === null || oldAudiogramData.DateOfTest === "") {
+    return
+  }
+  previousLegend.style.display = "table-row";
+  previous_dateContent.innerText = oldAudiogramData.DateOfTest;
+
+}
+
+function fillInLegend() {
+
+  //stops function if legend is full. 
+  if (audiogramData.legend.ACunmasked === "show" && audiogramData.legend.ACmasked === "show" && audiogramData.legend.BCunmasked === "show" && audiogramData.legend.BCmasked === "show" && audiogramData.legend.NR === "show") {
+    return
   }
 
-  window.onload = () => {
-    toggleTransducer(1);
-    toggleData(5);
-    toggleData(6);
-    fillInLegendPrevDate();
-  };
+  if (audiogramData.legend.ACunmasked !== "show") {
+    //set legend table rows to show if the category has been tested. 
+    const any_R_AC = audiogramData.thresh_AC_R.filter(thresh => thresh !== null);
+    const any_L_AC = audiogramData.thresh_AC_L.filter(thresh => thresh !== null);
+
+    if (any_R_AC.length > 0 || any_L_AC.length > 0) {
+      audiogramData.legend.ACunmasked = "show";
+      ACnormal.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.ACmasked !== "show") {
+    const any_RmaskedAC = audiogramData.symbols_R.filter(symbol => symbol === 'triangle');
+    const any_LmaskedAC = audiogramData.symbols_L.filter(symbol => symbol === 'rect');
+
+    if (any_RmaskedAC.length > 0 || any_LmaskedAC.length > 0) {
+      audiogramData.legend.ACmasked = "show";
+      ACmasked.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.BCunmasked !== "show") {
+    const any_R_BC = audiogramData.thresh_BC_R.filter(thresh => thresh !== null);
+    const any_L_BC = audiogramData.thresh_BC_L.filter(thresh => thresh !== null);
+
+    if (any_L_BC.length > 0 || any_R_BC.length > 0) {
+      audiogramData.legend.BCunmasked = "show";
+      BCnormal.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.BCmasked !== "show") {
+    const any_RmaskedBC = audiogramData.symbols_BC_R.filter(symbol => symbol === BC_R_M);
+    const any_LmaskedBC = audiogramData.symbols_BC_L.filter(symbol => symbol === BC_L_M);
+
+    if (any_RmaskedBC.length > 0 || any_LmaskedBC.length > 0) {
+      audiogramData.legend.BCmasked = "show";
+      BCmasked.style.display = "table-row"
+    }
+  }
+  if (audiogramData.legend.NR !== "show") {
+    const any_R_NR = audiogramData.thresh_NR_R.filter(thresh => thresh !== null);
+    const any_L_NR = audiogramData.thresh_NR_L.filter(thresh => thresh !== null);
+
+    if (any_L_NR.length > 0 || any_R_NR.length > 0) {
+      audiogramData.legend.NR = "show";
+      NR.style.display = "table-row"
+    }
+
+    const any_R_BC_NR = audiogramData.pointSize_NR_BC_R.filter(thresh => thresh === 10);
+    const any_L_BC_NR = audiogramData.pointSize_NR_BC_L.filter(thresh => thresh === 10);
+
+    if (any_R_BC_NR.length > 0 || any_L_BC_NR.length > 0) {
+      audiogramData.legend.NR = "show";
+      NR.style.display = "table-row"
+    }
+  }
+}
+
+
+const maskingNorms = {
+  insert: [],
+  circumaural: [],
+  supraaural: []
+
+}
+
+window.onload = () => {
+  toggleTransducer(1);
+  toggleData(5);
+  toggleData(6);
+  fillInLegendPrevDate();
+};
