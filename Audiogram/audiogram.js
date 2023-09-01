@@ -1447,53 +1447,94 @@ function maskAll(ear) {
   updateCharts();
 }
 
-function copyEarAC(ear, transducer) {
-  //create var to hold the other ear, if ear === 'R' then otherEar = 'L' and vice versa
-  const otherEar = (ear) => {
-    if (ear === 'R') { return 'left' } else { return 'right' }
+function copyEarAC(ear) {
+  const copyAlertMessage = `Are you sure you want to copy ${ear === 'R' ? 'right' : 'left'} ${transducer} to ${ear === 'R' ? 'left' : 'right'} ${transducer}?`;
+  const copyObj = {};
+  if (ear === 'R' && transducer === 'AC') {
+    copyObj.sourceThresh = audiogramData.thresh_AC_R
+    copyObj.sourcePS = audiogramData.pointSize_AC_R
+    copyObj.sourcePsNr = audiogramData.pointSize_NR_R
+    copyObj.sourceThreshNR = audiogramData.thresh_NR_R
+    copyObj.sourceInterOctTested = audiogramData.interOctTested_AC_R
+    copyObj.targetThresh = audiogramData.thresh_AC_L
+    copyObj.targetPS = audiogramData.pointSize_AC_L
+    copyObj.targetPsNr = audiogramData.pointSize_NR_L
+    copyObj.targetThreshNR = audiogramData.thresh_NR_L
+    copyObj.targetinterOctTested = audiogramData.interOctTested_AC_L
   }
-  const copyAlertMessage = `Are you sure you want to copy {ear} {transducer} to {otherEar} {transducer}?`;
-
-  const sourceEar = (ear) => {
-    if (ear === 'R') {
-      return {
-        sourceThresh: audiogramData.thresh_AC_R,
-        sourcePS: audiogramData.pointSize_AC_R,
-        sourcePsNr: audiogramData.pointSize_NR_R,
-        sourceThreshNR: audiogramData.thresh_NR_R,
-        sourceInterOctTested: audiogramData.interOctTested_AC_R,
-        targetThresh: audiogramData.thresh_AC_L,
-        targetPS: audiogramData.pointSize_AC_L,
-        targetPsNr: audiogramData.pointSize_NR_L,
-        targetThreshNR: audiogramData.thresh_NR_L,
-        targetinterOctTested: audiogramData.interOctTested_AC_L
-      }
-    } else {
-      return {
-        sourceThresh: audiogramData.thresh_AC_L,
-        sourcePS: audiogramData.pointSize_AC_L,
-        sourcePsNr: audiogramData.pointSize_NR_L,
-        sourceThreshNR: audiogramData.thresh_NR_L,
-        sourceInterOctTested: audiogramData.interOctTested_AC_L,
-        targetThresh: audiogramData.thresh_AC_R,
-        targetPS: audiogramData.pointSize_AC_R,
-        targetPsNr: audiogramData.pointSize_NR_R,
-        targetThreshNR: audiogramData.thresh_NR_R,
-        targetinterOctTested: audiogramData.interOctTested_AC_R
-      }
-    }
-    if (confirm(copyAlertMessage)) {
-      targetThresh.splice(0, targetThresh.length, ...sourceThresh);
-      targetPS.splice(0, targetPS.length, ...sourcePS);
-      targetPsNr.splice(0, targetPsNr.length, ...sourcePsNr);
-      targetThreshNR.splice(0, targetThreshNR.length, ...sourceThreshNR);
-      targetinterOctTested.splice(0, targetinterOctTested.length, ...sourceInterOctTested);
-      for (let i = 0; i < targetThresh.length; i++) {
-        calcChange(i, ear);
-      }
-    };
-    updateCharts();
+  if (ear === 'L' && transducer === 'AC') {
+    copyObj.sourceThresh = audiogramData.thresh_AC_L
+    copyObj.sourcePS = audiogramData.pointSize_AC_L
+    copyObj.sourcePsNr = audiogramData.pointSize_NR_L
+    copyObj.sourceThreshNR = audiogramData.thresh_NR_L
+    copyObj.sourceInterOctTested = audiogramData.interOctTested_AC_L
+    copyObj.targetThresh = audiogramData.thresh_AC_R
+    copyObj.targetPS = audiogramData.pointSize_AC_R
+    copyObj.targetPsNr = audiogramData.pointSize_NR_R
+    copyObj.targetThreshNR = audiogramData.thresh_NR_R
+    copyObj.targetinterOctTested = audiogramData.interOctTested_AC_R
   }
+  if (ear === 'R' && transducer === 'BC') {
+    copyObj.sourceThresh = audiogramData.thresh_BC_R
+    copyObj.sourcePsNr = audiogramData.pointSize_NR_BC_R
+    copyObj.sourceThreshNR = audiogramData.thresh_NR_R
+    copyObj.targetThresh = audiogramData.thresh_BC_L
+    copyObj.targetPsNr = audiogramData.pointSize_NR_L
+    copyObj.targetThreshNR = audiogramData.thresh_NR_L
+  }
+  if (ear === 'L' && transducer === 'BC') {
+    copyObj.sourceThresh = audiogramData.thresh_BC_L
+    copyObj.sourcePsNr = audiogramData.pointSize_NR_L
+    copyObj.sourceThreshNR = audiogramData.thresh_NR_L
+    copyObj.targetThresh = audiogramData.thresh_BC_R
+    copyObj.targetPsNr = audiogramData.pointSize_NR_R
+    copyObj.targetThreshNR = audiogramData.thresh_NR_R
+  }
+  if (confirm(copyAlertMessage)) {
+    //spread in the source arrays to the target arrays
+    copyObj.targetThresh.splice(0, copyObj.targetThresh.length, ...copyObj.sourceThresh)
+    copyObj.targetPS?.splice(0, copyObj.targetPS.length, ...copyObj.sourcePS)
+    copyObj.targetPsNr.splice(0, copyObj.targetPsNr.length, ...copyObj.sourcePsNr)
+    copyObj.targetThreshNR.splice(0, copyObj.targetThreshNR.length, ...copyObj.sourceThreshNR)
+    copyObj.targetinterOctTested?.splice(0, copyObj.targetinterOctTested.length, ...copyObj.sourceInterOctTested)
+  }
+  if (ear === 'R' && transducer === 'AC') {
+    audiogramData.symbols_L.forEach(function (part, index, theArray) {
+      if (audiogramData.symbols_R[index] === 'triangle') {
+        audiogramData.symbols_L[index] = 'rect';
+      } else {
+        audiogramData.symbols_L[index] = 'crossRot';
+      }
+    })
+  }
+  if (ear === 'L' && transducer === 'AC') {
+    audiogramData.symbols_R.forEach(function (part, index, theArray) {
+      if (audiogramData.symbols_L[index] === 'rect') {
+        audiogramData.symbols_R[index] = 'triangle';
+      } else {
+        audiogramData.symbols_R[index] = 'circle';
+      }
+    })
+  }
+  if (ear === 'R' && transducer === 'BC') {
+    audiogramData.symbols_BC_L.forEach(function (part, index, theArray) {
+      if (audiogramData.symbols_BC_R[index] === BC_R_M) {
+        audiogramData.symbols_BC_L[index] = BC_L_M;
+      } else {
+        audiogramData.symbols_BC_L[index] = BC_L;
+      }
+    })
+  }
+  if (ear === 'L' && transducer === 'BC') {
+    audiogramData.symbols_BC_R.forEach(function (part, index, theArray) {
+      if (audiogramData.symbols_BC_L[index] === BC_L_M) {
+        audiogramData.symbols_BC_R[index] = BC_R_M;
+      } else {
+        audiogramData.symbols_BC_R[index] = BC_R;
+      }
+    })
+  }
+  updateCharts();
 }
 
 //fx used to handle freq between 250 and 500. Takes input and returns 375 interpolation if valid. The calling script does the splice.
