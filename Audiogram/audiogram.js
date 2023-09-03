@@ -1,3 +1,5 @@
+
+
 const CrosshairRemover = {
   id: 'crosshair-remover',
   afterEvent: (chart, args, options) => {
