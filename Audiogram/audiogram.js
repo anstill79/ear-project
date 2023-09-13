@@ -130,7 +130,7 @@ function setNR(index, ear, transducer) {
   let NR = ear === 'R' ? audiogramData.thresh_NR_R : audiogramData.thresh_NR_L;
   let size = ear === 'R' ? audiogramData.pointSize_NR_R : audiogramData.pointSize_NR_L;
   let size_BC = ear === 'R' ? audiogramData.pointSize_NR_BC_R : audiogramData.pointSize_NR_BC_L;
-  let changeNR = ear === 'R' ? audiogramData.change_R : audiogramData.change_L;
+  let changeNR = ear === 'R' ? audiogramData.changeDetails.change_R : audiogramData.changeDetails.change_L;
   let IO = ear === 'R' ? audiogramData.interOctTested_AC_R : audiogramData.interOctTested_AC_L;
 
   if (IO[index] === 0 && transducer !== "BC") {
@@ -310,23 +310,34 @@ function updateCharts() {
   myChart3.update();
   myChart4.update();
   fillInLegend();
+
 }
 
-const changePTA_R = [null];
-const changePTA_L = [null];
+const userPrefs = {
+  crosshairFlag: "on",
+  normShadeFlag: "off",
+  lossShadeFlag: "off",
+}
 
-let changeResolution_R = 'full';
-let changeResolution_L = 'full';
 
 const audiogramData = {
+  changeDetails: {
+    prevTestDate: "",
+    changePTA_R: [null],
+    changePTA_L: [null],
+    changeResolution_R: 'full',
+    changeResolution_L: 'full',
+    LMH_R: [null, null, null],
+    LMH_L: [null, null, null],
+    change_R: [null, null, null, null, null, null, null, null, null, null, null, null],
+    change_L: [null, null, null, null, null, null, null, null, null, null, null, null],
+  },
   PTA_R: null,
   PTA_L: null,
   SRT_R: [null],
   SRT_L: [null],
   wordRec_R: [null],
   wordRec_L: [null],
-  change_R: [null, null, null, null, null, null, null, null, null, null, null, null],
-  change_L: [null, null, null, null, null, null, null, null, null, null, null, null],
   thresh_AC_R: [null, null, null, null, null, null, null, null, null, null, null, null],
   thresh_AC_L: [null, null, null, null, null, null, null, null, null, null, null, null],
   thresh_BC_R: [null, null, null, null, null, null, null, null, null, null, null, null],
@@ -361,7 +372,7 @@ const audiogramData = {
 
 let oldAudiogramData = {
   thresh_AC_R: [null, 20, null, 35, 35, 40, 45, 55, 55, 60, 70, 80],
-  thresh_AC_L: [null, null, null, null, null, null, null, null, null, null, null, null],
+  thresh_AC_L: [null, 40, null, 45, null, 55, null, 65, 70, 75, 60, 90],
   thresh_BC_R: [null, null, null, null, null, null, null, null, null, null, null, null],
   thresh_BC_L: [null, null, null, null, null, null, null, null, null, null, null, null],
   thresh_NR_R: [null, null, null, null, null, null, null, null, null, null, null, null],
@@ -382,11 +393,18 @@ let oldAudiogramData = {
   DateOfTest: "6/1/2021"
 };
 
+
 const bigHz = [125, 250, '', 500, '', 1000, '', 2000, '', 4000, '', 8000];
 const lilHz = ['', 250, '', 500, '', 1000, '', 2000, '', 4000, '', 8000];
 
 const barColors_R = ['rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)'];
 const barColors_L = ['rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)'];
+
+const barColors_LMH_R = ['rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)', 'rgba(255, 0, 0, 0.2)'];
+const barColors_LMH_L = ['rgba(0, 0, 255, 0.2)', 'rgba(0, 0, 255, 0.2)', 'rgba(0, 0, 255, 0.2)'];
+
+const barColors_PTA_R = ['rgba(255, 0, 0, 0.2)'];
+const barColors_PTA_L = ['rgba(0, 0, 255, 0.2)'];
 
 const shaders = {
   loss_fill_on: {
@@ -417,11 +435,13 @@ function HideHrgLossShade(bool) {
     myChart2.config.data.datasets[0].fill = shaders.loss_fill_off;
     onButton.classList.add("toggle-button-disabled");
     offButton.classList.add("toggle-button-enabled");
+    userPrefs.lossShadeFlag = "off";
   } else if (bool === 'on') {
     myChart.config.data.datasets[0].fill = shaders.loss_fill_on;
     myChart2.config.data.datasets[0].fill = shaders.loss_fill_on;
     onButton.classList.add("toggle-button-enabled");
     offButton.classList.add("toggle-button-disabled");
+    userPrefs.lossShadeFlag = "on";
   }
   updateCharts();
 }
@@ -527,7 +547,7 @@ function toggleCrosshair(bool) {
     myChart4.config.options.plugins.crosshair = false;
     cHairOn.classList.add('toggle-button-disabled');
     cHairOff.classList.add('toggle-button-enabled');
-
+    userPrefs.crosshairFlag = "off";
   }
   if (bool === "on") {
     myChart.config.options.plugins.crosshair = crosshairOptions.audioRight;
@@ -536,15 +556,16 @@ function toggleCrosshair(bool) {
     myChart4.config.options.plugins.crosshair = crosshairOptions.barLeft;
     cHairOn.classList.add('toggle-button-enabled');
     cHairOff.classList.add('toggle-button-disabled');
+    userPrefs.crosshairFlag = "on";
   }
   updateCharts();
 }
-
+//**
 function calcChange(index, ear) {
 
   let threshOld = ear === 'R' ? oldAudiogramData.thresh_AC_R : oldAudiogramData.thresh_AC_L;
   let threshNew = ear === 'R' ? audiogramData.thresh_AC_R : audiogramData.thresh_AC_L;
-  let change = ear === 'R' ? audiogramData.change_R : audiogramData.change_L;
+  let change = ear === 'R' ? audiogramData.changeDetails.change_R : audiogramData.changeDetails.change_L;
   let newNR = ear === 'R' ? audiogramData.thresh_NR_R : audiogramData.thresh_NR_L;
   let oldNR = ear === 'R' ? oldAudiogramData.thresh_NR_R : oldAudiogramData.thresh_NR_L;
   let ioTestNew = ear === 'R' ? audiogramData.interOctTested_AC_R : audiogramData.interOctTested_AC_L;
@@ -559,12 +580,9 @@ function calcChange(index, ear) {
     change.splice(index, 1, null);
     return
   }
-
   if (threshNew[index] === null || threshOld[index] === null || newNR[index] !== null || oldNR[index] !== null) {
-
     change.splice(index, 1, null);
     return
-
   } else {
     change.splice(index, 1, threshOld[index] - threshNew[index]);
     change.splice(2, 1, null);
@@ -580,21 +598,98 @@ function calcChange(index, ear) {
     if (ioTestNew[9] === 0 || ioTestOld[9] === 0) {
       change.splice(10, 1, null)
     }
-    if (Math.abs(threshOld[index] - threshNew[index]) < 10) {
-      barColors.splice(index, 1, color1)
-    } else
-      if (Math.abs(threshOld[index] - threshNew[index]) > 9 && Math.abs(threshOld[index] - threshNew[index]) < 20) {
-        barColors.splice(index, 1, color2)
+    if (audiogramData.changeDetails.changeResolution_R === 'full') {
+      if (Math.abs(threshOld[index] - threshNew[index]) < 10) {
+        barColors.splice(index, 1, color1)
       } else
-        if (Math.abs(threshOld[index] - threshNew[index]) > 19 && Math.abs(threshOld[index] - threshNew[index]) < 30) {
-          barColors.splice(index, 1, color3)
+        if (Math.abs(threshOld[index] - threshNew[index]) > 9 && Math.abs(threshOld[index] - threshNew[index]) < 20) {
+          barColors.splice(index, 1, color2)
         } else
-          if (Math.abs(threshOld[index] - threshNew[index]) > 29) {
-            barColors.splice(index, 1, color4)
+          if (Math.abs(threshOld[index] - threshNew[index]) > 19 && Math.abs(threshOld[index] - threshNew[index]) < 30) {
+            barColors.splice(index, 1, color3)
+          } else
+            if (Math.abs(threshOld[index] - threshNew[index]) > 29) {
+              barColors.splice(index, 1, color4)
+            }
+    }
+    if (ear === 'R') {
+      LMH(audiogramData.changeDetails.change_R, 'R');
+      audiogramData.changeDetails.changePTA_R.splice(0, 1, Math.floor(calcPTA(audiogramData.changeDetails.change_R)));
+
+      if (audiogramData.changeDetails.changeResolution_R === 'lowMidHigh') {
+        barColors = barColors_LMH_R;
+        const colorThresholds = [10, 20, 30];
+        const colors = [color1, color2, color3, color4];
+
+        for (let i = 0; i < audiogramData.changeDetails.LMH_R.length; i++) {
+          const value = audiogramData.changeDetails.LMH_R[i];
+          let color = color4;
+
+          for (let j = 0; j < colorThresholds.length; j++) {
+            if (value < colorThresholds[j]) {
+              color = colors[j];
+              break;
+            }
           }
+          barColors.splice(i, 1, color);
+          myChart3.config.data.datasets[0].backgroundColor = barColors;
+        }
+      }
+      if (audiogramData.changeDetails.changeResolution_R === 'PTA') {
+        barColors = barColors_PTA_R;
+        const colorThresholds = [10, 20, 30];
+        const colors = [color1, color2, color3, color4];
+
+        for (let i = 0; i < colorThresholds.length; i++) {
+          if (audiogramData.changeDetails.changePTA_R[0] < colorThresholds[i]) {
+            barColors.splice(0, 1, colors[i]);
+            break;
+          }
+        }
+        myChart3.config.data.datasets[0].backgroundColor = barColors;
+      }
+    }
+    if (ear === 'L') {
+      LMH(audiogramData.changeDetails.change_L, 'L');
+      audiogramData.changeDetails.changePTA_L.splice(0, 1, Math.floor(calcPTA(audiogramData.changeDetails.change_L)));
+
+      if (audiogramData.changeDetails.changeResolution_L === 'lowMidHigh') {
+        barColors = barColors_LMH_L;
+        const colorThresholds = [10, 20, 30];
+        const colors = [color1, color2, color3, color4];
+
+        for (let i = 0; i < audiogramData.changeDetails.LMH_L.length; i++) {
+          const value = audiogramData.changeDetails.LMH_L[i];
+          let color = color4;
+
+          for (let j = 0; j < colorThresholds.length; j++) {
+            if (value < colorThresholds[j]) {
+              color = colors[j];
+              break;
+            }
+          }
+          barColors.splice(i, 1, color);
+          myChart3.config.data.datasets[0].backgroundColor = barColors;
+        }
+      }
+      if (audiogramData.changeDetails.changeResolution_L === 'PTA') {
+        barColors = barColors_PTA_L;
+        const colorThresholds = [10, 20, 30];
+        const colors = [color1, color2, color3, color4];
+
+        for (let i = 0; i < colorThresholds.length; i++) {
+          if (audiogramData.changeDetails.changePTA_L[0] < colorThresholds[i]) {
+            barColors.splice(0, 1, colors[i]);
+            break;
+          }
+        }
+        myChart3.config.data.datasets[0].backgroundColor = barColors;
+      }
+    }
     updateCharts();
   }
 }
+
 
 let transducer = 'AC';
 //----sets AC BC toggle to AC when load. 
@@ -1159,7 +1254,7 @@ const options_bar_R = {
     labels: lilHz,
     datasets: [{
       label: 'R Change',
-      data: audiogramData.change_R,
+      data: audiogramData.changeDetails.change_R,
       borderWidth: 0.5,
       backgroundColor: barColors_R,
       borderColor: 'gray',
@@ -1274,7 +1369,7 @@ const options_bar_L = {
     labels: lilHz,
     datasets: [{
       label: 'L Change',
-      data: audiogramData.change_L,
+      data: audiogramData.changeDetails.change_L,
       borderWidth: 0.2,
       backgroundColor: barColors_L,
       borderColor: 'gray'
@@ -1449,7 +1544,7 @@ function maskAll(ear) {
   updateCharts();
 }
 
-function copyEarAC(ear) {
+function copyEar(ear) {
   const copyAlertMessage = `Are you sure you want to copy ${ear === 'R' ? 'right' : 'left'} ${transducer} to ${ear === 'R' ? 'left' : 'right'} ${transducer}?`;
   const copyObj = {};
   if (ear === 'R' && transducer === 'AC') {
@@ -1721,126 +1816,85 @@ function annotatePTA(flagControl) {
   updateCharts();
 }
 
+function LMH(array, ear) {
+  const targetLMH = ear === 'R' ? audiogramData.changeDetails.LMH_R : audiogramData.changeDetails.LMH_L;
 
-function LMH(array) {
-  let lowMidHigh = [null, null, null];
   if (array[1] === null || array[3] === null) {
-    lowMidHigh.splice(0, 1, null)
+    targetLMH.splice(0, 1, null)
   } else {
-    lowMidHigh.splice(0, 1, (array[1] + array[3]) / 2)
+    targetLMH.splice(0, 1, Math.floor((array[1] + array[3]) / 2))
   }
-
   if (array[5] === null || array[7] === null) {
-    lowMidHigh.splice(1, 1, null)
+    targetLMH.splice(1, 1, null)
   } else {
-    lowMidHigh.splice(1, 1, (array[5] + array[7]) / 2)
+    targetLMH.splice(1, 1, Math.floor((array[5] + array[7]) / 2))
   }
-
   if (array[9] === null || array[11] === null) {
-    lowMidHigh.splice(2, 1, null)
+    targetLMH.splice(2, 1, null)
   } else {
-    lowMidHigh.splice(2, 1, (array[9] + array[11]) / 2)
+    targetLMH.splice(2, 1, Math.floor((array[9] + array[11]) / 2))
   }
-  return lowMidHigh;
 }
 
 function changeResolution(ear) {
+  //  this changes which bar chart is showing. change calc is done elsewhere
+  let state = ear === 'R' ? audiogramData.changeDetails.changeResolution_R : audiogramData.changeDetails.changeResolution_L;
+  const changePTA = ear === 'R' ? audiogramData.changeDetails.changePTA_R : audiogramData.changeDetails.changePTA_L;
 
-  if (ear === 'R') {
+  if (state === 'full') {
 
-    const PTAchange = calcPTA(audiogramData.change_R);
-
-    if (changeResolution_R === 'full') {
-
-      const lowMidHigh = LMH(audiogramData.change_R);
-
-      myChart3.config.data.datasets[0].data = lowMidHigh;
+    if (ear === 'R') {
+      myChart3.config.data.datasets[0].data = audiogramData.changeDetails.LMH_R;
       myChart3.config.data.labels = ["Low", "Mid", "High"];
-      changeResolution_R = 'lowMidHigh';
       myChart3.update();
+      audiogramData.changeDetails.changeResolution_R = 'lowMidHigh';
       return;
-
-    }
-
-    if (changeResolution_R === 'lowMidHigh') {
-
-      changePTA_R.splice(0, 1, Math.trunc(PTAchange));
-      if (isNaN(changePTA_R[0])) {
-        changePTA_R.splice(0, 1, null)
-      }
-      myChart3.config.data.datasets[0].data = changePTA_R;
-      myChart3.config.data.labels = ["PTA"];
-      changeResolution_R = 'PTA';
-      myChart3.update();
-      return;
-    }
-
-    if (changeResolution_R === 'PTA') {
-
-      myChart3.config.data.datasets[0].data = audiogramData.change_R;
-      myChart3.config.data.labels = lilHz;
-      changeResolution_R = 'full';
-      myChart3.update();
-      return;
-    }
-
-  }
-
-  if (ear === 'L') {
-
-    const PTAchange = calcPTA(audiogramData.change_L);
-
-
-    if (changeResolution_L === 'full') {
-
-      const lowMidHigh = LMH(audiogramData.change_L);
-
-      myChart4.config.data.datasets[0].data = lowMidHigh;
+    } else {
+      myChart4.config.data.datasets[0].data = audiogramData.changeDetails.LMH_L;
       myChart4.config.data.labels = ["Low", "Mid", "High"];
-
-      changeResolution_L = 'lowMidHigh';
-
       myChart4.update();
+      audiogramData.changeDetails.changeResolution_L = 'lowMidHigh';
       return;
-
     }
-
-    if (changeResolution_L === 'lowMidHigh') {
-
-      changePTA_L.splice(0, 1, Math.trunc(PTAchange));
-      if (isNaN(changePTA_L[0])) {
-        changePTA_L.splice(0, 1, null)
-      }
-      myChart4.config.data.datasets[0].data = changePTA_L;
+  }
+  if (state === 'lowMidHigh') {
+    if (ear === 'R') {
+      myChart3.config.data.datasets[0].data = changePTA
+      myChart3.config.data.labels = ["PTA"];
+      myChart3.update();
+      audiogramData.changeDetails.changeResolution_R = 'PTA';
+      return;
+    } else {
+      myChart4.config.data.datasets[0].data = changePTA
       myChart4.config.data.labels = ["PTA"];
-      changeResolution_L = 'PTA';
       myChart4.update();
+      audiogramData.changeDetails.changeResolution_L = 'PTA';
       return;
     }
-
-    if (changeResolution_L === 'PTA') {
-
-      myChart4.config.data.datasets[0].data = audiogramData.change_L;
+  }
+  if (state === 'PTA') {
+    if (ear === 'R') {
+      myChart3.config.data.datasets[0].data = audiogramData.changeDetails.change_R
+      myChart3.config.data.labels = lilHz;
+      myChart3.update();
+      audiogramData.changeDetails.changeResolution_R = 'full';
+      return;
+    } else {
+      myChart4.config.data.datasets[0].data = audiogramData.changeDetails.change_L
       myChart4.config.data.labels = lilHz;
-      changeResolution_L = 'full';
       myChart4.update();
+      audiogramData.changeDetails.changeResolution_L = 'full';
       return;
     }
   }
 }
+
 
 audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
 audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
 
 oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R);
 oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L);
-
-
-function turnOffCrosshair() {
-  myChart.options.plugins.crosshair = false;
-  myChart2.options.plugins.crosshair = false;
-  updateCharts();
-}
 
 function fillInLegendPrevDate() {
   if (oldAudiogramData.DateOfTest === null || oldAudiogramData.DateOfTest === "") {
@@ -1927,4 +1981,16 @@ window.onload = () => {
   toggleData(5);
   toggleData(6);
   fillInLegendPrevDate();
+};
+
+window.onbeforeprint = (event) => {
+  if (userPrefs.crosshairFlag === 'on') {
+    toggleCrosshair('off');
+  }
+};
+
+window.onafterprint = (event) => {
+  if (userPrefs.crosshairFlag === 'on') {
+    toggleCrosshair('on');
+  }
 };
