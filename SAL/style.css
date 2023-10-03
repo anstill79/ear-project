@@ -1,158 +1,102 @@
-body {
-  margin: 30px;
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  margin: 10;
 }
 
-.grid-container {
+.main-container {
   display: grid;
-  grid-template-columns: repeat(11, minmax(70px, 70px));
-  grid-template-rows: auto;
-  grid-gap: 1px;
-  background-color: #fff;
-  color: #444;
-  padding: 0px;
-  align-content: center;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.grid-title {
-  height: auto;
-  background-color: white;
-  color: black;
-  border-radius: 0px;
-  font-weight: normal;
-  font-family: monospace;
-  padding: 1px;
-  align-self: center;
-  justify-self: center;
+@media screen and (max-width: 768px) {
+  .main-container {
+    grid-template-columns: 1fr;
+    /* One column on small screens */
+  }
 }
 
-.grid-item-right {
-  background-color: rgba(255, 0, 0, 0.2);
-  border-color: rgba(255, 0, 0, 0.2);
-  color: black;
-  border-style: solid;
-  border-radius: 7px;
-  padding: 5px;
-  align-self: center;
-  justify-self: center;
+.threshold-container {
+  display: grid;
+  grid-template-columns: 150px 1fr 1fr 1fr 1fr;
+  max-width: 500px;
 }
 
-.grid-item-left {
-  background-color: rgba(0, 0, 255, 0.2);
-  border-color: rgba(0, 0, 255, 0.2);
-  color: black;
-  border-style: solid;
-  border-radius: 7px;
-  padding: 5px;
-  align-self: center;
-  justify-self: center;
+.threshold-item {
+  width: 20px
 }
 
-.thresh-result-left {
-  background-color: white;
-  border-color: rgba(0, 0, 255, 0.8);
-  font-family: inherit;
+.result {
+  background-color: rgb(218, 200, 200);
 }
 
-.thresh-result-right {
-  background-color: white;
-  border-color: rgba(255, 0, 0, 0.8);
-  font-family: Helvetica, sans-serif;
+.info {
+  background-color: rgb(46, 131, 46);
+  font-size: 2rem;
 }
 
-.border-thing {
-  border-color: black;
-  border-top-width: thick;
-}
-
-.subheading1 {
-  color: black;
-  font-size: 20px;
-  padding: 10px;
-  margin: 0px;
-  text-align: center;
-  font-family: sans-serif;
-  font-style: oblique;
-  grid-column: 2 /span 8;
-}
-
-.subheading2 {
-  color: black;
-  font-size: 20px;
-  padding: 10px;
-  margin: 0px;
-  text-align: center;
-  font-family: sans-serif;
-  font-style: oblique;
-  grid-column: 1 /span 10;
-}
-
-.norm-box {
-  border-style: solid;
-  border-width: 3px;
-  padding: 5px;
-  width: 60px;
-}
-
-.norm-button {
-  padding: 2px;
-  margin: 5px;
-  width: 150px;
-}
-
-.norm-table {
-  border-color: black;
-  border-style: solid;
-  border-radius: 3px;
-  border-width: 1px;
-  width: 300px;
-  text-align: center;
-}
-thead {
-  letter-spacing: 0px;
-}
-
-td {
-  letter-spacing: 0px;
-}
-
-.input-box {
-  width: 40px;
-  height: 20px;
-}
-
-.input-box:focus {
-  background-color: rgba(255, 255, 159);
-  padding: 2px;
+input[type="number"] {
   width: 50px;
-  box-shadow: 0 0 7px #C8E0EF;
-  text-indent: 5px;
-  transition: width 0.25s;
 }
 
-.header {
-  height: 90px;
-  padding: 0px;
-  margin: 5px;
-  text-align: left;
-  background: white;
-  border-color: black;
-  border-style: solid;
-  border-radius: 7px;
-  border-width: 2px;
-  color: #956A92;
-  font-family: "Verdana", sans-serif;
-  text-indent: 30px;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.info-header {
-  font-family: "Gill Sans", sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-
+.dim-parent {
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(10px);
+  background-color: black;
+  opacity: 0.5;
 }
 
-.info-body {
-  font-family: "Gill Sans", sans-serif;
-  font-size: 16px;
-  padding-left: 50px;
+.dialog {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  visibility: hidden;
+}
+
+.research {
+  display: none;
+}
+
+
+.result-modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 300px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  /* Full height */
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.result-modal-content {
+  background-color: white;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid;
+  border-radius: 15px;
+  max-width: 400px;
+  min-width: 100px;
+  font-family: Rubik;
+  font-weight: normal;
+  font-size: 2rem;
 }
