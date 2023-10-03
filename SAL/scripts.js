@@ -1,228 +1,141 @@
-function exportTextBlob() {
- 
-  //format a little blob showing unmasked, masked, shift, and recommended SAL value. 
- const blob = 
-       `Initial AC thresholds:
-        Right Ear: ${if (thresholds.unMasked.R500 === null) {return "not tested"} else {thresholds.unMasked.R500}}`
-         
-         
-  
-}
-
-function toggleInfo() {
-const button = document.getElementById('toggleInfoButton');
-const infoo = document.getElementById('Info'); 
- if (infoo.style.display === "none") {
- infoo.style.display = "block";
- button.innerText = "Hide info";
- } else {
-infoo.style.display = "none";
- button.innerText = "Show info";
- }
-}
-
-
-const thresholds = {
-
-  unMasked: {
-    R500: [null],
-    R1000: [null],
-    R2000: [null],
-    R4000: [null],
-    L500: [null],
-    L1000: [null],
-    L2000: [null],
-    L4000: [null],
+const inputs = document.querySelectorAll('input');
+const resultsDisplay = document.querySelectorAll('.result');
+const moreInfo = document.querySelectorAll('.info');
+inputs.forEach(input => {
+  input.addEventListener('change', doSAL);
+});
+moreInfo.forEach(info => {
+  info.addEventListener('click', launchResult)
+});
+//[0] is initial, [1] is masked
+const data = {
+  R: {
+    five: [null, null],
+    one: [null, null],
+    two: [null, null],
+    four: [null, null],
   },
-  Masked: {
-    R500: [null],
-    R1000: [null],
-    R2000: [null],
-    R4000: [null],
-    L500: [null],
-    L1000: [null],
-    L2000: [null],
-    L4000: [null],
+  L: {
+    five: [null, null],
+    one: [null, null],
+    two: [null, null],
+    four: [null, null],
   }
-};
-
-const norms = {
-  //500Hz
-  A: [40],
-  //1000Hz
-  B: [50],
-  //2000Hz
-  C: [45],
-  //4000Hz
-  D: [50]
 }
 
-//takes in OG thresh and new thresh and outputs masked value for plotting. 
-function calcThresh(id) {
+const shiftNorms = {
+  five: 55,
+  one: 60,
+  two: 60,
+  four: 60,
+}
+//[0] is result, [1] is comment, [2] is symbol, [3] is name for display in modal
+const SALresults = {
+  R: {
+    five: [null, null, null, 'Right 500 Hz'],
+    one: [null, null, null, 'Right 1000 Hz'],
+    two: [null, null, null, 'Right 2000 Hz'],
+    four: [null, null, null, 'Right 4000 Hz'],
+  },
+  L: {
+    five: [null, null, null, 'Left 500 Hz'],
+    one: [null, null, null, 'Left 1000 Hz'],
+    two: [null, null, null, 'Left 2000 Hz'],
+    four: [null, null, null, 'Left 4000 Hz'],
+  }
+}
 
-  //get argument = id of element then query selector for it and partner to put into variables. 
-  const target = document.getElementById(id);
-  const buddy = document.getElementById("un" + id);
+function doSAL() {
+  const id = this.id;
+  const val = parseInt(this.value);
+  const ear = id.charAt(0);
+  let freq = "";
+  if (id.includes('initial')) {
+    freq = id.replace(`${ear}_initial_`, '');
+    data[ear][freq][0] = val;
+  } else if (id.includes('masked')) {
+    freq = id.replace(`${ear}_masked_`, '');
+    data[ear][freq][1] = val;
+  }
+  const targetResult = `${ear}_result_${freq}`;
+  const targetInfo = `${ear}_info_${freq}`;
+  //why do SAL in this case?
+  if (data[ear][freq][0] < 50) {
+    SALresults[ear][freq][0] = null;
+    SALresults[ear][freq][2] = '⚠️';
+    SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency.";
+    setResultsToCell(ear, freq, targetResult, targetInfo);
+    return;
+  }
+  if (data[ear][freq][0] > 85) {
 
-  //take id and strip 'masked' word and attach 'result word'. Think it returns a new str
-  const result = document.getElementById(id.replace("masked", "").concat("result"));
-  //const resultName = id.replace("masked", "").concat("result");
-
-  const unmasked = buddy.value;
-  const masked = target.value;
-
-  if (masked.length === 0 || unmasked.length === 0) {
-    return
-  } else {
-
-    let norm = '';
-
-    if (id.includes('500')) {
-      norm = norms.A
-    } else if (id.includes('1000')) {
-      norm = norms.B
-    } else if (id.includes('2000')) {
-      norm = norms.C
-    } else if (id.includes('4000')) {
-      norm = norms.D
+    SALresults[ear][freq][2] = '⚠️';
+    SALresults[ear][freq][1] = "Initial result is greater than 85dB. The limits of most equipment can be an issue here. The SAL value is displayed but use with caution.";
+    if (typeof data[ear][freq][1] === 'number' && typeof data[ear][freq][0] === 'number') {
+      const shift = data[ear][freq][1] - data[ear][freq][0];
+      SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     }
-    //shift amount
-    const shift = masked - unmasked;
+    setResultsToCell(ear, freq, targetResult, targetInfo);
+    return;
+  }
 
-    let SAL = norm - shift;
 
-    if (SAL < 0) {
-      SAL = 0
+  if (data[ear][freq][0] && data[ear][freq][1]) {
+    const maxAllowed = data[ear][freq][0] - shiftNorms[freq];
+    const shift = data[ear][freq][1] - data[ear][freq][0];
+    SALresults[ear][freq][0] = shiftNorms[freq] - shift;
+    // if shift is larger than norm, just put it at initial minus norm
+    if (shift > shiftNorms[freq]) {
+      SALresults[ear][freq][0] = data[ear][freq][0] - shiftNorms[freq];
+      SALresults[ear][freq][2] = '🤔';
+      SALresults[ear][freq][1] = `The result is usable but the shift amount is too large. The displayed result uses norm the value instead of shift (norm at this frequency is ${shiftNorms[freq]}dB)`;
+    } else {
+      SALresults[ear][freq][1] = "Looks good. Use the displayed result.";
+      SALresults[ear][freq][2] = '✅';
+    }
+    // technical error or typo. masked result is lower than initial result
+    if (data[ear][freq][1] < data[ear][freq][0]) {
+      SALresults[ear][freq][0] = '!';
+      SALresults[ear][freq][1] = "The masked result is lower than initial result. Please check for technical error or typo.";
     }
 
-    result.innerText = `${SAL} dB`;
-
-  }
-}
-
-const localNorms = {
-  A: "",
-  B: "",
-  C: "",
-  D: ""
-}
-
-window.localStorage.setItem('localNorms', localNorms);
-
-
-function grabNewCustomNorms() {
-  //gets custom norms from page. Sets customs to the local storage then finishes by updating the app formula
-  /*   
-    localStorage.clear();
-    return; */
-
-  const five = document.getElementById("norm500");
-  const one = document.getElementById("norm1000");
-  const two = document.getElementById("norm2000");
-  const four = document.getElementById("norm4000");
-  const message = "Norms updated from input boxes on screen. ";
-
-  const localNorms = {
-    A: five.value,
-    B: one.value,
-    C: two.value,
-    D: four.value
-  };
-
-  //should only overwrite data when given an input from the screen
-  if (!localNorms.A) {} else {
-    localStorage.setItem("localNorms.A", localNorms.A);
-  }
-  if (!localNorms.B) {} else {
-    localStorage.setItem("localNorms.B", localNorms.B);
-  }
-  if (!localNorms.C) {} else {
-    localStorage.setItem("localNorms.C", localNorms.C);
-  }
-  if (!localNorms.D) {} else {
-    localStorage.setItem("localNorms.D", localNorms.D);
-  }
-  //commenting out because it may not be JSON safe?
-  //const timeStamp = new Date().toLocaleString();
-  //localStorage.setItem("localNorms.timeStamp", timeStamp);
-
-  //calls load fx to put custom values into the app formula
-  pushCustomNorms(localNorms.A, localNorms.B, localNorms.C, localNorms.D, message);
-}
-
-function grabOldCustomNorms() {
-  //grabs localStorage values
-
-  //checks for existence of local values 
-  const aA = window.localStorage.getItem('localNorms.A');
-  const bB = window.localStorage.getItem('localNorms.B');
-  const cC = window.localStorage.getItem('localNorms.C');
-  const dD = window.localStorage.getItem('localNorms.D');
-  const message = "Norms loaded from local storage. "
-pushCustomNorms(aA, bB, cC, dD, message);
-
-}
-
-function pushCustomNorms(five, one, two, four, message) {
-  //takes in custom norms from earlier script and updates them into app formula
-  //if empty value it leaves the target untouched
-
-  let alertFlag = 0;
-
-  if (!five) {
-    alertFlag++
   } else {
-    norms.A.splice(0, 1, parseInt(five))
+    //wipe out result if one of the inputs is empty
+    SALresults[ear][freq][0] = null;
+    SALresults[ear][freq][1] = null;
   }
-  if (!one) {
-    alertFlag++
-  } else {
-    norms.B.splice(0, 1, parseInt(one))
-  }
-  if (!two) {
-    alertFlag++
-  } else {
-    norms.C.splice(0, 1, parseInt(two))
-  }
-  if (!four) {
-    alertFlag++
-  } else {
-    norms.D.splice(0, 1, parseInt(four))
-  }
-  if (alertFlag < 1) {} else {
-    window.alert(`${message} ${alertFlag} of your custom norms ${alertFlag > 1 ? "were" : "was"} empty. Default norms or previously-entered custom norms applied to the empty frequencies.`);
-  }
-  //loads values to the screen
-  fillNormTable(norms.A, norms.B, norms.C, norms.D);
+  setResultsToCell(ear, freq, targetResult, targetInfo);
 }
 
-function setMin(id) {
-  //sets the masked min starting value to at least that of the unmasked. 
-  //get argument = id of element then query selector for it and partner to put into variables. 
-  const target = document.getElementById(id);
-  const targetVal = target.value;
-  const buddyName = id.replace("un", "");
-  const buddy = document.getElementById(buddyName);
-
-  buddy.setAttribute("min", targetVal);
-  //this updates the result in case it was set and then the unmasked was changed later. 
-  calcThresh(buddyName);
+function setResultsToCell(ear, freq, targetResult, targetInfo) {
+  resultsDisplay.forEach(result => {
+    if (result.id === targetResult) {
+      result.textContent = SALresults[ear][freq][0];
+    }
+  },
+    moreInfo.forEach(info => {
+      if (info.id === targetInfo) {
+        info.textContent = SALresults[ear][freq][2];
+      }
+    }
+    ))
 }
 
-function fillNormTable(A, B, C, D) {
-  const five = document.getElementById("normData500cell");
-  const one = document.getElementById("normData1kcell");
-  const two = document.getElementById("normData2kcell");
-  const four = document.getElementById("normData4kcell");
-  const target = document.getElementById("update-norm-time");
-  const timeStamp = new Date().toLocaleString();
+const result_modal = document.getElementById("result_modal");
 
-  five.innerText = A;
-  one.innerText = B;
-  two.innerText = C;
-  four.innerText = D;
-  target.innerText = timeStamp;
+function closeResult(event) {
+  if (event.target === result_modal) {
+    result_modal.style.display = "none";
+    result_modal.removeEventListener("click", closeResult);
+  }
 }
 
-fillNormTable(norms.A, norms.B, norms.C, norms.D);
-
+function launchResult(event) {
+  result_modal.style.display = "block";
+  result_modal.addEventListener("click", closeResult);
+  const id = event.target.id;
+  const ear = id.charAt(0);
+  const freq = id.replace(`${ear}_info_`, '');
+  const targetComment = document.getElementById('dialog_text')
+  targetComment.innerText = `${SALresults[ear][freq][3]}: ${SALresults[ear][freq][1]}`;
+}
