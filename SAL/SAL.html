@@ -1,300 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    
-        <link rel="stylesheet" href="style.css">
-    <meta charset="UTF-8">
-    <title>Sensorineural Acuity Level (SAL)</title>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles2.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <title>Sensorineural Acuity Test</title>
+</head>
 
-  <body>
+<body>
 
-    <div class="grid-container">
+  <header>
+    <h1>Sensorineural Acuity Level Test</h1>
+  </header>
 
-      <div class="header" style="grid-column: 1/ span 11;">
 
-        <h1 style="font-size: 24px;padding: 0px;">
-          Sensorineural Acuity Level (SAL)
-        </h1>
-
-        <a href="../index.html" style="position: relative;left: 30px;">Home</a>
-
+  <div id="SAL" class="main-container">
+    <div class="threshold-container">
+      <div>
+        <p>Right</p>
+      </div>
+      <div class="threshold-item">500Hz</div>
+      <div class="threshold-item">1kHz</div>
+      <div class="threshold-item">2kHz</div>
+      <div class="threshold-item">4kHz</div>
+      <div>
+        <p>Initial AC</p>
+      </div>
+      <div class="threshold-item"><input type="number" id="R_initial_five" tabindex="1"></div>
+      <div class="threshold-item"><input type="number" id="R_initial_one" tabindex="2"></div>
+      <div class="threshold-item"><input type="number" id="R_initial_two" tabindex="3"></div>
+      <div class="threshold-item"><input type="number" id="R_initial_four" tabindex="4"></div>
+      <div>
+        <p>AC using SAL</p>
+      </div>
+      <div class="threshold-item"><input type="number" id="R_masked_five" tabindex="9"></div>
+      <div class="threshold-item"><input type="number" id="R_masked_one" tabindex="10"></div>
+      <div class="threshold-item"><input type="number" id="R_masked_two" tabindex="11"></div>
+      <div class="threshold-item"><input type="number" id="R_masked_four" tabindex="12"></div>
+      <div>
+        <p>Final Result</p>
       </div>
 
-      <h3 class="grid-title" style="grid-column: 1">
-        Right:
-      </h3>
-      <h3 class="subheading1">
-        Unmasked AC Thresholds
-      </h3>
-      <h3 class="grid-title" style="grid-column: 11">
-        Left:
-      </h3>
-      <h3 class="grid-title">
-
-      </h3>
-      <h3 class="grid-title">
-        500Hz
-      </h3>
-      <h3 class="grid-title">
-        1000Hz
-      </h3>
-      <h3 class="grid-title">
-        2000Hz
-      </h3>
-      <h3 class="grid-title">
-        4000Hz
-      </h3>
-
-      <h3 class="grid-title">
-
-      </h3>
-      <h3 class="grid-title">
-        500Hz
-      </h3>
-      <h3 class="grid-title">
-        1000Hz
-      </h3>
-      <h3 class="grid-title">
-        2000Hz
-      </h3>
-      <h3 class="grid-title">
-        4000Hz
-      </h3>
-      <h3 class="grid-title"></h3>
-      <h3 class="grid-title"></h3>
-      <div class="grid-item-right">
-        <input type="number" id="unmaskedR500" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+      <div class="threshold-item">
+        <p id="R_result_five" class="result"></p>
+      </div>
+      <div class="threshold-item">
+        <p id="R_result_one" class="result"></p>
+      </div>
+      <div class="threshold-item ">
+        <p id="R_result_two" class="result"></p>
+      </div>
+      <div class="threshold-item">
+        <p id="R_result_four" class="result"></p>
+      </div>
+      <div>
+        <p>More Info</p>
       </div>
 
-      <div class="grid-item-right">
-        <input type="number" id="unmaskedR1000" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+      <div class="threshold-item">
+        <p id="R_info_five" class="info"></p>
       </div>
-      <div class="grid-item-right">
-        <input type="number" id="unmaskedR2000" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+      <div class="threshold-item">
+        <p id="R_info_one" class="info"></p>
       </div>
-      <div class="grid-item-right">
-        <input type="number" id="unmaskedR4000" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+      <div class="threshold-item ">
+        <p id="R_info_two" class="info"></p>
       </div>
-      <h3 class="grid-title">
-
-      </h3>
-      <div class="grid-item-left">
-        <input type="number" id="unmaskedL500" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+      <div class="threshold-item">
+        <p id="R_info_four" class="info"></p>
       </div>
-
-      <div class="grid-item-left">
-        <input type="number" id="unmaskedL1000" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+    </div>
+    <div class="threshold-container">
+      <div>
+        <p>Left</p>
       </div>
-      <div class="grid-item-left">
-        <input type="number" id="unmaskedL2000" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+      <div class="threshold-item">500Hz</div>
+      <div class="threshold-item">1kHz</div>
+      <div class="threshold-item">2kHz</div>
+      <div class="threshold-item">4kHz</div>
+      <div>
+        <p>Initial AC</p>
       </div>
-      <div class="grid-item-left">
-        <input type="number" id="unmaskedL4000" class="input-box" step="5" min="40" max="120" onclick="setMin(id)" onblur="setMin(id)">
+      <div class="threshold-item"><input type="number" id="L_initial_five" tabindex="5"></div>
+      <div class="threshold-item"><input type="number" id="L_initial_one" tabindex="6"></div>
+      <div class="threshold-item"><input type="number" id="L_initial_two" tabindex="7"></div>
+      <div class="threshold-item"><input type="number" id="L_initial_four" tabindex="8"></div>
+      <div>
+        <p>AC using SAL</p>
       </div>
-
-      <h3 class="subheading2">
-        Masked AC Thresholds
-      </h3>
-      <h3 class="grid-title">
-      </h3>
-
-      <h3 class="grid-title">
-      </h3>
-      <h3 class="grid-title">
-        500Hz
-      </h3>
-      <h3 class="grid-title">1000Hz</h3>
-      <h3 class="grid-title">2000Hz</h3>
-      <h3 class="grid-title">4000Hz</h3>
-      <h3 class="grid-title"></h3>
-      <h3 class="grid-title">500Hz</h3>
-      <h3 class="grid-title">1000Hz</h3>
-      <h3 class="grid-title">2000Hz</h3>
-      <h3 class="grid-title">4000Hz</h3>
-      <h3 class="grid-title"></h3>
-      <h3 class="grid-title">
-      </h3>
-      <div class="grid-item-right">
-        <input type="number" id="maskedR500" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div class="threshold-item"><input type="number" id="L_masked_five" tabindex="13"></div>
+      <div class="threshold-item"><input type="number" id="L_masked_one" tabindex="14"></div>
+      <div class="threshold-item"><input type="number" id="L_masked_two" tabindex="15"></div>
+      <div class="threshold-item"><input type="number" id="L_masked_four" tabindex="16"></div>
+      <div>
+        <p>Final Result</p>
       </div>
-
-      <div class="grid-item-right">
-        <input type="number" id="maskedR1000" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div class="threshold-item">
+        <p id="L_result_five" class="result"></p>
       </div>
-      <div class="grid-item-right">
-        <input type="number" id="maskedR2000" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div class="threshold-item">
+        <p id="L_result_one" class="result"></p>
       </div>
-      <div class="grid-item-right">
-        <input type="number" id="maskedR4000" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div class="threshold-item">
+        <p id="L_result_two" class="result"></p>
       </div>
-      <h3 class="grid-title">
-
-      </h3>
-      <div class="grid-item-left">
-        <input type="number" id="maskedL500" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div class="threshold-item">
+        <p id="L_result_four" class="result"></p>
       </div>
-
-      <div class="grid-item-left">
-        <input type="number" id="maskedL1000" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div>
+        <p>More Info</p>
       </div>
-      <div class="grid-item-left">
-        <input type="number" id="maskedL2000" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div class="threshold-item">
+        <p id="L_info_five" class="info"></p>
       </div>
-      <div class="grid-item-left">
-        <input type="number" id="maskedL4000" class="input-box" step="5" min="40" max="120" data-target="true" onclick="calcThresh(id)" onchange="calcThresh(id)" onblur="calcThresh(id)">
+      <div class="threshold-item">
+        <p id="L_info_one" class="info"></p>
       </div>
-
-
-
-      <h3 class="subheading2">
-        New BC Thresholds to plot on audiogram
-      </h3>
-      <h3 class="grid-title">
-      </h3>
-
-      <h3 class="grid-title">
-      </h3>
-
-      <h3 class="grid-title">
-        500Hz
-      </h3>
-      <h3 class="grid-title">
-        1000Hz
-      </h3>
-      <h3 class="grid-title">
-        2000Hz
-      </h3>
-      <h3 class="grid-title">
-        4000Hz
-      </h3>
-      <h3 class="grid-title">
-
-      </h3>
-
-      <h3 class="grid-title">
-        500Hz
-      </h3>
-      <h3 class="grid-title">
-        1000Hz
-      </h3>
-      <h3 class="grid-title">
-        2000Hz
-      </h3>
-      <h3 class="grid-title">
-        4000Hz
-      </h3>
-      <h3 class="grid-title">
-
-      </h3>
-      <h3 class="grid-title">
-      </h3>
-
-      <p class="grid-item-right thresh-result-right" id="R500result"> </p>
-      <p class="grid-item-right thresh-result-right" id="R1000result"> </p>
-      <p class="grid-item-right thresh-result-right" id="R2000result"> </p>
-      <p class="grid-item-right thresh-result-right" id="R4000result"> </p>
-
-      <h3 class="grid-title">      </h3>
-
-      <p class="grid-item-left thresh-result-left" id="L500result"></p>
-      <p class="grid-item-left thresh-result-left" id="L1000result"></p>
-      <p class="grid-item-left thresh-result-left" id="L2000result"></p>
-      <p class="grid-item-left thresh-result-left" id="L4000result"></p>
-
-
-      <h3 class="subheading2" style="grid-column: 2/span 4;">
-        Custom Shift Norms
-      </h3>
-
-      <h3 class="subheading2" style="grid-column: 7/ span 4;">
-        Loaded Shift Norms
-      </h3>
-
-      <div id="booth norms" style="grid-column: 2/ span 2;text-align: center;">
-
-        <table class="norm-table">
-          <tr>
-            <th>500Hz</th>
-            <th>1kHz</th>
-            <th>2kHz</th>
-            <th>4kHz</th>
-          </tr>
-<tr><td><input type="number" id="norm500" step="5" min="35" style="width: 50px;"></td>
-<td><input type="number" id="norm1000" step="5" min="35" style="width: 50px;"></td>
-<td><input type="number" id="norm2000" step="5" min="35" style="width: 50px;"></td>
-<td><input type="number" id="norm4000" step="5" min="35" style="width: 50px;"></td></tr></table>
+      <div class="threshold-item">
+        <p id="L_info_two" class="info"></p>
       </div>
-
-      <div id="display norms" style="grid-column: 7/ span 3;">
-
-        <table class="norm-table">
-          <tr>
-            <th>500Hz</th>
-            <th>1kHz</th>
-            <th>2kHz</th>
-            <th>4kHz</th>
-          </tr>
-          <tr>
-            <td id="normData500cell">55</td>
-            <td id="normData1kcell"></td>
-            <td id="normData2kcell"></td>
-            <td id="normData4kcell"></td>
-          </tr>
-        </table><br>
-
-        <div id="update-norm-time" style="color: gray; text-indent: 10px;font-style: italic;position: relative;top: -10px;">
-        </div>
+      <div class="threshold-item">
+        <p id="L_info_four" class="info"></p>
       </div>
+    </div>
+    <!-- end of SAL worksheet wrapper -->
+  </div>
 
 
+  <div id="result_modal" class="result-modal">
+    <!-- Modal content -->
 
-    <button id="toggleInfoButton" class="norm-button" onclick="toggleInfo()" style="grid-column: 3/ span 2;text-align: center;">
-      Show Info
-    </button>
-
-    <button class="norm-button" onclick="grabNewCustomNorms()" style="grid-column: 3/ span 2;text-align: center;">
-      Set New Custom Norms
-    </button>
-    <button class="norm-button" onclick="grabOldCustomNorms()" style="grid-column: 8/ span 2;text-align: center;">
-      Load My Previous Norms
-    </button>
-        <button class="norm-button" onclick="pushCustomNorms(40, 50, 45, 50)" style="grid-column: 8/ span 2;text-align: center;">
-      Reset Norms to Default
-    </button>
-  
-  
-  
-    <div id="Info"style="grid-column: 2/span 9;">
-      <p><span class="info-header">When should you use SAL?</span> <br><br>
-        <span class="info-body">SAL is useful when traditional masking approaches are likely to overmask and lead to masking dilemma. Bilateral conductive hearing losses with large unmasked air-bone gaps are the most common use case for SAL. </span><br><br>
-        <span class="info-header">How does it work? </span><br><br>
-        <span class="info-body">SAL uses normative data based on each audiometer and normal subjects. Each audiometer likely has different maximum outputs for bone-conduction (BC) narrow-band noise (NBN) at each freqeuncy. The SAL procedure asks you to set channel 2 to the maximum level per NBN using the BC oscillator placed on the patient's forehead. The max output will vary by frequency (usually between 40-60dB). You can use the default norms if needed but it is likely better to establish specific norms for your booth. The masking noise will cause the AC thresholds to increase if the ear has conductive loss. The amount of increase (unmasked AC vs masked AC) will guide you on the estimated level of the BC threshold.</span><br><br>
-
-        <span class="info-header">How do I do the test? </span><br><br>
-
-        <span class="info-body">Measure unmasked AC thresholds 500Hz-4kHz and mark them down. Place the bone oscillator on the forehead and present NBN masking through it at the max level of channel 2. Remeasure AC thresholds and mark them down. Use the values displayed in the results section as the masked BC thresholds. </span><br><br>
-
-
-        <span class="info-header">How do I create my own norms?</span><br><br>
-
-        <span class="info-body">Test air-conduction on a few normal subjects at 500Hz, 1kHz, 2kHz, and 4kHz in each ear (unilateral is also fine). Retest the same subjects at the same frequencies via AC but place the BC oscillator on the forhead and set channel 2 routed to BC with NBN signal at the highest output allowed by the machine. Subtract the unmasked threshold from the masked threshold to get the shift value for each frequency. Average the shift values across your subjects to get the norm value for that frequency. </span><br><br>
-
-        <span class="info-header">Why does it give me a masked BC threshold below the unmasked BC threshold?</span><br><br>
-
-        <span class="info-body">The calculation doesn't take the unmasked BC threshold into account. If you receive a result that is better (lower) than your unmasked threshold just use the unmasked value as the masked value. The fact that the value is better than unmasked suggests that your unmasked value can be trusted to represent cochlear function for that ear. </span><br><br>
-
-        <span class="info-header">What do I do if I reach the limits of the equipment before a masked response is obtained?</span><br><br>
-
-        <span class="info-body">This can happen when the loss is mixed and the best unmasked BC thresolds are near the moderate range of hearing loss. Try another AC transducer to see if there is higher output. If that doesn't help then you may need to stick with "masking dilemma".</span><br><br>
-
-      </p>
-
+    <div id="result_modal_content" class="result-modal-content">
+      <p id="dialog_text">wvvwevvwwwevwvewewvwevewvewevwewv</p>
     </div>
   </div>
 
-      <script src="scripts.js"></script>
-  </body>
+  <div class="research">
+    <ul>
+      <li><a
+          href="https://jamanetwork.com/journals/jamaotolaryngology/article-abstract/598870?casa_token=BtTwctJzoKgAAAAA:ZV0FRs7EPArKmc6KPjPljzbXdUyvgTDCkKr11zSxhTOsBtCxPj1PosE8Us1T25RW0Vi2keWV">Jerger
+          Tillman</a></li>
+      <li><a href="https://europepmc.org/article/med/6881307">Chaplin Miyamoto</a>
+      </li>
+    </ul>
+    <img src="./simple_explanation_table_Chaplin.png" alt="simple_description_SAL">
+  </div>
+
+  <script src="./scripts2.js"></script>
+</body>
 
 </html>
