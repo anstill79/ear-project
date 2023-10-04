@@ -60,7 +60,7 @@ function doSAL() {
   const targetResult = `${ear}_result_${freq}`;
   const targetInfo = `${ear}_info_${freq}`;
   //why do SAL in this case?
-  if (data[ear][freq][0] < 50) {
+  if (data[ear][freq][0] < 50 && data[ear][freq][0] !== null) {
     SALresults[ear][freq][0] = null;
     SALresults[ear][freq][2] = '⚠️';
     SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency.";
