@@ -55,7 +55,7 @@ input[type=number]:focus {
   margin: auto;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 900px) {
   .main-container {
     grid-template-columns: 1fr;
     margin-left: 20px;
