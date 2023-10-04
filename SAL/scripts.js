@@ -136,6 +136,18 @@ function launchResult(event) {
   const id = event.target.id;
   const ear = id.charAt(0);
   const freq = id.replace(`${ear}_info_`, '');
-  const targetComment = document.getElementById('dialog_text')
-  targetComment.innerText = `${SALresults[ear][freq][3]}: ${SALresults[ear][freq][1]}`;
+  const targetComment = document.getElementById('result_modal_content');
+  targetComment.innerText = "";
+  const title = document.createElement('span');
+  const content = document.createElement('span');
+  const div = document.createElement('div');
+  div.classList.add('spacer');
+  title.innerText = SALresults[ear][freq][3];
+  title.classList.add('card-title');
+  content.innerText = SALresults[ear][freq][1];
+  content.classList.add('card-content');
+  targetComment.appendChild(title);
+  targetComment.appendChild(div);
+
+  targetComment.appendChild(content);
 }
