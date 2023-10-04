@@ -63,14 +63,14 @@ function doSAL() {
   if (data[ear][freq][0] < 50 && data[ear][freq][0] !== null) {
     SALresults[ear][freq][0] = null;
     SALresults[ear][freq][2] = '⚠️';
-    SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency.";
+    SALresults[ear][freq][1] = "Initial threshold is lower than 50dB. Traditional masking may be a better choice for this frequency.";
     setResultsToCell(ear, freq, targetResult, targetInfo);
     return;
   }
   if (data[ear][freq][0] > 85) {
 
     SALresults[ear][freq][2] = '⚠️';
-    SALresults[ear][freq][1] = "Initial result is greater than 85dB. The limits of most equipment can be an issue here. The SAL value is displayed but use with caution.";
+    SALresults[ear][freq][1] = "Initial threshold is greater than 85dB. The limits of most equipment can be an issue here. The SAL value is displayed but use with caution.";
     if (typeof data[ear][freq][1] === 'number' && typeof data[ear][freq][0] === 'number') {
       const shift = data[ear][freq][1] - data[ear][freq][0];
       SALresults[ear][freq][0] = shiftNorms[freq] - shift;
