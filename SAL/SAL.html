@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
-  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <link rel="stylesheet" href="./styles2.css">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <title>Sensorineural Acuity Test</title>
 </head>
 
@@ -18,111 +18,127 @@
 
 
   <div id="SAL" class="main-container">
-    <div class="threshold-container">
+    <div class="red-border threshold-container">
       <div>
-        <p>Right</p>
+        <p class="labels">Right</p>
       </div>
-      <div class="threshold-item">500Hz</div>
-      <div class="threshold-item">1kHz</div>
-      <div class="threshold-item">2kHz</div>
-      <div class="threshold-item">4kHz</div>
-      <div>
-        <p>Initial AC</p>
+      <div class="no-border threshold-item">
+        <p>500Hz</p>
       </div>
-      <div class="threshold-item"><input type="number" id="R_initial_five" tabindex="1"></div>
-      <div class="threshold-item"><input type="number" id="R_initial_one" tabindex="2"></div>
-      <div class="threshold-item"><input type="number" id="R_initial_two" tabindex="3"></div>
-      <div class="threshold-item"><input type="number" id="R_initial_four" tabindex="4"></div>
-      <div>
-        <p>AC using SAL</p>
+      <div class="no-border threshold-item">
+        <p>1kHz</p>
       </div>
-      <div class="threshold-item"><input type="number" id="R_masked_five" tabindex="9"></div>
-      <div class="threshold-item"><input type="number" id="R_masked_one" tabindex="10"></div>
-      <div class="threshold-item"><input type="number" id="R_masked_two" tabindex="11"></div>
-      <div class="threshold-item"><input type="number" id="R_masked_four" tabindex="12"></div>
+      <div class="no-border threshold-item">
+        <p>2kHz</p>
+      </div>
+      <div class="no-border threshold-item">
+        <p>4kHz</p>
+      </div>
       <div>
-        <p>Final Result</p>
+        <p class="labels">Initial AC</p>
+      </div>
+      <div class="sm-border threshold-item"><input type="number" id="R_initial_five" tabindex="1"></div>
+      <div class="sm-border threshold-item"><input type="number" id="R_initial_one" tabindex="2"></div>
+      <div class="sm-border threshold-item"><input type="number" id="R_initial_two" tabindex="3"></div>
+      <div class="sm-border threshold-item"><input type="number" id="R_initial_four" tabindex="4"></div>
+      <div>
+        <p class="labels">AC using SAL</p>
+      </div>
+      <div class="sm-border threshold-item"><input type="number" id="R_masked_five" tabindex="9"></div>
+      <div class="sm-border threshold-item"><input type="number" id="R_masked_one" tabindex="10"></div>
+      <div class="sm-border threshold-item"><input type="number" id="R_masked_two" tabindex="11"></div>
+      <div class="sm-border threshold-item"><input type="number" id="R_masked_four" tabindex="12"></div>
+      <div>
+        <p class="labels">Final Result</p>
       </div>
 
-      <div class="threshold-item">
+      <div class="lg-border threshold-item">
         <p id="R_result_five" class="result"></p>
       </div>
-      <div class="threshold-item">
+      <div class="lg-border threshold-item">
         <p id="R_result_one" class="result"></p>
       </div>
-      <div class="threshold-item ">
+      <div class="lg-border threshold-item ">
         <p id="R_result_two" class="result"></p>
       </div>
-      <div class="threshold-item">
+      <div class="lg-border threshold-item">
         <p id="R_result_four" class="result"></p>
       </div>
       <div>
-        <p>More Info</p>
+        <p class="labels">More Info</p>
       </div>
 
-      <div class="threshold-item">
+      <div class="no-border threshold-item">
         <p id="R_info_five" class="info"></p>
       </div>
-      <div class="threshold-item">
+      <div class="no-border threshold-item">
         <p id="R_info_one" class="info"></p>
       </div>
-      <div class="threshold-item ">
+      <div class="no-border threshold-item ">
         <p id="R_info_two" class="info"></p>
       </div>
-      <div class="threshold-item">
+      <div class="no-border threshold-item">
         <p id="R_info_four" class="info"></p>
       </div>
     </div>
-    <div class="threshold-container">
+    <div class="blue-border threshold-container">
       <div>
-        <p>Left</p>
+        <p class="labels">Left</p>
       </div>
-      <div class="threshold-item">500Hz</div>
-      <div class="threshold-item">1kHz</div>
-      <div class="threshold-item">2kHz</div>
-      <div class="threshold-item">4kHz</div>
+      <div class="no-border threshold-item">
+        <p>500Hz</p>
+      </div>
+      <div class="no-border threshold-item">
+        <p>1kHz</p>
+      </div>
+      <div class="no-border threshold-item">
+        <p>2kHz</p>
+      </div>
+      <div class="no-border threshold-item">
+        <p>4kHz</p>
+      </div>
       <div>
-        <p>Initial AC</p>
+        <p class="labels">Initial AC</p>
       </div>
-      <div class="threshold-item"><input type="number" id="L_initial_five" tabindex="5"></div>
-      <div class="threshold-item"><input type="number" id="L_initial_one" tabindex="6"></div>
-      <div class="threshold-item"><input type="number" id="L_initial_two" tabindex="7"></div>
-      <div class="threshold-item"><input type="number" id="L_initial_four" tabindex="8"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_initial_five" tabindex="5"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_initial_one" tabindex="6"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_initial_two" tabindex="7"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_initial_four" tabindex="8"></div>
       <div>
-        <p>AC using SAL</p>
+        <p class="labels">AC using SAL</p>
       </div>
-      <div class="threshold-item"><input type="number" id="L_masked_five" tabindex="13"></div>
-      <div class="threshold-item"><input type="number" id="L_masked_one" tabindex="14"></div>
-      <div class="threshold-item"><input type="number" id="L_masked_two" tabindex="15"></div>
-      <div class="threshold-item"><input type="number" id="L_masked_four" tabindex="16"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_masked_five" tabindex="13"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_masked_one" tabindex="14"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_masked_two" tabindex="15"></div>
+      <div class="sm-border threshold-item"><input type="number" id="L_masked_four" tabindex="16"></div>
       <div>
-        <p>Final Result</p>
+        <p class="labels">Final Result</p>
       </div>
-      <div class="threshold-item">
+      <div class="lg-border threshold-item">
         <p id="L_result_five" class="result"></p>
       </div>
-      <div class="threshold-item">
+      <div class="lg-border threshold-item">
         <p id="L_result_one" class="result"></p>
       </div>
-      <div class="threshold-item">
+      <div class="lg-border threshold-item">
         <p id="L_result_two" class="result"></p>
       </div>
-      <div class="threshold-item">
+      <div class="lg-border threshold-item">
         <p id="L_result_four" class="result"></p>
       </div>
       <div>
-        <p>More Info</p>
+        <p class="labels">More Info</p>
       </div>
-      <div class="threshold-item">
+      <div class="no-border threshold-item">
         <p id="L_info_five" class="info"></p>
       </div>
-      <div class="threshold-item">
+      <div class="no-border threshold-item">
         <p id="L_info_one" class="info"></p>
       </div>
-      <div class="threshold-item">
+      <div class="no-border threshold-item">
         <p id="L_info_two" class="info"></p>
       </div>
-      <div class="threshold-item">
+      <div class="no-border threshold-item">
         <p id="L_info_four" class="info"></p>
       </div>
     </div>
@@ -149,7 +165,7 @@
     <img src="./simple_explanation_table_Chaplin.png" alt="simple_description_SAL">
   </div>
 
-  <script src="./scripts.js"></script>
+  <script src="./scripts2.js"></script>
 </body>
 
 </html>
