@@ -63,14 +63,14 @@ function doSAL() {
   if (data[ear][freq][0] < 50 && data[ear][freq][0] !== null) {
     SALresults[ear][freq][0] = null;
     SALresults[ear][freq][2] = '⚠️';
-    SALresults[ear][freq][1] = "Initial threshold is lower than 50dB. Traditional masking may be a better choice for this frequency.";
+    SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency.";
     setResultsToCell(ear, freq, targetResult, targetInfo);
     return;
   }
   if (data[ear][freq][0] > 85) {
 
     SALresults[ear][freq][2] = '⚠️';
-    SALresults[ear][freq][1] = "Initial threshold is greater than 85dB. The limits of most equipment can be an issue here. The SAL value is displayed but use with caution.";
+    SALresults[ear][freq][1] = "Initial result is greater than 85dB. The limits of most equipment can be an issue here. The SAL value is displayed but use with caution.";
     if (typeof data[ear][freq][1] === 'number' && typeof data[ear][freq][0] === 'number') {
       const shift = data[ear][freq][1] - data[ear][freq][0];
       SALresults[ear][freq][0] = shiftNorms[freq] - shift;
@@ -97,6 +97,7 @@ function doSAL() {
     if (data[ear][freq][1] < data[ear][freq][0]) {
       SALresults[ear][freq][0] = '!';
       SALresults[ear][freq][1] = "The masked result is lower than initial result. Please check for technical error or typo.";
+      SALresults[ear][freq][2] = '⚠️';
     }
 
   } else {
@@ -150,4 +151,39 @@ function launchResult(event) {
   targetComment.appendChild(div);
 
   targetComment.appendChild(content);
+}
+
+
+function generateHelpText() {
+
+  const yo = "";
+
+  const content = `When should you use SAL? 
+  
+  SAL is useful when traditional masking approaches are likely to overmask and lead to masking dilemma. Bilateral conductive hearing losses with large unmasked air-bone gaps are the most common use case for SAL. 
+
+  How does it work? 
+        
+  AL uses normative data based on each audiometer and normal subjects. Each audiometer likely has different maximum outputs for bone-conduction (BC) narrow-band noise (NBN) at each freqeuncy. The SAL procedure asks you to set channel 2 to the maximum level per NBN using the BC oscillator placed on the patient's forehead. The max output will vary by frequency (usually between 40-60dB). You can use the default norms if needed but it is likely better to establish specific norms for your booth. The masking noise will cause the AC thresholds to increase if the ear has conductive loss. The amount of increase (unmasked AC vs masked AC) will guide you on the estimated level of the BC threshold.
+
+
+How do I do the test?
+
+  Measure unmasked AC thresholds 500Hz-4kHz and mark them down. Place the bone oscillator on the forehead and present NBN masking through it at the max level of channel 2 then remeasure AC thresholds and mark them down. Use the values displayed in the results section as the masked BC thresholds. 
+  
+How do I create my own norms?
+
+  Test air-conduction on a few normal subjects at 500Hz, 1kHz, 2kHz, and 4kHz in each ear (unilateral is also fine). Retest the same subjects at the same frequencies via AC but place the BC oscillator on the forehead and set channel 2 routed to BC with NBN signal at the highest output allowed by the machine. Subtract the unmasked threshold from the masked threshold to get the shift value for each frequency. Average the shift values across your subjects to get the norm value for that frequency. 
+
+Why does it give me a masked BC threshold below the unmasked BC threshold?
+
+  The calculation doesn't take the unmasked BC threshold into account. If you receive a result that is better (lower) than your unmasked threshold just use the unmasked value as the masked value. The fact that the value is better than unmasked suggests that your unmasked value can be trusted to represent cochlear function for that ear.
+
+What do I do if I reach the limits of the equipment before a masked response is obtained?
+
+  This can happen when the loss is mixed and the best unmasked BC thresolds are near the moderate range of hearing loss. Try another AC transducer to see if there is higher output. If that doesn't help then you may need to stick with "masking dilemma".`
+
+
+
+
 }
