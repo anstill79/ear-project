@@ -36,7 +36,6 @@ input[type=number]:focus {
 
 .main-container {
   display: grid;
-  justify-items: center;
   grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   max-width: 1000px;
@@ -47,6 +46,7 @@ input[type=number]:focus {
   .main-container {
     grid-template-columns: 1fr;
     margin-left: 20px;
+      justify-items: center;
     /* One column on small screens */
   }
 
