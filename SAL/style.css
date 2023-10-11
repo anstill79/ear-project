@@ -53,6 +53,7 @@ input[type=number]:focus {
   .threshold-container {
     gap: 2px;
     grid-auto-rows: 40px;
+    width: 80vw;
   }
 
   p {
