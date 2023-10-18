@@ -59,12 +59,15 @@ function doSAL() {
   }
   const targetResult = `${ear}_result_${freq}`;
   const targetInfo = `${ear}_info_${freq}`;
+  const shift = data[ear][freq][1] - data[ear][freq][0];
   //why do SAL in this case?
   if (data[ear][freq][0] < 50 && data[ear][freq][0] !== null) {
     //SALresults[ear][freq][0] = null;
+    if (data[ear][freq][0] && data[ear][freq][1]) {
     SALresults[ear][freq][0] = shiftNorms[freq] - shift;
+    }
     SALresults[ear][freq][2] = '⚠️';
-    SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value is displayed in case traditional masking is not viable due to opposite ear severity.";
+    SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity.";
     setResultsToCell(ear, freq, targetResult, targetInfo);
     return;
   }
@@ -73,7 +76,6 @@ function doSAL() {
     SALresults[ear][freq][2] = '⚠️';
     SALresults[ear][freq][1] = "Initial result is greater than 85dB. The limits of most equipment can be an issue here. The SAL value is displayed but use with caution.";
     if (typeof data[ear][freq][1] === 'number' && typeof data[ear][freq][0] === 'number') {
-      const shift = data[ear][freq][1] - data[ear][freq][0];
       SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     }
     setResultsToCell(ear, freq, targetResult, targetInfo);
@@ -83,7 +85,6 @@ function doSAL() {
 
   if (data[ear][freq][0] && data[ear][freq][1]) {
     const maxAllowed = data[ear][freq][0] - shiftNorms[freq];
-    const shift = data[ear][freq][1] - data[ear][freq][0];
     SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     // if shift is larger than norm, just put it at initial minus norm
     if (shift > shiftNorms[freq]) {
