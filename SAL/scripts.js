@@ -62,6 +62,7 @@ function doSAL() {
   //why do SAL in this case?
   if (data[ear][freq][0] < 50 && data[ear][freq][0] !== null) {
     //SALresults[ear][freq][0] = null;
+    SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     SALresults[ear][freq][2] = '⚠️';
     SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value is displayed in case traditional masking is not viable due to opposite ear severity.";
     setResultsToCell(ear, freq, targetResult, targetInfo);
