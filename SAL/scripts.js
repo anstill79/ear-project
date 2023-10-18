@@ -67,7 +67,10 @@ function doSAL() {
     SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     }
     SALresults[ear][freq][2] = '⚠️';
-    SALresults[ear][freq][1] = "Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity.";
+    if (SALresults[ear][freq][0] < -10) {
+      const capped = "Result shift was too large. Displayed value is capped at -10";
+    }
+    SALresults[ear][freq][1] = `Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity.${if(!capped) {return} else {capped}}`;
     setResultsToCell(ear, freq, targetResult, targetInfo);
     return;
   }
