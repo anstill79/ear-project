@@ -155,7 +155,7 @@ input[type="number"]:focus {
 
 
 .norms-container h3 {
-  grid-column: 1 / span 8;
+  grid-column: 1 / span 7;
   padding-left: 10%;
 }
 

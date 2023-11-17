@@ -281,101 +281,99 @@
     </div>
   </div>
 
-  <div id="custom_norms_modal" class="result-modal" style="padding-top: 20%; padding-bottom: 10%; overflow: scroll">
-    <div>
-      <div id="custom_norms_content" class="norms-container"
-        style="border: 1px solid black; background-color: white; margin: auto">
-        <h3>Custom norm values</h3>
+  <div id="custom_norms_modal" class="result-modal" style="padding-top: 10%; padding-bottom: 10%; overflow: scroll">
 
-        <div class="spacer"></div>
-        <div class="no-border threshold-item">
-          <p class="norm-labels">500Hz</p>
-        </div>
-        <div class="no-border threshold-item">
-          <p class="norm-labels">1kHz</p>
-        </div>
-        <div class="no-border threshold-item">
-          <p class="norm-labels">2kHz</p>
-        </div>
-        <div class="no-border threshold-item">
-          <p class="norm-labels">4kHz</p>
-        </div>
-        <div class="threshold-item"><span>Label</span></div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-        <div class="threshold-item"><span>New Norms</span></div>
-        <div class="sm-border threshold-item">
-          <input type="number" id="newNorm500" />
-        </div>
-        <div class="sm-border threshold-item">
-          <input type="number" id="newNorm1k" />
-        </div>
-        <div class="sm-border threshold-item">
-          <input type="number" id="newNorm2k" />
-        </div>
-        <div class="sm-border threshold-item">
-          <input type="number" id="newNorm4k" />
-        </div>
-        <div class="sm-border threshold-item">
-          <textarea id="newNormLabel" style="width: 100%"></textarea>
-        </div>
-        <div class="flex-btns">
-          <button id="saveNormsButton" class="btn-norms" style="cursor: pointer">
-            ➕
-          </button>
-        </div>
-        <div class="spacer"></div>
+    <div id="custom_norms_content" class="norms-container"
+      style="border: 1px solid black; background-color: white; margin: auto; ">
+      <h3>Custom norm values</h3>
 
-        <div class="threshold-item"><span>defaults</span></div>
-        <div class="sm-border threshold-item"><span>55</span></div>
-        <div class="sm-border threshold-item"><span>60</span></div>
-        <div class="sm-border threshold-item"><span>60</span></div>
-        <div class="sm-border threshold-item"><span>60</span></div>
-
-        <div class="sm-border threshold-item overflow">
-          <span>Default values provided by the app</span>
-        </div>
-
-        <div class="flex-btns">
-          <button class="btn-norms load-norms" style="cursor: pointer">
-            📂
-          </button>
-          <button class="btn-norms delete-norms" style="cursor: pointer">
-            ❌
-          </button>
-        </div>
+      <div class="spacer"></div>
+      <div class="no-border threshold-item">
+        <p class="norm-labels">500Hz</p>
       </div>
-      <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
-        <summary>How to save custom norms</summary>
-        <p>
-          Custom norms are saved in your browser's local storage. This means
-          that they will be saved on your device and will be available the
-          next time you use the app. If you clear your browser's local storage
-          then the custom norms will be deleted. You can also delete the
-          custom norms by clicking the "❌" button. You can load the default
-          norms by clicking the "📂" button.
-        </p>
-      </details>
-      <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
-        <summary>How to load custom norms</summary>
-        <p>
-          Default norms are provided by the app and are the same for all
-          users. If you have saved custom norms then you can load the default
-          norms by clicking the "📂" button.
-        </p>
-      </details>
-      <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
-        <summary>How to measure norms</summary>
-        <p>
-          Test a few normal subjects at 500Hz, 1kHz, 2kHz, and 4kHz in each ear (unilateral is also fine). Retest the
-          same subjects at the same frequencies via AC but place the BC oscillator on the forehead and set channel 2
-          routed to BC with NBN signal at the highest output allowed by the machine. </p>
-        <p>Subtract the unmasked threshold
-          from the masked threshold to get the shift value for each frequency. Average the shift values across your
-          subjects to get the norm value for that frequency.
-        </p>
-      </details>
+      <div class="no-border threshold-item">
+        <p class="norm-labels">1kHz</p>
+      </div>
+      <div class="no-border threshold-item">
+        <p class="norm-labels">2kHz</p>
+      </div>
+      <div class="no-border threshold-item">
+        <p class="norm-labels">4kHz</p>
+      </div>
+      <div class="threshold-item"><span>Label</span></div>
+      <div class="spacer"></div>
+      <div class="threshold-item"><span>New Norms</span></div>
+      <div class="sm-border threshold-item">
+        <input type="number" id="newNorm500" />
+      </div>
+      <div class="sm-border threshold-item">
+        <input type="number" id="newNorm1k" />
+      </div>
+      <div class="sm-border threshold-item">
+        <input type="number" id="newNorm2k" />
+      </div>
+      <div class="sm-border threshold-item">
+        <input type="number" id="newNorm4k" />
+      </div>
+      <div class="sm-border threshold-item">
+        <textarea id="newNormLabel" style="width: 100%"></textarea>
+      </div>
+      <div class="flex-btns">
+        <button id="saveNormsButton" class="btn-norms" style="cursor: pointer">
+          ➕
+        </button>
+      </div>
+
+
+      <div class="threshold-item"><span>defaults</span></div>
+      <div class="no-border threshold-item"><span>55</span></div>
+      <div class="no-border threshold-item"><span>60</span></div>
+      <div class="no-border threshold-item"><span>60</span></div>
+      <div class="no-border threshold-item"><span>60</span></div>
+
+      <div class="no-border threshold-item overflow">
+        <span>Default values provided by the app</span>
+      </div>
+
+      <div class="flex-btns">
+        <button class="btn-norms load-norms" style="cursor: pointer">
+          📂
+        </button>
+        <button class="btn-norms delete-norms" style="cursor: pointer; display: none;">
+          ❌
+        </button>
+      </div>
     </div>
+    <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
+      <summary>How to save custom norms</summary>
+      <p>
+        Custom norms are saved in your browser's local storage. This means
+        that they will be saved on your device and will be available the
+        next time you use the app. If you clear your browser's local storage
+        then the custom norms will be deleted. You can also delete the
+        custom norms by clicking the "❌" button. You can load the default
+        norms by clicking the "📂" button.
+      </p>
+    </details>
+    <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
+      <summary>How to load custom norms</summary>
+      <p>
+        Default norms are provided by the app and are the same for all
+        users. If you have saved custom norms then you can load the default
+        norms by clicking the "📂" button.
+      </p>
+    </details>
+    <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
+      <summary>How to measure norms</summary>
+      <p>
+        Test a few normal subjects at 500Hz, 1kHz, 2kHz, and 4kHz in each ear (unilateral is also fine). Retest the
+        same subjects at the same frequencies via AC but place the BC oscillator on the forehead and set channel 2
+        routed to BC with NBN signal at the highest output allowed by the machine. </p>
+      <p>Subtract the unmasked threshold
+        from the masked threshold to get the shift value for each frequency. Average the shift values across your
+        subjects to get the norm value for that frequency.
+      </p>
+    </details>
   </div>
 
   <script src="./scripts.js"></script>

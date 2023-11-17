@@ -259,15 +259,16 @@ function updateNormsTable(values) {
     item.appendChild(span);
     normsContainer.appendChild(item);
   });
+  let btnContainer = document.createElement("div");
+  btnContainer.className = "flex-btns";
   let btn = document.createElement("button");
   btn.textContent = "Load";
   btn.className = "btn-norms load-norms";
-  normsContainer.appendChild(btn);
+  btnContainer.appendChild(btn);
   btn = "";
   btn = document.createElement("button");
   btn.textContent = "Delete";
   btn.className = "btn-norms delete-norms";
-  normsContainer.appendChild(btn);
-
-  //return container;
+  btnContainer.appendChild(btn);
+  normsContainer.appendChild(btnContainer);
 }
