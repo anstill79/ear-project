@@ -79,6 +79,25 @@ input[type="number"]:focus {
   transform: rotate(0deg);
 }
 
+#help_content {
+  display: grid;
+  grid-template-columns: 80vw;
+  max-width: 900px;
+}
+
+#help_text_modal {
+  overflow: auto;
+  margin-top: 10dvh;
+  max-height: 80dvh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+}
+
+#help_text_modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .norms-container {
   display: grid;
   grid-template-columns: minmax(70px, 1fr) repeat(4, minmax(30px, 60px)) minmax(50px, 300px) 0.25fr;
@@ -144,6 +163,7 @@ input[type="number"]:focus {
   }
 }
 
+/* end of media query */
 .threshold-container {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
@@ -152,7 +172,14 @@ input[type="number"]:focus {
   padding-right: 10px;
 }
 
+.highlight {
+  background-color: rgba(255, 255, 0, 0.24);
+}
 
+.sm-text {
+  font-size: 0.8rem;
+
+}
 
 .norms-container h3 {
   grid-column: 1 / span 7;
@@ -213,13 +240,6 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.dim-parent {
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);
-  background-color: black;
-  opacity: 0.5;
-}
 
 .dialog {
   position: fixed;
@@ -252,7 +272,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   flex-direction: column;
   background-color: white;
-  margin: 10%;
+  margin: 0;
 }
 
 .research>img {
@@ -261,6 +281,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .research>h3 {
   text-align: center;
+  padding: 0px;
+  margin: 5px;
 }
 
 .result-modal {
@@ -289,8 +311,4 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 15px;
   max-width: 400px;
   min-width: 100px;
-}
-
-#help_text {
-  visibility: hidden;
 }

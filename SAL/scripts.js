@@ -141,8 +141,6 @@ function setResultsToCell(ear, freq, targetResult, targetInfo) {
 }
 
 const result_modal = document.getElementById("result_modal");
-const help_modal = document.getElementById("help_text_modal");
-const norms_modal = document.getElementById("custom_norms_modal");
 let activeModal;
 //used by result and help modals
 function closeModal(event) {
@@ -173,23 +171,6 @@ function launchResult(event) {
   targetComment.appendChild(title);
   targetComment.appendChild(div);
   targetComment.appendChild(content);
-}
-
-helpButton.addEventListener("click", launchModal);
-normsButton.addEventListener("click", launchModal);
-
-function launchModal(event) {
-  closeModal(event);
-  const target = this.id;
-
-  if (target === "helpButton") {
-    activeModal = help_modal;
-  }
-  if (target === "normsButton") {
-    activeModal = norms_modal;
-  }
-  activeModal.style.display = "block";
-  activeModal.addEventListener("click", closeModal);
 }
 
 function validateNormsInputs() {
@@ -251,7 +232,7 @@ function updateNormsTable(values) {
 
   values.forEach((value) => {
     const item = document.createElement("div");
-    item.className = "threshold-item";
+    item.className = "threshold-item sm-text";
 
     const span = document.createElement("span");
     span.textContent = value;
@@ -272,3 +253,29 @@ function updateNormsTable(values) {
   btnContainer.appendChild(btn);
   normsContainer.appendChild(btnContainer);
 }
+//work in progress
+// function loadNorms() {
+
+//get the element one level up and three nodes earlier
+// const normsContainer = this.parentElement.parentElement
+//   .previousElementSibling;
+
+//   const normsContainer = document.querySelector(".norms-container");
+//   const norms = JSON.parse(localStorage.getItem("shiftNorms"));
+//   const keys = Object.keys(norms);
+//   const values = Object.values(norms);
+//   const today = new Date();
+//   const todayString = today.toLocaleDateString();
+//   const todayNorms = norms[todayString];
+//   const todayNormsArray = Object.values(todayNorms);
+//   todayNormsArray.unshift(todayString);
+//   updateNormsTable(todayNormsArray);
+//   const loadBtns = normsContainer.querySelectorAll(".load-norms");
+//   const deleteBtns = normsContainer.querySelectorAll(".delete-norms");
+//   loadBtns.forEach((btn) => {
+//     btn.addEventListener("click", loadNormsFromTable);
+//   });
+//   deleteBtns.forEach((btn) => {
+//     btn.addEventListener("click", deleteNormsFromTable);
+//   });
+// }
