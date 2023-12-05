@@ -59,36 +59,35 @@ function doSAL() {
   }
   const targetResult = `${ear}_result_${freq}`;
   const targetInfo = `${ear}_info_${freq}`;
-  const shift = data[ear][freq][1] - data[ear][freq][0];
+  const startingThresh = data[ear][freq][0];
+  const remeasuredThresh = data[ear][freq][1];
+  const shift = remeasuredThresh - startingThresh;
   let capped;
   //why do SAL in this case?
-  if (data[ear][freq][0] < 50 && data[ear][freq][0] !== null) {
-    //SALresults[ear][freq][0] = null;
-    if (data[ear][freq][0] && data[ear][freq][1]) {
+  if (startingThresh < 50 && startingThresh !== null) {
+    if (startingThresh && remeasuredThresh) {
       SALresults[ear][freq][0] = shiftNorms[freq] - shift;
       capped =
         SALresults[ear][freq][0] < -10
           ? " Result shift was too large. Displayed value is capped at -10"
           : "";
-      if (SALresults[ear][freq][0] < -10) {
+      if (startingThresh < -10) {
         SALresults[ear][freq][0] = -10;
       }
     }
     SALresults[ear][freq][2] = "⚠️";
-    SALresults[ear][
-      freq
-    ][1] = `Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity but use with caution.${capped}`;
+    SALresults[ear][freq][1] = `Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity but use with caution.${capped}`;
 
     setResultsToCell(ear, freq, targetResult, targetInfo);
     return;
   }
-  if (data[ear][freq][0] > 85) {
+  if (startingThresh > 85) {
     SALresults[ear][freq][2] = "⚠️";
     SALresults[ear][freq][1] =
       "Initial result is greater than 85dB. The limits of most equipment can be an issue here. The SAL value is displayed but use with caution.";
     if (
-      typeof data[ear][freq][1] === "number" &&
-      typeof data[ear][freq][0] === "number"
+      typeof remeasuredThresh === "number" &&
+      typeof startingThresh === "number"
     ) {
       SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     }
@@ -96,12 +95,12 @@ function doSAL() {
     return;
   }
 
-  if (data[ear][freq][0] && data[ear][freq][1]) {
-    const maxAllowed = data[ear][freq][0] - shiftNorms[freq];
+  if (startingThresh && remeasuredThresh) {
+    const maxAllowed = startingThresh - shiftNorms[freq];
     SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     // if shift is larger than norm, just put it at initial minus norm
     if (shift > shiftNorms[freq]) {
-      SALresults[ear][freq][0] = data[ear][freq][0] - shiftNorms[freq];
+      SALresults[ear][freq][0] = startingThresh - shiftNorms[freq];
       SALresults[ear][freq][2] = "🤔";
       SALresults[ear][
         freq
@@ -111,7 +110,7 @@ function doSAL() {
       SALresults[ear][freq][2] = "✅";
     }
     // technical error or typo. masked result is lower than initial result
-    if (data[ear][freq][1] < data[ear][freq][0]) {
+    if (remeasuredThresh < startingThresh) {
       SALresults[ear][freq][0] = "!";
       SALresults[ear][freq][1] =
         "The masked result is lower than initial result. Please check for technical error or typo.";
@@ -124,6 +123,9 @@ function doSAL() {
   }
   setResultsToCell(ear, freq, targetResult, targetInfo);
 }
+
+
+//-----
 
 function setResultsToCell(ear, freq, targetResult, targetInfo) {
   resultsDisplay.forEach(
@@ -141,20 +143,15 @@ function setResultsToCell(ear, freq, targetResult, targetInfo) {
 }
 
 const result_modal = document.getElementById("result_modal");
-let activeModal;
-//used by result and help modals
-function closeModal(event) {
-  if (event.target === activeModal) {
-    activeModal.style.display = "none";
-    activeModal.removeEventListener("click", closeModal);
-  }
-}
+
+
 //only used by result modal
 function launchResult(event) {
-  closeModal(event);
-  activeModal = result_modal;
-  activeModal.style.display = "block";
-  activeModal.addEventListener("click", closeModal);
+
+  result_modal.togglePopover();
+
+  //activeModal.style.display = "block";
+  //activeModal.addEventListener("click", closeModal);
   const id = event.target.id;
   const ear = id.charAt(0);
   const freq = id.replace(`${ear}_info_`, "");
