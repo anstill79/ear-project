@@ -142,15 +142,10 @@ function setResultsToCell(ear, freq, targetResult, targetInfo) {
   );
 }
 
-const result_modal = document.getElementById("result_modal");
+const result_modal = document.getElementById("result_modal_content");
 
-
-//only used by result modal
 function launchResult(event) {
-
   result_modal.togglePopover();
-
-  //activeModal.style.display = "block";
   //activeModal.addEventListener("click", closeModal);
   const id = event.target.id;
   const ear = id.charAt(0);
