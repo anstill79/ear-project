@@ -186,9 +186,10 @@ input[type="number"]:focus {
   padding-left: 10%;
 }
 
-/* .norms-container .threshold-item input {
-  width: 1.5rem;
-} */
+.result {
+  font-size: 1rem;
+  padding-top: 5px;
+}
 
 .threshold-item,
 .result {
@@ -220,10 +221,7 @@ input[type="number"]:focus {
   border: 1px solid red;
 }
 
-.result {
-  font-size: 1rem;
-  padding-top: 5px;
-}
+
 
 .info {
   font-size: 2rem;
