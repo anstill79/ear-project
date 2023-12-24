@@ -1,6 +1,4 @@
 
-
-
 function validateNormsInputs() {
   const normsContainer = document.querySelector(".norms-container");
   const inputs = normsContainer.querySelectorAll("input");

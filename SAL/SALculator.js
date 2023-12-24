@@ -19,7 +19,7 @@ export function doSAL() {
   const remeasuredThresh = measuredData[ear][freq][1];
   const shift = remeasuredThresh - startingThresh;
   let capped;
-  //why do SAL in this case?
+
   if (startingThresh < 50 && startingThresh !== null) {
     if (startingThresh && remeasuredThresh) {
       SALresults[ear][freq][0] = defaultShiftNorms[freq] - shift;
@@ -27,8 +27,8 @@ export function doSAL() {
         SALresults[ear][freq][0] < -10
           ? " Result shift was too large. Displayed value is capped at -10"
           : "";
-      if (startingThresh < -10) {
-        SALresults[ear][freq][0] = -10;
+      if (SALresults[ear][freq][0] < -10) {
+        SALresults[ear][freq][0] = '-10';
       }
     }
     SALresults[ear][freq][2] = "⚠️";
