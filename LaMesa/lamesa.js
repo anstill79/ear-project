@@ -1,8 +1,8 @@
 const BCresponses = {
   right: {
-    five: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    five: [20, 100, 100, 70, null, 50, 55, 55, 55, 60, null, 80, null, null, 80, null, null, null, null, null],
     thresh5: [null, null],
-    one: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
+    one: [20, 20, 30, 50, 80, 80, 80, 90, null, null, null, null, null, null, null, null, null, null, null, null],
     thresh1: [null, null],
     two: [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null],
     thresh2: [null, null],
@@ -26,6 +26,8 @@ const BCresponses = {
 
 let activeMeasure = BCresponses.emptyArray;
 let threshResult;
+
+let activeFreq;
 
 const xLabels = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110];
 
@@ -102,6 +104,7 @@ function setAnnotationLines() {
 function setActiveMeasure(arg, ID) {
 
   if (arg === "R5") {
+	activeFreq = "Right 500Hz";
     activeMeasure = BCresponses.right.five;
     threshResult = BCresponses.right.thresh5;
     myChart.config.data.datasets[0].label = " Right 500 Hz";
@@ -109,6 +112,7 @@ function setActiveMeasure(arg, ID) {
     fontColor = 'red';
   }
   if (arg === "R1") {
+	activeFreq = "Right 1000Hz";
     activeMeasure = BCresponses.right.one;
     threshResult = BCresponses.right.thresh1;
     myChart.config.data.datasets[0].label = " Right 1000 Hz";
@@ -116,6 +120,7 @@ function setActiveMeasure(arg, ID) {
     fontColor = 'red';
   }
   if (arg === "R2") {
+	activeFreq = "Right 2000Hz";
     activeMeasure = BCresponses.right.two;
     threshResult = BCresponses.right.thresh2;
     myChart.config.data.datasets[0].label = " Right 2000 Hz";
@@ -123,6 +128,7 @@ function setActiveMeasure(arg, ID) {
     fontColor = 'red';
   }
   if (arg === "R4") {
+	activeFreq = "Right 4000Hz";
     activeMeasure = BCresponses.right.four;
     threshResult = BCresponses.right.thresh4;
     myChart.config.data.datasets[0].label = " Right 4000 Hz";
@@ -130,6 +136,7 @@ function setActiveMeasure(arg, ID) {
     fontColor = 'red';
   }
   if (arg === "L5") {
+	activeFreq = "Left 500Hz";
     activeMeasure = BCresponses.left.five;
     threshResult = BCresponses.left.thresh5;
     myChart.config.data.datasets[0].label = " Left 500 Hz";
@@ -137,6 +144,7 @@ function setActiveMeasure(arg, ID) {
     fontColor = 'blue';
   }
   if (arg === "L1") {
+	activeFreq = "Left 1000Hz";
     activeMeasure = BCresponses.left.one;
     threshResult = BCresponses.left.thresh1;
     myChart.config.data.datasets[0].label = " Left 1000 Hz";
@@ -144,6 +152,7 @@ function setActiveMeasure(arg, ID) {
     fontColor = 'blue';
   }
   if (arg === "L2") {
+	activeFreq = "Left 2000Hz";
     activeMeasure = BCresponses.left.two;
     threshResult = BCresponses.left.thresh2;
     myChart.config.data.datasets[0].label = " Left 2000 Hz";
@@ -151,6 +160,7 @@ function setActiveMeasure(arg, ID) {
     fontColor = 'blue';
   }
   if (arg === "L4") {
+	activeFreq = "Left 4000Hz";
     activeMeasure = BCresponses.left.four;
     threshResult = BCresponses.left.thresh4;
     myChart.config.data.datasets[0].label = " Left 4000 Hz";
@@ -318,8 +328,10 @@ const mainOptions_R = {
 const ctx = document.getElementById('maskingGraph').getContext('2d');
 const myChart = new Chart(ctx, mainOptions_R);
 
+
 function clearData() {
   //copied from StackOverflow. Seems to start at 0 index then delete count is set to the original length of the array
+	if (confirm(`Delete ${activeFreq}?`)){
   activeMeasure.splice(0, activeMeasure.length);
 
   activeMeasure.push(...BCresponses.emptyArray);
@@ -333,7 +345,7 @@ function clearData() {
   myChart.options.plugins.annotation.annotations.line2.xMax = maskedIndex;
 
   myChart.update();
-
+}
 }
 
 function resizeWindow() {
