@@ -1,4 +1,8 @@
-import { measuredData, SALresults, defaultShiftNorms } from "./dataStructureDefaults.js";
+import {
+  measuredData,
+  SALresults,
+  defaultShiftNorms,
+} from "./dataStructureDefaults.js";
 import { setResultsToCell } from "./displayResults.js";
 
 export function doSAL() {
@@ -35,11 +39,13 @@ export function doSAL() {
           ? " Result shift was too large. Displayed value is capped at -10"
           : "";
       if (SALresults[ear][freq][0] < -10) {
-        SALresults[ear][freq][0] = '-10';
+        SALresults[ear][freq][0] = "-10";
       }
     }
     SALresults[ear][freq][2] = "⚠️";
-    SALresults[ear][freq][1] = `Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity but use with caution.${capped}`;
+    SALresults[ear][
+      freq
+    ][1] = `Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity but use with caution.${capped}`;
 
     setResultsToCell(ear, freq, targetResult, targetInfo);
     return;
@@ -85,4 +91,17 @@ export function doSAL() {
     SALresults[ear][freq][1] = null;
   }
   setResultsToCell(ear, freq, targetResult, targetInfo);
+
+  //style result cell if there is a result
+  const resultCell = document.getElementById(targetResult);
+  //get parent cell of resultCell to style
+  const parentCell = resultCell.parentElement;
+
+  if (SALresults[ear][freq][0]) {
+    parentCell.classList.remove("sm-border");
+    parentCell.classList.add("lg-border");
+  } else {
+    parentCell.classList.remove("lg-border");
+    parentCell.classList.add("sm-border");
+  }
 }
