@@ -6,6 +6,13 @@ export function doSAL() {
   const val = parseInt(this.value);
   const ear = id.charAt(0);
   let freq = "";
+
+  if (!val) {
+    this.parentElement.classList.add("empty-value");
+  } else {
+    this.parentElement.classList.remove("empty-value");
+  }
+
   if (id.includes("initial")) {
     freq = id.replace(`${ear}_initial_`, "");
     measuredData[ear][freq][0] = val;
