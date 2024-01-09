@@ -1,380 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <title>Sensorineural Acuity Test</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <title>Sensorineural Acuity Test</title>
-</head>
+  <body>
+    <header>
+      <h1>Sensorineural Acuity Level Test</h1>
+    </header>
 
-<body>
-  <header>
-    <h1>Sensorineural Acuity Level Test</h1>
-  </header>
+    <div id="SAL" class="main-container">
+      <div class="red-border threshold-container">
+        <div>
+          <p class="labels">Right</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>500Hz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>1kHz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>2kHz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>4kHz</p>
+        </div>
+        <div>
+          <p class="labels">Initial AC</p>
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_initial_five" tabindex="1" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_initial_one" tabindex="2" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_initial_two" tabindex="3" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_initial_four" tabindex="4" />
+        </div>
+        <div>
+          <p class="labels">AC using SAL</p>
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_masked_five" tabindex="9" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_masked_one" tabindex="10" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_masked_two" tabindex="11" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="R_masked_four" tabindex="12" />
+        </div>
+        <div>
+          <p class="labels">Final Result</p>
+        </div>
 
-  <div id="SAL" class="main-container">
-    <div class="red-border threshold-container">
+        <div class="sm-border threshold-item">
+          <p id="R_result_five" class="result"></p>
+        </div>
+        <div class="sm-border threshold-item">
+          <p id="R_result_one" class="result"></p>
+        </div>
+        <div class="sm-border threshold-item">
+          <p id="R_result_two" class="result"></p>
+        </div>
+        <div class="sm-border threshold-item">
+          <p id="R_result_four" class="result"></p>
+        </div>
+        <div>
+          <p class="labels">More Info</p>
+        </div>
+
+        <div class="no-border threshold-item">
+          <p id="R_info_five" class="info"></p>
+        </div>
+        <div class="no-border threshold-item">
+          <p id="R_info_one" class="info"></p>
+        </div>
+        <div class="no-border threshold-item">
+          <p id="R_info_two" class="info"></p>
+        </div>
+        <div class="no-border threshold-item">
+          <p id="R_info_four" class="info"></p>
+        </div>
+      </div>
+      <div class="blue-border threshold-container">
+        <div>
+          <p class="labels">Left</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>500Hz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>1kHz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>2kHz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p>4kHz</p>
+        </div>
+        <div>
+          <p class="labels">Initial AC</p>
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_initial_five" tabindex="5" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_initial_one" tabindex="6" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_initial_two" tabindex="7" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_initial_four" tabindex="8" />
+        </div>
+        <div>
+          <p class="labels">AC using SAL</p>
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_masked_five" tabindex="13" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_masked_one" tabindex="14" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_masked_two" tabindex="15" />
+        </div>
+        <div class="sm-border threshold-item empty-value">
+          <input type="number" step="5" id="L_masked_four" tabindex="16" />
+        </div>
+        <div>
+          <p class="labels">Final Result</p>
+        </div>
+        <div class="sm-border threshold-item">
+          <p id="L_result_five" class="result"></p>
+        </div>
+        <div class="sm-border threshold-item">
+          <p id="L_result_one" class="result"></p>
+        </div>
+        <div class="sm-border threshold-item">
+          <p id="L_result_two" class="result"></p>
+        </div>
+        <div class="sm-border threshold-item">
+          <p id="L_result_four" class="result"></p>
+        </div>
+        <div>
+          <p class="labels">More Info</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p id="L_info_five" class="info"></p>
+        </div>
+        <div class="no-border threshold-item">
+          <p id="L_info_one" class="info"></p>
+        </div>
+        <div class="no-border threshold-item">
+          <p id="L_info_two" class="info"></p>
+        </div>
+        <div class="no-border threshold-item">
+          <p id="L_info_four" class="info"></p>
+        </div>
+      </div>
+      <!-- end of SAL worksheet wrapper -->
       <div>
-        <p class="labels">Right</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p>500Hz</p>
-      </div>
-      <div class="no-border threshold-item ">
-        <p>1kHz</p>
-      </div>
-      <div class="no-border threshold-item ">
-        <p>2kHz</p>
-      </div>
-      <div class="no-border threshold-item ">
-        <p>4kHz</p>
-      </div>
-      <div>
-        <p class="labels">Initial AC</p>
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_initial_five" tabindex="1" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_initial_one" tabindex="2" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_initial_two" tabindex="3" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_initial_four" tabindex="4" />
-      </div>
-      <div>
-        <p class="labels">AC using SAL</p>
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_masked_five" tabindex="9" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_masked_one" tabindex="10" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_masked_two" tabindex="11" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="R_masked_four" tabindex="12" />
-      </div>
-      <div>
-        <p class="labels">Final Result</p>
-      </div>
-
-      <div class="lg-border threshold-item">
-        <p id="R_result_five" class="result"></p>
-      </div>
-      <div class="lg-border threshold-item">
-        <p id="R_result_one" class="result"></p>
-      </div>
-      <div class="lg-border threshold-item">
-        <p id="R_result_two" class="result"></p>
-      </div>
-      <div class="lg-border threshold-item">
-        <p id="R_result_four" class="result"></p>
-      </div>
-      <div>
-        <p class="labels">More Info</p>
-      </div>
-
-      <div class="no-border threshold-item">
-        <p id="R_info_five" class="info"></p>
-      </div>
-      <div class="no-border threshold-item">
-        <p id="R_info_one" class="info"></p>
-      </div>
-      <div class="no-border threshold-item">
-        <p id="R_info_two" class="info"></p>
-      </div>
-      <div class="no-border threshold-item">
-        <p id="R_info_four" class="info"></p>
-      </div>
-    </div>
-    <div class="blue-border threshold-container">
-      <div>
-        <p class="labels">Left</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p>500Hz</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p>1kHz</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p>2kHz</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p>4kHz</p>
-      </div>
-      <div>
-        <p class="labels">Initial AC</p>
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_initial_five" tabindex="5" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_initial_one" tabindex="6" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_initial_two" tabindex="7" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_initial_four" tabindex="8" />
-      </div>
-      <div>
-        <p class="labels">AC using SAL</p>
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_masked_five" tabindex="13" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_masked_one" tabindex="14" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_masked_two" tabindex="15" />
-      </div>
-      <div class="sm-border threshold-item empty-value">
-        <input type="number" step="5" id="L_masked_four" tabindex="16" />
-      </div>
-      <div>
-        <p class="labels">Final Result</p>
-      </div>
-      <div class="lg-border threshold-item">
-        <p id="L_result_five" class="result"></p>
-      </div>
-      <div class="lg-border threshold-item">
-        <p id="L_result_one" class="result"></p>
-      </div>
-      <div class="lg-border threshold-item">
-        <p id="L_result_two" class="result"></p>
-      </div>
-      <div class="lg-border threshold-item">
-        <p id="L_result_four" class="result"></p>
-      </div>
-      <div>
-        <p class="labels">More Info</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p id="L_info_five" class="info"></p>
-      </div>
-      <div class="no-border threshold-item">
-        <p id="L_info_one" class="info"></p>
-      </div>
-      <div class="no-border threshold-item">
-        <p id="L_info_two" class="info"></p>
-      </div>
-      <div class="no-border threshold-item">
-        <p id="L_info_four" class="info"></p>
-      </div>
-    </div>
-    <!-- end of SAL worksheet wrapper -->
-    <div>
-      <button popovertarget="help_text_modal" id="helpButton" class="btn" style="cursor: help">Help</button>
-      <button popovertarget="custom_norms_modal" id="normsButton" class="btn" style="cursor: context-menu">
-        Custom Norms
-      </button>
-    </div>
-  </div>
-
-
-  <div id="result_modal_content" class="result-modal-content" popover>
-    <p id="dialog_text"></p>
-  </div>
-
-
-  <div id="help_text_modal" popover>
-    <div id="help_content">
-      <h3>When should you use SAL?</h3>
-      <p>
-        SAL is useful when traditional masking approaches are likely to
-        overmask and lead to masking dilemma. Bilateral conductive hearing
-        losses with large unmasked air-bone gaps are the most common use case
-        for SAL.
-      </p>
-
-      <h3>How does it work?</h3>
-
-      <p>
-        SAL uses normative data based on each audiometer and normal subjects.
-        Each audiometer likely has different maximum outputs for
-        bone-conduction (BC) narrow-band noise (NBN) at each freqeuncy. The
-        SAL procedure asks you to set channel 2 to the maximum level per NBN
-        using the BC oscillator placed on the patient's forehead. The max
-        output will vary by frequency (usually between 40-60dB). You can use
-        the default norms if needed but it is likely better to establish
-        specific norms for your booth. The masking noise will cause the AC
-        thresholds to increase if the ear has conductive loss. The amount of
-        increase (unmasked AC vs masked AC) will guide you on the estimated
-        level of the BC threshold.
-      </p>
-
-      <h3>How do I do the test?</h3>
-
-      <p>
-        Measure unmasked AC thresholds 500Hz-4kHz and mark them down. Place
-        the bone oscillator on the forehead and present NBN masking through it
-        at the max level of channel 2 then remeasure AC thresholds and mark
-        them down. Use the values displayed in the results section as the
-        masked BC thresholds.
-      </p>
-
-      <h3>How do I create my own norms?</h3>
-
-      <p>
-        Test air-conduction on a few normal subjects at 500Hz, 1kHz, 2kHz, and
-        4kHz in each ear (unilateral is also fine). Retest the same subjects
-        at the same frequencies via AC but place the BC oscillator on the
-        forehead and set channel 2 routed to BC with NBN signal at the highest
-        output allowed by the machine. Subtract the unmasked threshold from
-        the masked threshold to get the shift value for each frequency.
-        Average the shift values across your subjects to get the norm value
-        for that frequency.
-      </p>
-
-      <h3>
-        Why does it give me a masked BC threshold below the unmasked BC
-        threshold?
-      </h3>
-
-      <p>
-        The calculation doesn't take the unmasked BC threshold into account.
-        If you receive a result that is better (lower) than your unmasked
-        threshold just use the unmasked value as the masked value. The fact
-        that the value is better than unmasked suggests that your unmasked
-        value can be trusted to represent cochlear function for that ear.
-      </p>
-
-      <h3>
-        What do I do if I reach the limits of the equipment before a masked
-        response is obtained?
-      </h3>
-
-      <p>
-        This can happen when the loss is mixed and the best unmasked BC
-        thresolds are near the moderate range of hearing loss. Try another AC
-        transducer to see if there is higher output. If that doesn't help then
-        you may need to stick with "masking dilemma".
-      </p>
-      <div class="research">
-        <h3>Research &amp Links</h3>
-        <ul>
-          <li>
-            <a
-              href="https://jamanetwork.com/journals/jamaotolaryngology/article-abstract/598870?casa_token=BtTwctJzoKgAAAAA:ZV0FRs7EPArKmc6KPjPljzbXdUyvgTDCkKr11zSxhTOsBtCxPj1PosE8Us1T25RW0Vi2keWV">Jerger
-              Tillman</a>
-          </li>
-          <li>
-            <a href="https://europepmc.org/article/med/6881307">Chaplin Miyamoto</a>
-          </li>
-        </ul>
-        <img src="./simple_explanation_table_Chaplin.png" alt="simple_description_SAL" />
-      </div>
-    </div>
-  </div>
-
-  <!-- Custom Norms -->
-
-  <div id="custom_norms_modal" popover>
-    <div id="custom_norms_content" class="norms-container"
-      style="border: 1px solid black; background-color: white; margin: auto; padding-top: 10%; padding-bottom: 10%; overflow: scroll">
-      <h3>Custom norm values</h3>
-
-      <div class="spacer"></div>
-      <div class="no-border threshold-item">
-        <p class="norm-labels">500Hz</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p class="norm-labels">1kHz</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p class="norm-labels">2kHz</p>
-      </div>
-      <div class="no-border threshold-item">
-        <p class="norm-labels">4kHz</p>
-      </div>
-      <div class="threshold-item"><span>Label</span></div>
-      <div class="spacer"></div>
-      <div class="threshold-item"><span>New Norms</span></div>
-      <div class="sm-border threshold-item">
-        <input type="number" id="newNorm500" />
-      </div>
-      <div class="sm-border threshold-item">
-        <input type="number" id="newNorm1k" />
-      </div>
-      <div class="sm-border threshold-item">
-        <input type="number" id="newNorm2k" />
-      </div>
-      <div class="sm-border threshold-item">
-        <input type="number" id="newNorm4k" />
-      </div>
-      <div class="sm-border threshold-item sm-text">
-        <textarea id="newNormLabel" style="width: 100%"></textarea>
-      </div>
-      <div class="flex-btns">
-        <button id="saveNormsButton" class="btn-norms" style="cursor: pointer">
-          ➕
+        <button
+          popovertarget="help_text_modal"
+          id="helpButton"
+          class="btn"
+          style="cursor: help"
+        >
+          Help
         </button>
-      </div>
-
-
-      <div class="threshold-item"><span>defaults</span></div>
-      <div class="no-border threshold-item highlight"><span>55</span></div>
-      <div class="no-border threshold-item highlight"><span>60</span></div>
-      <div class="no-border threshold-item highlight"><span>60</span></div>
-      <div class="no-border threshold-item highlight"><span>60</span></div>
-
-      <div class="no-border threshold-item overflow sm-text">
-        <span>Default values provided by the app</span>
-      </div>
-
-      <div class="flex-btns">
-        <button class="btn-norms load-norms" style="cursor: pointer">
-          📂
-        </button>
-        <button class="btn-norms delete-norms" style="cursor: pointer; display: none;">
-          ❌
+        <button
+          popovertarget="custom_norms_modal"
+          id="normsButton"
+          class="btn"
+          style="cursor: context-menu"
+        >
+          Custom Norms
         </button>
       </div>
     </div>
-    <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
-      <summary>How to save custom norms</summary>
-      <p>
-        Custom norms are saved in your browser's local storage. This means
-        that they will be saved on your device and will be available the
-        next time you use the app. If you clear your browser's local storage
-        then the custom norms will be deleted. You can also delete the
-        custom norms by clicking the "❌" button. You can load the default
-        norms by clicking the "📂" button.
-      </p>
-    </details>
-    <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
-      <summary>How to load custom norms</summary>
-      <p>
-        Default norms are provided by the app and are the same for all
-        users. If you have saved custom norms then you can load the default
-        norms by clicking the "📂" button.
-      </p>
-    </details>
-    <details class="norms-container" style="border: 1px solid black; background-color: white; margin: auto">
-      <summary>How to measure norms</summary>
-      <p>
-        Test a few normal subjects at 500Hz, 1kHz, 2kHz, and 4kHz in each ear (unilateral is also fine). Retest the
-        same subjects at the same frequencies via AC but place the BC oscillator on the forehead and set channel 2
-        routed to BC with NBN signal at the highest output allowed by the machine. </p>
-      <p>Subtract the unmasked threshold
-        from the masked threshold to get the shift value for each frequency. Average the shift values across your
-        subjects to get the norm value for that frequency.
-      </p>
-    </details>
-  </div>
 
+    <div id="result_modal_content" class="result-modal-content" popover>
+      <p id="dialog_text"></p>
+    </div>
 
-  <script type="module" src="./index.js"></script>
-</body>
+    <div id="help_text_modal" popover>
+      <div id="help_content">
+        <h3>When should you use SAL?</h3>
+        <p>
+          SAL is useful when traditional masking approaches are likely to
+          overmask and lead to masking dilemma. Bilateral conductive hearing
+          losses with large unmasked air-bone gaps are the most common use case
+          for SAL.
+        </p>
 
+        <h3>How does it work?</h3>
+
+        <p>
+          SAL uses normative data based on each audiometer and normal subjects.
+          Each audiometer likely has different maximum outputs for
+          bone-conduction (BC) narrow-band noise (NBN) at each freqeuncy. The
+          SAL procedure asks you to set channel 2 to the maximum level per NBN
+          using the BC oscillator placed on the patient's forehead. The max
+          output will vary by frequency (usually between 40-60dB). You can use
+          the default norms if needed but it is likely better to establish
+          specific norms for your booth. The masking noise will cause the AC
+          thresholds to increase if the ear has conductive loss. The amount of
+          increase (unmasked AC vs masked AC) will guide you on the estimated
+          level of the BC threshold.
+        </p>
+
+        <h3>How do I do the test?</h3>
+
+        <p>
+          Measure unmasked AC thresholds 500Hz-4kHz and mark them down. Place
+          the bone oscillator on the forehead and present NBN masking through it
+          at the max level of channel 2 then remeasure AC thresholds and mark
+          them down. Use the values displayed in the results section as the
+          masked BC thresholds.
+        </p>
+
+        <h3>How do I create my own norms?</h3>
+
+        <p>
+          Test air-conduction on a few normal subjects at 500Hz, 1kHz, 2kHz, and
+          4kHz in each ear (unilateral is also fine). Retest the same subjects
+          at the same frequencies via AC but place the BC oscillator on the
+          forehead and set channel 2 routed to BC with NBN signal at the highest
+          output allowed by the machine. Subtract the unmasked threshold from
+          the masked threshold to get the shift value for each frequency.
+          Average the shift values across your subjects to get the norm value
+          for that frequency.
+        </p>
+
+        <h3>
+          Why does it give me a masked BC threshold below the unmasked BC
+          threshold?
+        </h3>
+
+        <p>
+          The calculation doesn't take the unmasked BC threshold into account.
+          If you receive a result that is better (lower) than your unmasked
+          threshold just use the unmasked value as the masked value. The fact
+          that the value is better than unmasked suggests that your unmasked
+          value can be trusted to represent cochlear function for that ear.
+        </p>
+
+        <h3>
+          What do I do if I reach the limits of the equipment before a masked
+          response is obtained?
+        </h3>
+
+        <p>
+          This can happen when the loss is mixed and the best unmasked BC
+          thresolds are near the moderate range of hearing loss. Try another AC
+          transducer to see if there is higher output. If that doesn't help then
+          you may need to stick with "masking dilemma".
+        </p>
+        <div class="research">
+          <h3>Research &amp Links</h3>
+          <ul>
+            <li>
+              <a
+                href="https://jamanetwork.com/journals/jamaotolaryngology/article-abstract/598870?casa_token=BtTwctJzoKgAAAAA:ZV0FRs7EPArKmc6KPjPljzbXdUyvgTDCkKr11zSxhTOsBtCxPj1PosE8Us1T25RW0Vi2keWV"
+                >Jerger Tillman</a
+              >
+            </li>
+            <li>
+              <a href="https://europepmc.org/article/med/6881307"
+                >Chaplin Miyamoto</a
+              >
+            </li>
+          </ul>
+          <img
+            src="./simple_explanation_table_Chaplin.png"
+            alt="simple_description_SAL"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Norms -->
+
+    <div id="custom_norms_modal" popover>
+      <div
+        id="custom_norms_content"
+        class="norms-container"
+        style="
+          border: 1px solid black;
+          background-color: white;
+          margin: auto;
+          padding-top: 10%;
+          padding-bottom: 10%;
+          overflow: scroll;
+        "
+      >
+        <h3>Custom norm values</h3>
+
+        <div class="spacer"></div>
+        <div class="no-border threshold-item">
+          <p class="norm-labels">500Hz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p class="norm-labels">1kHz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p class="norm-labels">2kHz</p>
+        </div>
+        <div class="no-border threshold-item">
+          <p class="norm-labels">4kHz</p>
+        </div>
+        <div class="threshold-item"><span>Label</span></div>
+        <div class="spacer"></div>
+        <div class="threshold-item"><span>New Norms</span></div>
+        <div class="sm-border threshold-item">
+          <input type="number" id="newNorm500" />
+        </div>
+        <div class="sm-border threshold-item">
+          <input type="number" id="newNorm1k" />
+        </div>
+        <div class="sm-border threshold-item">
+          <input type="number" id="newNorm2k" />
+        </div>
+        <div class="sm-border threshold-item">
+          <input type="number" id="newNorm4k" />
+        </div>
+        <div class="sm-border threshold-item sm-text">
+          <textarea id="newNormLabel" style="width: 100%"></textarea>
+        </div>
+        <div class="flex-btns">
+          <button
+            id="saveNormsButton"
+            class="btn-norms"
+            style="cursor: pointer"
+          >
+            ➕
+          </button>
+        </div>
+
+        <div class="threshold-item"><span>defaults</span></div>
+        <div class="no-border threshold-item highlight"><span>55</span></div>
+        <div class="no-border threshold-item highlight"><span>60</span></div>
+        <div class="no-border threshold-item highlight"><span>60</span></div>
+        <div class="no-border threshold-item highlight"><span>60</span></div>
+
+        <div class="no-border threshold-item overflow sm-text">
+          <span>Default values provided by the app</span>
+        </div>
+
+        <div class="flex-btns">
+          <button class="btn-norms load-norms" style="cursor: pointer">
+            📂
+          </button>
+          <button
+            class="btn-norms delete-norms"
+            style="cursor: pointer; display: none"
+          >
+            ❌
+          </button>
+        </div>
+      </div>
+      <details
+        class="norms-container"
+        style="border: 1px solid black; background-color: white; margin: auto"
+      >
+        <summary>How to save custom norms</summary>
+        <p>
+          Custom norms are saved in your browser's local storage. This means
+          that they will be saved on your device and will be available the next
+          time you use the app. If you clear your browser's local storage then
+          the custom norms will be deleted. You can also delete the custom norms
+          by clicking the "❌" button. You can load the default norms by
+          clicking the "📂" button.
+        </p>
+      </details>
+      <details
+        class="norms-container"
+        style="border: 1px solid black; background-color: white; margin: auto"
+      >
+        <summary>How to load custom norms</summary>
+        <p>
+          Default norms are provided by the app and are the same for all users.
+          If you have saved custom norms then you can load the default norms by
+          clicking the "📂" button.
+        </p>
+      </details>
+      <details
+        class="norms-container"
+        style="border: 1px solid black; background-color: white; margin: auto"
+      >
+        <summary>How to measure norms</summary>
+        <p>
+          Test a few normal subjects at 500Hz, 1kHz, 2kHz, and 4kHz in each ear
+          (unilateral is also fine). Retest the same subjects at the same
+          frequencies via AC but place the BC oscillator on the forehead and set
+          channel 2 routed to BC with NBN signal at the highest output allowed
+          by the machine.
+        </p>
+        <p>
+          Subtract the unmasked threshold from the masked threshold to get the
+          shift value for each frequency. Average the shift values across your
+          subjects to get the norm value for that frequency.
+        </p>
+      </details>
+    </div>
+
+    <script type="module" src="./index.js"></script>
+  </body>
 </html>
