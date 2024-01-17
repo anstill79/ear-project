@@ -1,57 +1,54 @@
 @font-face {
-  font-family: 'Inter';
-  src: url('/Font/Inter-VariableFont_slnt\,wght.ttf') format('woff2'),
-    url('/Font/Inter-VariableFont_slnt\,wght.ttf') format('woff'),
-    url('/Font/Inter-VariableFont_slnt\,wght.ttf') format('truetype');
+  font-family: "Inter";
+  src: url("/Font/Inter-VariableFont_slnt\,wght.ttf") format("woff2"),
+    url("/Font/Inter-VariableFont_slnt\,wght.ttf") format("woff"),
+    url("/Font/Inter-VariableFont_slnt\,wght.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
-nav {
-  display: flex;
-  gap: 40px;
-  flex-direction: row;
-  justify-content: center;
+header {
+  display: grid;
+  place-content: center;
   align-items: center;
-  color: #fff;
-  font-size: 1.2rem;
-  height: 80px;
-}
-
-#header {
-  display: flex;
-  justify-content: center;
-  border: 1px solid #000;
-  background-color: #fff;
-}
-
-#title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #000;
-  width: 300px;
+  height: 100px;
+  width: 100%;
+  background-color: #200e50;
+  color: aliceblue;
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3);
 }
 
 body {
   background: hsla(160, 50%, 51%, 1);
-  background: linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
-  background: -moz-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
-  background: -webkit-linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(68, 193, 151, 0.471) 0%,
+    rgba(29, 21, 86, 0.477) 100%
+  );
+  background: -moz-linear-gradient(
+    90deg,
+    hsla(160, 50%, 51%, 1) 0%,
+    hsla(247, 60%, 21%, 1) 100%
+  );
+  background: -webkit-linear-gradient(
+    90deg,
+    rgba(68, 193, 151, 0.513) 0%,
+    rgba(29, 21, 86, 0.489) 100%
+  );
   filter: progid: dximagetransform.microsoft.gradient(startColorstr="#43C197", endColorstr="#1C1554", GradientType=1);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
+  /* height: 1000px; */
 }
 
-
 .main-div {
-  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3); */
   margin: auto;
-  margin-top: 50px;
+  margin-top: 20px;
   padding: 5px;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -84,7 +81,8 @@ body {
   font-size: large;
   border-radius: 15px;
   background-color: #f1f5f3;
-  transition: background-color 2s ease, opacity 2s ease, transform 2s ease, box-shadow 2s ease;
+  transition: background-color 2s ease, opacity 2s ease, transform 2s ease,
+    box-shadow 2s ease;
   transform: scale(1);
 }
 
@@ -98,34 +96,21 @@ body {
 }
 
 .but-shadow-leftside {
-  box-shadow:
-    6.7px 6.7px 5.5px rgba(0, 0, 0, 0.3),
+  box-shadow: 6.7px 6.7px 5.5px rgba(0, 0, 0, 0.3),
     22.3px 22.3px 18.5px rgba(0, 0, 0, 0.179),
     100px 100px 83px rgba(0, 0, 0, 0.121);
 }
 
 .but-shadow-rightside {
-  box-shadow:
-    -6.7px 6.7px 5.5px rgba(0, 0, 0, 0.3),
+  box-shadow: -6.7px 6.7px 5.5px rgba(0, 0, 0, 0.3),
     -22.3px 22.3px 18.5px rgba(0, 0, 0, 0.179),
     -100px 100px 83px rgba(0, 0, 0, 0.121);
 }
 
 .but-shadow-middle {
-  box-shadow:
-    0px 10.4px 14.3px rgba(0, 0, 0, 0.3),
-    0px 34.8px 48px rgba(0, 0, 0, 0.179),
-    0px 156px 215px rgba(0, 0, 0, 0.121);
+  box-shadow: 0px 10.4px 14.3px rgba(0, 0, 0, 0.3),
+    0px 34.8px 48px rgba(0, 0, 0, 0.179), 0px 156px 215px rgba(0, 0, 0, 0.121);
 }
-
-/* .buttons:hover {
-  cursor: pointer;
-  border-radius: 25px;
-  transition: 0.3s;
-  scale: 102%;
-  background-color: #fff;
-  box-shadow: 0;
-} */
 
 .but-shadow-leftside:hover {
   box-shadow: 0;
