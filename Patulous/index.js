@@ -1,5 +1,4 @@
-// Import stylesheets
-import './style.css';
+
 
 async function insertImage(event) {
   const imageDiv = document.getElementById(event.target.closest('div').id);
