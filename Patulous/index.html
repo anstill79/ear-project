@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Patulous Eustachian Tube Testing</title>
-</head>
-<body>
-    
+  </head>
+  <body>
     <header>
-        <div style="margin: auto" class="no-print">
-          <a href="../index.html">Home</a>
-        </div>
-        <h1>Patulous Eustachian Tube Testing</h1>
-        <div style="margin: auto" class="no-print">
-          <button id="print_button" onclick="window.print()">Print</button>
-        </div>
-      </header>
-      
-      <div class="sub-header">
-        <div class="patient-info">
-          <span>Name</span>
-          <input type="text" />
-          <span>DOB</span>
-          <input type="date" style="width: 100px" />
-          <span>MRN</span>
-          <input type="text" />
-          <span>Test Date</span>
-          <input
-            type="date"
-            style="
-              width: 100px;
-              justify-self: center;
-              border-right: 1px solid black;
-              border-left: 0px;
-            "
-          />
+      <div style="margin: auto" class="no-print">
+        <a href="../index.html">Home</a>
+      </div>
+      <h1>Patulous Eustachian Tube Testing</h1>
+      <div style="margin: auto" class="no-print">
+        <button id="print_button" onclick="window.print()">Print</button>
+      </div>
+    </header>
+
+    <div class="sub-header">
+      <div class="patient-info">
+        <span>Name</span>
+        <input type="text" />
+        <span>DOB</span>
+        <input type="date" style="width: 100px" />
+        <span>MRN</span>
+        <input type="text" />
+        <span>Test Date</span>
+        <input
+          type="date"
+          style="
+            width: 100px;
+            justify-self: center;
+            border-right: 1px solid black;
+            border-left: 0px;
+          "
+        />
+      </div>
+    </div>
+
+    <div id="graph-container">
+      <div><h2>Right Ear</h2></div>
+      <div><h2>Left Ear</h2></div>
+
+      <div style="grid-column-start: span 2">
+        <h4>Baseline</h4>
+      </div>
+
+      <div class="graph-items" id="right_baseline">
+        <button class="no-print control-btns">Insert</button>
+        <div class="zoom-container">
+          <button class="no-print zoom-btns">+</button>
+          <button class="no-print zoom-btns">-</button>
         </div>
       </div>
-      
-      <div id="graph-container">
-        <div><h2>Right Ear</h2></div>
-        <div><h2>Left Ear</h2></div>
-      
-        <div style="grid-column-start: span 2">
-          <h4>Baseline</h4>
-        </div>
-      
-        <div class="graph-items" id="right_baseline">
-          <button class="no-print control-btns">Insert</button>
-        </div>
-        <div class="graph-items" id="left-baseline">
-          <button class="no-print control-btns">Insert</button>
-        </div>
-      
-        <div style="grid-column-start: span 2">
-          <h4>Forced Breathing</h4>
-        </div>
-        <div class="graph-items" id="right_forced">
-          <button class="no-print control-btns">Insert</button>
-        </div>
-        <div class="graph-items" id="left_forced">
-          <button class="no-print control-btns">Insert</button>
+      <div class="graph-items" id="left-baseline">
+        <button class="no-print control-btns">Insert</button>
+        <div class="zoom-container">
+          <button class="no-print zoom-btns">+</button>
+          <button class="no-print zoom-btns">-</button>
         </div>
       </div>
-      <script src="index.js"></script>
-</body>
+
+      <div style="grid-column-start: span 2">
+        <h4>Forced Breathing</h4>
+      </div>
+      <div class="graph-items" id="right_forced">
+        <button class="no-print control-btns">Insert</button>
+        <div class="zoom-container">
+          <button class="no-print zoom-btns">+</button>
+          <button class="no-print zoom-btns">-</button>
+        </div>
+      </div>
+      <div class="graph-items" id="left_forced">
+        <button class="no-print control-btns">Insert</button>
+        <div class="zoom-container">
+          <button class="no-print zoom-btns">+</button>
+          <button class="no-print zoom-btns">-</button>
+        </div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
 </html>
