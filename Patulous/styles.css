@@ -9,7 +9,6 @@ body {
   /* border: 1px solid #000000; */
   margin: auto;
 }
-
 header {
   display: grid;
   grid-template-columns: 1fr 500px 1fr;
@@ -19,7 +18,7 @@ header {
   margin-top: 20px;
 }
 a:hover::before {
-  content: '« ';
+  content: "« ";
 }
 #print_button {
   width: 100px;
@@ -93,14 +92,16 @@ h4 {
   background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%);
   border: 1px solid black;
   border-radius: 15px;
+  overflow: hidden;
 }
 @media print {
   .no-print {
     visibility: hidden;
   }
 }
-
+/* buttons */
 .control-btns {
+  z-index: 1;
   position: absolute;
   top: 6px;
   left: 6px;
@@ -111,19 +112,41 @@ h4 {
   border-radius: 0px;
   background-color: transparent;
 }
-.control-btns:hover {
+
+.zoom-container {
+  z-index: 1;
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.zoom-btns {
+  box-shadow: 2px 2px 0px black;
+  height: 1.5rem;
+  width: 4rem;
+  cursor: pointer;
+  border-radius: 0px;
+  background-color: rgba(50, 82, 81, 0.2);
+  font-size: 1.1rem;
+  padding-top: 0px;
+}
+.control-btns:hover,
+.zoom-btns:hover {
   background-color: yellow;
   box-shadow: 2px 2px 0px rgb(150, 46, 235);
   height: 1.5rem;
   width: 4rem;
   border: 1px solid black;
 }
-.control-btns:active {
+.control-btns:active,
+.zoom-btns:active {
   box-shadow: 0px 0px 0px rgb(0, 0, 0);
 }
-
 .constrain-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: transform 0.3s ease-in-out;
 }
