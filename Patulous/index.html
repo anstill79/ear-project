@@ -19,22 +19,16 @@
 
     <div class="sub-header">
       <div class="patient-info">
-        <span>Name</span>
-        <input type="text" />
-        <span>DOB</span>
-        <input type="date" style="width: 100px" />
-        <span>MRN</span>
-        <input type="text" />
-        <span>Test Date</span>
-        <input
-          type="date"
-          style="
-            width: 100px;
-            justify-self: center;
-            border-right: 1px solid black;
-            border-left: 0px;
-          "
-        />
+        <label for="name">Name</label>
+        <input id="name" type="text" />
+        <label for="DOB">DOB</label>
+        <input id="DOB" type="date" style="width: 120px" />
+        <label for="MRN">MRN</label>
+        <input id="MRN" type="text" />
+      </div>
+      <div id="wrapper_test_date" style="justify-self: center">
+        <label for="test_date">Test Date</label>
+        <input id="test_date" type="date"  />
       </div>
     </div>
 
