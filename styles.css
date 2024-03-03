@@ -11,40 +11,6 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-header {
-  display: grid;
-  place-content: center;
-  align-items: center;
-  height: 100px;
-  width: 100%;
-  background-color: #200e50;
-  color: aliceblue;
-  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3);
-}
-
-body {
-  background: hsla(160, 50%, 51%, 1);
-  background: linear-gradient(
-    90deg,
-    rgba(68, 193, 151, 0.471) 0%,
-    rgba(29, 21, 86, 0.477) 100%
-  );
-  background: -moz-linear-gradient(
-    90deg,
-    hsla(160, 50%, 51%, 1) 0%,
-    hsla(247, 60%, 21%, 1) 100%
-  );
-  background: -webkit-linear-gradient(
-    90deg,
-    rgba(68, 193, 151, 0.513) 0%,
-    rgba(29, 21, 86, 0.489) 100%
-  );
-  filter: progid: dximagetransform.microsoft.gradient(startColorstr="#43C197", endColorstr="#1C1554", GradientType=1);
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* height: 1000px; */
-}
-
 .main-div {
   /* box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.3); */
   margin: auto;
