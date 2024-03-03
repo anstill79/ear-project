@@ -70,7 +70,6 @@ input[type="number"]:focus {
 #help_content {
   display: grid;
   grid-template-columns: 80vw;
-  max-width: 900px;
 }
 
 #help_text_modal {
