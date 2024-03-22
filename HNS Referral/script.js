@@ -1,29 +1,29 @@
 const audiogramResultOptions = [
-  { 0: '(Select a result)' },
-  { 1: 'Asymm.: 30_30_30 dB asymm. over 3 freq. (no interocts)' },
-  { 2: 'Asymm.: 1 freq >= 30 dB asymm. (ignore 8kHz)' },
-  { 3: 'Asymm.: Word rec. >= 20% asymm.' },
-  { 4: 'Asymm: Not significantly large enough to meet other criteria.' },
-  { 5: 'ABG > 30 absent reflexes' },
-  { 6: 'ABG > 30 present reflexes' },
-  { 7: 'Pulsatile tinnitus' },
-  { 8: 'Constant unilateral tinnitus' },
-  { 9: 'Drainage' },
+  { 0: "(Select a result)" },
+  { 1: "Asymm.: 30_30_30 dB asymm. over 3 freq. (no interocts)" },
+  { 2: "Asymm.: 1 freq >= 30 dB asymm. (ignore 8kHz)" },
+  { 3: "Asymm.: Word rec. >= 20% asymm." },
+  { 4: "Asymm: Not significantly large enough to meet other criteria." },
+  { 5: "ABG > 30 absent reflexes" },
+  { 6: "ABG > 30 present reflexes" },
+  { 7: "Pulsatile tinnitus" },
+  { 8: "Constant unilateral tinnitus" },
+  { 9: "Drainage" },
 ];
 
 const timingOptions = [
-  { 0: '(Onset)' },
-  { 1: 'Weeks: 0 to 6' },
-  { 2: 'Months: 1.5 to 3' },
-  { 3: 'Months: 3 to 6' },
-  { 4: 'Months: 6 to 12' },
-  { 5: 'Years: 1+' },
-  { 6: 'Unknown' },
+  { 0: "(Onset)" },
+  { 1: "Weeks: 0 to 6" },
+  { 2: "Months: 1.5 to 3" },
+  { 3: "Months: 3 to 6" },
+  { 4: "Months: 6 to 12" },
+  { 5: "Years: 1+" },
+  { 6: "Unknown" },
 ];
 
 function populateOptions(options, target) {
   options.forEach((option, index) => {
-    const optionEl = document.createElement('option');
+    const optionEl = document.createElement("option");
     optionEl.innerText = option[index];
     target.appendChild(optionEl);
   });
@@ -32,21 +32,21 @@ function populateOptions(options, target) {
 populateOptions(audiogramResultOptions, audiogram_result);
 populateOptions(timingOptions, timing);
 
-audiogram_result.addEventListener('change', giveGuidance);
-timing.addEventListener('change', giveGuidance);
+audiogram_result.addEventListener("change", giveGuidance);
+timing.addEventListener("change", clearOtherDate);
 
 function getIndexes() {
   if (
-    audiogram_result.value.charAt(0) === '(' ||
-    timing.value.charAt(0) === '('
+    audiogram_result.value.charAt(0) === "(" ||
+    timing.value.charAt(0) === "("
   ) {
-    const guidanceContainer = document.getElementById('guidance_text');
-    guidanceContainer.innerText = '';
+    const guidanceContainer = document.getElementById("guidance_text");
+    guidanceContainer.innerText = "";
     return;
   }
   const indexes = {
-    selectedAudioResult: '',
-    selectedTiming: '',
+    selectedAudioResult: "",
+    selectedTiming: "",
   };
 
   audiogramResultOptions.forEach((option, index) => {
@@ -70,8 +70,7 @@ function giveGuidance() {
   const audio = indexes.selectedAudioResult;
 
   const timing = indexes.selectedTiming;
-  const guidanceContainer = document.getElementById('guidance_text');
-  const p = document.createElement('p');
+  const guidanceContainer = document.getElementById("guidance_text");
 
   if ((audio === 1 && timing === 1) || (audio === 3 && timing === 1)) {
     guidanceContainer.innerHTML = `<ul>
@@ -163,7 +162,13 @@ function handleDatePicker() {
   const delta = currentDate - inputDate;
   const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
   const weeks = Math.floor(delta / millisecondsInWeek);
-
+  if (weeks < 0) {
+    console.log(weeks);
+    const guidanceContainer = document.getElementById("guidance_text");
+    guidanceContainer.innerHTML = `<p>You picked a date in the future. Please try again. Thank you</p>`;
+    timing_date_picker.value = ""; 
+    return;
+  }
   if (weeks > 0 && weeks <= 6) {
     timing.value = timingOptions[1][1];
   }
@@ -185,6 +190,20 @@ function handleDatePicker() {
   giveGuidance();
 }
 
-timing_date_picker.addEventListener('change', handleDatePicker);
+//timing_date_picker.addEventListener("change", handleDatePicker);
+timing_date_picker.addEventListener("change", clearOtherDate);
 
-audiogram_result.focus()
+audiogram_result.focus();
+
+function clearOtherDate() {
+  //pick a date picker, clear input date
+  //enter input date, clear picker
+  //later function will set the cleared field to match trigger field
+  if (this.id === 'timing_date_picker') {
+    timing.value = '';
+    handleDatePicker()
+  } else {
+    timing_date_picker.value = '';
+    giveGuidance()
+  }
+}

@@ -18,9 +18,10 @@ h1 {
   gap: 10px;
   margin-inline: auto;
   margin-bottom: 20px;
-  border: 1px solid black;
+  border: 2px solid black;
   place-content: center;
   padding-block: 20px;
+  align-items: center;
 }
 
 .inputs-wrapper,
@@ -35,13 +36,15 @@ h1 {
   height: 200px;
   background-color: bisque;
   padding-right: 2px;
+  padding-top: 10px;
   line-height: 150%;
 }
 
 #timing_flex_wrapper {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-between;
+  align-items: center;
 }
 
 #picker_wrapper {
@@ -50,7 +53,7 @@ h1 {
 }
 
 #show_date_picker {
-  width: 100px;
+  width: 80px;
   cursor: pointer;
   background-color: white;
   border: 1px solid black;
@@ -66,4 +69,7 @@ h1 {
 }
 :focus {
   outline: 1px solid blue;
+}
+input, select {
+  padding: 5px;
 }
