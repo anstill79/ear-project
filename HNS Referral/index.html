@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HNS Checklist</title>
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <h1>HNS Guidance</h1>
+    <div class="inputs-wrapper">
+      <div class="inputs-contents">
+        <label for="audiogram_result">Audiogram Result:</label>
+        <select id="audiogram_result" name="dropdown1"></select>
+        <label for="timing">Onset Timing:</label>
+        <div id="timing_flex_wrapper">
+          <select id="timing" name="dropdown2"></select>
+          <span>or</span>
+          <div id="picker_wrapper">
+            <button
+              id="show_date_picker"
+              onclick="timing_date_picker.showPicker()"
+            >
+              Pick a date
+            </button>
+            <input type="date" id="timing_date_picker" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guidance-wrapper">
+      <div class="guidance-contents">
+        <span>Guidance:</span>
+        <div id="guidance_text"></div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>

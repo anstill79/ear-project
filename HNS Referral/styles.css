@@ -1,0 +1,69 @@
+/* Add styles here */
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.inputs-contents,
+.guidance-contents {
+  display: grid;
+  grid-template-columns: 150px 500px;
+  gap: 10px;
+  margin-inline: auto;
+  margin-bottom: 20px;
+  border: 1px solid black;
+  place-content: center;
+  padding-block: 20px;
+}
+
+.inputs-wrapper,
+.guidance-wrapper {
+  min-width: 400px;
+  max-width: 700px;
+  margin: auto;
+}
+
+#guidance_text {
+  width: 500px;
+  height: 200px;
+  background-color: bisque;
+  padding-right: 2px;
+  line-height: 150%;
+}
+
+#timing_flex_wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+#picker_wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+#show_date_picker {
+  width: 100px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 7px;
+}
+#show_date_picker:hover {
+  background-color: yellow;
+  border: 1px solid black;
+}
+
+#timing {
+  width: 200px;
+}
+:focus {
+  outline: 1px solid blue;
+}
