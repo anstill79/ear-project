@@ -139,7 +139,7 @@ function giveGuidance() {
       console.log(leftToGo);
     }
     guidanceContainer.innerHTML = `<ul>
-    <li>Send chart to PCP with note that MRI/MRA is indicated once the symptom
+    <li>Send chart to PCP with note that MRI/MRA is indicated once the symptom has been present at least 6 months.
     </li>
     
     
