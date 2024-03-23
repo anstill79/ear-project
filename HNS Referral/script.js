@@ -102,7 +102,8 @@ function giveGuidance() {
     guidanceContainer.innerHTML = `<ul>
     <li>No MRI indicated</li>
     <li>No HNS visit indicated</li>
-    <li>Annual audiograms to monitor asymmetry, in case it grows</li>
+    <li>Annual audiograms to monitor asymmetry, in case it grows.</li>
+    <ul><li>If asymmetry increases to meet HNS criteria for MRI or HNS consult, appropriate orders can be placed at that time.</li></ul>
     <li>Hearing instruments as needed</li>
     </ul>`;
   }
@@ -129,20 +130,20 @@ function giveGuidance() {
     (audio === 8 && timing === 3) ||
     (audio === 8 && timing === 6)
   ) {
+    let content = 'once sx have been present for 6 months.';
     if (timing_date_picker.value) {
-      const inputDate = new Date(timing_date_picker.value);
+      const inputDate = new Date(timing_date_picker.value) || timing.value;
+      console.log(inputDate);
       const currentDate = new Date();
       const delta = currentDate - inputDate;
       const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
       const weeks = Math.floor(delta / millisecondsInWeek);
-      const leftToGo = 24 - weeks;
-      console.log(leftToGo);
-    }
+      content = (24 - weeks) < 0 ? 'since symptom has already been present and constant for 6 months': `in ${24 - weeks} weeks (when sx cross the 6 month mark).`;
+      }
+  
     guidanceContainer.innerHTML = `<ul>
-    <li>Send chart to PCP with note that MRI/MRA is indicated once the symptom has been present at least 6 months.
+    <li>Send chart to PCP with note that MRI/MRA is indicated ${content}
     </li>
-    
-    
     <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
     <li>Hearing instruments as needed</li>
     </ul>`;
