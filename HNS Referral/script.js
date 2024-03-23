@@ -130,19 +130,19 @@ function giveGuidance() {
     (audio === 8 && timing === 3) ||
     (audio === 8 && timing === 6)
   ) {
-    let content = 'once sx have been present for 6 months.';
+    let content = 'once symptoms have been present for 6 months.';
     if (timing_date_picker.value) {
-      const inputDate = new Date(timing_date_picker.value) || timing.value;
-      console.log(inputDate);
-      const currentDate = new Date();
-      const delta = currentDate - inputDate;
-      const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
-      const weeks = Math.floor(delta / millisecondsInWeek);
-      content = (24 - weeks) < 0 ? 'since symptom has already been present and constant for 6 months': `in ${24 - weeks} weeks (when sx cross the 6 month mark).`;
+      let newDate = new Date(timing_date_picker.value);
+      newDate.setMonth(newDate.getMonth() + 6);
+      let dateOnly = newDate.toLocaleDateString('en-US');
+      const weeks = handleDatePicker(1);
+      //removing the ternary since the timing var overrides the date picker when the picker sets the timing section on change. the > 6 month case would never hit this section.
+      // content = (24 - weeks) < 0 ? 'since symptom has already been present and constant for 6 months.': `around or after ${dateOnly} (when sx cross the 6 month mark).`;
+      content = `around or after ${dateOnly} (when symptoms cross the 6 month mark).`;
       }
   
     guidanceContainer.innerHTML = `<ul>
-    <li>Send chart to PCP with note that MRI/MRA is indicated ${content}
+    <li>Send chart to PCP with note that if the symptom remains present and constant that MRI/MRA scan is indicated ${content}
     </li>
     <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
     <li>Hearing instruments as needed</li>
@@ -157,12 +157,16 @@ function giveGuidance() {
   }
 }
 
-function handleDatePicker() {
+function handleDatePicker(getWeeksResult) {
   const inputDate = new Date(timing_date_picker.value);
   const currentDate = new Date();
   const delta = currentDate - inputDate;
   const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
   const weeks = Math.floor(delta / millisecondsInWeek);
+  if(getWeeksResult) {
+    //stops here and returns weeks instead of running rest of fx
+    return weeks
+  }
   if (weeks < 0) {
     console.log(weeks);
     const guidanceContainer = document.getElementById("guidance_text");
