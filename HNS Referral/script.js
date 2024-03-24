@@ -73,52 +73,52 @@ function giveGuidance() {
   const guidanceContainer = document.getElementById("guidance_text");
 
   if ((audio === 1 && timing === 1) || (audio === 3 && timing === 1)) {
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>Audiologist orders MRI</li>
     <li>Does patient want steroids?</li> <ul><li>If so, help coordinate Sudden appointment with HNS, same day or in very near future.</li></ul>
     <li>Repeat audiogram in 2 weeks.</li>
-    </ul>`;
+    </ol>`;
   }
   if ((audio === 1 && timing !== 1) || (audio === 3 && timing !== 1)) {
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>PCP orders MRI</li>
     <li>Too late for steroids. No HNS visit indicated</li>
     <li>Repeat audiogram in 2 weeks</li>
     <li>Hearing instruments as needed</li>
-    </ul>`;
+    </ol>`;
   }
   if (
     audio === 2 ||
     (audio === 8 && timing === 4) ||
     (audio === 8 && timing === 5)
   ) {
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>PCP orders MRI</li>
     <li>No HNS visit indicated</li>
     <li>Hearing instruments as needed</li>
-    </ul>`;
+    </ol>`;
   }
   if (audio === 4) {
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>No MRI indicated</li>
     <li>No HNS visit indicated</li>
     <li>Annual audiograms to monitor asymmetry, in case it grows.</li>
     <ul><li>If asymmetry increases to meet HNS criteria for MRI or HNS consult, appropriate orders can be placed at that time.</li></ul>
     <li>Hearing instruments as needed</li>
-    </ul>`;
+    </ol>`;
   }
   if (audio === 5) {
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>Refer to HNS for possible otosclerosis</li>
     <li>Hearing instruments as needed</li>
-    </ul>`;
+    </ol>`;
   }
   if (audio === 6) {
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>Refer to HNS for possible dehiscence</li>
     <li>eConsult order for VEMP testing</li>
     <li>Hearing instruments as needed</li>
-    </ul>`;
+    </ol>`;
   }
   if (
     (audio === 7 && timing === 1) ||
@@ -141,19 +141,19 @@ function giveGuidance() {
       content = `around or after ${dateOnly} (when symptoms cross the 6 month mark).`;
       }
   
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>Send chart to PCP with note that if the symptom remains present and constant that MRI/MRA scan is indicated ${content}
     </li>
     <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
     <li>Hearing instruments as needed</li>
-    </ul>`;
+    </ol>`;
   }
   if ((audio === 7 && timing === 4) || (audio === 7 && timing === 5)) {
-    guidanceContainer.innerHTML = `<ul>
+    guidanceContainer.innerHTML = `<ol>
     <li>PCP orders MRI/MRA</li>
     <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
     <li>Hearing instruments as needed</li>
-    </ul>`;
+    </ol>`;
   }
 }
 
