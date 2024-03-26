@@ -10,8 +10,14 @@
     <link rel="stylesheet" href="./style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
 
-  <script type="module" src="../src/builtComponents/HeaderWithSection.js"></script>
-        <link rel="stylesheet" href="../src/builtComponents/HeaderWithSection.css" />
+    <script
+      type="module"
+      src="../src/builtComponents/HeaderWithSection.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="../src/builtComponents/HeaderWithSection.css"
+    />
     <title>Sensorineural Acuity Test</title>
   </head>
 
@@ -229,13 +235,14 @@
         <h3>How do I do the test?</h3>
 
         <p>
-          Measure unmasked AC thresholds 500Hz-4kHz in each ear and mark them
-          down. Place the bone oscillator on the forehead and present NBN
-          masking through it at the max level of channel 2 then remeasure AC
-          thresholds and mark them down. Use the values displayed in the results
-          section of this table as the masked BC thresholds. Click the emoji
-          below the result to see additional information about the quality of
-          the result and possible interpretation.
+          Measure unmasked AC thresholds 500Hz-4kHz in each ear and enter them
+          in the appropriate fields. Place the bone oscillator on the forehead
+          and present NBN masking through it at the max level of channel 2 then
+          remeasure AC thresholds and enter them in the appropriate fields. Use
+          the values displayed in the results section of this table as the
+          masked BC thresholds. Click the emoji below the result to see
+          additional information about the quality of the result and possible
+          interpretation.
         </p>
 
         <h3>How do I create my own norms?</h3>
@@ -304,18 +311,11 @@
       <div
         id="custom_norms_content"
         class="norms-container"
-        style="
-          border: 1px solid black;
-          background-color: white;
-          margin: auto;
-          padding-top: 10%;
-          padding-bottom: 10%;
-          overflow: scroll;
-        "
       >
         <h3>Custom norm values</h3>
 
         <div class="spacer"></div>
+        
         <div class="no-border threshold-item">
           <p class="norm-labels">500Hz</p>
         </div>
@@ -328,8 +328,8 @@
         <div class="no-border threshold-item">
           <p class="norm-labels">4kHz</p>
         </div>
-        <div class="threshold-item"><span>Label</span></div>
         <div class="spacer"></div>
+
         <div class="threshold-item"><span>New Norms</span></div>
         <div class="sm-border threshold-item">
           <input type="number" id="newNorm500" />
@@ -343,84 +343,26 @@
         <div class="sm-border threshold-item">
           <input type="number" id="newNorm4k" />
         </div>
-        <div class="sm-border threshold-item sm-text">
-          <textarea id="newNormLabel" style="width: 100%"></textarea>
-        </div>
-        <div class="flex-btns">
-          <button
-            id="saveNormsButton"
-            class="btn-norms"
-            style="cursor: pointer"
-          >
-            ➕
-          </button>
-        </div>
+        <button
+          id="saveNormsButton"
+          class="btn-norms"
+          style="cursor: pointer"
+        >
+          ➕
+        </button>
 
-        <div class="threshold-item"><span>defaults</span></div>
-        <div class="no-border threshold-item highlight"><span>55</span></div>
-        <div class="no-border threshold-item highlight"><span>60</span></div>
-        <div class="no-border threshold-item highlight"><span>60</span></div>
-        <div class="no-border threshold-item highlight"><span>60</span></div>
-
-        <div class="no-border threshold-item overflow sm-text">
-          <span>Default values provided by the app</span>
-        </div>
-
-        <div class="flex-btns">
+          <div class="threshold-item"><span>defaults</span></div>
+          <div class="no-border threshold-item highlight"><span>55</span></div>
+          <div class="no-border threshold-item highlight"><span>60</span></div>
+          <div class="no-border threshold-item highlight"><span>60</span></div>
+          <div class="no-border threshold-item highlight"><span>60</span></div>
           <button class="btn-norms load-norms" style="cursor: pointer">
             📂
           </button>
-          <button
-            class="btn-norms delete-norms"
-            style="cursor: pointer; display: none"
-          >
-            ❌
-          </button>
-        </div>
+
+
       </div>
-      <details
-        class="norms-container"
-        style="border: 1px solid black; background-color: white; margin: auto"
-      >
-        <summary>How to save custom norms</summary>
-        <p>
-          Custom norms are saved in your browser's local storage. This means
-          that they will be saved on your device and will be available the next
-          time you use the app. If you clear your browser's local storage then
-          the custom norms will be deleted. You can also delete the custom norms
-          by clicking the "❌" button. You can load the default norms by
-          clicking the "📂" button.
-        </p>
-      </details>
-      <details
-        class="norms-container"
-        style="border: 1px solid black; background-color: white; margin: auto"
-      >
-        <summary>How to load custom norms</summary>
-        <p>
-          Default norms are provided by the app and are the same for all users.
-          If you have saved custom norms then you can load the default norms by
-          clicking the "📂" button.
-        </p>
-      </details>
-      <details
-        class="norms-container"
-        style="border: 1px solid black; background-color: white; margin: auto"
-      >
-        <summary>How to measure norms</summary>
-        <p>
-          Test a few normal subjects at 500Hz, 1kHz, 2kHz, and 4kHz in each ear
-          (unilateral is also fine). Retest the same subjects at the same
-          frequencies via AC but place the BC oscillator on the forehead and set
-          channel 2 routed to BC with NBN signal at the highest output allowed
-          by the machine.
-        </p>
-        <p>
-          Subtract the unmasked threshold from the masked threshold to get the
-          shift value for each frequency. Average the shift values across your
-          subjects to get the norm value for that frequency.
-        </p>
-      </details>
+     
     </div>
 
     <script type="module" src="./index.js"></script>

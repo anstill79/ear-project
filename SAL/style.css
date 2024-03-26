@@ -61,6 +61,7 @@ input[type="number"]:focus {
   max-width: 900px;
   margin: auto;
   margin-top: 20px;
+  min-width: 400px;
 }
 
 .norm-labels {
@@ -87,14 +88,11 @@ input[type="number"]:focus {
 
 .norms-container {
   display: grid;
-  grid-template-columns:
-    minmax(70px, 1fr) repeat(4, minmax(30px, 60px)) minmax(50px, 300px)
-    0.25fr;
-  grid-auto-rows: auto;
+  grid-template-columns: 100px repeat(5, 1fr);
+  gap: 3px;
   max-width: 800px;
-  gap: 5px;
+  margin: auto;
   padding: 10px;
-  justify-items: stretch;
 }
 
 @media screen and (max-width: 1040px) {
@@ -165,7 +163,7 @@ input[type="number"]:focus {
 }
 
 .norms-container h3 {
-  grid-column: 1 / span 7;
+  grid-column: 1 / span 6;
   padding-left: 10%;
 }
 
