@@ -9,6 +9,9 @@ const audiogramResultOptions = [
   { 7: "Pulsatile tinnitus" },
   { 8: "Constant unilateral tinnitus" },
   { 9: "Drainage" },
+  { 10: "Asymm. 1 freq. => 30 dB" },
+  { 11: "Asymm. 2 freq. => 15 dB" }
+  
 ];
 
 const timingOptions = [
