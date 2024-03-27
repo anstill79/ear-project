@@ -88,11 +88,15 @@ input[type="number"]:focus {
 
 .norms-container {
   display: grid;
-  grid-template-columns: 100px repeat(5, 1fr);
+  grid-template-columns: 150px repeat(5, 1fr);
   gap: 3px;
   max-width: 800px;
   margin: auto;
   padding: 10px;
+}
+
+.defaults {
+  height: 50px;
 }
 
 @media screen and (max-width: 1040px) {
@@ -101,7 +105,7 @@ input[type="number"]:focus {
   }
 
   .norms-container {
-    max-width: 90%;
+    max-width: 100%;
   }
 
   .overflow {
@@ -207,6 +211,9 @@ input[type="number"]:focus {
   border: 1px solid red;
 }
 
+.width-1{
+  width: 150px;
+}
 .info {
   font-size: 2rem;
   cursor: pointer;
