@@ -30,18 +30,17 @@ let threshResult;
 let activeFreq;
 
 const xLabels = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110];
-
 let chartColor = "black";
 let fontColor = "black";
 
 //BCresponses.right.thresh5[0] is the threshold Y value, [1] is the masking index value.
+//these set the annotation, once plateau is found
 let maskedResult = 0;
 let maskedIndex = 0;
 
 //takes in x index which is masking level (where to splice), y index which is threshold (what value to splice), ear (array), 
 //and frequency (array)
 function pushData(thresh, masking) {
-
   previousValue = activeMeasure[masking];
   if (!activeMeasure || activeMeasure === BCresponses.emptyArray) {
     return
@@ -51,13 +50,38 @@ function pushData(thresh, masking) {
   } else {
     activeMeasure.splice(masking, 1, thresh)
   }
-
   //fx to chekc for duplicates
   detectPlateau(activeMeasure);
+  //findRepeatedValues()
   //set result vars to 0 if no duplicates, or result if true
-
   myChart.update();
 }
+
+function findRepeatedValues() {
+  let sortedArray = activeMeasure.sort((a, b) => a - b);
+  let previous = null;
+  let count = 0;
+  let repeatedValues = [];
+
+  for (let i = 0; i < sortedArray.length; i++) {
+    if (sortedArray[i] !== null) {
+      if (sortedArray[i] === previous) {
+        count++;
+      } else {
+        count = 1;
+      }
+
+      if (count === 3 && !repeatedValues.includes(sortedArray[i])) {
+        repeatedValues.push(sortedArray[i]);
+      }
+
+      previous = sortedArray[i];
+    }
+  }
+console.log(repeatedValues)
+  return repeatedValues;
+}
+
 
 function detectPlateau(arr) {
   let sorted_arr = arr.slice().sort();
@@ -324,10 +348,8 @@ const mainOptions_R = {
   }
 };
 
-
 const ctx = document.getElementById('maskingGraph').getContext('2d');
 const myChart = new Chart(ctx, mainOptions_R);
-
 
 function clearData() {
   //copied from StackOverflow. Seems to start at 0 index then delete count is set to the original length of the array
@@ -348,6 +370,3 @@ function clearData() {
 }
 }
 
-function resizeWindow() {
-  Window.resizeTo(100, 100)
-}
