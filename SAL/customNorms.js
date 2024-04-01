@@ -62,7 +62,7 @@ export function loadNorms() {
 
   if (checkSavedNorms || this.id === "load_custom") {
     const norms = JSON.parse(localStorage.getItem("customNorms"));
-    if (Object.keys(norms).length === 0) {
+    if (!norms || Object.keys(norms).length === 0) {
       return;
     }
     load_custom.innerText = "✅";
