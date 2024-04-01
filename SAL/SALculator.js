@@ -1,20 +1,26 @@
 import {
   measuredData,
   SALresults,
-  defaultShiftNorms,
+  shiftNorms,
 } from "./dataStructureDefaults.js";
 import { setResultsToCell } from "./displayResults.js";
 
-export function doSAL() {
-  const id = this.id;
-  const val = parseInt(this.value);
+export function doSAL(item) {
+  const id = item.id || this.id;
+  if (item instanceof Event) {
+    item = item.target;
+  }
+  if (!item.value) {
+    return;
+  }
+  const val = parseInt(item.value);
   const ear = id.charAt(0);
   let freq = "";
 
   if (!val) {
-    this.parentElement.classList.add("empty-value");
+    item.parentElement.classList.add("empty-value");
   } else {
-    this.parentElement.classList.remove("empty-value");
+    item.parentElement.classList.remove("empty-value");
   }
 
   if (id.includes("initial")) {
@@ -33,7 +39,7 @@ export function doSAL() {
 
   if (startingThresh < 50 && startingThresh !== null) {
     if (startingThresh && remeasuredThresh) {
-      SALresults[ear][freq][0] = defaultShiftNorms[freq] - shift;
+      SALresults[ear][freq][0] = shiftNorms[freq] - shift;
       capped =
         SALresults[ear][freq][0] < -10
           ? " Result shift was too large. Displayed value is capped at -10"
@@ -58,22 +64,22 @@ export function doSAL() {
       typeof remeasuredThresh === "number" &&
       typeof startingThresh === "number"
     ) {
-      SALresults[ear][freq][0] = defaultShiftNorms[freq] - shift;
+      SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     }
     setResultsToCell(ear, freq, targetResult, targetInfo);
     return;
   }
 
   if (startingThresh && remeasuredThresh) {
-    const maxAllowed = startingThresh - defaultShiftNorms[freq];
-    SALresults[ear][freq][0] = defaultShiftNorms[freq] - shift;
+    const maxAllowed = startingThresh - shiftNorms[freq];
+    SALresults[ear][freq][0] = shiftNorms[freq] - shift;
     // if shift is larger than norm, just put it at initial minus norm
-    if (shift > defaultShiftNorms[freq]) {
-      SALresults[ear][freq][0] = startingThresh - defaultShiftNorms[freq];
+    if (shift > shiftNorms[freq]) {
+      SALresults[ear][freq][0] = startingThresh - shiftNorms[freq];
       SALresults[ear][freq][2] = "🤔";
       SALresults[ear][
         freq
-      ][1] = `The result is usable but the shift amount is too large. The displayed result uses norm the value instead of shift (norm at this frequency is ${defaultShiftNorms[freq]}dB)`;
+      ][1] = `The result is usable but the shift amount is too large. The displayed result uses norm the value instead of shift (norm at this frequency is ${shiftNorms[freq]}dB)`;
     } else {
       SALresults[ear][freq][1] = "Looks good. Use the displayed result.";
       SALresults[ear][freq][2] = "✅";

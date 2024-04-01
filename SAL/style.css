@@ -4,15 +4,6 @@
   margin: 10;
 }
 
-.btn {
-  width: 120px;
-  height: 30px;
-}
-
-.btn:hover {
-  background-color: burlywood;
-}
-
 .flex-btns {
   display: flex;
   flex-direction: column;
@@ -20,20 +11,21 @@
   gap: 1px;
 }
 
-.btn-norms {
+.btn {
   width: auto;
   height: 100%;
   border: 1px solid black;
+  background-color: white;
   border-radius: 3px;
   text-align: center;
+  cursor: pointer;
 }
-
-.load-norms {
-  background-color: dodgerblue;
+.btn:hover {
+  background-color: rgb(241, 243, 234);
+  outline: 1.2px solid black;
 }
-
-.delete-norms {
-  background-color: darkolivegreen;
+.btn:focus {
+  outline: 1.2px solid black;
 }
 
 body {
@@ -88,7 +80,7 @@ input[type="number"]:focus {
 
 .norms-container {
   display: grid;
-  grid-template-columns: 150px repeat(5, 1fr);
+  grid-template-columns: 160px repeat(5, 1fr);
   gap: 3px;
   max-width: 800px;
   margin: auto;
@@ -187,6 +179,10 @@ input[type="number"]:focus {
   width: 60px;
 }
 
+.selected {
+  background-color:yellow);
+}
+
 .empty-value {
   background-color: rgba(0, 0, 0, 0.116);
 }
@@ -211,7 +207,13 @@ input[type="number"]:focus {
   border: 1px solid red;
 }
 
-.width-1{
+.width-1 {
+  width: 150px;
+}
+.width-2 {
+  width: 100px;
+}
+.width-3 {
   width: 150px;
 }
 .info {

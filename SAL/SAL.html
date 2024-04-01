@@ -12,23 +12,22 @@
 
     <script
       type="module"
-      src="../src/builtComponents/HeaderWithSection.js"
+      src="../Svelte/src/builtComponents/HeaderWithSection.js"
     ></script>
     <link
       rel="stylesheet"
-      href="../src/builtComponents/HeaderWithSection.css"
+      href="../Svelte/src/builtComponents/HeaderWithSection.css"
     />
     <title>Sensorineural Acuity Test</title>
   </head>
 
   <body>
-
     <div id="app"></div>
-<style>
-  #app {
-    margin-top: 10px;
-  }
-</style>
+    <style>
+      #app {
+        margin-top: 10px;
+      }
+    </style>
 
     <div id="SAL" class="main-container">
       <div class="red-border threshold-container">
@@ -188,20 +187,19 @@
         </div>
       </div>
       <!-- end of SAL worksheet wrapper -->
+
       <div>
         <button
           popovertarget="help_text_modal"
           id="helpButton"
-          class="btn"
-          style="cursor: help"
+          class="btn width-1"
         >
           Help
         </button>
         <button
           popovertarget="custom_norms_modal"
           id="normsButton"
-          class="btn"
-          style="cursor: context-menu"
+          class="btn width-1"
         >
           Custom Norms
         </button>
@@ -314,14 +312,13 @@
     <!-- Custom Norms -->
 
     <div id="custom_norms_modal" popover>
-      <div
-        id="custom_norms_content"
-        class="norms-container"
-      >
-        <h3 style="grid-column: 1/ span 6; text-align: center;">Custom norm values</h3>
+      <div id="custom_norms_content" class="norms-container">
+        <h3 style="grid-column: 1 / span 6; text-align: center">
+          Custom norm values
+        </h3>
 
         <div class="spacer"></div>
-        
+
         <div class="no-border threshold-item">
           <p class="norm-labels">500Hz</p>
         </div>
@@ -336,7 +333,9 @@
         </div>
         <div class="spacer"></div>
 
-        <div class="threshold-item width-1"><span>New Norms</span></div>
+        <div class="threshold-item width-3" style="justify-content: start">
+          <span>New Norms</span>
+        </div>
         <div class="sm-border threshold-item defaults">
           <input type="number" id="newNorm500" />
         </div>
@@ -349,26 +348,42 @@
         <div class="sm-border threshold-item">
           <input type="number" id="newNorm4k" />
         </div>
-        <button
-          id="saveNormsButton"
-          class="btn-norms"
-          style="cursor: pointer"
-        >
-          ➕
-        </button>
+        <button id="saveNormsButton" class="btn">Save</button>
 
-          <div class="threshold-item width-1"><span>App defaults</span></div>
-          <div class="sm-border threshold-item highlight defaults"><span>55</span></div>
-          <div class="sm-border threshold-item highlight defaults"><span>60</span></div>
-          <div class="sm-border threshold-item highlight defaults"><span>60</span></div>
-          <div class="sm-border threshold-item highlight defaults"><span>60</span></div>
-          <button class="btn-norms load-norms" style="cursor: pointer">
-            Load
-          </button>
-
-
+        <div class="spacer" style="grid-column: 1 / span 6"></div>
+        <div class="threshold-item width-3" style="justify-content: start">
+          <span>Custom Norms</span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span id="custom_norm_five"></span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span id="custom_norm_one"></span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span id="custom_norm_two"></span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span id="custom_norm_four"></span>
+        </div>
+        <button id="load_custom" class="btn">Load</button>
+        <div class="threshold-item width-3" style="justify-content: start">
+          <span>App defaults</span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span>55</span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span>60</span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span>60</span>
+        </div>
+        <div class="sm-border threshold-item defaults">
+          <span>60</span>
+        </div>
+        <button id="load_default" class="btn">Load</button>
       </div>
-     
     </div>
 
     <script type="module" src="./index.js"></script>

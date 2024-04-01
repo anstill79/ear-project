@@ -1,5 +1,3 @@
-
-
 //[0] is initial, [1] is masked
 export const measuredData = {
   R: {
@@ -16,7 +14,7 @@ export const measuredData = {
   },
 };
 
-export const defaultShiftNorms = {
+export const shiftNorms = {
   five: 55,
   one: 60,
   two: 60,
