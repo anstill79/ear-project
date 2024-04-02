@@ -17,6 +17,12 @@
 <style>
   * {
     box-sizing: border-box;
+
+  }
+  @media print {
+    * {
+      display: none;
+    }
   }
   #menu-btn-wrapper {
     display: grid;

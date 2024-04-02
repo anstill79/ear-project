@@ -15,4 +15,9 @@
     margin: auto;
     margin-top: 5px;
   }
+    @media print {
+    * {
+      display: none;
+    }
+  }
 </style>
