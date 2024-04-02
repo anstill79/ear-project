@@ -56,6 +56,8 @@ export function loadNorms() {
       inputs.forEach((input) => {
         doSAL(input);
       });
+      custom_norms_modal.hidePopover();
+
       return;
     }
   }
@@ -82,6 +84,7 @@ export function loadNorms() {
   inputs.forEach((input) => {
     doSAL(input);
   });
+  custom_norms_modal.hidePopover();
 }
 
 loadNorms();
