@@ -23,6 +23,14 @@ const timingOptions = [
   { 6: "Unknown" },
 ];
 
+const ageOptions = [
+  { 0: "(Select an age)" },
+  { 1: "0-18" },
+  { 2: "19-30" },
+  { 3: "31-40" },
+  { 4: "41-50" },
+];
+
 function populateOptions(options, target) {
   options.forEach((option, index) => {
     const optionEl = document.createElement("option");
@@ -33,6 +41,7 @@ function populateOptions(options, target) {
 
 populateOptions(audiogramResultOptions, audiogram_result);
 populateOptions(timingOptions, timing);
+populateOptions(ageOptions, patient_age);
 
 audiogram_result.addEventListener("change", giveGuidance);
 timing.addEventListener("change", clearOtherDate);

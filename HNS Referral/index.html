@@ -8,14 +8,23 @@
   </head>
   <body>
     <h1>HNS Guidance</h1>
-    <div class="inputs-wrapper">
+
+    <div class="section-wrapper">
       <div class="inputs-contents">
         <label for="audiogram_result">Audiogram Result:</label>
         <select id="audiogram_result" name="dropdown1"></select>
+        <label for="patient_age">Age:</label>
+        <select id="patient_age" name="dropdown2"></select>
+      </div>
+    </div>
+    <div class="section-wrapper">
+      <div class="inputs-contents">
         <label for="timing">Onset Timing:</label>
         <div id="timing_flex_wrapper">
           <select id="timing" name="dropdown2"></select>
-          <span style="font-style: italic;color: gray; white-space: nowrap;">← or →</span>
+          <span style="font-style: italic; color: gray; white-space: nowrap"
+            >← or →</span
+          >
           <div id="picker_wrapper">
             <button
               id="show_date_picker"
@@ -29,7 +38,7 @@
       </div>
     </div>
 
-    <div class="guidance-wrapper">
+    <div class="section-wrapper">
       <div class="guidance-contents">
         <span>Guidance:</span>
         <div id="guidance_text"></div>

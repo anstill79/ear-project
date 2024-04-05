@@ -3,6 +3,7 @@
   box-sizing: border-box;
   margin: 0px;
   font-family: Arial, Helvetica, sans-serif;
+  /* border: 1px solid red; */
 }
 
 h1 {
@@ -10,6 +11,10 @@ h1 {
   margin-top: 20px;
   margin-bottom: 20px;
   margin-inline: auto;
+}
+.section-wrapper {
+  min-width: 400px;
+  margin: auto;
 }
 
 .inputs-contents,
@@ -24,14 +29,7 @@ h1 {
   place-content: center;
   padding-block: 20px;
   align-items: center;
-  max-width: 800px ;
-}
-
-.inputs-wrapper,
-.guidance-wrapper {
-  min-width: 400px;
-  margin: auto;
-
+  max-width: 800px;
 }
 
 #guidance_text {
