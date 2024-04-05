@@ -10,8 +10,7 @@ const audiogramResultOptions = [
   { 8: "Constant unilateral tinnitus" },
   { 9: "Drainage" },
   { 10: "Asymm. 1 freq. => 30 dB" },
-  { 11: "Asymm. 2 freq. => 15 dB" }
-  
+  { 11: "Asymm. 2 freq. => 15 dB" },
 ];
 
 const timingOptions = [
@@ -133,17 +132,17 @@ function giveGuidance() {
     (audio === 8 && timing === 3) ||
     (audio === 8 && timing === 6)
   ) {
-    let content = 'once symptoms have been present for 6 months.';
+    let content = "once symptoms have been present for 6 months.";
     if (timing_date_picker.value) {
       let newDate = new Date(timing_date_picker.value);
       newDate.setMonth(newDate.getMonth() + 6);
-      let dateOnly = newDate.toLocaleDateString('en-US');
+      let dateOnly = newDate.toLocaleDateString("en-US");
       const weeks = handleDatePicker(1);
       //removing the ternary since the timing var overrides the date picker when the picker sets the timing section on change. the > 6 month case would never hit this section.
       // content = (24 - weeks) < 0 ? 'since symptom has already been present and constant for 6 months.': `around or after ${dateOnly} (when sx cross the 6 month mark).`;
       content = `around or after ${dateOnly} (when symptoms cross the 6 month mark).`;
-      }
-  
+    }
+
     guidanceContainer.innerHTML = `<ol>
     <li>Send chart to PCP with note that if the symptom remains present and constant that MRI/MRA scan is indicated ${content}
     </li>
@@ -166,18 +165,18 @@ function handleDatePicker(getWeeksResult) {
   const delta = currentDate - inputDate;
   const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
   const weeks = Math.floor(delta / millisecondsInWeek);
-  if(getWeeksResult) {
+  if (getWeeksResult) {
     //stops here and returns weeks instead of running rest of fx
-    return weeks
+    return weeks;
   }
   if (weeks < 0) {
     console.log(weeks);
     const guidanceContainer = document.getElementById("guidance_text");
     guidanceContainer.innerHTML = `<p>You picked a date in the future. Please try again. Thank you</p>`;
-    timing_date_picker.value = ""; 
+    timing_date_picker.value = "";
     return;
   }
-  if (weeks > 0 && weeks <= 6) {
+  if ((weeks) => 0 && weeks <= 6) {
     timing.value = timingOptions[1][1];
   }
   if (weeks > 6 && weeks <= 12) {
@@ -207,11 +206,11 @@ function clearOtherDate() {
   //pick a date picker, clear input date
   //enter input date, clear picker
   //later function will set the cleared field to match trigger field
-  if (this.id === 'timing_date_picker') {
-    timing.value = '';
-    handleDatePicker()
+  if (this.id === "timing_date_picker") {
+    timing.value = "";
+    handleDatePicker();
   } else {
-    timing_date_picker.value = '';
-    giveGuidance()
+    timing_date_picker.value = "";
+    giveGuidance();
   }
 }
