@@ -1,5 +1,5 @@
 <script>
-  export let sectionName = "SAL";
+  export let sectionName = "Audiogram";
 </script>
 
 <div id="sub_section">
@@ -13,8 +13,15 @@
     border: 1px solid black;
     max-width: 900px;
     margin: auto;
-    margin-top: 5px;
+    margin-top: 10px;
+    background-color: white;
+    padding-block:3px;
   }
+  span {
+    font-size: 1.5em;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
     @media print {
     * {
       display: none;
