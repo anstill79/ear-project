@@ -26,9 +26,8 @@ const timingOptions = [
 const ageOptions = [
   { 0: "(Select an age)" },
   { 1: "0-18" },
-  { 2: "19-30" },
-  { 3: "31-40" },
-  { 4: "41-50" },
+  { 2: "19-70" },
+  { 3: "Over 70" },
 ];
 
 function populateOptions(options, target) {
