@@ -53,6 +53,10 @@ export function loadNorms() {
       this.innerText = "✅";
       load_custom.innerText = "Load";
       const inputs = document.querySelector("#SAL").querySelectorAll("input");
+      const mainScreenButtonLabel = document.querySelector(
+        "#main_screen_button_label"
+      );
+      mainScreenButtonLabel.innerText = "(Default norms loaded)";
       inputs.forEach((input) => {
         doSAL(input);
       });
@@ -65,6 +69,10 @@ export function loadNorms() {
   if (checkSavedNorms || this.id === "load_custom") {
     const norms = JSON.parse(localStorage.getItem("customNorms"));
     if (!norms || Object.keys(norms).length === 0) {
+      const mainScreenButtonLabel = document.querySelector(
+        "#main_screen_button_label"
+      );
+      mainScreenButtonLabel.innerText = "(Default norms loaded)";
       return;
     }
     load_custom.innerText = "✅";
@@ -79,6 +87,10 @@ export function loadNorms() {
     shiftNorms.one = normsArray[1];
     shiftNorms.two = normsArray[2];
     shiftNorms.four = normsArray[3];
+    const mainScreenButtonLabel = document.querySelector(
+      "#main_screen_button_label"
+    );
+    mainScreenButtonLabel.innerText = "(Custom norms loaded)";
   }
   const inputs = document.querySelector("#SAL").querySelectorAll("input");
   inputs.forEach((input) => {
