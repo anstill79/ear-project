@@ -49,6 +49,7 @@ export function doSAL(item) {
       }
     }
     SALresults[ear][freq][2] = "⚠️";
+
     SALresults[ear][
       freq
     ][1] = `Initial result is lower than 50dB. Traditional masking may be a better choice for this frequency. The SAL value will be displayed in case traditional masking is not viable due to opposite ear severity but use with caution.${capped}`;
@@ -95,6 +96,7 @@ export function doSAL(item) {
     //wipe out result if one of the inputs is empty
     SALresults[ear][freq][0] = null;
     SALresults[ear][freq][1] = null;
+    SALresults[ear][freq][2] = null;
   }
   setResultsToCell(ear, freq, targetResult, targetInfo);
 
