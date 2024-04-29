@@ -116,61 +116,6 @@ input[type="number"]:focus {
   border-radius: 15px;
   width: 900px;
 }
-@media screen and (max-width: 860px) {
-  .norm-labels {
-    transform: rotate(-45deg);
-  }
-
-  .norms-container {
-    max-width: 100%;
-  }
-
-  .overflow {
-    overflow-y: scroll;
-  }
-
-  .main-container {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    min-width: auto;
-    /* One column on small screens */
-  }
-
-  .threshold-container {
-    gap: 2px;
-    grid-auto-rows: 40px;
-    grid-template-columns: 1fr repeat(4, 60px);
-  }
-
-  p {
-    margin-top: 10px;
-  }
-
-  input {
-    /* max-width: 30px; */
-    max-height: 30px;
-  }
-
-  .threshold-item {
-    /* max-width: 42px; */
-    max-height: 30px;
-  }
-
-  .result-modal-content {
-    margin: 20px 20px;
-  }
-
-  .info {
-    font-size: 1.5rem;
-    padding-top: 20px;
-  }
-  #misc-wrapper {
-    grid-column: 1 / 1;
-    width: 370px;
-    padding-left: 40px;
-  }
-}
-/* end of media query */
 
 .highlight {
   background-color: rgba(255, 255, 0, 0.24);
@@ -311,3 +256,66 @@ input[type="number"]::-webkit-outer-spin-button {
 ::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }
+
+@media screen and (max-width: 860px) {
+  .norm-labels {
+    transform: rotate(-45deg);
+  }
+
+  .norms-container {
+    max-width: 100%;
+  }
+
+  .overflow {
+    overflow-y: scroll;
+  }
+
+  .main-container {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    min-width: auto;
+    /* One column on small screens */
+  }
+
+  .threshold-container {
+    gap: 2px;
+    grid-auto-rows: 40px;
+    grid-template-columns: 1fr repeat(4, 60px);
+  }
+
+  p {
+    margin-top: 10px;
+  }
+
+  input {
+    /* max-width: 30px; */
+    max-height: 30px;
+  }
+
+  .threshold-item {
+    /* max-width: 42px; */
+    max-height: 30px;
+  }
+
+  .result-modal-content {
+    margin: 20px 20px;
+  }
+
+  .info {
+    font-size: 1.5rem;
+    padding-top: 20px;
+  }
+  #misc-wrapper {
+    grid-column: 1 / 1;
+    width: 370px;
+    padding-left: 40px;
+  }
+
+  .norms-container {
+    grid-template-columns: 60px repeat(5, 1fr);
+  }
+  .width-3 {
+    width: 60px;
+  }
+}
+/* end of media query */
