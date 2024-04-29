@@ -17,3 +17,10 @@ moreInfo.forEach((info) => {
 saveNormsButton.addEventListener("click", saveNewNorms);
 load_custom.addEventListener("click", loadNorms);
 load_default.addEventListener("click", loadNorms);
+
+const body = document
+  .querySelector("body")
+  .addEventListener("pointerdown", dummy);
+function dummy() {
+  return;
+}
