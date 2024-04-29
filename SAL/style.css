@@ -106,7 +106,7 @@ input[type="number"]:focus {
   align-items: start;
   gap: 5px;
   padding: 5px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   width: 400px;
 }
 #misc-wrapper {
