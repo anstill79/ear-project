@@ -3,7 +3,16 @@
   font-family: "Inter", sans-serif;
   margin: 10;
 }
-
+#app {
+  margin-top: 10px;
+}
+.threshold-container {
+  display: grid;
+  grid-template-columns: 1fr repeat(4, 70px);
+  max-width: 500px;
+  gap: 3px;
+  padding-right: 10px;
+}
 .flex-btns {
   display: flex;
   flex-direction: column;
@@ -122,14 +131,15 @@ input[type="number"]:focus {
 
   .main-container {
     grid-template-columns: 1fr;
-    margin-left: 5px;
     justify-items: center;
+    min-width: auto;
     /* One column on small screens */
   }
 
   .threshold-container {
     gap: 2px;
     grid-auto-rows: 40px;
+    grid-template-columns: 1fr repeat(4, 60px);
   }
 
   p {
@@ -137,7 +147,7 @@ input[type="number"]:focus {
   }
 
   input {
-    max-width: 40px;
+    max-width: 30px;
     max-height: 30px;
   }
 
@@ -156,19 +166,11 @@ input[type="number"]:focus {
   }
   #misc-wrapper {
     grid-column: 1 / 1;
-    width: 415px;
+    width: 370px;
     padding-left: 40px;
   }
 }
 /* end of media query */
-
-.threshold-container {
-  display: grid;
-  grid-template-columns: 1fr repeat(4, 70px);
-  max-width: 500px;
-  gap: 3px;
-  padding-right: 10px;
-}
 
 .highlight {
   background-color: rgba(255, 255, 0, 0.24);

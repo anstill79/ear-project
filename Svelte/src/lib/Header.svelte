@@ -74,10 +74,10 @@
     align-items: center;
     border: 1px solid black;
     /* border-radius: 7px; */
-    box-shadow:
+    /* box-shadow:
       2.1px 3.2px 12.5px rgba(0, 0, 0, 0.088),
       7.1px 10.7px 42px rgba(0, 0, 0, 0.129),
-      32px 48px 188px rgba(0, 0, 0, 0.23);
+      32px 48px 188px rgba(0, 0, 0, 0.23); */
     background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
     max-width: 900px;
     margin: auto;

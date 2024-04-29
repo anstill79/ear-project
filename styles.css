@@ -28,7 +28,6 @@ body {
   width: 300px;
   max-width: 100%;
   height: 200px;
-  opacity: 0.3;
   font-size: large;
   border-radius: 15px;
   border: 1px solid #000;
@@ -58,4 +57,16 @@ body {
 
 .btn-card span {
   text-align: left;
+}
+
+.gray-italics {
+  color: gray;
+  font-style: oblique;
+}
+
+#sub_heading {
+  margin: auto;
+  max-width: 818px;
+  padding-left: 80px;
+  border: 1px solid rgb(164, 81, 164);
 }

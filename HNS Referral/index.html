@@ -9,31 +9,27 @@
   <body>
     <h1>HNS Guidance</h1>
 
-    <div class="section-wrapper">
-      <div class="inputs-contents">
-        <label for="audiogram_result">Audiogram Result:</label>
-        <select id="audiogram_result" name="dropdown1"></select>
-        <label for="patient_age">Age:</label>
-        <select id="patient_age" name="dropdown2"></select>
-      </div>
+    <div class="inputs-contents">
+      <label for="audiogram_result">Audiogram Result:</label>
+      <select id="audiogram_result" name="dropdown1"></select>
+      <label for="patient_age">Age:</label>
+      <select id="patient_age" name="dropdown2"></select>
     </div>
-    <div class="section-wrapper">
-      <div class="inputs-contents">
-        <label for="timing">Onset Timing:</label>
-        <div id="timing_flex_wrapper">
-          <select id="timing" name="dropdown2"></select>
-          <span style="font-style: italic; color: gray; white-space: nowrap"
-            >← or →</span
+    <div class="inputs-contents">
+      <label for="timing">Onset Timing:</label>
+      <div id="timing_flex_wrapper">
+        <select id="timing" name="dropdown2"></select>
+        <span style="font-style: italic; color: gray; white-space: nowrap"
+          >← or →</span
+        >
+        <div id="picker_wrapper">
+          <button
+            id="show_date_picker"
+            onclick="timing_date_picker.showPicker()"
           >
-          <div id="picker_wrapper">
-            <button
-              id="show_date_picker"
-              onclick="timing_date_picker.showPicker()"
-            >
-              Pick a date
-            </button>
-            <input type="date" id="timing_date_picker" />
-          </div>
+            Pick a date
+          </button>
+          <input type="date" id="timing_date_picker" />
         </div>
       </div>
     </div>
