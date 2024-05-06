@@ -8,7 +8,9 @@
   </head>
   <body>
     <h1>HNS Guidance</h1>
-
+    <!--  -->
+    <!--            Drop Downs, Inputs             -->
+    <!--  -->
     <div class="inputs-contents">
       <label for="audiogram_result">Audiogram Result:</label>
       <select id="audiogram_result" name="dropdown1"></select>
@@ -33,11 +35,36 @@
         </div>
       </div>
     </div>
-
+    <!--  -->
+    <!--          Guidance Output                  -->
+    <!--  -->
     <div class="section-wrapper">
       <div class="guidance-contents">
         <span>Guidance:</span>
         <div id="guidance_text"></div>
+      </div>
+    </div>
+    <button id="admin_button" popovertarget="admin-popover">Admin</button>
+
+    <!--  -->
+    <!--          Admin Popover                         -->
+    <!--  -->
+
+    <div id="admin-popover" class="admin-popover" popover>
+      <h3>Admin</h3>
+      <div class="admin-popover-contents">
+        <div class="admin-card">
+          <h5>Audiogram Result</h5>
+          <ul id="audiogram_result_admin"></ul>
+        </div>
+        <div class="admin-card">
+          <h5>Timing Result</h5>
+          <ul id="timing_admin"></ul>
+        </div>
+        <div class="admin-card">
+          <h5>Age Result</h5>
+          <ul id="patient_age_admin"></ul>
+        </div>
       </div>
     </div>
 

@@ -222,3 +222,61 @@ function clearOtherDate() {
     giveGuidance();
   }
 }
+
+// ----------------- Admin ----------------- //
+
+function populateAdminOptions() {
+  audiogram_result_admin.innerHTML = "";
+  timing_admin.innerHTML = "";
+  patient_age_admin.innerHTML = "";
+  audiogramResultOptions.forEach((option, index) => {
+    const li = document.createElement("li");
+    if (index === 0) {
+      li.innerText = option[index];
+    } else {
+      const inputEl = document.createElement("input");
+      inputEl.type = "text";
+      inputEl.value = option[index];
+      li.appendChild(inputEl);
+    }
+    audiogram_result_admin.appendChild(li);
+  });
+  const newAudioResultBtn = document.createElement("button");
+  newAudioResultBtn.innerText = "➕";
+  newAudioResultBtn.id = "new_audio_result_admin";
+  audiogram_result_admin.appendChild(newAudioResultBtn);
+  timingOptions.forEach((option, index) => {
+    const li = document.createElement("li");
+    if (index === 0) {
+      li.innerText = option[index];
+    } else {
+      const inputEl = document.createElement("input");
+      inputEl.type = "text";
+      inputEl.value = option[index];
+      li.appendChild(inputEl);
+    }
+    timing_admin.appendChild(li);
+  });
+  const newTimingResultBtn = document.createElement("button");
+  newTimingResultBtn.innerText = "➕";
+  newTimingResultBtn.id = "new_timing_result_admin";
+  timing_admin.appendChild(newTimingResultBtn);
+  ageOptions.forEach((option, index) => {
+    const li = document.createElement("li");
+    if (index === 0) {
+      li.innerText = option[index];
+    } else {
+      const inputEl = document.createElement("input");
+      inputEl.type = "text";
+      inputEl.value = option[index];
+      li.appendChild(inputEl);
+    }
+    patient_age_admin.appendChild(li);
+  });
+  const newAgeResultBtn = document.createElement("button");
+  newAgeResultBtn.innerText = "➕";
+  newAgeResultBtn.id = "new_age_result_admin";
+  patient_age_admin.appendChild(newAgeResultBtn);
+}
+
+admin_button.addEventListener("click", populateAdminOptions);

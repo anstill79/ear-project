@@ -75,3 +75,26 @@ input,
 select {
   padding: 5px;
 }
+
+.admin-popover {
+  margin: auto;
+  height: 80%;
+}
+.admin-popover::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.admin-popover-contents {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 50px 1fr;
+}
+
+.admin-card {
+  display: grid;
+  grid-template-columns: 150px;
+
+  border: 1px solid black;
+  padding: 10px;
+  margin: 10px;
+}
