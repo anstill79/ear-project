@@ -244,6 +244,7 @@ function populateAdminOptions() {
   const newAudioResultBtn = document.createElement("button");
   newAudioResultBtn.innerText = "➕";
   newAudioResultBtn.id = "new_audio_result_admin";
+  newAudioResultBtn.addEventListener("click", addNewOption);
   audiogram_result_admin.appendChild(newAudioResultBtn);
   timingOptions.forEach((option, index) => {
     const li = document.createElement("li");
@@ -260,6 +261,7 @@ function populateAdminOptions() {
   const newTimingResultBtn = document.createElement("button");
   newTimingResultBtn.innerText = "➕";
   newTimingResultBtn.id = "new_timing_result_admin";
+  newTimingResultBtn.addEventListener("click", addNewOption);
   timing_admin.appendChild(newTimingResultBtn);
   ageOptions.forEach((option, index) => {
     const li = document.createElement("li");
@@ -276,7 +278,28 @@ function populateAdminOptions() {
   const newAgeResultBtn = document.createElement("button");
   newAgeResultBtn.innerText = "➕";
   newAgeResultBtn.id = "new_age_result_admin";
+  newAgeResultBtn.addEventListener("click", addNewOption);
   patient_age_admin.appendChild(newAgeResultBtn);
 }
 
 admin_button.addEventListener("click", populateAdminOptions);
+
+function addNewOption() {
+  let target;
+
+  if (this.id === "new_audio_result_admin") {
+    target = audiogram_result_admin;
+  }
+  if (this.id === "new_timing_result_admin") {
+    target = timing_admin;
+  }
+  if (this.id === "new_age_result_admin") {
+    target = patient_age_admin;
+  }
+  const li = document.createElement("li");
+  const inputEl = document.createElement("input");
+  inputEl.type = "text";
+  li.appendChild(inputEl);
+  //insert the li before the last child (the button)
+  target.insertBefore(li, target.lastChild);
+}

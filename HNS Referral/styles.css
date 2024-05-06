@@ -86,15 +86,27 @@ select {
 
 .admin-popover-contents {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 50px 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  /* grid-template-rows: 50px 1fr; */
+  margin: auto;
 }
 
 .admin-card {
   display: grid;
   grid-template-columns: 150px;
-
+  grid-auto-rows: min-content;
   border: 1px solid black;
   padding: 10px;
   margin: 10px;
+}
+
+.admin-popover-contents h5 {
+  text-align: center;
+  margin: 0;
+  height: 30px;
+}
+.admin-popover-contents ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
 }
