@@ -13,14 +13,20 @@
     <!--  -->
     <div class="inputs-contents">
       <label for="audiogram_result">Audiogram Result:</label>
-      <select id="audiogram_result" name="dropdown1"></select>
+      <select id="audiogram_result" name="dropdown1">
+        <option value="">--Choose a result--</option>
+      </select>
       <label for="patient_age">Age:</label>
-      <select id="patient_age" name="dropdown2"></select>
+      <select id="patient_age" name="dropdown2">
+        <option value="">--Choose an age--</option>
+      </select>
     </div>
     <div class="inputs-contents">
       <label for="timing">Onset Timing:</label>
       <div id="timing_flex_wrapper">
-        <select id="timing" name="dropdown2"></select>
+        <select id="timing" name="dropdown2">
+          <option value="">--Choose timing--</option>
+        </select>
         <span style="font-style: italic; color: gray; white-space: nowrap"
           >← or →</span
         >
@@ -72,11 +78,11 @@
           <div id="admin_selected_guidance">
             <h5>Selections</h5>
             <p style="color: gray">Audiogram Result:</p>
-            <p id="admin_selected_audioResult">- none selected</p>
+            <p id="admin_selected_audioResult">(none selected)</p>
             <p style="color: gray">Timing Result:</p>
-            <p id="admin_selected_timingResult">- none selected</p>
+            <p id="admin_selected_timingResult">(none selected)</p>
             <p style="color: gray">Age Result:</p>
-            <p id="admin_selected_ageResult">- none selected</p>
+            <p id="admin_selected_ageResult">(none selected)</p>
           </div>
         </div>
 

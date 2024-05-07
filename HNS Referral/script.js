@@ -1,39 +1,50 @@
-const audiogramResultOptions = [
-  { 0: "(Select a result)" },
-  { 1: "Asymm.: 30_30_30 dB asymm. over 3 freq. (no interocts)" },
-  { 2: "Asymm.: 1 freq >= 30 dB asymm. (ignore 8kHz)" },
-  { 3: "Asymm.: Word rec. >= 20% asymm." },
-  { 4: "Asymm: Not significantly large enough to meet other criteria." },
-  { 5: "ABG > 30 absent reflexes" },
-  { 6: "ABG > 30 present reflexes" },
-  { 7: "Pulsatile tinnitus" },
-  { 8: "Constant unilateral tinnitus" },
-  { 9: "Drainage" },
-  { 10: "Asymm. 1 freq. => 30 dB" },
-  { 11: "Asymm. 2 freq. => 15 dB" },
-];
+const audiogramResultOptions = {
+  count: 11,
+  h27uzrk6kifg: [0, "Asymm.: 30_30_30 dB asymm. over 3 freq. (no interocts)"],
+  hbvu82knmn8: [1, "Asymm.: 1 freq >= 30 dB asymm. (ignore 8kHz)"],
+  hgx5y9f3fjqv: [2, "Asymm.: Word rec. >= 20% asymm."],
+  hjo5e1wyk43n: [
+    3,
+    "Asymm: Not significantly large enough to meet other criteria.",
+  ],
+  hpmkn7f66ezl: [4, "ABG > 30 absent reflexes"],
+  h7snmngmq7bq: [5, "ABG > 30 present reflexes"],
+  htmfxbbsq6i: [6, "Pulsatile tinnitus"],
+  hze5l88xw5da: [7, "Constant unilateral tinnitus"],
+  h57i3mqae9am: [8, "Drainage"],
+  hfv7habuo1rs: [9, "Asymm. 1 freq. => 30 dB"],
+  h7e4lokp71x5: [10, "Asymm. 2 freq. => 15 dB"],
+};
 
-const timingOptions = [
-  { 0: "(Onset)" },
-  { 1: "Weeks: 0 to 6" },
-  { 2: "Months: 1.5 to 3" },
-  { 3: "Months: 3 to 6" },
-  { 4: "Months: 6 to 12" },
-  { 5: "Years: 1+" },
-  { 6: "Unknown" },
-];
+const timingOptions = {
+  count: 6,
+  h4bs5o8e7g38: [0, "Weeks: 0 to 6"],
+  hxpr2gkommu8: [1, "Months: 1.5 to 3"],
+  hxqb1es55y: [2, "Months: 3 to 6"],
+  hu14uai7ju5: [3, "Months: 6 to 12"],
+  h9bvafyhtzhq: [4, "Years: 1+"],
+  hfup2dtcsahn: [5, "Unknown"],
+};
 
-const ageOptions = [
-  { 0: "(Select an age)" },
-  { 1: "0-18" },
-  { 2: "19-70" },
-  { 3: "Over 70" },
-];
+const ageOptions = {
+  count: 3,
+  hvg5v9ghbfld: [0, "0-18"],
+  hulsdhrnwfrs: [1, "19-70"],
+  huga31csk7ws: [2, "Over 70"],
+};
+
+const guidanceOptions = {};
 
 function populateOptions(options, target) {
-  options.forEach((option, index) => {
+  const keys = Object.keys(options);
+  keys.forEach((option, index) => {
+    if (option === "count") {
+      return;
+    }
     const optionEl = document.createElement("option");
-    optionEl.innerText = option[index];
+    optionEl.value = options[option][1];
+    optionEl.innerText = options[option][1];
+    optionEl.dataset.id = options[option][0];
     target.appendChild(optionEl);
   });
 }
@@ -226,7 +237,11 @@ function clearOtherDate() {
 // ----------------- Admin ----------------- //
 // ----------------- Admin ----------------- //
 // ----------------- Admin ----------------- //
+
+let selectedOptions;
+
 function populateAdminOptions() {
+  selectedOptions = "";
   const adminOptions = [
     {
       options: audiogramResultOptions,
@@ -248,33 +263,32 @@ function populateAdminOptions() {
   adminOptions.forEach((adminOption) => {
     const { options, target, id } = adminOption;
     target.innerHTML = "";
+    let keys = Object.keys(options);
+    keys = keys.filter((key) => key !== "count");
 
-    options.forEach((option, index) => {
+    keys.forEach((key) => {
       const li = document.createElement("li");
-      if (index === 0) {
-        // do nothing
-      } else {
-        const selectBtn = document.createElement("button");
-        selectBtn.innerText = "⬜️";
-        selectBtn.addEventListener("click", selectAdminOption);
-        const inputEl = document.createElement("input");
-        inputEl.type = "text";
-        inputEl.value = option[index];
-        const wrapper = document.createElement("div");
-        wrapper.appendChild(selectBtn);
-        wrapper.appendChild(inputEl);
-        const deleteBtn = document.createElement("button");
-        deleteBtn.innerText = "❌";
-        deleteBtn.addEventListener("click", () => {
-          if (confirm("Are you sure you want to delete this option?")) {
-            li.remove();
-          }
-        });
-        wrapper.classList.add("admin-li-wrapper");
-        wrapper.appendChild(deleteBtn);
-        li.appendChild(wrapper);
-        target.appendChild(li);
-      }
+      const inputEl = document.createElement("input");
+      inputEl.type = "text";
+      inputEl.value = options[key][1];
+      inputEl.dataset.id = key;
+      const selectBtn = document.createElement("button");
+      selectBtn.innerText = "⬜️";
+      selectBtn.addEventListener("click", selectAdminOption);
+      const wrapper = document.createElement("div");
+      wrapper.appendChild(selectBtn);
+      wrapper.appendChild(inputEl);
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "❌";
+      deleteBtn.addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete this option?")) {
+          li.remove();
+        }
+      });
+      wrapper.classList.add("admin-li-wrapper");
+      wrapper.appendChild(deleteBtn);
+      li.appendChild(wrapper);
+      target.appendChild(li);
     });
 
     const newOptionBtn = document.createElement("button");
@@ -302,6 +316,7 @@ function addNewOption() {
   const li = document.createElement("li");
   const inputEl = document.createElement("input");
   inputEl.type = "text";
+  inputEl.dataset.id = createID();
   const selectBtn = document.createElement("button");
   selectBtn.innerText = "⬜️";
   selectBtn.addEventListener("click", selectAdminOption);
@@ -325,20 +340,23 @@ function addNewOption() {
 function selectAdminOption() {
   const thisBtn = this;
   const inputText = this.parentElement.querySelector("input").value;
-  //if the section is null, set section to
+  const inputId = this.parentElement.querySelector("input").dataset.id;
   const section =
     this.parentElement.parentElement.parentElement.parentElement.querySelector(
       "h5"
     ).innerText;
-
+  let objKey;
   if (section === "Audiogram Result") {
     admin_selected_audioResult.innerText = `* ${inputText}`;
+    objKey = "selectedAudioResult";
   }
   if (section === "Timing Result") {
     admin_selected_timingResult.innerText = `* ${inputText}`;
+    objKey = "selectedTiming";
   }
   if (section === "Age Result") {
     admin_selected_ageResult.innerText = `* ${inputText}`;
+    objKey = "selectedAge";
   }
   const target = this.parentElement.parentElement.parentElement;
   target.querySelectorAll("button").forEach((btn) => {
@@ -347,4 +365,74 @@ function selectAdminOption() {
     }
   });
   thisBtn.innerText = "✅";
+  selectedOptions[objKey] = { id: inputId, text: inputText };
+
+  if (
+    selectedOptions.selectedAudioResult &&
+    selectedOptions.selectedTiming &&
+    selectedOptions.selectedAge
+  ) {
+    const key = `${selectedOptions.selectedAudioResult.id}${selectedOptions.selectedTiming.id}${selectedOptions.selectedAge.id}`;
+    admin_guidance_text.innerText = guidanceOptions[key];
+  }
 }
+
+function createID() {
+  return `h${Math.random().toString(36).substring(2)}`;
+}
+
+function saveAdminOptions() {
+  const textContent = admin_guidance_text.value;
+  if (!textContent) {
+    alert("Please enter some guidance text before saving.");
+    return;
+  }
+  console.log(selectedOptions);
+  const keys = Object.keys(selectedOptions);
+  if (!selectedOptions.selectedAudioResult) {
+    alert("Please select an Audiogram Result option before saving.");
+    return;
+  }
+  if (!selectedOptions.selectedTiming) {
+    alert("Please select a Timing option before saving.");
+    return;
+  }
+  if (!selectedOptions.selectedAge) {
+    alert("Please select an Age option before saving.");
+    return;
+  }
+  const key = `${selectedOptions.selectedAudioResult.id}${selectedOptions.selectedTiming.id}${selectedOptions.selectedAge.id}`;
+  guidanceOptions[key] = textContent;
+
+  const audioList = audiogram_result_admin.querySelectorAll("input");
+  const timingList = timing_admin.querySelectorAll("input");
+  const ageList = patient_age_admin.querySelectorAll("input");
+  audiogramResultOptions = {};
+  timingOptions = {};
+  ageOptions = {};
+  audioList.forEach((audio, index) => {
+    audiogramResultOptions[audio.dataset.id] = [index, audio.value];
+  });
+  timingList.forEach((timing, index) => {
+    timingOptions[timing.dataset.id] = [index, timing.value];
+  });
+  ageList.forEach((age, index) => {
+    ageOptions[age.dataset.id] = [index, age.value];
+  });
+  let count = Object.keys(audiogramResultOptions).length;
+  audiogramResultOptions.count = count;
+  count = Object.keys(timingOptions).length;
+  timingOptions.count = count;
+  count = Object.keys(ageOptions).length;
+  ageOptions.count = count;
+
+  //loop through all admin list options on the page and rebuild the objects
+  //    take the input text and create an id and insert
+
+  //build the single active guidance item and insert it into the guidance object
+
+  //save the  objects to local storage
+
+  //
+}
+save_admin_button.addEventListener("click", saveAdminOptions);
