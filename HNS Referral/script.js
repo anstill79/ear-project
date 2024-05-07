@@ -224,69 +224,72 @@ function clearOtherDate() {
 }
 
 // ----------------- Admin ----------------- //
-
+// ----------------- Admin ----------------- //
+// ----------------- Admin ----------------- //
 function populateAdminOptions() {
-  audiogram_result_admin.innerHTML = "";
-  timing_admin.innerHTML = "";
-  patient_age_admin.innerHTML = "";
-  audiogramResultOptions.forEach((option, index) => {
-    const li = document.createElement("li");
-    if (index === 0) {
-      li.innerText = option[index];
-    } else {
-      const inputEl = document.createElement("input");
-      inputEl.type = "text";
-      inputEl.value = option[index];
-      li.appendChild(inputEl);
-    }
-    audiogram_result_admin.appendChild(li);
+  const adminOptions = [
+    {
+      options: audiogramResultOptions,
+      target: audiogram_result_admin,
+      id: "new_audio_result_admin",
+    },
+    {
+      options: timingOptions,
+      target: timing_admin,
+      id: "new_timing_result_admin",
+    },
+    {
+      options: ageOptions,
+      target: patient_age_admin,
+      id: "new_age_result_admin",
+    },
+  ];
+
+  adminOptions.forEach((adminOption) => {
+    const { options, target, id } = adminOption;
+    target.innerHTML = "";
+
+    options.forEach((option, index) => {
+      const li = document.createElement("li");
+      if (index === 0) {
+        // do nothing
+      } else {
+        const selectBtn = document.createElement("button");
+        selectBtn.innerText = "⬜️";
+        selectBtn.addEventListener("click", selectAdminOption);
+        const inputEl = document.createElement("input");
+        inputEl.type = "text";
+        inputEl.value = option[index];
+        const wrapper = document.createElement("div");
+        wrapper.appendChild(selectBtn);
+        wrapper.appendChild(inputEl);
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "❌";
+        deleteBtn.addEventListener("click", () => {
+          if (confirm("Are you sure you want to delete this option?")) {
+            li.remove();
+          }
+        });
+        wrapper.classList.add("admin-li-wrapper");
+        wrapper.appendChild(deleteBtn);
+        li.appendChild(wrapper);
+        target.appendChild(li);
+      }
+    });
+
+    const newOptionBtn = document.createElement("button");
+    newOptionBtn.innerText = "➕";
+    newOptionBtn.id = id;
+    newOptionBtn.style.marginTop = "5px";
+    newOptionBtn.addEventListener("click", addNewOption);
+    target.appendChild(newOptionBtn);
   });
-  const newAudioResultBtn = document.createElement("button");
-  newAudioResultBtn.innerText = "➕";
-  newAudioResultBtn.id = "new_audio_result_admin";
-  newAudioResultBtn.addEventListener("click", addNewOption);
-  audiogram_result_admin.appendChild(newAudioResultBtn);
-  timingOptions.forEach((option, index) => {
-    const li = document.createElement("li");
-    if (index === 0) {
-      li.innerText = option[index];
-    } else {
-      const inputEl = document.createElement("input");
-      inputEl.type = "text";
-      inputEl.value = option[index];
-      li.appendChild(inputEl);
-    }
-    timing_admin.appendChild(li);
-  });
-  const newTimingResultBtn = document.createElement("button");
-  newTimingResultBtn.innerText = "➕";
-  newTimingResultBtn.id = "new_timing_result_admin";
-  newTimingResultBtn.addEventListener("click", addNewOption);
-  timing_admin.appendChild(newTimingResultBtn);
-  ageOptions.forEach((option, index) => {
-    const li = document.createElement("li");
-    if (index === 0) {
-      li.innerText = option[index];
-    } else {
-      const inputEl = document.createElement("input");
-      inputEl.type = "text";
-      inputEl.value = option[index];
-      li.appendChild(inputEl);
-    }
-    patient_age_admin.appendChild(li);
-  });
-  const newAgeResultBtn = document.createElement("button");
-  newAgeResultBtn.innerText = "➕";
-  newAgeResultBtn.id = "new_age_result_admin";
-  newAgeResultBtn.addEventListener("click", addNewOption);
-  patient_age_admin.appendChild(newAgeResultBtn);
 }
 
 admin_button.addEventListener("click", populateAdminOptions);
 
 function addNewOption() {
   let target;
-
   if (this.id === "new_audio_result_admin") {
     target = audiogram_result_admin;
   }
@@ -299,7 +302,49 @@ function addNewOption() {
   const li = document.createElement("li");
   const inputEl = document.createElement("input");
   inputEl.type = "text";
-  li.appendChild(inputEl);
-  //insert the li before the last child (the button)
+  const selectBtn = document.createElement("button");
+  selectBtn.innerText = "⬜️";
+  selectBtn.addEventListener("click", selectAdminOption);
+  const wrapper = document.createElement("div");
+  wrapper.appendChild(selectBtn);
+  wrapper.appendChild(inputEl);
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerText = "❌";
+  deleteBtn.addEventListener("click", () => {
+    if (confirm("Are you sure you want to delete this option?")) {
+      li.remove();
+    }
+  });
+  wrapper.classList.add("admin-li-wrapper");
+  wrapper.appendChild(deleteBtn);
+  li.appendChild(wrapper);
   target.insertBefore(li, target.lastChild);
+  inputEl.focus();
+}
+
+function selectAdminOption() {
+  const thisBtn = this;
+  const inputText = this.parentElement.querySelector("input").value;
+  //if the section is null, set section to
+  const section =
+    this.parentElement.parentElement.parentElement.parentElement.querySelector(
+      "h5"
+    ).innerText;
+
+  if (section === "Audiogram Result") {
+    admin_selected_audioResult.innerText = `* ${inputText}`;
+  }
+  if (section === "Timing Result") {
+    admin_selected_timingResult.innerText = `* ${inputText}`;
+  }
+  if (section === "Age Result") {
+    admin_selected_ageResult.innerText = `* ${inputText}`;
+  }
+  const target = this.parentElement.parentElement.parentElement;
+  target.querySelectorAll("button").forEach((btn) => {
+    if (btn.innerText !== "❌" && btn.innerText !== "➕") {
+      btn.innerText = "⬜️";
+    }
+  });
+  thisBtn.innerText = "✅";
 }
