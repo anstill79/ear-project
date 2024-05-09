@@ -1,4 +1,4 @@
-const audiogramResultOptions = {
+let audiogramResultOptions = {
   count: 11,
   h27uzrk6kifg: [0, "Asymm.: 30_30_30 dB asymm. over 3 freq. (no interocts)"],
   hbvu82knmn8: [1, "Asymm.: 1 freq >= 30 dB asymm. (ignore 8kHz)"],
@@ -16,7 +16,7 @@ const audiogramResultOptions = {
   h7e4lokp71x5: [10, "Asymm. 2 freq. => 15 dB"],
 };
 
-const timingOptions = {
+let timingOptions = {
   count: 6,
   h4bs5o8e7g38: [0, "Weeks: 0 to 6"],
   hxpr2gkommu8: [1, "Months: 1.5 to 3"],
@@ -26,7 +26,7 @@ const timingOptions = {
   hfup2dtcsahn: [5, "Unknown"],
 };
 
-const ageOptions = {
+let ageOptions = {
   count: 3,
   hvg5v9ghbfld: [0, "0-18"],
   hulsdhrnwfrs: [1, "19-70"],
@@ -238,10 +238,10 @@ function clearOtherDate() {
 // ----------------- Admin ----------------- //
 // ----------------- Admin ----------------- //
 
-let selectedOptions;
+let selectedOptions = {};
 
 function populateAdminOptions() {
-  selectedOptions = "";
+  selectedOptions = {};
   const adminOptions = [
     {
       options: audiogramResultOptions,
