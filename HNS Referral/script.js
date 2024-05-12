@@ -33,7 +33,112 @@ let ageOptions = {
   huga31csk7ws: [2, "Over 70"],
 };
 
-const guidanceOptions = {};
+const guidanceOptions = {
+  // Asymm.: 30_30_30 dB asymm. over 3 freq. (no interocts). early onset
+  h27uzrk6kifg_h4bs5o8e7g38_hvg5v9ghbfld: `Audiologist orders MRI
+  Does patient want steroids?
+    If so, help coordinate Sudden appointment with HNS, same day or in very near future.
+Repeat audiogram in 2 weeks.`,
+  h27uzrk6kifg_h4bs5o8e7g38_hulsdhrnwfrs: `Audiologist orders MRI
+  Does patient want steroids?
+    If so, help coordinate Sudden appointment with HNS, same day or in very near future.
+Repeat audiogram in 2 weeks.`,
+  h27uzrk6kifg_h4bs5o8e7g38_huga31csk7ws: `Audiologist orders MRI
+  Does patient want steroids?
+    If so, help coordinate Sudden appointment with HNS, same day or in very near future.
+Repeat audiogram in 2 weeks.`,
+  // Asymm.: 30_30_30 dB asymm. over 3 freq. (no interocts). late onset
+  h27uzrk6kifg_hxpr2gkommu8_hvg5v9ghbfld: `Audiologist orders MRI
+Too late for steroids. No HNS visit indicated
+Repeat audiogram in 2 weeks
+Hearing instruments as needed`,
+  h27uzrk6kifg_hxpr2gkommu8_hulsdhrnwfrs: `Audiologist orders MRI
+Too late for steroids. No HNS visit indicated
+Repeat audiogram in 2 weeks
+Hearing instruments as needed`,
+  h27uzrk6kifg_hxpr2gkommu8_huga31csk7ws: `Audiologist orders MRI
+Too late for steroids. No HNS visit indicated
+Repeat audiogram in 2 weeks
+Hearing instruments as needed`,
+  // Asymm.: 1 freq >= 30 dB asymm. (ignore 8kHz).  onset doesn't matter
+  hbvu82knmn8_h4bs5o8e7g38_hvg5v9ghbfld: `PCP orders MRI
+No HNS visit indicated
+Hearing instruments as needed`,
+  hbvu82knmn8_h4bs5o8e7g38_hulsdhrnwfrs: `PCP orders MRI
+No HNS visit indicated
+Hearing instruments as needed`,
+  hbvu82knmn8_h4bs5o8e7g38_huga31csk7ws: `PCP orders MRI
+No HNS visit indicated
+Hearing instruments as needed`,
+  // Asymm.: Word rec. >= 20% asymm. early onset
+  hgx5y9f3fjqv_h4bs5o8e7g38_hvg5v9ghbfld: `Audiologist orders MRI
+  Does patient want steroids?
+    If so, help coordinate Sudden appointment with HNS, same day or in very near future.
+Repeat audiogram in 2 weeks.`,
+  hgx5y9f3fjqv_h4bs5o8e7g38_hulsdhrnwfrs: `Audiologist orders MRI
+  Does patient want steroids?
+    If so, help coordinate Sudden appointment with HNS, same day or in very near future.
+Repeat audiogram in 2 weeks.`,
+  hgx5y9f3fjqv_h4bs5o8e7g38_huga31csk7ws: `Audiologist orders MRI
+  Does patient want steroids?
+    If so, help coordinate Sudden appointment with HNS, same day or in very near future.
+Repeat audiogram in 2 weeks.`,
+  // Asymm.: Word rec. >= 20% asymm. late onset
+  hgx5y9f3fjqv_hxpr2gkommu8_hvg5v9ghbfld: `PCP orders MRI
+Too late for steroids. No HNS visit indicated
+Repeat audiogram in 2 weeks
+Hearing instruments as needed`,
+  hgx5y9f3fjqv_hxpr2gkommu8_hulsdhrnwfrs: `PCP orders MRI
+Too late for steroids. No HNS visit indicated
+Repeat audiogram in 2 weeks
+Hearing instruments as needed`,
+  hgx5y9f3fjqv_hxpr2gkommu8_huga31csk7ws: `PCP orders MRI
+Too late for steroids. No HNS visit indicated
+Repeat audiogram in 2 weeks
+Hearing instruments as needed`,
+  // Asymm: Not significantly large enough to meet other criteria.
+  hjo5e1wyk43n_h4bs5o8e7g38_hvg5v9ghbfld: `No MRI indicated
+No HNS visit indicated
+Annual audiograms to monitor asymmetry, in case it grows.
+  If asymmetry increases to meet HNS criteria for MRI or HNS consult, appropriate orders can be placed at that time.
+Hearing instruments as needed`,
+  hjo5e1wyk43n_h4bs5o8e7g38_hulsdhrnwfrs: `No MRI indicated
+No HNS visit indicated
+Annual audiograms to monitor asymmetry, in case it grows.
+  If asymmetry increases to meet HNS criteria for MRI or HNS consult, appropriate orders can be placed at that time.
+Hearing instruments as needed`,
+  hjo5e1wyk43n_h4bs5o8e7g38_huga31csk7ws: `No MRI indicated
+No HNS visit indicated
+Annual audiograms to monitor asymmetry, in case it grows.
+  If asymmetry increases to meet HNS criteria for MRI or HNS consult, appropriate orders can be placed at that time.
+Hearing instruments as needed`,
+};
+
+//   Send chart to PCP with note that if the symptom remains present and constant that MRI/MRA scan is indicated ${content}
+// No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
+//   Hearing instruments as needed
+
+//   Refer to HNS for possible dehiscence
+// eConsult order for VEMP testing
+// Hearing instruments as needed
+
+//   Refer to HNS for possible otosclerosis
+// Hearing instruments as needed
+
+// No MRI indicated
+// <li>No HNS visit indicated</li>
+// <li>Annual audiograms to monitor asymmetry, in case it grows.</li>
+// <ul><li>If asymmetry increases to meet HNS criteria for MRI or HNS consult, appropriate orders can be placed at that time.
+//   Hearing instruments as needed
+
+//     Send chart to PCP with note that if the symptom remains present and constant that MRI/MRA scan is indicated ${content}
+// </li>
+// <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
+// <li>Hearing instruments as needed
+
+// PCP orders MRI/MRA</li>
+// <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
+// <li>Hearing instruments as needed
 
 function populateOptions(options, target) {
   const keys = Object.keys(options);
@@ -44,7 +149,7 @@ function populateOptions(options, target) {
     const optionEl = document.createElement("option");
     optionEl.value = options[option][1];
     optionEl.innerText = options[option][1];
-    optionEl.dataset.id = options[option][0];
+    optionEl.dataset.id = keys[index];
     target.appendChild(optionEl);
   });
 }
@@ -55,126 +160,24 @@ populateOptions(ageOptions, patient_age);
 
 audiogram_result.addEventListener("change", giveGuidance);
 timing.addEventListener("change", clearOtherDate);
-
-function getIndexes() {
-  if (
-    audiogram_result.value.charAt(0) === "(" ||
-    timing.value.charAt(0) === "("
-  ) {
-    const guidanceContainer = document.getElementById("guidance_text");
-    guidanceContainer.innerText = "";
-    return;
-  }
-  const indexes = {
-    selectedAudioResult: "",
-    selectedTiming: "",
-  };
-
-  audiogramResultOptions.forEach((option, index) => {
-    if (option[index] === audiogram_result.value) {
-      indexes.selectedAudioResult = index;
-    }
-  });
-  timingOptions.forEach((option, index) => {
-    if (option[index] === timing.value) {
-      indexes.selectedTiming = index;
-    }
-  });
-  return indexes;
-}
+patient_age.addEventListener("change", giveGuidance);
 
 function giveGuidance() {
-  const indexes = getIndexes();
-  if (!indexes) {
-    return;
-  }
-  const audio = indexes.selectedAudioResult;
+  let audioID =
+    audiogram_result.options[audiogram_result.selectedIndex].getAttribute(
+      "data-id"
+    );
+  let timingID = timing.options[timing.selectedIndex].getAttribute("data-id");
+  let ageID =
+    patient_age.options[patient_age.selectedIndex].getAttribute("data-id");
 
-  const timing = indexes.selectedTiming;
   const guidanceContainer = document.getElementById("guidance_text");
 
-  if ((audio === 1 && timing === 1) || (audio === 3 && timing === 1)) {
-    guidanceContainer.innerHTML = `<ol>
-    <li>Audiologist orders MRI</li>
-    <li>Does patient want steroids?</li> <ul><li>If so, help coordinate Sudden appointment with HNS, same day or in very near future.</li></ul>
-    <li>Repeat audiogram in 2 weeks.</li>
-    </ol>`;
-  }
-  if ((audio === 1 && timing !== 1) || (audio === 3 && timing !== 1)) {
-    guidanceContainer.innerHTML = `<ol>
-    <li>PCP orders MRI</li>
-    <li>Too late for steroids. No HNS visit indicated</li>
-    <li>Repeat audiogram in 2 weeks</li>
-    <li>Hearing instruments as needed</li>
-    </ol>`;
-  }
-  if (
-    audio === 2 ||
-    (audio === 8 && timing === 4) ||
-    (audio === 8 && timing === 5)
-  ) {
-    guidanceContainer.innerHTML = `<ol>
-    <li>PCP orders MRI</li>
-    <li>No HNS visit indicated</li>
-    <li>Hearing instruments as needed</li>
-    </ol>`;
-  }
-  if (audio === 4) {
-    guidanceContainer.innerHTML = `<ol>
-    <li>No MRI indicated</li>
-    <li>No HNS visit indicated</li>
-    <li>Annual audiograms to monitor asymmetry, in case it grows.</li>
-    <ul><li>If asymmetry increases to meet HNS criteria for MRI or HNS consult, appropriate orders can be placed at that time.</li></ul>
-    <li>Hearing instruments as needed</li>
-    </ol>`;
-  }
-  if (audio === 5) {
-    guidanceContainer.innerHTML = `<ol>
-    <li>Refer to HNS for possible otosclerosis</li>
-    <li>Hearing instruments as needed</li>
-    </ol>`;
-  }
-  if (audio === 6) {
-    guidanceContainer.innerHTML = `<ol>
-    <li>Refer to HNS for possible dehiscence</li>
-    <li>eConsult order for VEMP testing</li>
-    <li>Hearing instruments as needed</li>
-    </ol>`;
-  }
-  if (
-    (audio === 7 && timing === 1) ||
-    (audio === 7 && timing === 2) ||
-    (audio === 7 && timing === 3) ||
-    (audio === 7 && timing === 6) ||
-    (audio === 8 && timing === 1) ||
-    (audio === 8 && timing === 2) ||
-    (audio === 8 && timing === 3) ||
-    (audio === 8 && timing === 6)
-  ) {
-    let content = "once symptoms have been present for 6 months.";
-    if (timing_date_picker.value) {
-      let newDate = new Date(timing_date_picker.value);
-      newDate.setMonth(newDate.getMonth() + 6);
-      let dateOnly = newDate.toLocaleDateString("en-US");
-      const weeks = handleDatePicker(1);
-      //removing the ternary since the timing var overrides the date picker when the picker sets the timing section on change. the > 6 month case would never hit this section.
-      // content = (24 - weeks) < 0 ? 'since symptom has already been present and constant for 6 months.': `around or after ${dateOnly} (when sx cross the 6 month mark).`;
-      content = `around or after ${dateOnly} (when symptoms cross the 6 month mark).`;
-    }
+  if (audioID && timingID && ageID) {
+    guidanceContainer.innerText =
+      guidanceOptions[`${audioID}_${timingID}_${ageID}`];
 
-    guidanceContainer.innerHTML = `<ol>
-    <li>Send chart to PCP with note that if the symptom remains present and constant that MRI/MRA scan is indicated ${content}
-    </li>
-    <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
-    <li>Hearing instruments as needed</li>
-    </ol>`;
-  }
-  if ((audio === 7 && timing === 4) || (audio === 7 && timing === 5)) {
-    guidanceContainer.innerHTML = `<ol>
-    <li>PCP orders MRI/MRA</li>
-    <li>No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
-    <li>Hearing instruments as needed</li>
-    </ol>`;
+    return;
   }
 }
 
@@ -372,7 +375,7 @@ function selectAdminOption() {
     selectedOptions.selectedTiming &&
     selectedOptions.selectedAge
   ) {
-    const key = `${selectedOptions.selectedAudioResult.id}${selectedOptions.selectedTiming.id}${selectedOptions.selectedAge.id}`;
+    const key = `${selectedOptions.selectedAudioResult.id}_${selectedOptions.selectedTiming.id}_${selectedOptions.selectedAge.id}`;
     admin_guidance_text.innerText = guidanceOptions[key];
   }
 }
