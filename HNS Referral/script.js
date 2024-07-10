@@ -63,13 +63,16 @@ Hearing instruments as needed`,
   // Asymm.: 1 freq >= 30 dB asymm. (ignore 8kHz).  onset doesn't matter
   hbvu82knmn8_h4bs5o8e7g38_hvg5v9ghbfld: `PCP orders MRI
 No HNS visit indicated
-Hearing instruments as needed`,
+Hearing instruments as needed
+Monitor hearing annually`,
   hbvu82knmn8_h4bs5o8e7g38_hulsdhrnwfrs: `PCP orders MRI
 No HNS visit indicated
-Hearing instruments as needed`,
-  hbvu82knmn8_h4bs5o8e7g38_huga31csk7ws: `PCP orders MRI
+Hearing instruments as needed
+Monitor hearing annually`,
+  hbvu82knmn8_h4bs5o8e7g38_huga31csk7ws: `Patient too old for MRI
 No HNS visit indicated
-Hearing instruments as needed`,
+Hearing instruments as needed
+Monitor hearing annually`,
   // Asymm.: Word rec. >= 20% asymm. early onset
   hgx5y9f3fjqv_h4bs5o8e7g38_hvg5v9ghbfld: `Audiologist orders MRI
   Does patient want steroids?
@@ -92,9 +95,9 @@ Hearing instruments as needed`,
 Too late for steroids. No HNS visit indicated
 Repeat audiogram in 2 weeks
 Hearing instruments as needed`,
-  hgx5y9f3fjqv_hxpr2gkommu8_huga31csk7ws: `PCP orders MRI
+  hgx5y9f3fjqv_hxpr2gkommu8_huga31csk7ws: `Patient too old for MRI
 Too late for steroids. No HNS visit indicated
-Repeat audiogram in 2 weeks
+Repeat audiogram in 1 year
 Hearing instruments as needed`,
   // Asymm: Not significantly large enough to meet other criteria.
   hjo5e1wyk43n_h4bs5o8e7g38_hvg5v9ghbfld: `No MRI indicated
@@ -301,6 +304,11 @@ function populateAdminOptions() {
     newOptionBtn.addEventListener("click", addNewOption);
     target.appendChild(newOptionBtn);
   });
+
+  admin_selected_audioResult.innerText = "(none selected)";
+  admin_selected_timingResult.innerText = "(none selected)";
+  admin_selected_ageResult.innerText = "(none selected)";
+  admin_guidance_text.innerText = "";
 }
 
 admin_button.addEventListener("click", populateAdminOptions);
