@@ -304,11 +304,21 @@ function populateAdminOptions() {
     newOptionBtn.addEventListener("click", addNewOption);
     target.appendChild(newOptionBtn);
   });
-
   admin_selected_audioResult.innerText = "(none selected)";
   admin_selected_timingResult.innerText = "(none selected)";
   admin_selected_ageResult.innerText = "(none selected)";
-  admin_guidance_text.innerText = "";
+  const guidanceTextLi = document
+    .querySelector("#admin_guidance_inputs")
+    .querySelectorAll("li");
+  guidanceTextLi.forEach((item, index) => {
+    if (index === 0) {
+      const input = item.querySelector("input");
+      console.log(input.value);
+      input.value = "";
+    } else {
+      guidanceTextLi[index].remove();
+    }
+  });
 }
 
 admin_button.addEventListener("click", populateAdminOptions);
