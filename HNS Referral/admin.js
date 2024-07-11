@@ -141,9 +141,11 @@ export function selectAdminOption() {
   target.querySelectorAll("button").forEach((btn) => {
     if (btn.innerText !== "❌" && btn.innerText !== "➕") {
       btn.innerText = "⬜️";
+      btn.style.opacity = "0.3";
     }
   });
   thisBtn.innerText = "✅";
+  thisBtn.style.opacity = "1";
   selectedOptions[objKey] = { id: inputId, text: inputText };
 
   if (

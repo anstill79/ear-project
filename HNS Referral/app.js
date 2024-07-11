@@ -5,6 +5,8 @@ import {
   saveAdminOptions,
 } from "./admin.js";
 
+import { audiogramResultOptions, timingOptions, ageOptions } from "./data.js";
+
 admin_button.addEventListener("click", populateAdminOptions);
 
 save_admin_button.addEventListener("click", saveAdminOptions);
