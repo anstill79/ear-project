@@ -95,6 +95,7 @@ select {
 .selected-btn {
   opacity: 1;
 }
+
 .admin-card {
   display: grid;
   grid-template-columns: 100%;
@@ -103,25 +104,26 @@ select {
   padding: 10px;
   margin: 10px;
   text-wrap: nowrap;
-  input,
-  button {
+  input {
     padding: 0px;
-  }
-  button {
-    border: 0px;
-    background-color: transparent;
-    margin-inline: 5px;
-    cursor: pointer;
-    opacity: 0.3;
-  }
-  button:hover {
-    border: 1px solid black;
-    margin-inline: 4px;
-    opacity: 1;
   }
   p {
     max-width: 100%;
   }
+}
+
+.admin-select-or-delete-btns {
+  border: 0px;
+  padding: 0px;
+  background-color: transparent;
+  margin-inline: 5px;
+  cursor: pointer;
+  opacity: 0.3;
+}
+.admin-select-or-delete-btns:hover {
+  border: 1px solid black;
+  margin-inline: 4px;
+  opacity: 1;
 }
 
 .admin-popover-contents input {
@@ -152,4 +154,11 @@ select {
 
 textarea {
   field-sizing: normal; /* used to be `form-sizing` but changed to this */
+}
+
+#admin_selected_audioResult,
+#admin_selected_ageResult,
+#admin_selected_timingResult {
+  padding-left: 30px;
+  padding-block: 8px;
 }

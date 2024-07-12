@@ -40,12 +40,14 @@ export function populateAdminOptions() {
       inputEl.dataset.id = key;
       const selectBtn = document.createElement("button");
       selectBtn.innerText = "⬜️";
+      selectBtn.classList.add("admin-select-or-delete-btns");
       selectBtn.addEventListener("click", selectAdminOption);
       const wrapper = document.createElement("div");
       wrapper.appendChild(selectBtn);
       wrapper.appendChild(inputEl);
       const deleteBtn = document.createElement("button");
       deleteBtn.innerText = "❌";
+      deleteBtn.classList.add("admin-select-or-delete-btns");
       deleteBtn.addEventListener("click", () => {
         if (confirm("Are you sure you want to delete this option?")) {
           li.remove();
@@ -126,15 +128,15 @@ export function selectAdminOption() {
     ).innerText;
   let objKey;
   if (section === "Audiogram Result") {
-    admin_selected_audioResult.innerText = `* ${inputText}`;
+    admin_selected_audioResult.innerText = inputText;
     objKey = "selectedAudioResult";
   }
   if (section === "Timing Result") {
-    admin_selected_timingResult.innerText = `* ${inputText}`;
+    admin_selected_timingResult.innerText = inputText;
     objKey = "selectedTiming";
   }
   if (section === "Age Result") {
-    admin_selected_ageResult.innerText = `* ${inputText}`;
+    admin_selected_ageResult.innerText = inputText;
     objKey = "selectedAge";
   }
   const target = this.parentElement.parentElement.parentElement;
