@@ -64,7 +64,11 @@ export function populateAdminOptions() {
     newOptionBtn.id = id;
     newOptionBtn.style.marginTop = "5px";
     newOptionBtn.addEventListener("click", addNewAdminOption);
-    target.appendChild(newOptionBtn);
+    const div = document.createElement("div");
+    div.style.display = "grid";
+    div.style.placeContent = "center";
+    div.appendChild(newOptionBtn);
+    target.appendChild(div);
   });
   admin_selected_audioResult.innerText = "(none selected)";
   admin_selected_timingResult.innerText = "(none selected)";
@@ -100,12 +104,16 @@ export function addNewAdminOption() {
   inputEl.dataset.id = createID();
   const selectBtn = document.createElement("button");
   selectBtn.innerText = "⬜️";
+
+  selectBtn.classList.add("admin-select-or-delete-btns");
   selectBtn.addEventListener("click", selectAdminOption);
   const wrapper = document.createElement("div");
   wrapper.appendChild(selectBtn);
   wrapper.appendChild(inputEl);
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "❌";
+
+  deleteBtn.classList.add("admin-select-or-delete-btns");
   deleteBtn.addEventListener("click", () => {
     if (confirm("Are you sure you want to delete this option?")) {
       li.remove();
@@ -162,6 +170,16 @@ export function selectAdminOption() {
 
 function createID() {
   return `h${Math.random().toString(36).substring(2)}`;
+}
+
+export function addNewGuidanceOption() {
+  const li = document.createElement("li");
+  const inputEl = document.createElement("input");
+  inputEl.type = "text";
+  li.appendChild(inputEl);
+  //admin_guidance_inputs.appendChild(li);
+  admin_guidance_inputs.insertBefore(li, admin_guidance_inputs.lastChild);
+  admin_guidance_inputs.focus();
 }
 
 export function saveAdminOptions() {

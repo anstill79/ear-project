@@ -3,6 +3,7 @@ import {
   addNewAdminOption,
   selectAdminOption,
   saveAdminOptions,
+  addNewGuidanceOption,
 } from "./admin.js";
 
 import { audiogramResultOptions, timingOptions, ageOptions } from "./data.js";
@@ -10,6 +11,7 @@ import { audiogramResultOptions, timingOptions, ageOptions } from "./data.js";
 admin_button.addEventListener("click", populateAdminOptions);
 
 save_admin_button.addEventListener("click", saveAdminOptions);
+admin_guidance_inputs.addEventListener("click", addNewGuidanceOption);
 
 //   Send chart to PCP with note that if the symptom remains present and constant that MRI/MRA scan is indicated ${content}
 // No repeat audio needed unless symptoms change, or if SNHL is found on audio and if hearing monitoring is desired by AuD or patient</li>
