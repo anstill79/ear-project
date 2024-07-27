@@ -7,7 +7,12 @@
     <link href="styles.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>HNS Guidance</h1>
+    <div>
+      <h1>HNS Guidance</h1>
+      <div class="log-in-btn-wrapper">
+        <button id="log_in_btn">Log in</button>
+      </div>
+    </div>
     <!--  -->
     <!--            Drop Downs, Inputs             -->
     <!--  -->
@@ -47,7 +52,7 @@
     <div class="section-wrapper">
       <div class="guidance-contents">
         <span style="padding-left: 5px">Guidance:</span>
-        <div id="guidance_text"></div>
+        <div id="guidance_text"><span>Please log in</span></div>
       </div>
     </div>
     <button id="admin_button" popovertarget="admin-popover">Admin</button>
@@ -91,20 +96,28 @@
           style="grid-column: 2 / span 2; grid-template-columns: 100%"
         >
           <h5>Edit Guidance</h5>
-          <ul id="admin_guidance_inputs">
-            <li>
-              <input type="text" />
-            </li>
-            <div style="display: grid; place-content: center">
-              <button id="admin_add_guidanceLine" style="margin-block: 5px">
-                ➕
-              </button>
-            </div>
-          </ul>
-
-          <button id="save_admin_button" style="border: 1px solid black">
-            Save
-          </button>
+          <div id="admin_guidance_inputs_target" style="visibility: hidden">
+            <ul id="admin_guidance_inputs">
+              <li>
+                <input type="text" />
+              </li>
+              <div
+                id="admin_add_guidanceLine_wrapper"
+                style="display: grid; place-content: center"
+              >
+                <button
+                  id="admin_add_guidanceLine"
+                  style="margin-block: 5px"
+                  class="admin-add-new-option-btns"
+                >
+                  ➕
+                </button>
+              </div>
+            </ul>
+            <button id="save_admin_button" style="border: 1px solid black">
+              Save
+            </button>
+          </div>
         </div>
       </div>
     </div>

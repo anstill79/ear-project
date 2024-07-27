@@ -1,7 +1,3 @@
-// ----------------- Admin ----------------- //
-// ----------------- Admin ----------------- //
-// ----------------- Admin ----------------- //
-
 import { audiogramResultOptions, timingOptions, ageOptions } from "./data.js";
 
 let selectedOptions = {};
@@ -63,6 +59,7 @@ export function populateAdminOptions() {
     newOptionBtn.innerText = "➕";
     newOptionBtn.id = id;
     newOptionBtn.style.marginTop = "5px";
+    newOptionBtn.classList.add("admin-add-new-option-btns");
     newOptionBtn.addEventListener("click", addNewAdminOption);
     const div = document.createElement("div");
     div.style.display = "grid";
@@ -166,6 +163,7 @@ export function selectAdminOption() {
     const key = `${selectedOptions.selectedAudioResult.id}_${selectedOptions.selectedTiming.id}_${selectedOptions.selectedAge.id}`;
     admin_guidance_text.innerText = guidanceOptions[key];
   }
+  alert(selectedOptions.toString());
 }
 
 function createID() {
@@ -178,7 +176,7 @@ export function addNewGuidanceOption() {
   inputEl.type = "text";
   li.appendChild(inputEl);
   //admin_guidance_inputs.appendChild(li);
-  admin_guidance_inputs.insertBefore(li, admin_guidance_inputs.lastChild);
+  admin_guidance_inputs.insertBefore(li, admin_add_guidanceLine_wrapper);
   admin_guidance_inputs.focus();
 }
 
