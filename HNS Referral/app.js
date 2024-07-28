@@ -4,6 +4,8 @@ import {
   addNewGuidanceOption,
 } from "./admin.js";
 
+import { app, db } from "./db.js";
+
 import { audiogramResultOptions, timingOptions, ageOptions } from "./data.js";
 
 admin_button.addEventListener("click", populateAdminOptions);

@@ -10,7 +10,9 @@
     <div>
       <h1>HNS Guidance</h1>
       <div class="log-in-btn-wrapper">
-        <button id="log_in_btn">Log in</button>
+        <button popovertarget="log_in_modal_wrapper" id="log_in_btn">
+          Log in
+        </button>
       </div>
     </div>
     <!--  -->
@@ -118,6 +120,38 @@
               Save
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- log in modal -->
+    <!-- --------- -->
+
+    <div popover id="log_in_modal_wrapper">
+      <div popover id="log_in_modal">
+        <!-- create a new user -->
+        <div id="create_user" class="create-or-login">
+          <h3 style="grid-column: 1 / span 2; text-align: start">
+            Create a New Account
+          </h3>
+          <label for="createUser_emailUserName">User Name</label>
+          <input type="email" id="createUser_emailUserName" />
+          <label for="createUser_password">Password</label>
+          <input type="password" id="createUser_password" />
+          <button id="createUser_btn" style="grid-column: 2; width: 80px">
+            Sign Up
+          </button>
+        </div>
+        <!-- log in existing -->
+        <div id="login_user" class="create-or-login">
+          <h3 style="grid-column: 1 / span 2; text-align: start">Log In</h3>
+          <label for="loginUser_emailUserName">User Name</label>
+          <input type="email" id="loginUser_emailUserName" />
+          <label for="loginUser_password">Password</label>
+          <input type="password" id="loginUser_password" />
+          <button id="loginUser_btn" style="grid-column: 2; width: 80px">
+            Log In
+          </button>
         </div>
       </div>
     </div>

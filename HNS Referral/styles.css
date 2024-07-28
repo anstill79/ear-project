@@ -167,3 +167,33 @@ select {
   place-content: end;
   padding: 5px;
 }
+
+/* log in modal */
+.create-or-login {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  padding: 5px;
+  gap: 5px;
+  margin-top: 10px;
+  width: 450px;
+  button {
+    place-self: end;
+    cursor: pointer;
+  }
+  h3 {
+    margin-bottom: 15px;
+  }
+}
+
+#log_in_modal {
+  display: grid;
+  place-content: center;
+  max-width: 800px;
+  margin: auto;
+  border: 0px;
+  padding: 30px;
+}
+
+#log_in_modal_wrapper::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
