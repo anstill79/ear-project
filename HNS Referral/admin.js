@@ -76,7 +76,6 @@ export function populateAdminOptions() {
   guidanceTextLi.forEach((item, index) => {
     if (index === 0) {
       const input = item.querySelector("input");
-      console.log(input.value);
       input.value = "";
     } else {
       guidanceTextLi[index].remove();
