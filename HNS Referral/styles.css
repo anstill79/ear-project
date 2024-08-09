@@ -194,6 +194,11 @@ select {
   padding: 30px;
 }
 
+#log_in_modal_wrapper {
+  background-color: rgba(0, 0, 0, 0);
+  border: 0px;
+}
+
 #log_in_modal_wrapper::backdrop {
   background-color: rgba(0, 0, 0, 0.5);
 }
