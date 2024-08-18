@@ -1,32 +1,32 @@
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
-} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+} from "./node_modules/firebase/auth";
 
-import { db, app } from "./db.js";
+import { db, app } from "./db";
+import { populateAdminOptions } from "./adminSection";
 
 // ----------Auth
-const auth = getAuth(app);
+export const auth = getAuth(app);
 
 // ---------Error fx used by both login and create
 export function showLogInResult(context, message, success) {
   let prevError, id, target;
   if (success === 1) {
     target = log_in_modal;
-    create_user.style.display = "none";
     login_user.style.display = "none";
-    log_in_btn.style.display = "none";
-    const span = guidance_text.querySelector("span");
-    span.innerText = "";
+    const adminModal = document.getElementById("admin-popover");
+    admin_button.popoverTargetElement = adminModal;
+    admin_button.innerText = "Open Admin Panel";
+    admin_button.addEventListener("click", populateAdminOptions);
   } else {
-    if (context === "create") {
-      prevError = document.getElementById("create_user_message");
-      id = "create_user_message";
-      target = create_user;
-    }
+    // if (context === "create") {
+    //   prevError = document.getElementById("create_user_message");
+    //   id = "create_user_message";
+    //   target = create_user;
+    // }
     if (context === "login") {
       prevError = document.getElementById("login_user_message");
       id = "login_user_message";
@@ -48,31 +48,32 @@ export function showLogInResult(context, message, success) {
 }
 //#region Create User
 // ----------Create a new user
-export async function createNewUser() {
-  const email = createUser_emailUserName.value;
-  const password = createUser_password.value;
-  let message;
-  let success;
-  if (email && password) {
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        message = "New user successfully created";
-        success = 1;
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        message = error.message;
-      });
-    showLogInResult("create", message, success);
-  }
-}
+// export async function createNewUser() {
+//   const email = createUser_emailUserName.value;
+//   const password = createUser_password.value;
+//   let message;
+//   let success;
+//   if (email && password) {
+//     await createUserWithEmailAndPassword(auth, email, password)
+//       .then((userCredential) => {
+//         // Signed up
+//         const user = userCredential.user;
+//         message = "New user successfully created";
+//         success = 1;
+//       })
+//       .catch((error) => {
+//         const errorCode = error.code;
+//         message = error.message;
+//       });
+//     showLogInResult("create", message, success);
+//   }
+// }
 
 // -----------Log in existing user
 export async function loginUser() {
   const email = loginUser_emailUserName.value;
   const password = loginUser_password.value;
+  let user, message, success;
   await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Signed up
@@ -86,3 +87,16 @@ export async function loginUser() {
     });
   showLogInResult("login", message, success);
 }
+
+function signOutUser() {
+  signOut(auth)
+    .then(() => {
+      console.log("User signed out successfully.");
+      // You can redirect the user to a login page or perform other actions here
+    })
+    .catch((error) => {
+      console.error("Error signing out:", error);
+    });
+}
+
+//set the admin_btn popovertarget to admin popover after logged in

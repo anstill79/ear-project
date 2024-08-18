@@ -9,11 +9,6 @@
   <body>
     <div>
       <h1>HNS Guidance</h1>
-      <div class="log-in-btn-wrapper">
-        <button popovertarget="log_in_modal_wrapper" id="log_in_btn">
-          Log in
-        </button>
-      </div>
     </div>
     <!--  -->
     <!--            Drop Downs, Inputs             -->
@@ -54,10 +49,12 @@
     <div class="section-wrapper">
       <div class="guidance-contents">
         <span style="padding-left: 5px">Guidance:</span>
-        <div id="guidance_text"><span>Please log in</span></div>
+        <div id="guidance_text"></div>
       </div>
     </div>
-    <button id="admin_button" popovertarget="admin-popover">Admin</button>
+    <button id="admin_button" popovertarget="log_in_modal_wrapper">
+      Admin Login
+    </button>
 
     <!--  -->
     <!--          Admin Popover                         -->
@@ -130,7 +127,7 @@
     <div popover id="log_in_modal_wrapper">
       <div popover id="log_in_modal">
         <!-- create a new user -->
-        <div id="create_user" class="create-or-login">
+        <!-- <div id="create_user" class="create-or-login">
           <h3 style="grid-column: 1 / span 2; text-align: start">
             Create a New Account
           </h3>
@@ -141,7 +138,7 @@
           <button id="createUser_btn" style="grid-column: 2; width: 80px">
             Sign Up
           </button>
-        </div>
+        </div> -->
         <!-- log in existing -->
         <div id="login_user" class="create-or-login">
           <h3 style="grid-column: 1 / span 2; text-align: start">Log In</h3>

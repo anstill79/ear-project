@@ -1,4 +1,4 @@
-import { audiogramResultOptions, timingOptions, ageOptions } from "./data.js";
+import { getArrays } from "./data.js";
 
 let selectedOptions = {};
 
@@ -223,13 +223,4 @@ export function saveAdminOptions() {
   timingOptions.count = count;
   count = Object.keys(ageOptions).length;
   ageOptions.count = count;
-
-  //loop through all admin list options on the page and rebuild the objects
-  //    take the input text and create an id and insert
-
-  //build the single active guidance item and insert it into the guidance object
-
-  //save the  objects to local storage
-
-  //
 }
