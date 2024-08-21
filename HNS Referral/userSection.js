@@ -1,15 +1,27 @@
-export function populateOptions(options, target) {
-  const keys = Object.keys(options);
-  keys.forEach((option, index) => {
-    if (option === "count") {
-      return;
-    }
-    const optionEl = document.createElement("option");
-    optionEl.value = options[option][1];
-    optionEl.innerText = options[option][1];
-    optionEl.dataset.id = keys[index];
-    target.appendChild(optionEl);
-  });
+import { getArrays } from "./data.js";
+
+export async function populateUserSection() {
+  let data = await getArrays();
+  console.log(data.Audiogram);
+  // Clear existing options
+  audiogram_result.innerHTML = "";
+  timing_result.innerHTML = "";
+  age_result.innerHTML = "";
+
+  // Helper function to create and append options
+  function appendOptions(array, selectElement) {
+    array.forEach((item) => {
+      const option = document.createElement("option");
+      option.textContent = item;
+      option.value = item;
+      selectElement.appendChild(option);
+    });
+  }
+
+  // Populate select elements
+  if (data.Audiogram[0]) appendOptions(data.Audiogram[0], audiogram_result);
+  if (data.Timing[0]) appendOptions(data.Timing[0], timing_result);
+  if (data.Age[0]) appendOptions(data.Age[0], age_result);
 }
 
 export function giveGuidance() {

@@ -1,4 +1,4 @@
-import { populateOptions, giveGuidance } from "./userSection.js";
+import { populateUserSection, giveGuidance } from "./userSection.js";
 import {
   populateAdminOptions,
   saveAdminOptions,
@@ -14,13 +14,11 @@ admin_add_guidanceLine.addEventListener("click", addNewGuidanceOption);
 // createUser_btn.addEventListener("click", createNewUser);
 loginUser_btn.addEventListener("click", loginUser);
 
-// populateOptions(audiogramResultOptions, audiogram_result);
-// populateOptions(timingOptions, timing);
-// populateOptions(ageOptions, patient_age);
+populateUserSection();
 
 audiogram_result.addEventListener("change", giveGuidance);
 // timing.addEventListener("change", clearOtherDate);
-patient_age.addEventListener("change", giveGuidance);
+age_result.addEventListener("change", giveGuidance);
 
 //timing_date_picker.addEventListener("change", handleDatePicker);
 // timing_date_picker.addEventListener("change", clearOtherDate);

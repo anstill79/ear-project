@@ -12,7 +12,7 @@ import { populateAdminOptions } from "./adminSection";
 export const auth = getAuth(app);
 
 // ---------Error fx used by both login and create
-export function showLogInResult(context, message, success) {
+export function showLogInResult(message, success) {
   let prevError, id, target;
   if (success === 1) {
     target = log_in_modal;
@@ -22,16 +22,9 @@ export function showLogInResult(context, message, success) {
     admin_button.innerText = "Open Admin Panel";
     admin_button.addEventListener("click", populateAdminOptions);
   } else {
-    // if (context === "create") {
-    //   prevError = document.getElementById("create_user_message");
-    //   id = "create_user_message";
-    //   target = create_user;
-    // }
-    if (context === "login") {
-      prevError = document.getElementById("login_user_message");
-      id = "login_user_message";
-      target = login_user;
-    }
+    prevError = document.getElementById("login_user_message");
+    id = "login_user_message";
+    target = login_user;
     if (prevError) {
       prevError.innerText = message;
       return;
@@ -46,46 +39,20 @@ export function showLogInResult(context, message, success) {
   div.style.gridColumn = "1/span 2";
   target.appendChild(div);
 }
-//#region Create User
-// ----------Create a new user
-// export async function createNewUser() {
-//   const email = createUser_emailUserName.value;
-//   const password = createUser_password.value;
-//   let message;
-//   let success;
-//   if (email && password) {
-//     await createUserWithEmailAndPassword(auth, email, password)
-//       .then((userCredential) => {
-//         // Signed up
-//         const user = userCredential.user;
-//         message = "New user successfully created";
-//         success = 1;
-//       })
-//       .catch((error) => {
-//         const errorCode = error.code;
-//         message = error.message;
-//       });
-//     showLogInResult("create", message, success);
-//   }
-// }
 
-// -----------Log in existing user
 export async function loginUser() {
   const email = loginUser_emailUserName.value;
   const password = loginUser_password.value;
-  let user, message, success;
+  let message, success;
   await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed up
-      const user = userCredential.user;
       message = "Successful login";
       success = 1;
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const message = error.message;
+      message = error.message;
     });
-  showLogInResult("login", message, success);
+  showLogInResult(message, success);
 }
 
 function signOutUser() {
