@@ -1,8 +1,8 @@
 import { getArrays } from "./data.js";
+import { populateAdminSection } from "./adminSection.js";
 
 export async function populateUserSection() {
   let data = await getArrays();
-  console.log(data.Audiogram);
   // Clear existing options
   audiogram_result.innerHTML = "";
   timing_result.innerHTML = "";
@@ -18,10 +18,19 @@ export async function populateUserSection() {
     });
   }
 
-  // Populate select elements
-  if (data.Audiogram[0]) appendOptions(data.Audiogram[0], audiogram_result);
-  if (data.Timing[0]) appendOptions(data.Timing[0], timing_result);
-  if (data.Age[0]) appendOptions(data.Age[0], age_result);
+  // Populate select elements and admin panel
+  if (data.Audiogram[0]) {
+    appendOptions(data.Audiogram[0], audiogram_result);
+    populateAdminSection(data.Audiogram[0], audiogram_result_admin);
+  }
+  if (data.Timing[0]) {
+    appendOptions(data.Timing[0], timing_result);
+    appendOptions(data.Timing[0], timing_admin);
+  }
+  if (data.Age[0]) {
+    appendOptions(data.Age[0], age_result);
+    appendOptions(data.Age[0], patient_age_admin);
+  }
 }
 
 export function giveGuidance() {

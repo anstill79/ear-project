@@ -1,6 +1,6 @@
 import { populateUserSection, giveGuidance } from "./userSection.js";
 import {
-  populateAdminOptions,
+  populateAdminSection,
   saveAdminOptions,
   addNewGuidanceOption,
 } from "./adminSection.js";

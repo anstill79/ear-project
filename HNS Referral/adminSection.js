@@ -1,72 +1,51 @@
 import { getArrays } from "./data.js";
 
+//  save admin just needs to blow out the entire dataset and write it fresh when any edit is made and saved
+//  without that, a small typo edit or simlar will create new items and we'll need to track things with IDs and such
+//  let's go the simple route and just concat the options as key and see if it works well enough
+
 let selectedOptions = {};
 
-export function populateAdminOptions() {
+export function populateAdminSection(array, ul) {
   selectedOptions = {};
-  const adminOptions = [
-    {
-      options: audiogramResultOptions,
-      target: audiogram_result_admin,
-      id: "new_audio_result_admin",
-    },
-    {
-      options: timingOptions,
-      target: timing_admin,
-      id: "new_timing_result_admin",
-    },
-    {
-      options: ageOptions,
-      target: patient_age_admin,
-      id: "new_age_result_admin",
-    },
-  ];
 
-  adminOptions.forEach((adminOption) => {
-    const { options, target, id } = adminOption;
-    target.innerHTML = "";
-    let keys = Object.keys(options);
-    keys = keys.filter((key) => key !== "count");
-
-    keys.forEach((key) => {
-      const li = document.createElement("li");
-      const inputEl = document.createElement("input");
-      inputEl.type = "text";
-      inputEl.value = options[key][1];
-      inputEl.dataset.id = key;
-      const selectBtn = document.createElement("button");
-      selectBtn.innerText = "⬜️";
-      selectBtn.classList.add("admin-select-or-delete-btns");
-      selectBtn.addEventListener("click", selectAdminOption);
-      const wrapper = document.createElement("div");
-      wrapper.appendChild(selectBtn);
-      wrapper.appendChild(inputEl);
-      const deleteBtn = document.createElement("button");
-      deleteBtn.innerText = "❌";
-      deleteBtn.classList.add("admin-select-or-delete-btns");
-      deleteBtn.addEventListener("click", () => {
-        if (confirm("Are you sure you want to delete this option?")) {
-          li.remove();
-        }
-      });
-      wrapper.classList.add("admin-li-wrapper");
-      wrapper.appendChild(deleteBtn);
-      li.appendChild(wrapper);
-      target.appendChild(li);
+  array.forEach((item) => {
+    const li = document.createElement("li");
+    const inputEl = document.createElement("input");
+    inputEl.type = "text";
+    inputEl.value = item;
+    const selectBtn = document.createElement("button");
+    selectBtn.innerText = "⬜️";
+    selectBtn.classList.add("admin-select-or-delete-btns");
+    selectBtn.addEventListener("click", selectAdminOption);
+    const wrapper = document.createElement("div");
+    wrapper.appendChild(selectBtn);
+    wrapper.appendChild(inputEl);
+    const deleteBtn = document.createElement("button");
+    deleteBtn.innerText = "❌";
+    deleteBtn.classList.add("admin-select-or-delete-btns");
+    deleteBtn.addEventListener("click", () => {
+      if (confirm("Are you sure you want to delete this option?")) {
+        li.remove();
+      }
     });
-
-    const newOptionBtn = document.createElement("button");
-    newOptionBtn.innerText = "➕";
-    newOptionBtn.id = id;
-    newOptionBtn.style.marginTop = "5px";
-    newOptionBtn.classList.add("admin-add-new-option-btns");
-    newOptionBtn.addEventListener("click", addNewAdminOption);
-    const div = document.createElement("div");
-    div.style.display = "grid";
-    div.style.placeContent = "center";
-    div.appendChild(newOptionBtn);
-    target.appendChild(div);
+    wrapper.classList.add("admin-li-wrapper");
+    wrapper.appendChild(deleteBtn);
+    li.appendChild(wrapper);
+    ul.appendChild(li);
   });
+
+  const newOptionBtn = document.createElement("button");
+  newOptionBtn.innerText = "➕";
+  newOptionBtn.style.marginTop = "5px";
+  newOptionBtn.classList.add("admin-add-new-option-btns");
+  newOptionBtn.addEventListener("click", addNewAdminOption);
+  const div = document.createElement("div");
+  div.style.display = "grid";
+  div.style.placeContent = "center";
+  div.appendChild(newOptionBtn);
+  ul.appendChild(div);
+
   admin_selected_audioResult.innerText = "(none selected)";
   admin_selected_timingResult.innerText = "(none selected)";
   admin_selected_ageResult.innerText = "(none selected)";
@@ -163,10 +142,6 @@ export function selectAdminOption() {
     admin_guidance_text.innerText = guidanceOptions[key];
   }
   alert(selectedOptions.toString());
-}
-
-function createID() {
-  return `h${Math.random().toString(36).substring(2)}`;
 }
 
 export function addNewGuidanceOption() {

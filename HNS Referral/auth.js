@@ -6,7 +6,6 @@ import {
 } from "./node_modules/firebase/auth";
 
 import { db, app } from "./db";
-import { populateAdminOptions } from "./adminSection";
 
 // ----------Auth
 export const auth = getAuth(app);
