@@ -25,11 +25,11 @@ export async function populateUserSection() {
   }
   if (data.Timing[0]) {
     appendOptions(data.Timing[0], timing_result);
-    appendOptions(data.Timing[0], timing_admin);
+    populateAdminSection(data.Timing[0], timing_admin);
   }
   if (data.Age[0]) {
     appendOptions(data.Age[0], age_result);
-    appendOptions(data.Age[0], patient_age_admin);
+    populateAdminSection(data.Age[0], patient_age_admin);
   }
 }
 

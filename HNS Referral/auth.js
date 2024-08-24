@@ -6,6 +6,7 @@ import {
 } from "./node_modules/firebase/auth";
 
 import { db, app } from "./db";
+import { populateAdminSection } from "./adminSection";
 
 // ----------Auth
 export const auth = getAuth(app);
@@ -19,7 +20,7 @@ export function showLogInResult(message, success) {
     const adminModal = document.getElementById("admin-popover");
     admin_button.popoverTargetElement = adminModal;
     admin_button.innerText = "Open Admin Panel";
-    admin_button.addEventListener("click", populateAdminOptions);
+    admin_button.addEventListener("click", populateAdminSection);
   } else {
     prevError = document.getElementById("login_user_message");
     id = "login_user_message";

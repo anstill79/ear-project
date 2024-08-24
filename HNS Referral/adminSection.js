@@ -76,7 +76,6 @@ export function addNewAdminOption() {
   const li = document.createElement("li");
   const inputEl = document.createElement("input");
   inputEl.type = "text";
-  inputEl.dataset.id = createID();
   const selectBtn = document.createElement("button");
   selectBtn.innerText = "⬜️";
 
@@ -103,23 +102,35 @@ export function addNewAdminOption() {
 
 export function selectAdminOption() {
   const thisBtn = this;
+  const initialState = thisBtn.innerText;
   const inputText = this.parentElement.querySelector("input").value;
-  const inputId = this.parentElement.querySelector("input").dataset.id;
   const section =
     this.parentElement.parentElement.parentElement.parentElement.querySelector(
       "h5"
     ).innerText;
   let objKey;
   if (section === "Audiogram Result") {
-    admin_selected_audioResult.innerText = inputText;
+    if (initialState === "✅") {
+      admin_selected_audioResult.innerText = "(none selected)";
+    } else {
+      admin_selected_audioResult.innerText = inputText;
+    }
     objKey = "selectedAudioResult";
   }
   if (section === "Timing Result") {
-    admin_selected_timingResult.innerText = inputText;
+    if (initialState === "✅") {
+      admin_selected_timingResult.innerText = "(none selected)";
+    } else {
+      admin_selected_timingResult.innerText = inputText;
+    }
     objKey = "selectedTiming";
   }
   if (section === "Age Result") {
-    admin_selected_ageResult.innerText = inputText;
+    if (initialState === "✅") {
+      admin_selected_ageResult.innerText = "(none selected)";
+    } else {
+      admin_selected_ageResult.innerText = inputText;
+    }
     objKey = "selectedAge";
   }
   const target = this.parentElement.parentElement.parentElement;
@@ -129,10 +140,15 @@ export function selectAdminOption() {
       btn.style.opacity = "0.3";
     }
   });
-  thisBtn.innerText = "✅";
-  thisBtn.style.opacity = "1";
-  selectedOptions[objKey] = { id: inputId, text: inputText };
-
+  if (initialState === "✅") {
+    thisBtn.innerText = "⬜️";
+    thisBtn.style.opacity = "0.3";
+    delete selectedOptions[objKey];
+  } else {
+    thisBtn.innerText = "✅";
+    thisBtn.style.opacity = "1";
+    selectedOptions[objKey] = { text: inputText };
+  }
   if (
     selectedOptions.selectedAudioResult &&
     selectedOptions.selectedTiming &&
@@ -141,7 +157,6 @@ export function selectAdminOption() {
     const key = `${selectedOptions.selectedAudioResult.id}_${selectedOptions.selectedTiming.id}_${selectedOptions.selectedAge.id}`;
     admin_guidance_text.innerText = guidanceOptions[key];
   }
-  alert(selectedOptions.toString());
 }
 
 export function addNewGuidanceOption() {
@@ -174,7 +189,7 @@ export function saveAdminOptions() {
     alert("Please select an Age option before saving.");
     return;
   }
-  const key = `${selectedOptions.selectedAudioResult.id}${selectedOptions.selectedTiming.id}${selectedOptions.selectedAge.id}`;
+  const key = `${selectedOptions.selectedAudioResult.text}${selectedOptions.selectedTiming.text}${selectedOptions.selectedAge.text}`;
   guidanceOptions[key] = textContent;
 
   const audioList = audiogram_result_admin.querySelectorAll("input");
