@@ -1,4 +1,6 @@
 import { getArrays } from "./data.js";
+import { setDoc, collection } from "./node_modules/firebase/firestore";
+import { db } from "./db.js";
 
 //  save admin just needs to blow out the entire dataset and write it fresh when any edit is made and saved
 //  without that, a small typo edit or simlar will create new items and we'll need to track things with IDs and such
@@ -104,6 +106,7 @@ export function selectAdminOption() {
   const thisBtn = this;
   const initialState = thisBtn.innerText;
   const inputText = this.parentElement.querySelector("input").value;
+  admin_guidance_text.value = "";
   const section =
     this.parentElement.parentElement.parentElement.parentElement.querySelector(
       "h5"
@@ -169,13 +172,14 @@ export function addNewGuidanceOption() {
   admin_guidance_inputs.focus();
 }
 
-export function saveAdminOptions() {
+const guidanceOptions = {};
+
+export async function saveAdminOptions() {
   const textContent = admin_guidance_text.value;
   if (!textContent) {
     alert("Please enter some guidance text before saving.");
     return;
   }
-  console.log(selectedOptions);
   const keys = Object.keys(selectedOptions);
   if (!selectedOptions.selectedAudioResult) {
     alert("Please select an Audiogram Result option before saving.");
@@ -189,28 +193,9 @@ export function saveAdminOptions() {
     alert("Please select an Age option before saving.");
     return;
   }
+
   const key = `${selectedOptions.selectedAudioResult.text}${selectedOptions.selectedTiming.text}${selectedOptions.selectedAge.text}`;
   guidanceOptions[key] = textContent;
-
-  const audioList = audiogram_result_admin.querySelectorAll("input");
-  const timingList = timing_admin.querySelectorAll("input");
-  const ageList = patient_age_admin.querySelectorAll("input");
-  audiogramResultOptions = {};
-  timingOptions = {};
-  ageOptions = {};
-  audioList.forEach((audio, index) => {
-    audiogramResultOptions[audio.dataset.id] = [index, audio.value];
-  });
-  timingList.forEach((timing, index) => {
-    timingOptions[timing.dataset.id] = [index, timing.value];
-  });
-  ageList.forEach((age, index) => {
-    ageOptions[age.dataset.id] = [index, age.value];
-  });
-  let count = Object.keys(audiogramResultOptions).length;
-  audiogramResultOptions.count = count;
-  count = Object.keys(timingOptions).length;
-  timingOptions.count = count;
-  count = Object.keys(ageOptions).length;
-  ageOptions.count = count;
+  const docRef = db.collection("Data").doc("SSC");
+  await docRef.setDoc(guidanceOptions);
 }

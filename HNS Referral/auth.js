@@ -8,10 +8,8 @@ import {
 import { db, app } from "./db";
 import { populateAdminSection } from "./adminSection";
 
-// ----------Auth
 export const auth = getAuth(app);
 
-// ---------Error fx used by both login and create
 export function showLogInResult(message, success) {
   let prevError, id, target;
   if (success === 1) {
@@ -19,6 +17,7 @@ export function showLogInResult(message, success) {
     login_user.style.display = "none";
     const adminModal = document.getElementById("admin-popover");
     admin_button.popoverTargetElement = adminModal;
+    admin_button.removeEventListener("click", loginUser);
     admin_button.innerText = "Open Admin Panel";
     admin_button.addEventListener("click", populateAdminSection);
   } else {
@@ -40,19 +39,33 @@ export function showLogInResult(message, success) {
   target.appendChild(div);
 }
 
-export async function loginUser() {
+export async function loginUser(event) {
+  event.preventDefault();
   const email = loginUser_emailUserName.value;
   const password = loginUser_password.value;
-  let message, success;
-  await signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      message = "Successful login";
-      success = 1;
-    })
-    .catch((error) => {
-      message = error.message;
-    });
-  showLogInResult(message, success);
+  if (email && password) {
+    let message, success;
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        message = "Successful login";
+        success = 1;
+      })
+      .catch((error) => {
+        message = error.message;
+      });
+    showLogInResult(message, success);
+  }
+  if (!email) {
+    let message = "Email is blank";
+    showLogInResult(message);
+    loginUser_emailUserName.focus();
+    return;
+  }
+  if (!password) {
+    let message = "Password is blank";
+    showLogInResult(message);
+    loginUser_password.focus();
+  }
 }
 
 function signOutUser() {
@@ -66,4 +79,9 @@ function signOutUser() {
     });
 }
 
-//set the admin_btn popovertarget to admin popover after logged in
+export function openLogin() {
+  log_in_modal_wrapper.showPopover();
+  loginUser_emailUserName.focus();
+}
+
+admin_button.addEventListener("click", openLogin);
