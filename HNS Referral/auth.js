@@ -42,6 +42,8 @@ function openAdminBtnRightHereFunction(event) {
   event.preventDefault();
   log_in_modal.hidePopover();
   admin_popover.showPopover();
+
+  admin_button.addEventListener("click", openAdminBtnRightHereFunction);
 }
 export function showLogInResult(message, success) {
   let prevError, id, target;
