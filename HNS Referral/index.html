@@ -59,7 +59,7 @@
     <!--          Admin Popover                         -->
     <!--  -->
 
-    <div id="admin-popover" class="admin-popover" popover>
+    <div id="admin_popover" class="admin-popover" popover>
       <h3 style="margin-left: 10px">Admin</h3>
       <div class="admin-popover-contents">
         <div class="admin-card">
@@ -98,24 +98,9 @@
         >
           <h5>Edit Guidance</h5>
 
-          <div id="admin_guidance_inputs_target" style="visibility: hidden">
-            <ul id="admin_guidance_inputs">
-              <li>
-                <input type="text" />
-              </li>
-              <div
-                id="admin_add_guidanceLine_wrapper"
-                style="display: grid; place-content: center"
-              >
-                <button
-                  id="admin_add_guidanceLine"
-                  style="margin-block: 5px"
-                  class="admin-add-new-option-btns"
-                >
-                  ➕
-                </button>
-              </div>
-            </ul>
+          <div id="admin_guidance_input">
+            <input id="admin_guidance_text" type="text" />
+            <br />
             <button id="save_admin_button" style="border: 1px solid black">
               Save
             </button>

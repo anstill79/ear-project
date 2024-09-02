@@ -1,8 +1,9 @@
-import { getArrays } from "./data.js";
+import { getData } from "./data.js";
 import { populateAdminSection } from "./adminSection.js";
 
+let Guidance = {};
 export async function populateUserSection() {
-  let data = await getArrays();
+  let data = await getData();
   // Clear existing options
   audiogram_result.innerHTML = "";
   timing_result.innerHTML = "";
@@ -31,6 +32,10 @@ export async function populateUserSection() {
     appendOptions(data.Age[0], age_result);
     populateAdminSection(data.Age[0], patient_age_admin);
   }
+  if (data.Guidance[0]) {
+    Guidance = data[0].Guidance;
+  }
+  console.log(Guidance);
 }
 
 export function giveGuidance() {

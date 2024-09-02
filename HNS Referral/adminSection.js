@@ -1,4 +1,4 @@
-import { getArrays } from "./data.js";
+import { getData } from "./data.js";
 import { setDoc, collection } from "./node_modules/firebase/firestore";
 import { db } from "./db.js";
 
@@ -51,17 +51,6 @@ export function populateAdminSection(array, ul) {
   admin_selected_audioResult.innerText = "(none selected)";
   admin_selected_timingResult.innerText = "(none selected)";
   admin_selected_ageResult.innerText = "(none selected)";
-  const guidanceTextLi = document
-    .querySelector("#admin_guidance_inputs")
-    .querySelectorAll("li");
-  guidanceTextLi.forEach((item, index) => {
-    if (index === 0) {
-      const input = item.querySelector("input");
-      input.value = "";
-    } else {
-      guidanceTextLi[index].remove();
-    }
-  });
 }
 
 export function addNewAdminOption() {
@@ -157,22 +146,10 @@ export function selectAdminOption() {
     selectedOptions.selectedTiming &&
     selectedOptions.selectedAge
   ) {
-    const key = `${selectedOptions.selectedAudioResult.id}_${selectedOptions.selectedTiming.id}_${selectedOptions.selectedAge.id}`;
-    admin_guidance_text.innerText = guidanceOptions[key];
+    const key = `${selectedOptions.selectedAudioResult.id}${selectedOptions.selectedTiming.id}${selectedOptions.selectedAge.id}`;
+    admin_guidance_text.innerText = Guidance[key];
   }
 }
-
-export function addNewGuidanceOption() {
-  const li = document.createElement("li");
-  const inputEl = document.createElement("input");
-  inputEl.type = "text";
-  li.appendChild(inputEl);
-  //admin_guidance_inputs.appendChild(li);
-  admin_guidance_inputs.insertBefore(li, admin_add_guidanceLine_wrapper);
-  admin_guidance_inputs.focus();
-}
-
-const guidanceOptions = {};
 
 export async function saveAdminOptions() {
   const textContent = admin_guidance_text.value;
@@ -193,9 +170,14 @@ export async function saveAdminOptions() {
     alert("Please select an Age option before saving.");
     return;
   }
+  if (!guidance) {
+    alert("Please enter guidance data before saving.");
+    return;
+  }
+  const dataObj = await getData();
 
   const key = `${selectedOptions.selectedAudioResult.text}${selectedOptions.selectedTiming.text}${selectedOptions.selectedAge.text}`;
-  guidanceOptions[key] = textContent;
+  dataObj.Guidance[key] = textContent;
   const docRef = db.collection("Data").doc("SSC");
-  await docRef.setDoc(guidanceOptions);
+  await docRef.setDoc(dataObj);
 }
