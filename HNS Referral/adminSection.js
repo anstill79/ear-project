@@ -16,6 +16,7 @@ export function populateAdminSection(array, ul) {
     const inputEl = document.createElement("input");
     inputEl.type = "text";
     inputEl.value = item;
+    inputEl.addEventListener("focus", selectAdminOption);
     const selectBtn = document.createElement("button");
     selectBtn.innerText = "⬜️";
     selectBtn.classList.add("admin-select-or-delete-btns");
@@ -91,11 +92,18 @@ export function addNewAdminOption() {
   inputEl.focus();
 }
 
-export function selectAdminOption() {
-  const thisBtn = this;
-  const initialState = thisBtn.innerText;
+export function selectAdminOption(onFocusNotBtn) {
+  let thisBtn;
+  let initialState;
+  if (onFocusNotBtn) {
+    thisBtn = this.parentElement.querySelector("button");
+    initialState = "⬜️";
+  } else {
+    thisBtn = this;
+    initialState = thisBtn.innerText;
+  }
   const inputText = this.parentElement.querySelector("input").value;
-  admin_guidance_text.value = "";
+  //admin_guidance_text.value = "";
   const section =
     this.parentElement.parentElement.parentElement.parentElement.querySelector(
       "h5"
@@ -170,7 +178,7 @@ export async function saveAdminOptions() {
     alert("Please select an Age option before saving.");
     return;
   }
-  if (!guidance) {
+  if (!textContent) {
     alert("Please enter guidance data before saving.");
     return;
   }
