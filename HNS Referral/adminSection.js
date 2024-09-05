@@ -1,5 +1,10 @@
-import { getData } from "./data.js";
-import { setDoc, collection } from "./node_modules/firebase/firestore";
+import { dataObj, getData } from "./data.js";
+import {
+  doc,
+  setDoc,
+  collection,
+  updateDoc,
+} from "./node_modules/firebase/firestore";
 import { db } from "./db.js";
 
 //  save admin just needs to blow out the entire dataset and write it fresh when any edit is made and saved
@@ -147,15 +152,15 @@ export function selectAdminOption(onFocusNotBtn) {
   } else {
     thisBtn.innerText = "✅";
     thisBtn.style.opacity = "1";
-    selectedOptions[objKey] = { text: inputText };
+    selectedOptions[objKey] = inputText;
   }
   if (
     selectedOptions.selectedAudioResult &&
     selectedOptions.selectedTiming &&
     selectedOptions.selectedAge
   ) {
-    const key = `${selectedOptions.selectedAudioResult.id}${selectedOptions.selectedTiming.id}${selectedOptions.selectedAge.id}`;
-    admin_guidance_text.innerText = Guidance[key];
+    const key = `${selectedOptions.selectedAudioResult}${selectedOptions.selectedTiming}${selectedOptions.selectedAge}`;
+    admin_guidance_text.value = dataObj.Guidance[key];
   }
 }
 
@@ -182,10 +187,8 @@ export async function saveAdminOptions() {
     alert("Please enter guidance data before saving.");
     return;
   }
-  const dataObj = await getData();
-
   const key = `${selectedOptions.selectedAudioResult.text}${selectedOptions.selectedTiming.text}${selectedOptions.selectedAge.text}`;
   dataObj.Guidance[key] = textContent;
-  const docRef = db.collection("Data").doc("SSC");
-  await docRef.setDoc(dataObj);
+  const docRef = doc(db, "Data", "SSC");
+  await updateDoc(docRef, dataObj);
 }

@@ -1,9 +1,8 @@
-import { getData } from "./data.js";
+import { getData, dataObj } from "./data.js";
 import { populateAdminSection } from "./adminSection.js";
 
-let Guidance = {};
 export async function populateUserSection() {
-  let data = await getData();
+  await getData();
   // Clear existing options
   audiogram_result.innerHTML = "";
   timing_result.innerHTML = "";
@@ -20,22 +19,19 @@ export async function populateUserSection() {
   }
 
   // Populate select elements and admin panel
-  if (data.Audiogram[0]) {
-    appendOptions(data.Audiogram[0], audiogram_result);
-    populateAdminSection(data.Audiogram[0], audiogram_result_admin);
+  if (dataObj.Audiogram) {
+    appendOptions(dataObj.Audiogram, audiogram_result);
+    populateAdminSection(dataObj.Audiogram, audiogram_result_admin);
   }
-  if (data.Timing[0]) {
-    appendOptions(data.Timing[0], timing_result);
-    populateAdminSection(data.Timing[0], timing_admin);
+  if (dataObj.Timing) {
+    appendOptions(dataObj.Timing, timing_result);
+    populateAdminSection(dataObj.Timing, timing_admin);
   }
-  if (data.Age[0]) {
-    appendOptions(data.Age[0], age_result);
-    populateAdminSection(data.Age[0], patient_age_admin);
+  if (dataObj.Age) {
+    appendOptions(dataObj.Age, age_result);
+    populateAdminSection(dataObj.Age, patient_age_admin);
   }
-  if (data.Guidance[0]) {
-    Guidance = data[0].Guidance;
-  }
-  console.log(Guidance);
+  console.log(dataObj);
 }
 
 export function giveGuidance() {
