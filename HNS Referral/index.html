@@ -35,6 +35,7 @@
         >
         <div id="picker_wrapper">
           <button
+            class="btn-yellow-hover"
             id="show_date_picker"
             onclick="timing_date_picker.showPicker()"
           >
@@ -53,7 +54,7 @@
         <div id="guidance_text"></div>
       </div>
     </section>
-    <button id="admin_button">Admin Login</button>
+    <button class="btn-yellow-hover" id="admin_button">Admin Login</button>
 
     <!--  -->
     <!--          Admin Popover                         -->
@@ -99,9 +100,13 @@
           <h5>Edit Guidance</h5>
 
           <div id="admin_guidance_input">
-            <input id="admin_guidance_text" type="text" />
+            <textarea id="admin_guidance_text"></textarea>
             <br />
-            <button id="save_admin_button" style="border: 1px solid black">
+            <button
+              class="btn-yellow-hover"
+              id="save_admin_button"
+              style="border: 1px solid black"
+            >
               Save
             </button>
           </div>

@@ -7,6 +7,21 @@
 body {
   display: grid;
   place-content: center;
+  background-color: #f0f0f0;
+}
+section {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#age_result,
+#audiogram_result {
+  field-sizing: content;
+  min-width: 400px;
+}
+#admin_guidance_text {
+  field-sizing: content;
+  min-width: 100%;
 }
 h1 {
   text-align: center;
@@ -23,7 +38,7 @@ h1 {
   gap: 10px;
   margin-inline: auto;
   margin-bottom: 20px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   place-content: center;
   padding-block: 20px;
   align-items: center;
@@ -55,14 +70,14 @@ h1 {
   gap: 10px;
 }
 
-#show_date_picker {
+.btn-yellow-hover {
   width: 80px;
   cursor: pointer;
   background-color: white;
   border: 1px solid black;
   border-radius: 7px;
 }
-#show_date_picker:hover {
+.btn-yellow-hover:hover {
   background-color: yellow;
   border: 1px solid black;
 }
