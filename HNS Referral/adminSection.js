@@ -2,10 +2,14 @@ import { dataObj, getData } from "./data.js";
 import {
   doc,
   setDoc,
+  addDoc,
   collection,
   updateDoc,
+  serverTimestamp,
 } from "./node_modules/firebase/firestore";
 import { db } from "./db.js";
+import { auth } from "./auth.js";
+import { addDoc } from "firebase/firestore/lite";
 
 //  save admin just needs to blow out the entire dataset and write it fresh when any edit is made and saved
 //  without that, a small typo edit or simlar will create new items and we'll need to track things with IDs and such
@@ -187,8 +191,61 @@ export async function saveAdminOptions() {
     alert("Please enter guidance data before saving.");
     return;
   }
+  const originalDataObj = dataObj;
   const key = `${selectedOptions.selectedAudioResult.text}${selectedOptions.selectedTiming.text}${selectedOptions.selectedAge.text}`;
   dataObj.Guidance[key] = textContent;
   const docRef = doc(db, "Data", "SSC");
   await updateDoc(docRef, dataObj);
+  const changeDocRef = doc(db, "Changes", "SSC");
+  const changes = objectDiff(originalDataObj, dataObj);
+  if (changes) {
+    const ts = serverTimestamp();
+    const user = auth.currentUser.email;
+    const changeInfo = {
+      user: user,
+      timestamp: ts,
+      changes: changes,
+    };
+    await addDoc(changeDocRef, changeInfo);
+  }
+}
+
+function objectDiff(original, modified) {
+  if (original === modified) return undefined;
+  if (typeof original !== "object" || typeof modified !== "object")
+    return modified;
+
+  if (Array.isArray(original) && Array.isArray(modified)) {
+    if (original.length !== modified.length) return modified;
+    const arrayDiff = modified.map((item, index) =>
+      objectDiff(original[index], item)
+    );
+    return arrayDiff.some((x) => x !== undefined) ? arrayDiff : undefined;
+  }
+
+  const diff = {};
+  let hasDiff = false;
+
+  for (const key in modified) {
+    if (Object.prototype.hasOwnProperty.call(modified, key)) {
+      const originalValue = original[key];
+      const modifiedValue = modified[key];
+      const valueDiff = objectDiff(originalValue, modifiedValue);
+
+      if (valueDiff !== undefined) {
+        diff[key] = valueDiff;
+        hasDiff = true;
+      }
+    }
+  }
+  for (const key in original) {
+    if (
+      Object.prototype.hasOwnProperty.call(original, key) &&
+      !(key in modified)
+    ) {
+      diff[key] = undefined;
+      hasDiff = true;
+    }
+  }
+  return hasDiff ? diff : undefined;
 }
