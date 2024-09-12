@@ -9,7 +9,6 @@ import {
 } from "./node_modules/firebase/firestore";
 import { db } from "./db.js";
 import { auth } from "./auth.js";
-import { addDoc } from "firebase/firestore/lite";
 
 //  save admin just needs to blow out the entire dataset and write it fresh when any edit is made and saved
 //  without that, a small typo edit or simlar will create new items and we'll need to track things with IDs and such
@@ -112,7 +111,6 @@ export function selectAdminOption(onFocusNotBtn) {
     initialState = thisBtn.innerText;
   }
   const inputText = this.parentElement.querySelector("input").value;
-  //admin_guidance_text.value = "";
   const section =
     this.parentElement.parentElement.parentElement.parentElement.querySelector(
       "h5"
@@ -191,22 +189,26 @@ export async function saveAdminOptions() {
     alert("Please enter guidance data before saving.");
     return;
   }
-  const originalDataObj = dataObj;
-  const key = `${selectedOptions.selectedAudioResult.text}${selectedOptions.selectedTiming.text}${selectedOptions.selectedAge.text}`;
+  const originalDataObj = structuredClone(dataObj);
+
+  const key = `${selectedOptions.selectedAudioResult}${selectedOptions.selectedTiming}${selectedOptions.selectedAge}`;
   dataObj.Guidance[key] = textContent;
   const docRef = doc(db, "Data", "SSC");
   await updateDoc(docRef, dataObj);
   const changeDocRef = doc(db, "Changes", "SSC");
   const changes = objectDiff(originalDataObj, dataObj);
+
   if (changes) {
-    const ts = serverTimestamp();
+    const timestamp = Date.now();
+    const readableDate = new Date(timestamp).toISOString();
     const user = auth.currentUser.email;
     const changeInfo = {
-      user: user,
-      timestamp: ts,
-      changes: changes,
+      [readableDate]: {
+        user: user,
+        changes: changes,
+      },
     };
-    await addDoc(changeDocRef, changeInfo);
+    await updateDoc(changeDocRef, changeInfo);
   }
 }
 
