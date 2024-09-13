@@ -199,11 +199,23 @@ export async function saveAdminOptions() {
   const changes = objectDiff(originalDataObj, dataObj);
 
   if (changes) {
-    const timestamp = Date.now();
-    const readableDate = new Date(timestamp).toISOString();
+    const now = new Date();
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+      timeZone: "America/Los_Angeles",
+    };
+    let usTimestampString = now.toLocaleString("en-US", options);
+    usTimestampString = usTimestampString.replace(/\//g, "-").replace(",", "");
+
     const user = auth.currentUser.email;
     const changeInfo = {
-      [readableDate]: {
+      [usTimestampString]: {
         user: user,
         changes: changes,
       },

@@ -71,7 +71,8 @@ h1 {
 }
 
 .btn-yellow-hover {
-  width: 80px;
+  width: minmax(80px 100%);
+  /* width: 80px; */
   cursor: pointer;
   background-color: white;
   border: 1px solid black;

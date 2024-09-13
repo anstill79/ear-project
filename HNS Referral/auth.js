@@ -10,6 +10,7 @@ import { populateAdminSection } from "./adminSection";
 import { doc } from "firebase/firestore";
 
 export const auth = getAuth(app);
+
 export async function loginUser(event) {
   event.preventDefault();
   const email = loginUser_emailUserName.value;
@@ -38,6 +39,7 @@ export async function loginUser(event) {
     loginUser_password.focus();
   }
 }
+
 function openAdminBtnRightHereFunction(event) {
   event.preventDefault();
   log_in_modal.hidePopover();
@@ -45,6 +47,7 @@ function openAdminBtnRightHereFunction(event) {
 
   admin_button.addEventListener("click", openAdminBtnRightHereFunction);
 }
+
 export function showLogInResult(message, success) {
   let prevError, id, target;
   const openAdminBtnRightHere = document.createElement("button");
@@ -56,7 +59,9 @@ export function showLogInResult(message, success) {
     admin_button.removeEventListener("click", loginUser);
     admin_button.innerText = "Open Admin Panel";
     admin_button.addEventListener("click", populateAdminSection);
+    id = "login_user_success";
     openAdminBtnRightHere.innerText = "Open Admin Panel";
+    openAdminBtnRightHere.classList.add("btn-yellow-hover");
     openAdminBtnRightHere.addEventListener(
       "click",
       openAdminBtnRightHereFunction
@@ -74,7 +79,9 @@ export function showLogInResult(message, success) {
   let div = document.createElement("div");
   p.id = id;
   p.innerText = message;
-  p.style.textAlign = "right";
+  if (success !== 1) {
+    p.style.textAlign = "right";
+  }
   div.appendChild(p);
   div.style.gridColumn = "1/span 2";
   target.appendChild(div);
