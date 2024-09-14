@@ -12,7 +12,6 @@ export async function getData() {
 
   dataSnapshotAtLoad.forEach((doc) => {
     const docData = doc.data();
-    console.log(docData.Audiogram);
 
     if (docData.Audiogram && Array.isArray(docData.Audiogram)) {
       dataObj.Audiogram.push(...docData.Audiogram);

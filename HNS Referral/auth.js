@@ -81,12 +81,16 @@ export function showLogInResult(message, success) {
   p.innerText = message;
   if (success !== 1) {
     p.style.textAlign = "right";
+  } else {
+    p.style.textAlign = "center";
+    div.style.marginBlockEnd = "5px";
   }
   div.appendChild(p);
   div.style.gridColumn = "1/span 2";
   target.appendChild(div);
   if (success === 1) {
     target.appendChild(openAdminBtnRightHere);
+    openAdminBtnRightHere.focus();
   }
 }
 

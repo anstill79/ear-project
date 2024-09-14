@@ -51,6 +51,15 @@ export function populateAdminSection(array, ul) {
   newOptionBtn.style.marginTop = "5px";
   newOptionBtn.classList.add("admin-add-new-option-btns");
   newOptionBtn.addEventListener("click", addNewAdminOption);
+  if (ul === audiogram_result_admin) {
+    newOptionBtn.id = "new_audio_result_admin";
+  }
+  if (ul === timing_admin) {
+    newOptionBtn.id = "new_timing_result_admin";
+  }
+  if (ul === patient_age_admin) {
+    newOptionBtn.id = "new_age_result_admin";
+  }
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.placeContent = "center";
@@ -96,6 +105,7 @@ export function addNewAdminOption() {
   wrapper.classList.add("admin-li-wrapper");
   wrapper.appendChild(deleteBtn);
   li.appendChild(wrapper);
+  console.log(target);
   target.insertBefore(li, target.lastChild);
   inputEl.focus();
 }

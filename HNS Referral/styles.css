@@ -78,7 +78,8 @@ h1 {
   border: 1px solid black;
   border-radius: 7px;
 }
-.btn-yellow-hover:hover {
+.btn-yellow-hover:hover,
+.btn-yellow-hover:focus {
   background-color: yellow;
   border: 1px solid black;
 }

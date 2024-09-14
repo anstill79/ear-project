@@ -31,7 +31,6 @@ export async function populateUserSection() {
     appendOptions(dataObj.Age, age_result);
     populateAdminSection(dataObj.Age, patient_age_admin);
   }
-  console.log(dataObj);
 }
 
 export function giveGuidance() {
