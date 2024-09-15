@@ -3,13 +3,16 @@ import { populateAdminSection } from "./adminSection.js";
 
 export async function populateUserSection() {
   await getData();
-  // Clear existing options
   audiogram_result.innerHTML = "";
   timing_result.innerHTML = "";
   age_result.innerHTML = "";
 
   // Helper function to create and append options
   function appendOptions(array, selectElement) {
+    const blankDefault = document.createElement("option");
+    blankDefault.textContent = "-- Select an Item --";
+    blankDefault.value = "-- Select an Item --";
+    selectElement.appendChild(blankDefault);
     array.forEach((item) => {
       const option = document.createElement("option");
       option.textContent = item;
@@ -34,21 +37,18 @@ export async function populateUserSection() {
 }
 
 export function giveGuidance() {
-  let audioID =
-    audiogram_result.options[audiogram_result.selectedIndex].getAttribute(
-      "data-id"
-    );
-  let timingID = timing.options[timing.selectedIndex].getAttribute("data-id");
-  let ageID =
-    patient_age.options[patient_age.selectedIndex].getAttribute("data-id");
-
-  const guidanceContainer = document.getElementById("guidance_text");
-
-  if (audioID && timingID && ageID) {
-    guidanceContainer.innerText =
-      guidanceOptions[`${audioID}_${timingID}_${ageID}`];
-
+  if (this.selectedIndex === 0) {
     return;
+  }
+  if (
+    audiogram_result.selectedIndex !== 0 &&
+    timing_result.selectedIndex !== 0 &&
+    age_result.selectedIndex !== 0
+  ) {
+    guidance_text.innerText =
+      dataObj.Guidance[
+        `${audiogram_result.value}${timing_result.value}${age_result.value}`
+      ];
   }
 }
 

@@ -10,5 +10,6 @@ await populateUserSection();
 
 audiogram_result.addEventListener("change", giveGuidance);
 age_result.addEventListener("change", giveGuidance);
+timing_result.addEventListener("change", giveGuidance);
 
 audiogram_result.focus();
