@@ -1,23 +1,51 @@
-import { dataObj, getData } from "./data.js";
 import {
   doc,
   setDoc,
   addDoc,
   collection,
   updateDoc,
-  serverTimestamp,
+  getDocs,
 } from "./node_modules/firebase/firestore";
 import { db } from "./db.js";
 import { auth } from "./auth.js";
 
-//  save admin just needs to blow out the entire dataset and write it fresh when any edit is made and saved
-//  without that, a small typo edit or simlar will create new items and we'll need to track things with IDs and such
-//  let's go the simple route and just concat the options as key and see if it works well enough
+let dataObj = {
+  Audiogram: [],
+  Timing: [],
+  Age: [],
+  Guidance: {},
+};
 
-let selectedOptions = {};
+let adminSelectedOptions = {};
+
+async function getData() {
+  const data = collection(db, "Data");
+  const dataSnapshotAtLoad = await getDocs(data);
+
+  dataSnapshotAtLoad.forEach((doc) => {
+    const docData = doc.data();
+
+    if (docData.Audiogram && Array.isArray(docData.Audiogram)) {
+      dataObj.Audiogram.push(...docData.Audiogram);
+    }
+    if (docData.Timing && Array.isArray(docData.Timing)) {
+      dataObj.Timing.push(...docData.Timing);
+    }
+    if (docData.Age && Array.isArray(docData.Age)) {
+      dataObj.Age.push(...docData.Age);
+    }
+    if (docData.Guidance) {
+      Object.keys(docData.Guidance).forEach((key) => {
+        dataObj.Guidance[key] = docData.Guidance[key];
+      });
+    }
+
+    const originalDataObj = structuredClone(dataObj);
+  });
+}
 
 export function populateAdminSection(array, ul) {
-  selectedOptions = {};
+  adminSelectedOptions = {};
 
   array.forEach((item) => {
     const li = document.createElement("li");
@@ -35,6 +63,7 @@ export function populateAdminSection(array, ul) {
     const deleteBtn = document.createElement("button");
     deleteBtn.innerText = "❌";
     deleteBtn.classList.add("admin-select-or-delete-btns");
+    deleteBtn.style.fontSize = "8px";
     deleteBtn.addEventListener("click", () => {
       if (confirm("Are you sure you want to delete this option?")) {
         li.remove();
@@ -45,7 +74,6 @@ export function populateAdminSection(array, ul) {
     li.appendChild(wrapper);
     ul.appendChild(li);
   });
-
   const newOptionBtn = document.createElement("button");
   newOptionBtn.innerText = "➕";
   newOptionBtn.style.marginTop = "5px";
@@ -58,7 +86,7 @@ export function populateAdminSection(array, ul) {
     newOptionBtn.id = "new_timing_result_admin";
   }
   if (ul === patient_age_admin) {
-    newOptionBtn.id = "new_age_result_admin";
+    newOptionBtn.id = "new_timing_result_admin";
   }
   const div = document.createElement("div");
   div.style.display = "grid";
@@ -105,7 +133,7 @@ export function addNewAdminOption() {
   wrapper.classList.add("admin-li-wrapper");
   wrapper.appendChild(deleteBtn);
   li.appendChild(wrapper);
-  console.log(target);
+
   target.insertBefore(li, target.lastChild);
   inputEl.focus();
 }
@@ -160,18 +188,18 @@ export function selectAdminOption(onFocusNotBtn) {
   if (initialState === "✅") {
     thisBtn.innerText = "⬜️";
     thisBtn.style.opacity = "0.3";
-    delete selectedOptions[objKey];
+    delete adminSelectedOptions[objKey];
   } else {
     thisBtn.innerText = "✅";
     thisBtn.style.opacity = "1";
-    selectedOptions[objKey] = inputText;
+    adminSelectedOptions[objKey] = inputText;
   }
   if (
-    selectedOptions.selectedAudioResult &&
-    selectedOptions.selectedTiming &&
-    selectedOptions.selectedAge
+    adminSelectedOptions.selectedAudioResult &&
+    adminSelectedOptions.selectedTiming &&
+    adminSelectedOptions.selectedAge
   ) {
-    const key = `${selectedOptions.selectedAudioResult}${selectedOptions.selectedTiming}${selectedOptions.selectedAge}`;
+    const key = `${adminSelectedOptions.selectedAudioResult}${adminSelectedOptions.selectedTiming}${adminSelectedOptions.selectedAge}`;
     admin_guidance_text.value = dataObj.Guidance[key];
   }
 }
@@ -182,16 +210,15 @@ export async function saveAdminOptions() {
     alert("Please enter some guidance text before saving.");
     return;
   }
-  const keys = Object.keys(selectedOptions);
-  if (!selectedOptions.selectedAudioResult) {
+  if (!adminSelectedOptions.selectedAudioResult) {
     alert("Please select an Audiogram Result option before saving.");
     return;
   }
-  if (!selectedOptions.selectedTiming) {
+  if (!adminSelectedOptions.selectedTiming) {
     alert("Please select a Timing option before saving.");
     return;
   }
-  if (!selectedOptions.selectedAge) {
+  if (!adminSelectedOptions.selectedAge) {
     alert("Please select an Age option before saving.");
     return;
   }
@@ -199,12 +226,45 @@ export async function saveAdminOptions() {
     alert("Please enter guidance data before saving.");
     return;
   }
-  const originalDataObj = structuredClone(dataObj);
 
-  const key = `${selectedOptions.selectedAudioResult}${selectedOptions.selectedTiming}${selectedOptions.selectedAge}`;
+  // take the original dataObj, clone it to compare changes late
+  // wipe out the dataObj and fill it with the contents of the inputs currently on the page
+  // how will the guidance be updated since it gets removed from the page when the selections change?
+
+  delete dataObj.Audiogram;
+  dataObj.Audiogram = [];
+  delete dataObj.Timing;
+  dataObj.Timing = [];
+  delete dataObj.Age;
+  dataObj.Age = [];
+  delete dataObj.Guidance;
+  dataObj.Guidance = {};
+
+  const key = `${adminSelectedOptions.selectedAudioResult}${adminSelectedOptions.selectedTiming}${adminSelectedOptions.selectedAge}`;
   dataObj.Guidance[key] = textContent;
+  //loop and update results into memory obj
+
+  const audiogramInputs = Array.from(
+    document.querySelectorAll(
+      '#audiogram_result_admin li div input[type="text"]'
+    )
+  );
+  audiogramInputs.forEach(
+    (input, index) => (dataObj.Audiogram[index] = input.value)
+  );
+
+  const ageInputs = Array.from(
+    document.querySelectorAll('#patient_age_admin li div input[type="text"]')
+  );
+  ageInputs.forEach((input, index) => (dataObj.Age[index] = input.value));
+  const timingInputs = Array.from(
+    document.querySelectorAll('#timing_admin li div input[type="text"]')
+  );
+  timingInputs.forEach((input, index) => (dataObj.Timing[index] = input.value));
+  console.log(dataObj);
+
   const docRef = doc(db, "Data", "SSC");
-  await updateDoc(docRef, dataObj);
+  await setDoc(docRef, dataObj);
   const changeDocRef = doc(db, "Changes", "SSC");
   const changes = objectDiff(originalDataObj, dataObj);
 
@@ -232,6 +292,7 @@ export async function saveAdminOptions() {
     };
     await updateDoc(changeDocRef, changeInfo);
   }
+  populateUserSection();
 }
 
 function objectDiff(original, modified) {
@@ -272,4 +333,116 @@ function objectDiff(original, modified) {
     }
   }
   return hasDiff ? diff : undefined;
+}
+
+export async function populateUserSection() {
+  await getData();
+  audiogram_result.innerHTML = "";
+  timing_result.innerHTML = "";
+  age_result.innerHTML = "";
+  audiogram_result_admin.innerHTML = "";
+  timing_admin.innerHTML = "";
+  patient_age_admin.innerHTML = "";
+  function appendOptions(array, selectElement) {
+    const blankDefault = document.createElement("option");
+    if (selectElement === audiogram_result) {
+      blankDefault.textContent = "-- Select an audiogram result --";
+      blankDefault.value = "-- Select an audiogram result --";
+    }
+    if (selectElement === timing_result) {
+      blankDefault.textContent = "-- Select a timing --";
+      blankDefault.value = "-- Select a timing --";
+    }
+    if (selectElement === age_result) {
+      blankDefault.textContent = "-- Select an age --";
+      blankDefault.value = "-- Select an age --";
+    }
+    selectElement.appendChild(blankDefault);
+    array.forEach((item) => {
+      const option = document.createElement("option");
+      option.textContent = item;
+      option.value = item;
+      selectElement.appendChild(option);
+    });
+  }
+  if (dataObj.Audiogram) {
+    appendOptions(dataObj.Audiogram, audiogram_result);
+    populateAdminSection(dataObj.Audiogram, audiogram_result_admin);
+  }
+  if (dataObj.Timing) {
+    appendOptions(dataObj.Timing, timing_result);
+    populateAdminSection(dataObj.Timing, timing_admin);
+  }
+  if (dataObj.Age) {
+    appendOptions(dataObj.Age, age_result);
+    populateAdminSection(dataObj.Age, patient_age_admin);
+  }
+}
+
+export function giveGuidance() {
+  if (this.selectedIndex === 0) {
+    return;
+  }
+  this.classList.add("ready");
+  if (
+    audiogram_result.selectedIndex !== 0 &&
+    timing_result.selectedIndex !== 0 &&
+    age_result.selectedIndex !== 0
+  ) {
+    guidance_text.innerText =
+      dataObj.Guidance[
+        `${audiogram_result.value}${timing_result.value}${age_result.value}`
+      ];
+  }
+}
+
+function handleDatePicker(getWeeksResult) {
+  const inputDate = new Date(timing_date_picker.value);
+  const currentDate = new Date();
+  const delta = currentDate - inputDate;
+  const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
+  const weeks = Math.floor(delta / millisecondsInWeek);
+  if (getWeeksResult) {
+    //stops here and returns weeks instead of running rest of fx
+    return weeks;
+  }
+  if (weeks < 0) {
+    console.log(weeks);
+    const guidanceContainer = document.getElementById("guidance_text");
+    guidanceContainer.innerHTML = `<p>You picked a date in the future. Please try again. Thank you</p>`;
+    timing_date_picker.value = "";
+    return;
+  }
+  if ((weeks) => 0 && weeks <= 6) {
+    timing.value = timingOptions[1][1];
+  }
+  if (weeks > 6 && weeks <= 12) {
+    timing.value = timingOptions[2][2];
+  }
+  if (weeks > 12 && weeks <= 24) {
+    timing.value = timingOptions[3][3];
+  }
+  if (weeks > 24 && weeks <= 52) {
+    timing.value = timingOptions[4][4];
+  }
+  if (weeks > 52) {
+    timing.value = timingOptions[5][5];
+  }
+  if (weeks < 0) {
+    timing.value = timingOptions[0][0];
+  }
+  giveGuidance();
+}
+
+function clearOtherDate() {
+  //pick a date picker, clear input date
+  //enter input date, clear picker
+  //later function will set the cleared field to match trigger field
+  if (this.id === "timing_date_picker") {
+    timing.value = "";
+    handleDatePicker();
+  } else {
+    timing_date_picker.value = "";
+    giveGuidance();
+  }
 }

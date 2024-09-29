@@ -6,7 +6,6 @@ import {
 } from "./node_modules/firebase/auth";
 
 import { db, app } from "./db";
-import { populateAdminSection } from "./adminSection";
 import { doc } from "firebase/firestore";
 
 export const auth = getAuth(app);
@@ -58,7 +57,6 @@ export function showLogInResult(message, success) {
     admin_button.popoverTargetElement = adminModal;
     admin_button.removeEventListener("click", loginUser);
     admin_button.innerText = "Open Admin Panel";
-    admin_button.addEventListener("click", populateAdminSection);
     id = "login_user_success";
     openAdminBtnRightHere.innerText = "Open Admin Panel";
     openAdminBtnRightHere.classList.add("btn-yellow-hover");
