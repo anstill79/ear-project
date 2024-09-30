@@ -17,6 +17,7 @@ let dataObj = {
 };
 
 let adminSelectedOptions = {};
+let originalDataObj = {};
 
 async function getData() {
   const data = collection(db, "Data");
@@ -39,13 +40,13 @@ async function getData() {
         dataObj.Guidance[key] = docData.Guidance[key];
       });
     }
-
-    const originalDataObj = structuredClone(dataObj);
+    originalDataObj = structuredClone(dataObj);
   });
 }
 
 export function populateAdminSection(array, ul) {
   adminSelectedOptions = {};
+  ul.innerHTML = "";
 
   array.forEach((item) => {
     const li = document.createElement("li");
@@ -86,7 +87,7 @@ export function populateAdminSection(array, ul) {
     newOptionBtn.id = "new_timing_result_admin";
   }
   if (ul === patient_age_admin) {
-    newOptionBtn.id = "new_timing_result_admin";
+    newOptionBtn.id = "new_age_result_admin";
   }
   const div = document.createElement("div");
   div.style.display = "grid";
@@ -261,7 +262,6 @@ export async function saveAdminOptions() {
     document.querySelectorAll('#timing_admin li div input[type="text"]')
   );
   timingInputs.forEach((input, index) => (dataObj.Timing[index] = input.value));
-  console.log(dataObj);
 
   const docRef = doc(db, "Data", "SSC");
   await setDoc(docRef, dataObj);
@@ -292,7 +292,7 @@ export async function saveAdminOptions() {
     };
     await updateDoc(changeDocRef, changeInfo);
   }
-  populateUserSection();
+  populateUserSection(1);
 }
 
 function objectDiff(original, modified) {
@@ -335,14 +335,13 @@ function objectDiff(original, modified) {
   return hasDiff ? diff : undefined;
 }
 
-export async function populateUserSection() {
-  await getData();
+export async function populateUserSection(skipDataFetchOnSaveAdmin) {
+  if (!skipDataFetchOnSaveAdmin) {
+    await getData();
+  }
   audiogram_result.innerHTML = "";
   timing_result.innerHTML = "";
   age_result.innerHTML = "";
-  audiogram_result_admin.innerHTML = "";
-  timing_admin.innerHTML = "";
-  patient_age_admin.innerHTML = "";
   function appendOptions(array, selectElement) {
     const blankDefault = document.createElement("option");
     if (selectElement === audiogram_result) {

@@ -4,6 +4,10 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+:root {
+  --width: 500px;
+}
+
 body {
   display: grid;
   place-content: center;
@@ -17,7 +21,7 @@ section {
 #age_result,
 #audiogram_result {
   field-sizing: content;
-  min-width: 400px;
+  width: var(--width);
 }
 #admin_guidance_text {
   field-sizing: content;
@@ -32,33 +36,33 @@ h1 {
 
 .inputs-contents,
 .guidance-contents {
-  width: 100%;
   display: grid;
-  grid-template-columns: auto-fill;
   gap: 10px;
   margin-inline: auto;
   margin-bottom: 20px;
   /* border: 2px solid black; */
   place-content: center;
   padding-block: 20px;
+  padding-inline: 20px;
   align-items: center;
   max-width: 800px;
 }
 
 #guidance_text {
   /* max-width: 500px; */
-  width: 450px;
+  width: var(--width);
   height: 200px;
   background-image: linear-gradient(120deg, #fdfbfb 20%, #ebedee 100%);
   border: 2px solid #ebedee;
-  padding-right: 2px;
-  padding-top: 10px;
+  padding-block: 10px;
+  padding-inline: 10px;
   margin-inline: 5px;
   line-height: 150%;
   max-width: 100%;
 }
 
 #timing_flex_wrapper {
+  width: var(--width);
   display: flex;
   gap: 10px;
   justify-content: space-between;
