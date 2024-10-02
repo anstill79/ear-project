@@ -65,11 +65,16 @@ export function populateAdminSection(array, ul) {
     deleteBtn.innerText = "❌";
     deleteBtn.classList.add("admin-select-or-delete-btns");
     deleteBtn.style.fontSize = "8px";
-    deleteBtn.addEventListener("click", () => {
-      if (confirm("Are you sure you want to delete this option?")) {
-        li.remove();
-      }
-    });
+    if (ul === audiogram_result_admin) {
+      deleteBtn.setAttribute("id", "audio");
+    }
+    if (ul === timing_admin) {
+      deleteBtn.setAttribute("id", "timing");
+    }
+    if (ul === patient_age_admin) {
+      deleteBtn.setAttribute("id", "age");
+    }
+    deleteBtn.addEventListener("click", deleteOptionAndDeleteSelectedItem);
     wrapper.classList.add("admin-li-wrapper");
     wrapper.appendChild(deleteBtn);
     li.appendChild(wrapper);
@@ -100,20 +105,45 @@ export function populateAdminSection(array, ul) {
   admin_selected_ageResult.innerText = "(none selected)";
 }
 
+function deleteOptionAndDeleteSelectedItem(event) {
+  const li = this.parentElement.parentElement;
+  const id = this.getAttribute("id");
+  if (confirm("Are you sure you want to delete this option?")) {
+    if (id === "audio") {
+      delete adminSelectedOptions.selectedAudioResult;
+    }
+    if (id === "timing") {
+      delete adminSelectedOptions.selectedTiming;
+    }
+    if (id === "age") {
+      delete adminSelectedOptions.selectedAge;
+    }
+    li.remove();
+
+    admin_guidance_text.value = "";
+  }
+}
+
 export function addNewAdminOption() {
   let target;
+  let deleteBtnDatasetID;
   if (this.id === "new_audio_result_admin") {
     target = audiogram_result_admin;
+    deleteBtnDatasetID = "audio";
   }
   if (this.id === "new_timing_result_admin") {
     target = timing_admin;
+    deleteBtnDatasetID = "timing";
   }
   if (this.id === "new_age_result_admin") {
     target = patient_age_admin;
+    deleteBtnDatasetID = "age";
   }
   const li = document.createElement("li");
   const inputEl = document.createElement("input");
   inputEl.type = "text";
+
+  inputEl.addEventListener("focus", selectAdminOption);
   const selectBtn = document.createElement("button");
   selectBtn.innerText = "⬜️";
 
@@ -126,11 +156,8 @@ export function addNewAdminOption() {
   deleteBtn.innerText = "❌";
 
   deleteBtn.classList.add("admin-select-or-delete-btns");
-  deleteBtn.addEventListener("click", () => {
-    if (confirm("Are you sure you want to delete this option?")) {
-      li.remove();
-    }
-  });
+  deleteBtn.setAttribute("id", `${this.id}_delete`);
+  deleteBtn.addEventListener("click", deleteOptionAndDeleteSelectedItem);
   wrapper.classList.add("admin-li-wrapper");
   wrapper.appendChild(deleteBtn);
   li.appendChild(wrapper);
@@ -140,6 +167,7 @@ export function addNewAdminOption() {
 }
 
 export function selectAdminOption(onFocusNotBtn) {
+  console.log(adminSelectedOptions);
   let thisBtn;
   let initialState;
   if (onFocusNotBtn) {
@@ -228,23 +256,16 @@ export async function saveAdminOptions() {
     return;
   }
 
-  // take the original dataObj, clone it to compare changes late
-  // wipe out the dataObj and fill it with the contents of the inputs currently on the page
-  // how will the guidance be updated since it gets removed from the page when the selections change?
-
   delete dataObj.Audiogram;
   dataObj.Audiogram = [];
   delete dataObj.Timing;
   dataObj.Timing = [];
   delete dataObj.Age;
   dataObj.Age = [];
-  delete dataObj.Guidance;
-  dataObj.Guidance = {};
 
   const key = `${adminSelectedOptions.selectedAudioResult}${adminSelectedOptions.selectedTiming}${adminSelectedOptions.selectedAge}`;
   dataObj.Guidance[key] = textContent;
   //loop and update results into memory obj
-
   const audiogramInputs = Array.from(
     document.querySelectorAll(
       '#audiogram_result_admin li div input[type="text"]'
