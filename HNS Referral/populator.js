@@ -235,24 +235,33 @@ export function selectAdminOption(onFocusNotBtn) {
 
 export async function saveAdminOptions() {
   const textContent = admin_guidance_text.value;
-  if (!textContent) {
+  if (!textContent || textContent === "undefined") {
     alert("Please enter some guidance text before saving.");
+    document.activeElement.blur();
     return;
   }
   if (!adminSelectedOptions.selectedAudioResult) {
     alert("Please select an Audiogram Result option before saving.");
+
+    document.activeElement.blur();
     return;
   }
   if (!adminSelectedOptions.selectedTiming) {
     alert("Please select a Timing option before saving.");
+
+    document.activeElement.blur();
     return;
   }
   if (!adminSelectedOptions.selectedAge) {
     alert("Please select an Age option before saving.");
+
+    document.activeElement.blur();
     return;
   }
   if (!textContent) {
     alert("Please enter guidance data before saving.");
+
+    document.activeElement.blur();
     return;
   }
 
@@ -313,6 +322,12 @@ export async function saveAdminOptions() {
     };
     await updateDoc(changeDocRef, changeInfo);
   }
+  save_admin_button.innerText = "OK! ✅";
+  setTimeout(() => {
+    save_admin_button.innerText = "Save";
+    admin_guidance_text.value = "";
+    document.activeElement.blur();
+  }, 1000);
   populateUserSection(1);
 }
 
@@ -416,53 +431,45 @@ export function giveGuidance() {
   }
 }
 
-function handleDatePicker(getWeeksResult) {
-  const inputDate = new Date(timing_date_picker.value);
+timing_date_picker.addEventListener("change", calculateDifference);
+
+function calculateDifference() {
+  const selectedDate = new Date(timing_date_picker.value);
   const currentDate = new Date();
-  const delta = currentDate - inputDate;
-  const millisecondsInWeek = 7 * 24 * 60 * 60 * 1000;
-  const weeks = Math.floor(delta / millisecondsInWeek);
-  if (getWeeksResult) {
-    //stops here and returns weeks instead of running rest of fx
-    return weeks;
-  }
-  if (weeks < 0) {
-    console.log(weeks);
-    const guidanceContainer = document.getElementById("guidance_text");
-    guidanceContainer.innerHTML = `<p>You picked a date in the future. Please try again. Thank you</p>`;
-    timing_date_picker.value = "";
+
+  if (selectedDate > currentDate) {
+    timing_picker_output.innerHTML =
+      '<p class="error">Please choose a date in the past.</p>';
     return;
   }
-  if ((weeks) => 0 && weeks <= 6) {
-    timing.value = timingOptions[1][1];
-  }
-  if (weeks > 6 && weeks <= 12) {
-    timing.value = timingOptions[2][2];
-  }
-  if (weeks > 12 && weeks <= 24) {
-    timing.value = timingOptions[3][3];
-  }
-  if (weeks > 24 && weeks <= 52) {
-    timing.value = timingOptions[4][4];
-  }
-  if (weeks > 52) {
-    timing.value = timingOptions[5][5];
-  }
-  if (weeks < 0) {
-    timing.value = timingOptions[0][0];
-  }
-  giveGuidance();
-}
 
-function clearOtherDate() {
-  //pick a date picker, clear input date
-  //enter input date, clear picker
-  //later function will set the cleared field to match trigger field
-  if (this.id === "timing_date_picker") {
-    timing.value = "";
-    handleDatePicker();
-  } else {
-    timing_date_picker.value = "";
-    giveGuidance();
+  const timeDifference = currentDate - selectedDate;
+  const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  const weeksDifference = Math.floor(daysDifference / 7);
+  const monthsDifference = Math.floor(daysDifference / 30.44); // Average days in a month
+  const yearsDifference = Math.floor(daysDifference / 365.25);
+
+  let resultHTML = `<p>${daysDifference} day${
+    daysDifference !== 1 ? "s" : ""
+  } ago</p>`;
+
+  if (daysDifference >= 7) {
+    resultHTML += `<p>${weeksDifference} week${
+      weeksDifference !== 1 ? "s" : ""
+    } ago</p>`;
   }
+
+  if (daysDifference >= 30) {
+    resultHTML += `<p>${monthsDifference} month${
+      monthsDifference !== 1 ? "s" : ""
+    } ago</p>`;
+  }
+
+  if (daysDifference >= 365) {
+    resultHTML += `<p>${yearsDifference} year${
+      yearsDifference !== 1 ? "s" : ""
+    } ago</p>`;
+  }
+
+  timing_picker_output.innerHTML = resultHTML;
 }

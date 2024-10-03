@@ -25,23 +25,30 @@
       </select>
     </section>
     <section class="inputs-contents">
-      <label for="timing_result">Onset Timing:</label>
-      <div id="timing_flex_wrapper">
-        <select id="timing_result" name="dropdown2">
-          <option value="">--Choose timing--</option>
-        </select>
-        <span style="font-style: italic; color: gray; white-space: nowrap"
-          >← or →</span
-        >
+      <div class="grid-one-row">
+        <div id="timing_wrapper">
+          <label for="timing_result">Onset Timing:</label>
+          <select id="timing_result" name="dropdown2">
+            <option value="">--Choose timing--</option>
+          </select>
+        </div>
+
         <div id="picker_wrapper">
-          <button
-            class="btn-yellow-hover"
-            id="show_date_picker"
-            onclick="timing_date_picker.showPicker()"
+          <label
+            for="timing_date_picker"
+            style="grid-column: 1 / -1; justify-self: center"
+            >Onset Date Calculator</label
           >
-            Pick a date
-          </button>
-          <input type="date" id="timing_date_picker" />
+          <input
+            type="date"
+            id="timing_date_picker"
+            style="height: 25px; max-width: 120px"
+          />
+          <output
+            id="timing_picker_output"
+            style="justify-self: start; color: gray"
+            >Output:</output
+          >
         </div>
       </div>
     </section>
@@ -54,7 +61,16 @@
         <div id="guidance_text"></div>
       </div>
     </section>
-    <button class="btn-yellow-hover" id="admin_button" style="margin-top: 5px">
+    <button
+      class="btn-yellow-hover"
+      id="admin_button"
+      style="
+        margin-top: 25px;
+        border-radius: 0px;
+        width: 120px;
+        justify-self: end;
+      "
+    >
       Admin Login
     </button>
 
@@ -99,18 +115,19 @@
           class="admin-card"
           style="grid-column: 2 / span 2; grid-template-columns: 100%"
         >
-          <h5>Edit Guidance</h5>
+          <h5>Guidance Text</h5>
 
           <div id="admin_guidance_input">
             <textarea id="admin_guidance_text"></textarea>
-            <br />
-            <button
-              class="btn-yellow-hover"
-              id="save_admin_button"
-              style="border: 1px solid black"
-            >
-              Save
-            </button>
+            <div style="display: grid">
+              <button
+                class="btn-yellow-hover"
+                id="save_admin_button"
+                style="border: 1px solid black"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </div>
       </div>

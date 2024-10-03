@@ -26,10 +26,11 @@ section {
 #admin_guidance_text {
   field-sizing: content;
   min-width: 100%;
+  height: 16lh;
 }
 h1 {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 5px;
   margin-inline: auto;
 }
@@ -61,17 +62,21 @@ h1 {
   max-width: 100%;
 }
 
-#timing_flex_wrapper {
-  width: var(--width);
-  display: flex;
+#timing_wrapper {
+  display: grid;
   gap: 10px;
   justify-content: space-between;
   align-items: center;
 }
 
 #picker_wrapper {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  gap: 5px;
+  border: 1px solid dodgerblue;
+  padding: 5px;
+  width: 200px;
+  justify-self: end;
+  justify-items: center;
 }
 
 .btn-yellow-hover {
@@ -141,6 +146,7 @@ select {
   margin-inline: 5px;
   cursor: pointer;
   opacity: 0.3;
+  max-width: fit-content;
 }
 .admin-select-or-delete-btns:hover {
   border: 1px solid black;
@@ -232,4 +238,14 @@ select.ready {
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
   color: #2e7d32;
   font-weight: bold;
+}
+
+#save_admin_button {
+  padding-inline: 15px;
+}
+
+.grid-one-row {
+  width: var(--width);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
