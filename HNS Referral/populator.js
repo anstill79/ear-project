@@ -473,3 +473,4 @@ function calculateDifference() {
 
   timing_picker_output.innerHTML = resultHTML;
 }
+
