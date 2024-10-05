@@ -66,19 +66,22 @@ h1 {
   display: grid;
   gap: 10px;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
 }
 
 #picker_wrapper {
   display: grid;
   gap: 5px;
-  border: 1px solid dodgerblue;
   padding: 5px;
-  width: 200px;
+  width: 270px;
   justify-self: end;
   justify-items: center;
+  border: 1px solid dodgerblue;
+  border-radius: 7px;
 }
-
+#picker_outer_wrapper {
+  display: grid;
+}
 .btn-yellow-hover {
   width: minmax(80px 100%);
   /* width: 80px; */
@@ -248,4 +251,8 @@ select.ready {
   width: var(--width);
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+label {
+  color: #677083;
 }

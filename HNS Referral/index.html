@@ -27,28 +27,48 @@
     <section class="inputs-contents">
       <div class="grid-one-row">
         <div id="timing_wrapper">
-          <label for="timing_result">Onset Timing:</label>
-          <select id="timing_result" name="dropdown2">
-            <option value="">--Choose timing--</option>
-          </select>
+          <div>
+            <label for="timing_result">Onset Timing:</label>
+            <br />
+            <select
+              id="timing_result"
+              name="dropdown2"
+              style="min-width: 200px; margin-top: 10px"
+            >
+              <option value="">--Choose timing--</option>
+            </select>
+          </div>
         </div>
 
-        <div id="picker_wrapper">
-          <label
-            for="timing_date_picker"
-            style="grid-column: 1 / -1; justify-self: center"
-            >Onset Date Calculator</label
+        <div id="picker_outer_wrapper">
+          <div id="picker_wrapper">
+            <label
+              for="timing_date_picker"
+              style="grid-column: 1 / -1; justify-self: center"
+              >Onset Date Calculator
+            </label>
+            <input
+              type="date"
+              id="timing_date_picker"
+              style="height: 25px; max-width: 120px"
+            />
+            <output id="timing_picker_output" style="justify-self: center"
+              >Select a date 👆</output
+            >
+          </div>
+          <div
+            style="
+              color: rgb(108, 105, 105);
+              font-size: 0.8rem;
+              text-align: center;
+              padding-top: 5px;
+              font-style: italic;
+            "
           >
-          <input
-            type="date"
-            id="timing_date_picker"
-            style="height: 25px; max-width: 120px"
-          />
-          <output
-            id="timing_picker_output"
-            style="justify-self: start; color: gray"
-            >Output:</output
-          >
+            Note: Date picker does not update or set the Onset Timing choice.
+            Please select a Timing option manually, over to the left of this
+            message. Thanks
+          </div>
         </div>
       </div>
     </section>
@@ -65,7 +85,7 @@
       class="btn-yellow-hover"
       id="admin_button"
       style="
-        margin-top: 25px;
+        margin-top: 15px;
         border-radius: 0px;
         width: 120px;
         justify-self: end;

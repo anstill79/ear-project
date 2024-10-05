@@ -54,6 +54,7 @@ export function populateAdminSection(array, ul) {
     inputEl.type = "text";
     inputEl.value = item;
     inputEl.addEventListener("focus", selectAdminOption);
+    inputEl.addEventListener("blur", selectAdminOption);
     const selectBtn = document.createElement("button");
     selectBtn.innerText = "⬜️";
     selectBtn.classList.add("admin-select-or-delete-btns");
@@ -124,7 +125,7 @@ function deleteOptionAndDeleteSelectedItem(event) {
   }
 }
 
-export function addNewAdminOption() {
+function addNewAdminOption() {
   let target;
   let deleteBtnDatasetID;
   if (this.id === "new_audio_result_admin") {
@@ -144,6 +145,11 @@ export function addNewAdminOption() {
   inputEl.type = "text";
 
   inputEl.addEventListener("focus", selectAdminOption);
+  const section =
+    this.parentElement.parentElement.parentElement.parentElement.querySelector(
+      "h5"
+    ).innerText;
+  inputEl.addEventListener("blur", selectAdminOption);
   const selectBtn = document.createElement("button");
   selectBtn.innerText = "⬜️";
 
@@ -154,6 +160,7 @@ export function addNewAdminOption() {
   wrapper.appendChild(inputEl);
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "❌";
+  deleteBtn.style.fontSize = "8px";
 
   deleteBtn.classList.add("admin-select-or-delete-btns");
   deleteBtn.setAttribute("id", `${this.id}_delete`);
@@ -163,26 +170,21 @@ export function addNewAdminOption() {
   li.appendChild(wrapper);
 
   target.insertBefore(li, target.lastChild);
-  inputEl.focus();
 }
 
 export function selectAdminOption(onFocusNotBtn) {
-  console.log(adminSelectedOptions);
   let thisBtn;
   let initialState;
-  if (onFocusNotBtn) {
-    thisBtn = this.parentElement.querySelector("button");
-    initialState = "⬜️";
-  } else {
-    thisBtn = this;
-    initialState = thisBtn.innerText;
-  }
+  thisBtn = this.parentElement.querySelector("button");
+  initialState = "⬜️";
+
   const inputText = this.parentElement.querySelector("input").value;
   const section =
     this.parentElement.parentElement.parentElement.parentElement.querySelector(
       "h5"
     ).innerText;
   let objKey;
+
   if (section === "Audiogram Result") {
     if (initialState === "✅") {
       admin_selected_audioResult.innerText = "(none selected)";
@@ -229,7 +231,11 @@ export function selectAdminOption(onFocusNotBtn) {
     adminSelectedOptions.selectedAge
   ) {
     const key = `${adminSelectedOptions.selectedAudioResult}${adminSelectedOptions.selectedTiming}${adminSelectedOptions.selectedAge}`;
-    admin_guidance_text.value = dataObj.Guidance[key];
+    if (dataObj.Guidance[key]) {
+      admin_guidance_text.value = dataObj.Guidance[key];
+    } else {
+      admin_guidance_text.value = "";
+    }
   }
 }
 
@@ -280,18 +286,28 @@ export async function saveAdminOptions() {
       '#audiogram_result_admin li div input[type="text"]'
     )
   );
-  audiogramInputs.forEach(
-    (input, index) => (dataObj.Audiogram[index] = input.value)
-  );
+  audiogramInputs.forEach((input, index) => {
+    if (input.value) {
+      dataObj.Audiogram[index] = input.value;
+    }
+  });
 
   const ageInputs = Array.from(
     document.querySelectorAll('#patient_age_admin li div input[type="text"]')
   );
-  ageInputs.forEach((input, index) => (dataObj.Age[index] = input.value));
+  ageInputs.forEach((input, index) => {
+    if (input.value) {
+      dataObj.Age[index] = input.value;
+    }
+  });
   const timingInputs = Array.from(
     document.querySelectorAll('#timing_admin li div input[type="text"]')
   );
-  timingInputs.forEach((input, index) => (dataObj.Timing[index] = input.value));
+  timingInputs.forEach((input, index) => {
+    if (input.value) {
+      dataObj.Timing[index] = input.value;
+    }
+  });
 
   const docRef = doc(db, "Data", "SSC");
   await setDoc(docRef, dataObj);
@@ -322,6 +338,7 @@ export async function saveAdminOptions() {
     };
     await updateDoc(changeDocRef, changeInfo);
   }
+
   save_admin_button.innerText = "OK! ✅";
   setTimeout(() => {
     save_admin_button.innerText = "Save";
@@ -434,6 +451,11 @@ export function giveGuidance() {
 timing_date_picker.addEventListener("change", calculateDifference);
 
 function calculateDifference() {
+  if (!timing_date_picker.value) {
+    timing_picker_output.innerText = "Select a date 👆";
+    return;
+  }
+
   const selectedDate = new Date(timing_date_picker.value);
   const currentDate = new Date();
 
@@ -473,4 +495,3 @@ function calculateDifference() {
 
   timing_picker_output.innerHTML = resultHTML;
 }
-
