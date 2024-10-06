@@ -5,7 +5,7 @@
 }
 
 :root {
-  --width: 500px;
+  --width: 600px;
 }
 
 body {
@@ -18,7 +18,6 @@ section {
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-#age_result,
 #audiogram_result {
   field-sizing: content;
   width: var(--width);
@@ -62,25 +61,20 @@ h1 {
   max-width: 100%;
 }
 
-#timing_wrapper {
-  display: grid;
-  gap: 10px;
-  justify-content: space-between;
-  align-items: start;
-}
-
 #picker_wrapper {
   display: grid;
   gap: 5px;
   padding: 5px;
-  width: 270px;
-  justify-self: end;
+  width: 100%;
+  justify-self: start;
   justify-items: center;
   border: 1px solid dodgerblue;
   border-radius: 7px;
+  grid-column: 1;
 }
 #picker_outer_wrapper {
   display: grid;
+  gap: 5px;
 }
 .btn-yellow-hover {
   width: minmax(80px 100%);
@@ -251,8 +245,31 @@ select.ready {
   width: var(--width);
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 5px;
 }
 
 label {
   color: #677083;
+}
+
+.age-timing-grouper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+}
+.age-timing {
+  display: grid;
+  select {
+    min-width: 200px;
+    margin-top: 10px;
+  }
+}
+
+#picker_result {
+  padding: 5px;
+  width: 100%;
+  justify-self: end;
+  justify-items: center;
+  border: 1px solid dodgerblue;
+  border-radius: 7px;
 }

@@ -17,29 +17,32 @@
     <section class="inputs-contents">
       <label for="audiogram_result">Audiogram Result:</label>
       <select id="audiogram_result" name="dropdown1">
-        <option value="">--Choose a result--</option>
+        <option value="">--Data loading--</option>
       </select>
-      <label for="age_result">Age:</label>
-      <select id="age_result" name="dropdown2">
-        <option value="">--Choose an age--</option>
-      </select>
+      <!-- this -->
+      <div id="tester" class="age-timing-grouper">
+        <div class="age-timing">
+          <!-- this -->
+
+          <label for="age_result">Age:</label>
+          <select id="age_result" name="dropdown2">
+            <option value="">--Data loading--</option>
+          </select>
+        </div>
+        <div class="age-timing">
+          <!-- this -->
+          <label for="timing_result">Onset Timing:</label>
+          <select id="timing_result" name="dropdown2">
+            <option value="">--Data loading--</option>
+          </select>
+          <!-- this -->
+        </div>
+        <!-- this -->
+      </div>
+      <!-- this -->
     </section>
     <section class="inputs-contents">
       <div class="grid-one-row">
-        <div id="timing_wrapper">
-          <div>
-            <label for="timing_result">Onset Timing:</label>
-            <br />
-            <select
-              id="timing_result"
-              name="dropdown2"
-              style="min-width: 200px; margin-top: 10px"
-            >
-              <option value="">--Choose timing--</option>
-            </select>
-          </div>
-        </div>
-
         <div id="picker_outer_wrapper">
           <div id="picker_wrapper">
             <label
@@ -52,23 +55,26 @@
               id="timing_date_picker"
               style="height: 25px; max-width: 120px"
             />
-            <output id="timing_picker_output" style="justify-self: center"
-              >Select a date 👆</output
-            >
           </div>
-          <div
-            style="
-              color: rgb(108, 105, 105);
-              font-size: 0.8rem;
-              text-align: center;
-              padding-top: 5px;
-              font-style: italic;
-            "
+        </div>
+        <div id="picker_result">
+          <output id="timing_picker_output" style="justify-self: center"
+            ><p>Select a date 👈</p></output
           >
-            Note: Date picker does not update or set the Onset Timing choice.
-            Please select a Timing option manually, over to the left of this
-            message. Thanks
-          </div>
+        </div>
+        <div
+          style="
+            color: rgb(108, 105, 105);
+            font-size: 0.8rem;
+            text-align: center;
+            padding-top: 5px;
+            font-style: italic;
+            grid-column: 1 / span 2;
+          "
+        >
+          Note: Date picker does not update or set the Onset Timing choice.
+          Please select Onset Timing option manually, above and to the right of
+          this message. Thanks
         </div>
       </div>
     </section>

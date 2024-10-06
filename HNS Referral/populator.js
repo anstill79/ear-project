@@ -452,7 +452,7 @@ timing_date_picker.addEventListener("change", calculateDifference);
 
 function calculateDifference() {
   if (!timing_date_picker.value) {
-    timing_picker_output.innerText = "Select a date 👆";
+    timing_picker_output.innerText = "Select a date 👈";
     return;
   }
 
@@ -476,19 +476,19 @@ function calculateDifference() {
   } ago</p>`;
 
   if (daysDifference >= 7) {
-    resultHTML += `<p>${weeksDifference} week${
+    resultHTML += `<p style="padding-left: 5px;">${weeksDifference} week${
       weeksDifference !== 1 ? "s" : ""
     } ago</p>`;
   }
 
   if (daysDifference >= 30) {
-    resultHTML += `<p>${monthsDifference} month${
+    resultHTML += `<p style="padding-left: 10px;">${monthsDifference} month${
       monthsDifference !== 1 ? "s" : ""
     } ago</p>`;
   }
 
   if (daysDifference >= 365) {
-    resultHTML += `<p>${yearsDifference} year${
+    resultHTML += `<p style="padding-left: 15px;">${yearsDifference} year${
       yearsDifference !== 1 ? "s" : ""
     } ago</p>`;
   }
