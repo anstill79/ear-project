@@ -58,9 +58,12 @@
           </div>
         </div>
         <div id="picker_result">
-          <output id="timing_picker_output" style="justify-self: center"
-            ><p>Select a date 👈</p></output
+          <div
+            id="timing_picker_output"
+            style="display: grid; place-content: center"
           >
+            <p>👈 Select a date</p>
+          </div>
         </div>
         <div
           style="
@@ -72,9 +75,9 @@
             grid-column: 1 / span 2;
           "
         >
-          Note: Date picker does not update or set the Onset Timing choice.
-          Please select Onset Timing option manually, above and to the right of
-          this message. Thanks
+          <span id="note_pickerInfo">Note:</span> Date picker does not update or
+          set the Onset Timing choice. Please select Onset Timing option
+          manually, above and to the right of this message. Thanks
         </div>
       </div>
     </section>
@@ -134,6 +137,21 @@
             <p id="admin_selected_timingResult">(none selected)</p>
             <p style="color: gray">Age:</p>
             <p id="admin_selected_ageResult">(none selected)</p>
+            <hr />
+            <p>Instructions:</p>
+            <p style="text-wrap: wrap; font-size: 0.8rem">
+              Welcome to the Admin Panel. You can create, edit, and delete the
+              options that appear in the drop-down selection lists, as well as
+              the guidance result that appears when the user chooses any 3
+              options. Clicking inside an option will make it active for editing
+              (you can also click the Select button next to it). Each selection
+              section also has a button that can be used to create a brand new
+              option. Delete buttons can be found to the right of each item.
+              When you have selected one option from each section the Guidance
+              section will be ready for your text. Write the Guidance text then
+              click Save and the data will become available to all users who
+              visit the site after that.
+            </p>
           </div>
         </div>
 
@@ -146,11 +164,7 @@
           <div id="admin_guidance_input">
             <textarea id="admin_guidance_text"></textarea>
             <div style="display: grid">
-              <button
-                class="btn-yellow-hover"
-                id="save_admin_button"
-                style="border: 1px solid black"
-              >
+              <button class="admin-add-new-option-btns" id="save_admin_button">
                 Save
               </button>
             </div>

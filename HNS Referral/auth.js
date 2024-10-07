@@ -1,7 +1,6 @@
 import {
   getAuth,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   signOut,
 } from "./node_modules/firebase/auth";
 
@@ -50,6 +49,7 @@ function openAdminBtnRightHereFunction(event) {
 export function showLogInResult(message, success) {
   let prevError, id, target;
   const openAdminBtnRightHere = document.createElement("button");
+  const wrapperDiv = document.createElement("div");
   if (success === 1) {
     target = log_in_modal;
     login_user.style.display = "none";
@@ -64,6 +64,8 @@ export function showLogInResult(message, success) {
       "click",
       openAdminBtnRightHereFunction
     );
+    wrapperDiv.appendChild(openAdminBtnRightHere);
+    wrapperDiv.style.gridColumn = "1 / span 2";
   } else {
     prevError = document.getElementById("login_user_message");
     id = "login_user_message";
@@ -87,7 +89,7 @@ export function showLogInResult(message, success) {
   div.style.gridColumn = "1/span 2";
   target.appendChild(div);
   if (success === 1) {
-    target.appendChild(openAdminBtnRightHere);
+    target.appendChild(wrapperDiv);
     openAdminBtnRightHere.focus();
   }
 }

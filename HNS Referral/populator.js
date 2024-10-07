@@ -82,7 +82,7 @@ export function populateAdminSection(array, ul) {
     ul.appendChild(li);
   });
   const newOptionBtn = document.createElement("button");
-  newOptionBtn.innerText = "➕";
+  newOptionBtn.innerText = "Create New Option";
   newOptionBtn.style.marginTop = "5px";
   newOptionBtn.classList.add("admin-add-new-option-btns");
   newOptionBtn.addEventListener("click", addNewAdminOption);
@@ -172,7 +172,7 @@ function addNewAdminOption() {
   target.insertBefore(li, target.lastChild);
 }
 
-export function selectAdminOption(onFocusNotBtn) {
+function selectAdminOption(onFocusNotBtn) {
   let thisBtn;
   let initialState;
   thisBtn = this.parentElement.querySelector("button");
@@ -211,7 +211,7 @@ export function selectAdminOption(onFocusNotBtn) {
   }
   const target = this.parentElement.parentElement.parentElement;
   target.querySelectorAll("button").forEach((btn) => {
-    if (btn.innerText !== "❌" && btn.innerText !== "➕") {
+    if (btn.innerText !== "❌" && btn.innerText !== "Create New Option") {
       btn.innerText = "⬜️";
       btn.style.opacity = "0.3";
     }
@@ -476,22 +476,26 @@ function calculateDifference() {
   } ago</p>`;
 
   if (daysDifference >= 7) {
-    resultHTML += `<p style="padding-left: 5px;">${weeksDifference} week${
+    resultHTML += `<p style="padding-left: 10px;">${weeksDifference} week${
       weeksDifference !== 1 ? "s" : ""
     } ago</p>`;
   }
 
   if (daysDifference >= 30) {
-    resultHTML += `<p style="padding-left: 10px;">${monthsDifference} month${
+    resultHTML += `<p style="padding-left: 20px;">${monthsDifference} month${
       monthsDifference !== 1 ? "s" : ""
     } ago</p>`;
   }
 
   if (daysDifference >= 365) {
-    resultHTML += `<p style="padding-left: 15px;">${yearsDifference} year${
+    resultHTML += `<p style="padding-left: 30px;">${yearsDifference} year${
       yearsDifference !== 1 ? "s" : ""
     } ago</p>`;
   }
 
   timing_picker_output.innerHTML = resultHTML;
+  note_pickerInfo.style.backgroundColor = "yellow";
+  setTimeout(() => {
+    note_pickerInfo.style.backgroundColor = "white";
+  }, 2000);
 }
