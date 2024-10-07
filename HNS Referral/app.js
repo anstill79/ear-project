@@ -14,4 +14,4 @@ audiogram_result.focus();
 save_admin_button.addEventListener("click", saveAdminOptions);
 loginUser_btn.addEventListener("click", loginUser);
 
-await populateUserSection();
+populateUserSection();
