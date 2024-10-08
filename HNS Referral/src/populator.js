@@ -433,6 +433,8 @@ export async function populateUserSection(skipDataFetchOnSaveAdmin) {
 
 export function giveGuidance() {
   if (this.selectedIndex === 0) {
+    this.classList.remove("ready");
+    guidance_text.innerText = "";
     return;
   }
   this.classList.add("ready");
