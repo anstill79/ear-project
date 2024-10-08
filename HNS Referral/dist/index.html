@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/assets/favicon-2PkNU8OG.png" />
+    <title>HNS Checklist</title>
+    <script type="module" crossorigin src="/assets/index-Da65GgAm.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Cq2vSgPU.css">
+  </head>
+  <body>
+    <div>
+      <h1>HNS Guidance</h1>
+    </div>
+    <!--  -->
+    <!--            Drop Downs, Inputs             -->
+    <!--  -->
+    <section class="inputs-contents">
+      <label for="audiogram_result">Audiogram Result:</label>
+      <select id="audiogram_result" name="dropdown1">
+        <option value="">--Data loading--</option>
+      </select>
+      <!-- this -->
+      <div id="tester" class="age-timing-grouper">
+        <div class="age-timing">
+          <!-- this -->
+
+          <label for="age_result">Age:</label>
+          <select id="age_result" name="dropdown2">
+            <option value="">--Data loading--</option>
+          </select>
+        </div>
+        <div class="age-timing">
+          <!-- this -->
+          <label for="timing_result">Onset Timing:</label>
+          <select id="timing_result" name="dropdown2">
+            <option value="">--Data loading--</option>
+          </select>
+          <!-- this -->
+        </div>
+        <!-- this -->
+      </div>
+      <!-- this -->
+    </section>
+    <section class="inputs-contents">
+      <div class="grid-one-row">
+        <div id="picker_outer_wrapper">
+          <div id="picker_wrapper">
+            <label
+              for="timing_date_picker"
+              style="grid-column: 1 / -1; justify-self: center"
+              >Onset Date Calculator
+            </label>
+            <input
+              type="date"
+              id="timing_date_picker"
+              style="height: 25px; max-width: 120px"
+            />
+          </div>
+        </div>
+        <div id="picker_result">
+          <div
+            id="timing_picker_output"
+            style="display: grid; place-content: center"
+          >
+            <p>👈 Select a date</p>
+          </div>
+        </div>
+        <div
+          style="
+            color: rgb(108, 105, 105);
+            font-size: 0.8rem;
+            text-align: center;
+            padding-top: 5px;
+            font-style: italic;
+            grid-column: 1 / span 2;
+          "
+        >
+          <span id="note_pickerInfo">Note:</span> Date picker does not update or
+          set the Onset Timing choice. Please select Onset Timing option
+          manually, above and to the right of this message. Thanks
+        </div>
+      </div>
+    </section>
+    <!--  -->
+    <!--          Guidance Output                  -->
+    <!--  -->
+    <section class="section-wrapper">
+      <div class="guidance-contents">
+        <span style="padding-left: 5px">Guidance:</span>
+        <div id="guidance_text"></div>
+      </div>
+    </section>
+    <button
+      class="btn-yellow-hover"
+      id="admin_button"
+      style="
+        margin-top: 15px;
+        border-radius: 0px;
+        width: 120px;
+        justify-self: end;
+      "
+    >
+      Admin Login
+    </button>
+
+    <!--  -->
+    <!--          Admin Popover                         -->
+    <!--  -->
+
+    <div id="admin_popover" class="admin-popover" popover>
+      <h3 style="margin-left: 10px">Admin</h3>
+      <div class="admin-popover-contents">
+        <div class="admin-card">
+          <h5>Audiogram Result</h5>
+
+          <ul id="audiogram_result_admin"></ul>
+        </div>
+        <div class="admin-card">
+          <h5>Timing Result</h5>
+
+          <ul id="timing_admin"></ul>
+        </div>
+        <div class="admin-card">
+          <h5>Age Result</h5>
+
+          <ul id="patient_age_admin"></ul>
+        </div>
+        <!-- area for editing the guidance -->
+        <!--  -->
+        <div class="admin-card">
+          <div id="admin_selected_guidance">
+            <h5>Selections</h5>
+
+            <p style="color: gray">Audiogram:</p>
+            <p id="admin_selected_audioResult">(none selected)</p>
+            <p style="color: gray">Timing:</p>
+            <p id="admin_selected_timingResult">(none selected)</p>
+            <p style="color: gray">Age:</p>
+            <p id="admin_selected_ageResult">(none selected)</p>
+            <hr />
+            <p>Instructions:</p>
+            <p style="text-wrap: wrap; font-size: 0.8rem">
+              Welcome to the Admin Panel. You can create, edit, and delete the
+              options that appear in the drop-down selection lists, as well as
+              the guidance result that appears when the user chooses any 3
+              options. Clicking inside an option will make it active for editing
+              (you can also click the Select button next to it). Each selection
+              section also has a button that can be used to create a brand new
+              option. Delete buttons can be found to the right of each item.
+              When you have selected one option from each section the Guidance
+              section will be ready for your text. Write the Guidance text then
+              click Save and the data will become available to all users who
+              visit the site after that.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="admin-card"
+          style="grid-column: 2 / span 2; grid-template-columns: 100%"
+        >
+          <h5>Guidance Text</h5>
+
+          <div id="admin_guidance_input">
+            <textarea id="admin_guidance_text"></textarea>
+            <div style="display: grid">
+              <button class="admin-add-new-option-btns" id="save_admin_button">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- log in modal -->
+    <!-- --------- -->
+
+    <form popover id="log_in_modal_wrapper">
+      <div popover id="log_in_modal">
+        <div id="login_user" class="create-or-login">
+          <h3 style="grid-column: 1 / span 2; text-align: start">Log In</h3>
+          <label for="loginUser_emailUserName">User Name</label>
+          <input type="email" id="loginUser_emailUserName" />
+          <label for="loginUser_password">Password</label>
+          <input type="password" id="loginUser_password" />
+          <button id="loginUser_btn" style="grid-column: 2; width: 80px">
+            Log In
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </body>
+</html>
