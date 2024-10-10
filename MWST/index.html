@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MWST</title>
+</head>
+<body>
+<style>
+  * {
+  font-family: sans-serif;
+  padding: 0px;
+  margin: 0px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(3, 200px);
+  justify-content: center;
+  justify-items: center;
+  margin-top: 40px;
+  h1 {
+    grid-column: 1/ span 3;
+    text-wrap: pretty;
+    text-align: center;
+    border: 1px solid black;
+    padding-block: 15px;
+  }
+}
+.input-wrappers {
+  display: grid;
+  justify-content: center;
+  border: 1px solid black;
+  width: 100%;
+  padding-block: 20px;
+  gap: 5px;
+  input {
+    width: 80px;
+    text-align: center;
+  }
+}
+
+</style>
+<script>
+  const RW = document.getElementById("right_warm");
+const LW = document.getElementById("left_warm");
+const result = document.getElementById("result");
+const inputs = document.querySelectorAll("input");
+inputs.forEach((input) => input.addEventListener("change", calcMWST));
+
+function calcMWST() {
+  const rightW = Math.abs(parseInt(RW.value));
+  const leftW = Math.abs(parseInt(LW.value));
+  if(rightW && leftW) {
+    const final = Math.round(((rightW - leftW) / (rightW + leftW)) * 100);
+    result.innerText = `${final > 0 ? "Left ear": "Right ear"} ${Math.abs(final)}% weaker`
+  } else {
+    result.innerText = ""
+  }
+}
+
+</script>
+  
+<main>
+  <h1>Monothermal Warm Screen Test (MWST) Calculator</h1>
+  <div id="RW_wrapper" class="input-wrappers">
+    <label for="right_warm">Right Warm</label>
+    <input id="right_warm" type="number" />
+  </div>
+  <div id="LW_wrapper" class="input-wrappers">
+    <label for="right_warm">Left Warm</label>
+    <input id="left_warm" type="number" />
+  </div>
+  <div id="result_wrapper" class="input-wrappers">
+    <label for="result">Result:</label>
+    <output id="result"></output>
+  </div>
+</main>
+</body>
+</html>
