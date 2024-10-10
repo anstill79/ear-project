@@ -435,6 +435,8 @@ export function giveGuidance() {
   if (this.selectedIndex === 0) {
     this.classList.remove("ready");
     guidance_text.innerText = "";
+    guidance_text.classList.remove("ready");
+    guidance_text.classList.add("guidance-not-ready");
     return;
   }
   this.classList.add("ready");
@@ -447,6 +449,9 @@ export function giveGuidance() {
       dataObj.Guidance[
         `${audiogram_result.value}${timing_result.value}${age_result.value}`
       ];
+
+    guidance_text.classList.remove("guidance-not-ready");
+    guidance_text.classList.add("ready");
   }
 }
 
