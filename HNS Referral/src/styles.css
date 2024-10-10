@@ -51,7 +51,6 @@ h1 {
 #guidance_text {
   /* max-width: 500px; */
   width: var(--width);
-  height: 200px;
   /* background-image: linear-gradient(120deg, #fdfbfb 20%, #ebedee 100%); */
   /* border: 2px solid #ebedee; */
 
