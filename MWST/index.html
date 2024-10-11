@@ -41,6 +41,23 @@ main {
 }
 
 </style>
+  
+<main>
+  <h1>Monothermal Warm Screen Test (MWST) Calculator</h1>
+  <div id="RW_wrapper" class="input-wrappers">
+    <label for="right_warm">Right Warm</label>
+    <input id="right_warm" type="number" />
+  </div>
+  <div id="LW_wrapper" class="input-wrappers">
+    <label for="right_warm">Left Warm</label>
+    <input id="left_warm" type="number" />
+  </div>
+  <div id="result_wrapper" class="input-wrappers">
+    <label for="result">Result:</label>
+    <output id="result"></output>
+  </div>
+</main>
+    
 <script>
   const RW = document.getElementById("right_warm");
 const LW = document.getElementById("left_warm");
@@ -60,21 +77,5 @@ function calcMWST() {
 }
 
 </script>
-  
-<main>
-  <h1>Monothermal Warm Screen Test (MWST) Calculator</h1>
-  <div id="RW_wrapper" class="input-wrappers">
-    <label for="right_warm">Right Warm</label>
-    <input id="right_warm" type="number" />
-  </div>
-  <div id="LW_wrapper" class="input-wrappers">
-    <label for="right_warm">Left Warm</label>
-    <input id="left_warm" type="number" />
-  </div>
-  <div id="result_wrapper" class="input-wrappers">
-    <label for="result">Result:</label>
-    <output id="result"></output>
-  </div>
-</main>
 </body>
 </html>
