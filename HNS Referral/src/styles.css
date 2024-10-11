@@ -61,11 +61,11 @@ h1 {
   max-width: 100%;
 }
 .ready {
-  background-color: #e6ffe6;
-  border: 2px solid #4caf50;
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  /* background-color: #e6ffe6; */
+  border: 2px solid black;
+  /* box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); */
   /* color: #2e7d32; */
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 .guidance-not-ready {
   background-image: linear-gradient(120deg, #fdfbfb 20%, #ebedee 100%);
@@ -94,8 +94,15 @@ h1 {
   border: 1px solid black;
   border-radius: 7px;
 }
+.btn-yellow-hover2 {
+  background-color: white;
+  cursor: pointer;
+  border: 1px solid black;
+}
 .btn-yellow-hover:hover,
-.btn-yellow-hover:focus {
+.btn-yellow-hover:focus,
+.btn-yellow-hover2:hover,
+.btn-yellow-hover2:focus {
   background-color: yellow;
   border: 1px solid black;
 }

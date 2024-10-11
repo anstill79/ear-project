@@ -506,3 +506,20 @@ function calculateDifference() {
     note_pickerInfo.style.backgroundColor = "white";
   }, 2000);
 }
+
+function clearForm() {
+  audiogram_result.selectedIndex = 0;
+  audiogram_result.classList.remove("ready");
+  age_result.selectedIndex = 0;
+  age_result.classList.remove("ready");
+  timing_result.selectedIndex = 0;
+  timing_result.classList.remove("ready");
+  guidance_text.classList.remove("ready");
+  guidance_text.classList.add("guidance-not-ready");
+  timing_date_picker.value = "";
+  timing_picker_output.innerHTML = "";
+  timing_picker_output.innerHTML = `<p>👈 Select a date</p>`;
+  guidance_text.innerText = "";
+}
+
+clear_form.addEventListener("click", clearForm);
