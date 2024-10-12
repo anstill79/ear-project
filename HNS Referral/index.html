@@ -3,11 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="favicon-2PkNU8OG.png" />
-    <title>HNS Checklist</title>
-
-    <script type="module" crossorigin src="index-tAik0DlB.js"></script>
-    <link rel="stylesheet" crossorigin href="index-DOQD8x8F.css" />
+    <link rel="icon" type="image/png" href="/assets/favicon-2PkNU8OG.png" />
+    <title>HNS Checklist</title>
+    <script type="module" crossorigin src="/assets/index-CG_yBxoN.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-JDDadH-c.css">
   </head>
   <body>
     <div>
@@ -17,7 +16,10 @@
     <!--            Drop Downs, Inputs             -->
     <!--  -->
     <section class="inputs-contents">
-      <label for="audiogram_result">Audiogram Result:</label>
+      <div style="display: flex; justify-content: space-between">
+        <label for="audiogram_result">Audiogram Result:</label>
+        <button id="clear_form" class="btn-yellow-hover2">Clear Form</button>
+      </div>
       <select id="audiogram_result" name="dropdown1">
         <option value="">--Data loading--</option>
       </select>
@@ -192,5 +194,6 @@
         </div>
       </div>
     </form>
+
   </body>
 </html>
