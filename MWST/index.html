@@ -1,81 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MWST</title>
-</head>
-<body>
-<style>
-  * {
-  font-family: sans-serif;
-  padding: 0px;
-  margin: 0px;
-}
+  </head>
+  <body>
+    <style>
+      * {
+        font-family: sans-serif;
+        padding: 0px;
+        margin: 0px;
+      }
+      :root {
+        --font-size: 2rem;
+        --font-size2: 1.5rem;
+      }
+      main {
+        display: grid;
+        @media screen and (max-width: 768px) {
+          grid-template-columns: 80%;
+        }
+        grid-template-columns: repeat(3, 200px);
+        justify-content: center;
+        justify-items: center;
+        margin-top: 40px;
+        h1 {
+          @media screen and (min-width: 769px) {
+            grid-column: 1 / span 3;
+          }
+          text-wrap: pretty;
+          text-align: center;
+          border: 1px solid black;
+          padding-block: 15px;
+        }
+      }
+      .input-wrappers {
+        font-size: var(--font-size2);
+        display: grid;
+        justify-content: center;
+        border: 1px solid black;
+        width: 100%;
+        padding-block: 20px;
+        gap: 5px;
+        input {
+          font-size: var(--font-size);
+          width: 80px;
+          text-align: center;
+          justify-self: center;
+        }
+      }
+      .centered-text {
+        text-align: center;
+      }
+      label {
+        color: gray;
+        margin-bottom: 10px;
+      }
+      output {
+        margin-bottom: 10px;
+      }
+      .warning-text {
+        font-size: 1rem;
+        font-style: italic;
+        text-align: center;
+        text-wrap: balance;
+        padding-inline: 5px;
+      }
+    </style>
 
-main {
-  display: grid;
-  grid-template-columns: repeat(3, 200px);
-  justify-content: center;
-  justify-items: center;
-  margin-top: 40px;
-  h1 {
-    grid-column: 1/ span 3;
-    text-wrap: pretty;
-    text-align: center;
-    border: 1px solid black;
-    padding-block: 15px;
-  }
-}
-.input-wrappers {
-  display: grid;
-  justify-content: center;
-  border: 1px solid black;
-  width: 100%;
-  padding-block: 20px;
-  gap: 5px;
-  input {
-    width: 80px;
-    text-align: center;
-  }
-}
+    <main>
+      <h1>Monothermal Warm Screen Test (MWST) Calculator</h1>
 
-</style>
-  
-<main>
-  <h1>Monothermal Warm Screen Test (MWST) Calculator</h1>
-  <div id="RW_wrapper" class="input-wrappers">
-    <label for="right_warm">Right Warm</label>
-    <input id="right_warm" type="number" />
-  </div>
-  <div id="LW_wrapper" class="input-wrappers">
-    <label for="right_warm">Left Warm</label>
-    <input id="left_warm" type="number" />
-  </div>
-  <div id="result_wrapper" class="input-wrappers">
-    <label for="result">Result:</label>
-    <output id="result"></output>
-  </div>
-</main>
-    
-<script>
-  const RW = document.getElementById("right_warm");
-const LW = document.getElementById("left_warm");
-const result = document.getElementById("result");
-const inputs = document.querySelectorAll("input");
-inputs.forEach((input) => input.addEventListener("change", calcMWST));
+      <div id="RW_wrapper" class="input-wrappers">
+        <label for="right_warm">Right Warm:</label>
+        <input id="right_warm" type="number" />
+      </div>
+      <div id="LW_wrapper" class="input-wrappers">
+        <label for="right_warm">Left Warm:</label>
+        <input id="left_warm" type="number" />
+      </div>
 
-function calcMWST() {
-  const rightW = Math.abs(parseInt(RW.value));
-  const leftW = Math.abs(parseInt(LW.value));
-  if(rightW && leftW) {
-    const final = Math.round(((rightW - leftW) / (rightW + leftW)) * 100);
-    result.innerText = `${final > 0 ? "Left ear": "Right ear"} ${Math.abs(final)}% weaker`
-  } else {
-    result.innerText = ""
-  }
-}
+      <div id="result_wrapper" class="input-wrappers">
+        <label for="result" class="centered-text">Result:</label>
+        <output id="result" class="centered-text"></output>
+      </div>
+    </main>
 
-</script>
-</body>
+    <script>
+      const RW = document.getElementById("right_warm");
+      const LW = document.getElementById("left_warm");
+      const result = document.getElementById("result");
+      const inputs = document.querySelectorAll("input");
+      inputs.forEach((input) => input.addEventListener("change", calcMWST));
+
+      function calcMWST() {
+        const rightW = Math.abs(parseInt(RW.value));
+        const leftW = Math.abs(parseInt(LW.value));
+        if (
+          (rightW && leftW) ||
+          (rightW && leftW === 0) ||
+          (rightW === 0 && leftW)
+        ) {
+          function checkSymm() {
+            if (final === 0) {
+              return "Symmetrical";
+            }
+            if (final > 0) {
+              return `Left ear ${Math.abs(final)}% weaker`;
+            } else {
+              return `Right ear ${Math.abs(final)}% weaker`;
+            }
+          }
+          function alertMWSTnoGood() {
+            const result_wrapper = document.getElementById("result_wrapper");
+            const prevWarning = document.getElementById("warning");
+            let newWarning;
+            if (prevWarning) {
+              prevWarning.innerText = "";
+              newWarning = prevWarning;
+            } else {
+              newWarning = document.createElement("p");
+              newWarning.id = "warning";
+            }
+            if (leftW < 7 || rightW < 7) {
+              newWarning.innerText =
+                "(MWST is not recommended since one or both of the responses are below 7 deg/second)";
+              newWarning.classList.add("warning-text");
+              result_wrapper.appendChild(newWarning);
+            }
+          }
+          const final = Math.round(((rightW - leftW) / (rightW + leftW)) * 100);
+          result.innerText = checkSymm();
+          alertMWSTnoGood();
+        } else {
+          result.innerText = "";
+        }
+      }
+    </script>
+  </body>
 </html>
