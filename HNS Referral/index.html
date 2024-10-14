@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/assets/favicon-2PkNU8OG.png" />
-    <title>HNS Checklist</title>
-    <script type="module" crossorigin src="/assets/index-CG_yBxoN.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-JDDadH-c.css">
+    <title>HNS Checklist</title>
+
+    <script type="module" crossorigin src="./index-CG_yBxoN.js"></script>
+    <link rel="stylesheet" crossorigin href="./index-JDDadH-c.css" />
   </head>
   <body>
     <div>
@@ -142,20 +143,24 @@
             <p style="color: gray">Age:</p>
             <p id="admin_selected_ageResult">(none selected)</p>
             <hr />
-            <p>Instructions:</p>
-            <p style="text-wrap: wrap; font-size: 0.8rem">
-              Welcome to the Admin Panel. You can create, edit, and delete the
-              options that appear in the drop-down selection lists, as well as
-              the guidance result that appears when the user chooses any 3
-              options. Clicking inside an option will make it active for editing
-              (you can also click the Select button next to it). Each selection
-              section also has a button that can be used to create a brand new
-              option. Delete buttons can be found to the right of each item.
-              When you have selected one option from each section the Guidance
-              section will be ready for your text. Write the Guidance text then
-              click Save and the data will become available to all users who
-              visit the site after that.
-            </p>
+            <details name="instructions">
+              <summary style="padding: 2px; margin: 5px">
+                Admin Instructions
+              </summary>
+              <p style="text-wrap: wrap; font-size: 0.9rem">
+                Welcome to the Admin Panel. You can create, edit, and delete the
+                options that appear in the drop-down selection lists, as well as
+                the guidance result that appears when the user chooses any 3
+                options. Clicking inside an option will make it active for
+                editing (you can also click the Select button next to it). Each
+                selection section also has a button that can be used to create a
+                brand new option. Delete buttons can be found to the right of
+                each item. When you have selected one option from each section
+                the Guidance section will be ready for your text. Write the
+                Guidance text then click Save and the data will become available
+                to all users who visit the site after that.
+              </p>
+            </details>
           </div>
         </div>
 
@@ -194,6 +199,5 @@
         </div>
       </div>
     </form>
-
   </body>
 </html>
