@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="styles.css" />
+    <title>Vestibular CI Summary</title>
+  </head>
+  <body>
+    <main>
+      <div class="title">
+        <h1>Peripheral Function</h1>
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <h3 style="color: red">Right Ear</h3>
+      </div>
+      <div>
+        <h3 style="color: gray">Non-specific</h3>
+      </div>
+      <div>
+        <h3 style="color: blue">Left Ear</h3>
+      </div>
+      <div class="spacer" style="grid-column: 1/ -1"></div>
+
+      <div class="side-label">
+        <h3 id="vHIT_label" class="DNT">vHIT Lateral</h3>
+      </div>
+      <div class="result DNT-box" data-test="vHIT_label"></div>
+      <div class="spacer-empty"></div>
+      <div class="result DNT-box" data-test="vHIT_label"></div>
+
+      <div class="side-label">
+        <h3 id="caloric_label" class="DNT">Caloric</h3>
+      </div>
+      <div class="result DNT-box" data-test="caloric_label"></div>
+      <div class="spacer-empty"></div>
+      <div class="result DNT-box" data-test="caloric_label"></div>
+
+      <div class="side-label">
+        <h3 id="step_label" class="DNT">Rotary Chair Step Velocity</h3>
+      </div>
+      <div class="result DNT-box" data-test="step_label"></div>
+      <div class="spacer-empty"></div>
+      <div class="result DNT-box" data-test="step_label"></div>
+
+      <div class="side-label">
+        <h3 id="sha_label" class="DNT">Rotary Chair SHA</h3>
+      </div>
+      <div class="spacer-empty"></div>
+
+      <div class="result DNT-box" data-test="sha_label"></div>
+      <div class="spacer-empty"></div>
+      <div class="side-label">
+        <h3 id="vemp_label" class="DNT">VEMP</h3>
+      </div>
+      <div class="result DNT-box" data-test="vemp_label"></div>
+      <div class="spacer-empty"></div>
+      <div class="result DNT-box" data-test="vemp_label"></div>
+
+      <!-- ------------------ -->
+      <!-- Key -->
+      <!-- ------------------ -->
+
+      <div id="key">
+        <h4>Key:</h4>
+        <div class="key-group">
+          <img id="keyChecked" class="key-symbol" />
+          <span> Clear response elicited, mostly intact function </span>
+        </div>
+        <div class="key-group">
+          <img id="keyTilde" class="key-symbol" />
+          <span
+            >Response elicited but not robust and in the abnormal range
+          </span>
+        </div>
+
+        <div class="key-group">
+          <img id="keyX" class="key-symbol" />
+          <span> Absent or very abnormal response </span>
+        </div>
+      </div>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
