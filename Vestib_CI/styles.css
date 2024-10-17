@@ -11,7 +11,7 @@ main {
   margin: auto;
   place-content: center;
   justify-items: center;
-  grid-template-columns: 200px 1fr 1fr 1fr;
+  grid-template-columns: 300px 1fr 1fr 1fr;
   margin-top: 20px;
   gap: 10px;
 }
@@ -35,6 +35,8 @@ main {
   border-radius: 7px;
   height: 75px;
   width: 75px;
+  display: grid;
+  place-content: center;
 }
 .result:hover {
   cursor: pointer;
@@ -43,13 +45,24 @@ main {
   display: grid;
   place-content: center;
 }
-
+#key {
+  grid-column: 1 / span 4;
+  justify-self: stretch;
+  padding-left: 10px;
+  border: 1px solid black;
+  h4 {
+    padding-block: 5px;
+  }
+}
 .key-symbol {
-  height: 50px;
-  width: 50px;
+  height: 25px;
+  width: 30px;
 }
 .key-group {
   display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 10px;
 }
 .DNT {
   color: rgba(128, 128, 128, 0.524);
