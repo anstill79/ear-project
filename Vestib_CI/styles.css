@@ -4,8 +4,11 @@
   padding: 0px;
   font-family: sans-serif;
 }
+:root {
+  --bg-color: #f0f0f0;
+}
 body {
-  background-color: #f0f0f0;
+  background-color: var(--bg-color);
 }
 main {
   background-color: white;
@@ -17,17 +20,19 @@ main {
   justify-items: center;
   grid-template-columns: 2fr 1fr 1fr 1fr;
   margin-top: 20px;
+  margin-bottom: 20px;
   gap: 10px;
 }
 
 .title {
   grid-column: 1 / span 4;
   width: 100%;
-  border-bottom: 1px solid black;
   margin-bottom: 10px;
+  background-color: var(--bg-color);
   h1 {
-    text-align: center;
+    text-align: start;
     padding: 10px;
+    text-wrap: pretty;
   }
 }
 
@@ -51,10 +56,12 @@ main {
   place-content: center;
 }
 #key {
+  background-color: var(--bg-color);
   grid-column: 1 / span 4;
   justify-self: stretch;
   padding-left: 10px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
+  padding-top: 15px;
   h4 {
     padding-block: 5px;
   }
