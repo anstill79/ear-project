@@ -3,14 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.17.1/cdn/themes/light.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.17.1/cdn/shoelace-autoloader.js"
+    ></script>
 
     <link rel="stylesheet" href="styles.css" />
-    <title>Vestibular CI Summary</title>
+    <title>Vestibular Test Summary</title>
   </head>
   <body>
     <main>
       <div class="title">
-        <h1>Peripheral Function</h1>
+        <h1>Peripheral Function Tests</h1>
       </div>
       <div class="spacer"></div>
       <div>
@@ -25,35 +33,37 @@
       <div class="spacer" style="grid-column: 1/ -1"></div>
 
       <div class="side-label">
-        <h3 id="vHIT_label" class="DNT">vHIT Lateral</h3>
+        <h3 id="vHIT_label" class="test-label DNT">vHIT Lateral</h3>
       </div>
       <div class="result DNT-box" data-test="vHIT_label"></div>
       <div class="spacer-empty"></div>
       <div class="result DNT-box" data-test="vHIT_label"></div>
 
       <div class="side-label">
-        <h3 id="caloric_label" class="DNT">Caloric</h3>
+        <h3 id="caloric_label" class="test-label DNT">Caloric</h3>
       </div>
       <div class="result DNT-box" data-test="caloric_label"></div>
       <div class="spacer-empty"></div>
       <div class="result DNT-box" data-test="caloric_label"></div>
 
       <div class="side-label">
-        <h3 id="step_label" class="DNT">Rotary Chair Step Velocity</h3>
+        <h3 id="step_label" class="test-label DNT">
+          Rotary Chair Step Velocity
+        </h3>
       </div>
       <div class="result DNT-box" data-test="step_label"></div>
       <div class="spacer-empty"></div>
       <div class="result DNT-box" data-test="step_label"></div>
 
       <div class="side-label">
-        <h3 id="sha_label" class="DNT">Rotary Chair SHA</h3>
+        <h3 id="sha_label" class="test-label DNT">Rotary Chair SHA</h3>
       </div>
       <div class="spacer-empty"></div>
 
       <div class="result DNT-box" data-test="sha_label"></div>
       <div class="spacer-empty"></div>
       <div class="side-label">
-        <h3 id="vemp_label" class="DNT">VEMP</h3>
+        <h3 id="vemp_label" class="test-label DNT">VEMP</h3>
       </div>
       <div class="result DNT-box" data-test="vemp_label"></div>
       <div class="spacer-empty"></div>
@@ -65,20 +75,96 @@
 
       <div id="key">
         <h4>Key:</h4>
-        <div class="key-group">
+        <div id="key_checked" class="key-group">
           <img id="keyChecked" class="key-symbol" />
-          <span> Clear response elicited, mostly intact function </span>
+          <span>Clear response elicited, mostly intact function</span>
         </div>
-        <div class="key-group">
-          <img id="keyTilde" class="key-symbol" />
-          <span
-            >Response elicited but not robust and in the abnormal range
-          </span>
+        <div id="key_checked_vHIT" class="key-group" style="display: none">
+          <span class="criteria-text">
+            vHIT: Gain at least 0.7 with the majority of tracings free of
+            saccades</span
+          >
+        </div>
+        <div id="key_checked_caloric" class="key-group" style="display: none">
+          <span class="criteria-text">Caloric: SPV at least 7 deg/second.</span>
+        </div>
+        <div id="key_checked_step" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >Step: Results within the normal range.</span
+          >
+        </div>
+        <div id="key_checked_SHA" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >SHA: Gains in normal range for vast majority of test
+            frequencies.</span
+          >
+        </div>
+        <div id="key_checked_VEMP" class="key-group" style="display: none">
+          <span class="criteria-text">VEMP: Present response.</span>
         </div>
 
-        <div class="key-group">
+        <div id="key_tilde" class="key-group">
+          <img id="keyTilde" class="key-symbol" />
+          <span>Response elicited but not robust, in the abnormal range </span>
+        </div>
+        <div id="key_tilde_vHIT" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >vHIT: Gain between 0.5 and 0.7 with present saccades.</span
+          >
+        </div>
+        <div id="key_tilde_caloric" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >Caloric: SPV between 3 and 7 deg/second.</span
+          >
+        </div>
+        <div id="key_tilde_step" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >Step: Results at or near borderline normal range.</span
+          >
+        </div>
+        <div id="key_tilde_SHA" class="key-group" style="display: none">
+          <span class="criteria-text">
+            SHA: Abnormal gain in low test frequencies, normal gain in high test
+            frequencies.</span
+          >
+        </div>
+        <div id="key_tilde_VEMP" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >VEMP: Absent response in patients above 50 years old.</span
+          >
+        </div>
+
+        <div id="key_X" class="key-group">
           <img id="keyX" class="key-symbol" />
-          <span> Absent or very abnormal response </span>
+          <span>Absent or very abnormal response </span>
+        </div>
+        <div id="key_X_vHIT" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >vHIT: Gain below 0.5 with the majority of tracings containing
+            saccades.</span
+          >
+        </div>
+        <div id="key_X_caloric" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >Caloric: SPV below 3 deg/second or no response.</span
+          >
+        </div>
+        <div id="key_X_step" class="key-group" style="display: none">
+          <span class="criteria-text">Step: Results in abnormal range.</span>
+        </div>
+        <div id="key_X_SHA" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >SHA: Most or all gains are abnormal.</span
+          >
+        </div>
+        <div id="key_X_VEMP" class="key-group" style="display: none">
+          <span class="criteria-text"
+            >VEMP: Absent response in patients under 50 years old.</span
+          >
+        </div>
+        <div class="key-group">
+          <span style="font-size: 3rem">*</span>
+          <span> Did not test</span>
         </div>
       </div>
     </main>

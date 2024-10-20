@@ -20,28 +20,43 @@ function changeSymbol() {
   const currentTest = this.getAttribute("data-test");
   const label = document.getElementById(currentTest);
   const targetImg = this.querySelector("img");
+  const targetAnimation = this.querySelector("sl-animation");
   if (targetImg) {
-    thisDiv.removeChild(targetImg);
+    thisDiv.removeChild(targetAnimation);
   }
   let newImg;
+  let newAnimation = document.createElement("sl-animation");
+  const attributes = {
+    name: "fadeIn",
+    duration: "1000",
+    iterations: "1",
+    play: "",
+  };
+  for (const [key, value] of Object.entries(attributes)) {
+    newAnimation.setAttribute(key, value);
+  }
+
   switch (currentState) {
     case "emptyBox":
       newImg = checkedImage.cloneNode();
-      thisDiv.appendChild(newImg);
+      newAnimation.appendChild(newImg);
+      thisDiv.appendChild(newAnimation);
       thisDiv.setAttribute("data-state", "checkedImage");
       label.classList.remove("DNT");
       thisDiv.classList.remove("DNT-box");
       break;
     case "checkedImage":
       newImg = tildeImage.cloneNode();
-      thisDiv.appendChild(newImg);
+      newAnimation.appendChild(newImg);
+      thisDiv.appendChild(newAnimation);
       thisDiv.setAttribute("data-state", "tildeImage");
       label.classList.remove("DNT");
       thisDiv.classList.remove("DNT-box");
       break;
     case "tildeImage":
       newImg = xImage.cloneNode();
-      thisDiv.appendChild(newImg);
+      newAnimation.appendChild(newImg);
+      thisDiv.appendChild(newAnimation);
       thisDiv.setAttribute("data-state", "xImage");
       label.classList.remove("DNT");
       thisDiv.classList.remove("DNT-box");
@@ -63,6 +78,7 @@ function changeSymbol() {
       thisDiv.classList.add("DNT-box");
       break;
   }
+  showCriteria2();
 }
 
 function setKeyImages() {
@@ -74,3 +90,72 @@ function setKeyImages() {
   keyChecked.src = checkedImage.src;
 }
 setKeyImages();
+
+function showCriteria() {
+  const results = document.querySelectorAll(".test-label:not(.DNT");
+  results.forEach((result) => {
+    if (result.id === "vHIT_label") {
+      key_checked_vHIT.style.display = "block";
+      key_tilde_vHIT.style.display = "block";
+      key_X_vHIT.style.display = "block";
+    }
+    if (result.id === "caloric_label") {
+      key_checked_caloric.style.display = "block";
+      key_tilde_caloric.style.display = "block";
+      key_X_caloric.style.display = "block";
+    }
+    if (result.id === "step_label") {
+      key_checked_step.style.display = "block";
+      key_tilde_step.style.display = "block";
+      key_X_step.style.display = "block";
+    }
+    if (result.id === "sha_label") {
+      key_checked_SHA.style.display = "block";
+      key_tilde_SHA.style.display = "block";
+      key_X_SHA.style.display = "block";
+    }
+    if (result.id === "vemp_label") {
+      key_checked_VEMP.style.display = "block";
+      key_tilde_VEMP.style.display = "block";
+      key_X_VEMP.style.display = "block";
+    }
+  });
+}
+
+function showCriteria2() {
+  const results = document.querySelectorAll(".test-label:not(.DNT)");
+  const criteriaMap = {
+    vHIT_label: ["key_checked_vHIT", "key_tilde_vHIT", "key_X_vHIT"],
+    caloric_label: [
+      "key_checked_caloric",
+      "key_tilde_caloric",
+      "key_X_caloric",
+    ],
+    step_label: ["key_checked_step", "key_tilde_step", "key_X_step"],
+    sha_label: ["key_checked_SHA", "key_tilde_SHA", "key_X_SHA"],
+    vemp_label: ["key_checked_VEMP", "key_tilde_VEMP", "key_X_VEMP"],
+  };
+
+  // First, set all elements to "none"
+  Object.values(criteriaMap)
+    .flat()
+    .forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.style.display = "none";
+      }
+    });
+
+  // Then, set to "block" only for present IDs
+  results.forEach((result) => {
+    const elementsToShow = criteriaMap[result.id];
+    if (elementsToShow) {
+      elementsToShow.forEach((id) => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.style.display = "block";
+        }
+      });
+    }
+  });
+}
