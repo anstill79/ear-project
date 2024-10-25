@@ -15,3 +15,5 @@ save_admin_button.addEventListener("click", saveAdminOptions);
 loginUser_btn.addEventListener("click", loginUser);
 
 populateUserSection();
+
+document.body.addEventListener("pointerdown", () => {});
