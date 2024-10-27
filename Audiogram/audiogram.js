@@ -2,6 +2,30 @@ import Chart from "chart.js/auto";
 import annotationPlugin from "chartjs-plugin-annotation";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import * as crosshair from "chartjs-plugin-crosshair";
+const BC_R = new Image();
+BC_R.src = "BC_R.png";
+BC_R.width = 40;
+BC_R.height = 20;
+const BC_L = new Image();
+BC_L.src = "BC_L.png";
+BC_L.width = 40;
+BC_L.height = 20;
+const BC_R_M = new Image();
+BC_R_M.src = "BC_R_M.png";
+BC_R_M.width = 40;
+BC_R_M.height = 20;
+const BC_L_M = new Image();
+BC_L_M.src = "BC_L_M.png";
+BC_L_M.width = 40;
+BC_L_M.height = 20;
+const R_NR = new Image();
+R_NR.src = "R_NR.png";
+R_NR.width = 40;
+R_NR.height = 40;
+const L_NR = new Image();
+L_NR.src = "L_NR.png";
+L_NR.width = 40;
+L_NR.height = 40;
 
 Chart.register(annotationPlugin);
 
@@ -139,7 +163,6 @@ NRbtns.forEach((btn) => {
 function setNR() {
   const index = parseInt(this.dataset.index);
   const earNR = this.dataset.ear;
-  console.log("Initial audiogramData:", audiogramData);
 
   let thresh =
     earNR === "R" ? audiogramData.thresh_AC_R : audiogramData.thresh_AC_L;
@@ -202,7 +225,6 @@ function setNR() {
 
   // Early return for BC transducer
   if (transducer === "BC") {
-    console.log("Data before BC update:", audiogramData);
     updateCharts();
     return;
   }
