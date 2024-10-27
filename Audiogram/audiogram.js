@@ -131,52 +131,86 @@ function closeCommandPalette(event) {
   }
 }
 
-function setNR(index, ear, transducer) {
+const NRbtns = document.querySelectorAll(".NR");
+NRbtns.forEach((btn) => {
+  btn.addEventListener("click", setNR);
+});
+
+function setNR() {
+  const index = parseInt(this.dataset.index);
+  const earNR = this.dataset.ear;
+  console.log("Initial audiogramData:", audiogramData);
+
   let thresh =
-    ear === "R" ? audiogramData.thresh_AC_R : audiogramData.thresh_AC_L;
+    earNR === "R" ? audiogramData.thresh_AC_R : audiogramData.thresh_AC_L;
   let thresh_BC =
-    ear === "R" ? audiogramData.thresh_BC_R : audiogramData.thresh_BC_L;
+    earNR === "R" ? audiogramData.thresh_BC_R : audiogramData.thresh_BC_L;
   let old_dB =
-    ear === "R"
+    earNR === "R"
       ? audiogramData.thresh_AC_R[index]
       : audiogramData.thresh_AC_L[index];
-  let NR = ear === "R" ? audiogramData.thresh_NR_R : audiogramData.thresh_NR_L;
+  let NR =
+    earNR === "R" ? audiogramData.thresh_NR_R : audiogramData.thresh_NR_L;
   let size =
-    ear === "R" ? audiogramData.pointSize_NR_R : audiogramData.pointSize_NR_L;
+    earNR === "R" ? audiogramData.pointSize_NR_R : audiogramData.pointSize_NR_L;
   let size_BC =
-    ear === "R"
+    earNR === "R"
       ? audiogramData.pointSize_NR_BC_R
       : audiogramData.pointSize_NR_BC_L;
   let changeNR =
-    ear === "R"
+    earNR === "R"
       ? audiogramData.changeDetails.change_R
       : audiogramData.changeDetails.change_L;
   let IO =
-    ear === "R"
+    earNR === "R"
       ? audiogramData.interOctTested_AC_R
       : audiogramData.interOctTested_AC_L;
 
+  // Early return if conditions aren't met
   if (IO[index] === 0 && transducer !== "BC") {
     return;
   }
 
+  // Handle AC transducer case
   if (old_dB !== null && transducer === "AC") {
-    NR.splice(index, 1, old_dB);
-    size.splice(index, 1, 10);
-    thresh.splice(index, 1, null);
-    thresh.splice(2, 1, nonFreq(thresh[1], thresh[3], ear));
-    changeNR.splice(index, 1, null);
-  } else if (transducer === "BC") {
+    // Make sure we have valid arrays before splicing
+    if (
+      Array.isArray(NR) &&
+      Array.isArray(size) &&
+      Array.isArray(thresh) &&
+      Array.isArray(changeNR)
+    ) {
+      NR.splice(index, 1, old_dB);
+      size.splice(index, 1, 10);
+      thresh.splice(index, 1, null);
+
+      // Only update index 2 if we have valid surrounding values
+      if (thresh[1] !== undefined && thresh[3] !== undefined) {
+        const nonFreqValue = nonFreq(thresh[1], thresh[3], earNR);
+        if (nonFreqValue !== undefined) {
+          thresh.splice(2, 1, nonFreqValue);
+        }
+      }
+
+      changeNR.splice(index, 1, null);
+    }
+  }
+  // Handle BC transducer case
+  else if (transducer === "BC" && Array.isArray(size_BC)) {
     size_BC.splice(index, 1, 10);
   }
+
+  // Early return for BC transducer
   if (transducer === "BC") {
+    console.log("Data before BC update:", audiogramData);
     updateCharts();
     return;
   }
-  if (index === 4 || index === 6 || index === 8 || index === 10) {
-    calcInterOct(index, 1, ear);
+  // Handle interOct calculations
+  if ([4, 6, 8, 10].includes(index)) {
+    calcInterOct(index, 1, earNR);
   } else {
-    calcInterOct(index, null, ear);
+    calcInterOct(index, null, earNR);
   }
   updateCharts();
 }
@@ -322,7 +356,7 @@ function calcInterOct(index, dB, ear) {
 function moveIt(freqIndex, dB, ear) {
   if (ear === "R" && transducer === "AC") {
     audiogramData.thresh_NR_R.splice(freqIndex, 1, null);
-    audiogramData.pointSize_NR_R.splice(freqIndex, 1, null);
+    audiogramData.pointSize_NR_R.splice(freqIndex, 1, 0);
     audiogramData.thresh_AC_R.splice(freqIndex, 1, dB);
     audiogramData.thresh_AC_R.splice(
       2,
@@ -561,7 +595,7 @@ const audiogramData = {
   ],
   pointSize_AC_R: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
   pointSize_AC_L: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-  pointSize_hover_AC_R: [0, 10, 0, 10, 0, 10, null, 10, 0, 10, 0, 10],
+  pointSize_hover_AC_R: [0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10],
   pointSize_hover_AC_L: [0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10],
   pointSize_NR_R: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   pointSize_NR_L: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
