@@ -185,7 +185,6 @@ function prepareMovement(index, dB, ear) {
   if (index === 2 || index < 0 || index > 11 || dB < -10 || dB > 120) {
     return;
   }
-
   let olddB;
   if (ear === "R") {
     olddB =
@@ -199,31 +198,26 @@ function prepareMovement(index, dB, ear) {
         ? audiogramData.thresh_AC_L[index]
         : audiogramData.thresh_BC_L[index];
   }
-
-  let newdB;
-
   if (
-    (ear === "R" &&
-      dB === olddB &&
-      transducer === "AC" &&
-      index === 4 &&
-      audiogramData.interOctTested_AC_R[3] === 0) ||
-    (index === 6 && audiogramData.interOctTested_AC_R[5] === 0) ||
-    (index === 8 && audiogramData.interOctTested_AC_R[7] === 0) ||
-    (index === 10 && audiogramData.interOctTested_AC_R[9] === 0)
+    ear === "R" &&
+    dB === olddB &&
+    transducer === "AC" &&
+    ((index === 4 && audiogramData.interOctTested_AC_R[3] === 0) ||
+      (index === 6 && audiogramData.interOctTested_AC_R[5] === 0) ||
+      (index === 8 && audiogramData.interOctTested_AC_R[7] === 0) ||
+      (index === 10 && audiogramData.interOctTested_AC_R[9] === 0))
   ) {
     return;
   }
 
   if (
-    (ear === "L" &&
-      dB === olddB &&
-      transducer === "AC" &&
-      index === 4 &&
-      audiogramData.interOctTested_AC_L[3] === 0) ||
-    (index === 6 && audiogramData.interOctTested_AC_L[5] === 0) ||
-    (index === 8 && audiogramData.interOctTested_AC_L[7] === 0) ||
-    (index === 10 && audiogramData.interOctTested_AC_L[9] === 0)
+    ear === "L" &&
+    dB === olddB &&
+    transducer === "AC" &&
+    ((index === 4 && audiogramData.interOctTested_AC_L[3] === 0) ||
+      (index === 6 && audiogramData.interOctTested_AC_L[5] === 0) ||
+      (index === 8 && audiogramData.interOctTested_AC_L[7] === 0) ||
+      (index === 10 && audiogramData.interOctTested_AC_L[9] === 0))
   ) {
     return;
   }
@@ -231,7 +225,18 @@ function prepareMovement(index, dB, ear) {
     return;
   }
   if (dB === olddB) {
-    dB = null;
+    if (transducer === "AC") {
+      if (
+        (ear === "R" && audiogramData.interOctTested_AC_R[index] === 0) ||
+        (ear === "L" && audiogramData.interOctTested_AC_R[index] === 0)
+      ) {
+        // don't reassign dB, let the dB through
+      } else {
+        dB = null;
+      }
+    } else {
+      dB = null;
+    }
   }
   moveIt(index, dB, ear);
 }
@@ -324,6 +329,7 @@ function moveIt(freqIndex, dB, ear) {
       1,
       nonFreq(audiogramData.thresh_AC_R[1], audiogramData.thresh_AC_R[3], "R")
     );
+
     calcInterOct(freqIndex, dB, "R");
     calcChange(freqIndex, "R");
   }
