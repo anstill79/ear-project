@@ -1386,7 +1386,6 @@ const options_R = {
         display: false,
         align: "center",
         text: "Right",
-
         padding: 5,
       },
       crosshair: {
