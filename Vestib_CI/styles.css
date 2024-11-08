@@ -8,12 +8,12 @@
   --bg-color: #f0f0f0;
 }
 body {
-  background-color: var(--bg-color);
+  background-color: white;
 }
 main {
   background-color: white;
   display: grid;
-  max-width: 800px;
+  max-width: 690px;
   border: 1px solid black;
   margin: auto;
   place-content: center;

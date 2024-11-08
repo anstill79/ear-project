@@ -375,9 +375,9 @@ function calcInterOct(index, dB, ear) {
 }
 
 //-----------------------------------this is the main function
+//-----------------------------------this is the main function
+//-----------------------------------this is the main function
 function moveIt(freqIndex, dB, ear) {
-  console.log(freqIndex, dB, ear);
-
   if (ear === "R" && transducer === "AC") {
     audiogramData.thresh_NR_R.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_R.splice(freqIndex, 1, 0);
