@@ -8,6 +8,8 @@ tildeImage.classList.add("img-sizer");
 const xImage = new Image();
 xImage.src = "Xmark1.png";
 xImage.classList.add("img-sizer");
+const asterisk = new Image();
+asterisk.src = "Asterisk.png";
 
 emptyBoxes.forEach((div) => {
   div.setAttribute("data-state", "emptyBox");
@@ -85,9 +87,15 @@ function setKeyImages() {
   const keyX = document.getElementById("keyX");
   const keyTilde = document.getElementById("keyTilde");
   const keyChecked = document.getElementById("keyChecked");
+  const keyAsterisk = document.getElementById("keyAsterisk");
   keyX.src = xImage.src;
   keyTilde.src = tildeImage.src;
   keyChecked.src = checkedImage.src;
+  keyAsterisk.src = asterisk.src;
+  keyAsterisk.classList.remove("key-symbol");
+  keyAsterisk.style.width = "50px";
+  keyAsterisk.style.height = "50px";
+  keyAsterisk.style.margin = "-11px";
 }
 setKeyImages();
 
