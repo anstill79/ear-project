@@ -42,11 +42,12 @@ class SiteHeader extends HTMLElement {
         .header {
           background-image: linear-gradient(6deg, #13547a94, #80d0c730);
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+          margin: auto;
         }
 
         .nav-container {
           max-width: 1200px;
-          margin: 0 auto;
+          margin: auto;
           padding: 0 1rem;
         }
 
@@ -137,7 +138,6 @@ class SiteHeader extends HTMLElement {
           height: 24px;
         }
       </style>
-
       <header class="header">
         <nav class="nav-container">
           <div class="nav-content">
@@ -165,6 +165,7 @@ class SiteHeader extends HTMLElement {
           </div>
         </nav>
       </header>
+
     `;
   }
 }
