@@ -10,11 +10,9 @@
 body {
   font-family: "Inter", sans-serif;
 }
-#main {
+main {
   margin: auto;
   margin-top: 20px;
-  padding: 5px;
-  padding-top: 20px;
   padding-bottom: 20px;
   display: grid;
   justify-items: center;
@@ -22,16 +20,24 @@ body {
   gap: 20px;
   max-width: 900px;
   width: 90%;
+  border: 1px solid black;
+}
+.site-header-wrapper {
+  grid-column: 1 / span 2;
+  width: 100%;
 }
 
+.radius {
+  border-radius: 15px;
+}
 .buttons {
-  width: 300px;
-  max-width: 100%;
-  height: 200px;
-  font-size: large;
   border-radius: 15px;
   border: 1px solid #000;
-  background-color: #f1f5f3;
+  max-width: 100%;
+  min-width: 440px;
+  height: 200px;
+  font-size: large;
+  background-color: transparent;
   transition: background-color 2s ease, opacity 2s ease, transform 2s ease,
     box-shadow 2s ease;
   transform: scale(1);
@@ -40,7 +46,7 @@ body {
 .buttons:hover {
   cursor: pointer;
   transition: opacity 1s, transform 1s;
-  border-width: 2px;
+  /* border-width: 2px; */
   transform: scale(1.02);
   background-color: #fff;
   opacity: 1;
@@ -64,9 +70,100 @@ body {
   font-style: oblique;
 }
 
-#sub_heading {
-  margin: auto;
-  max-width: 818px;
-  padding-left: 80px;
-  border: 1px solid rgb(164, 81, 164);
+.gradient-1 {
+  background: linear-gradient(
+    to right,
+    rgba(104, 171, 119, 0.2),
+    rgba(201, 181, 191, 0)
+  );
+}
+
+/* Variation 1 - Warm peach to sage fade */
+.gradient-2 {
+  background: linear-gradient(
+    to left,
+    rgba(219, 178, 146, 0.6),
+    rgba(158, 174, 154, 0)
+  );
+}
+
+/* Variation 2 - Cool lavender to mint fade */
+.gradient-3 {
+  background: linear-gradient(
+    45deg,
+    rgba(167, 157, 186, 0.5),
+    rgba(142, 198, 178, 0)
+  );
+}
+
+/* Variation 3 - Dusty rose to periwinkle fade */
+.gradient-4 {
+  background: linear-gradient(
+    -45deg,
+    rgba(196, 156, 148, 0.8),
+    rgba(154, 164, 191, 0)
+  );
+}
+/* Variation 4 - Misty teal to blush fade */
+.gradient-5 {
+  background: linear-gradient(
+    to bottom right,
+    rgba(147, 188, 185, 0.6),
+    rgba(208, 174, 174, 0)
+  );
+}
+
+/* Variation 5 - Soft mauve to seafoam fade */
+.gradient-6 {
+  background: linear-gradient(
+    to top left,
+    rgba(183, 166, 173, 0.7),
+    rgba(162, 199, 189, 0)
+  );
+}
+
+/* Variation 6 - Desert sand to sage fade */
+.gradient-7 {
+  background: linear-gradient(
+    60deg,
+    rgba(201, 178, 155, 0.6),
+    rgba(171, 189, 165, 0)
+  );
+}
+
+/* Variation 7 - Dusty blue to warm gray fade */
+.gradient-8 {
+  background: linear-gradient(
+    -60deg,
+    rgba(164, 176, 190, 0.7),
+    rgba(189, 181, 171, 0)
+  );
+}
+
+.spacer {
+  width: 600px;
+  height: 10px;
+  background-color: darkorchid;
+}
+
+@media screen and (max-width: 900px) {
+  main {
+    display: block;
+    /* grid-template-columns: 1fr; */
+    /* width: 100%; */
+  }
+  .site-header-wrapper {
+    grid-column: 1;
+    width: 100%;
+    margin-left: 0px;
+    /* padding: -10px; */
+  }
+  .buttons {
+    min-width: 80%;
+    /* width: 100%; */
+  }
+  .btn-card {
+    width: 95%;
+    margin: 5px;
+  }
 }

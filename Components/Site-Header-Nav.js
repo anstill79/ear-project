@@ -62,7 +62,17 @@ class SiteHeader extends HTMLElement {
           font-weight: bold;
          color: #9d1779f0;
           text-decoration: none;
-          padding-left: 30px;
+        }
+
+        .desktop-menu {
+          display: none;
+        }
+
+        @media (min-width: 768px) {
+          .desktop-menu {
+            display: flex;
+            gap: 2rem;
+          }
         }
 
         .nav-link {
@@ -79,14 +89,79 @@ class SiteHeader extends HTMLElement {
           color: #111827;
           background-color: #F3F4F6;
         }
-   
+
+        .mobile-menu-button {
+          display: flex;
+          padding: 0.5rem;
+          border: none;
+          background: none;
+          cursor: pointer;
+          color: #4B5563;
+        }
+
+        @media (min-width: 768px) {
+          .mobile-menu-button {
+            display: none;
+          }
+        }
+
+        .mobile-menu {
+          padding: 0.5rem 0;
+        }
+
+        .mobile-menu:not(.hidden) {
+          display: block;
+        }
+
+        .hidden {
+          display: none;
+        }
+
+        .mobile-link {
+          display: block;
+          padding: 0.5rem 0.75rem;
+          color: #4B5563;
+          text-decoration: none;
+          font-size: 1rem;
+          font-weight: 500;
+        }
+
+        .mobile-link:hover {
+          color: #111827;
+          background-color: #F3F4F6;
+        }
+
+        /* Menu Icons */
+        .menu-icon, .close-icon {
+          width: 24px;
+          height: 24px;
+        }
       </style>
       <header class="header">
         <nav class="nav-container">
           <div class="nav-content">
             <a href="http://ear-project.netlify.app" class="logo">${siteName}</a>
+
+            <div class="desktop-menu">
+              <a href="http://ear-project.netlify.app" class="nav-link">Home</a>
+            </div>
+
+            <button class="mobile-menu-button" aria-label="Menu">
+              <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <svg class="close-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
           </div>
 
+          <div class="mobile-menu hidden">
+            <a href="#" class="mobile-link">Home</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#services" class="mobile-link">Services</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+          </div>
         </nav>
       </header>
 

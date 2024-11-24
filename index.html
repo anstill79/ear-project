@@ -6,26 +6,17 @@
 <script src="/Components/Site-Header.js"></script>
     <link href="styles.css" rel="stylesheet" />
 
-    <script
-      type="module"
-      src="/Svelte/src/builtComponents/HeaderOnly.js"
-    ></script>
-    <link rel="stylesheet" href="/Svelte/src/builtComponents/HeaderOnly.css" />
-
     <title>Ear Project</title>
   </head>
 
   <body>
-    <site-header site-name="Ear Project"></site-header>
-    <div id="sub_heading">
-      <p>
-        A small collection of tools for audiologists and those working in
-        related fields
-      </p>
-    </div>
-
+    
+    
     <main id="main">
-      <div>
+      <div class="site-header-wrapper">
+      <site-header site-name="Ear Project"></site-header></div>
+
+      <div class="gradient-1 radius">
         <button
           class="buttons btn-card"
           onclick="window.location.href='/SAL/SAL.html';"
@@ -39,7 +30,7 @@
         </button>
       </div>
 
-      <div>
+      <div class="gradient-2 radius">
         <button
           class="buttons btn-card"
           onclick="window.location.href='/Audiogram';"
@@ -47,9 +38,10 @@
           <strong>Audiogram</strong>
           <span class="gray-italics">Down 10, Up 5</span>
           <span>The best point and click audiogram on the web</span>
+          <!-- <div class="spacer"></div> -->
         </button>
       </div>
-      <div>
+      <div class="gradient-3 radius">
         <button
           class="buttons btn-card"
           onclick="window.location.href='/Vestib_CI';"
@@ -60,7 +52,7 @@
           </span>
         </button>
       </div>
-      <div>
+      <div class="gradient-4 radius">
         <button
           class="buttons btn-card"
           onclick="window.location.href='/Patulous';"
@@ -73,7 +65,8 @@
           </span>
         </button>
       </div>
-      <div>
+
+      <div class="gradient-5 radius">
         <button
           class="buttons btn-card"
           onclick="window.location.href='/CROS helper/index.html';"
@@ -85,7 +78,7 @@
           </span>
         </button>
       </div>
-      <div>
+      <div class="gradient-5 radius">
         <button
           class="buttons btn-card"
           onclick="window.location.href='/HNS Referral/index.html';"
@@ -100,7 +93,7 @@
         </button>
       </div>
 
-      <div>
+      <div class="gradient-6 radius">
         <button class="buttons btn-card" onclick="window.location.href='/VRA';">
           <strong>VRA</strong>
           <span class="gray-italics">Visual Reinforcement Audiometry</span>
@@ -111,7 +104,7 @@
         </button>
       </div>
 
-      <div>
+      <div class="gradient-7 radius">
         <button
           class="buttons btn-card"
           onclick="window.location.href='/VEMPinterp/index.html';"
@@ -123,7 +116,7 @@
           </span>
         </button>
       </div>
-      <div>
+      <div class="gradient-8 radius">
         <button
         class="buttons btn-card"
         onclick="window.location.href='/MWST/index.html';"
