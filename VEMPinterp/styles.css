@@ -1,6 +1,19 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/Font/Inter-VariableFont_slnt\,wght.ttf") format("woff2"),
+    url("/Font/Inter-VariableFont_slnt\,wght.ttf") format("woff"),
+    url("/Font/Inter-VariableFont_slnt\,wght.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
 .container {
   display: grid;
-  grid-template-columns: 100px 150px 100px 100px;
+  grid-template-columns: 1fr 2fr 1fr 1fr;
   grid-gap: 2px;
   grid-template-areas:
     "head head head head"
@@ -10,7 +23,7 @@
     "section2 . . ."
     "sub3 sub3 score5 score6"
     ". chart chart chart";
-  max-width: 450px;
+  max-width: 880px;
   margin: auto;
   border: solid 1px black;
   padding: 10px;
@@ -21,7 +34,7 @@
 #head {
   font-size: 30px;
   margin-bottom: 10px;
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .sub-head {
@@ -39,7 +52,6 @@
 
 #VEMPchart {
   align-self: end;
-
 }
 
 h1 {
@@ -49,7 +61,7 @@ h1 {
 .toggle-button-enabled {
   height: 25px;
   width: 40px;
-  background-color: #3277DF;
+  background-color: #3277df;
   border: 1px solid black;
   border-radius: 3px;
   color: white;
@@ -68,5 +80,5 @@ h1 {
 }
 
 .toggle-button-disabled:hover {
-  background-color: #FEDEE6;
+  background-color: #fedee6;
 }

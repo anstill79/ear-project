@@ -1,43 +1,43 @@
 function updateScore(id) {
   const button = document.getElementById(id);
   const target = id;
-  button.removeAttribute('class');
+  button.removeAttribute("class");
 
-  const ear = ['fourKayR', 'fiveHunR', 'threshR'].includes(id) ? 'R' : 'L';
+  const ear = ["fourKayR", "fiveHunR", "threshR"].includes(id) ? "R" : "L";
 
   function setIndex(id) {
     const idMap = {
-      "fourKayR": 0,
-      "fourKayL": 0,
-      "fiveHunR": 1,
-      "fiveHunL": 1,
-      "threshR": 2,
-      "threshL": 2
+      fourKayR: 0,
+      fourKayL: 0,
+      fiveHunR: 1,
+      fiveHunL: 1,
+      threshR: 2,
+      threshL: 2,
     };
     index = idMap[id];
   }
-  setIndex(id)
+  setIndex(id);
 
-  if (ear === 'R') {
+  if (ear === "R") {
     if (data.scoresR[index] === 0) {
       data.scoresR[index] = 1;
-      button.classList.add('toggle-button-enabled');
-      button.innerText = '+'
+      button.classList.add("toggle-button-enabled");
+      button.innerText = "+";
     } else {
       data.scoresR[index] = 0;
-      button.classList.add('toggle-button-disabled');
-            button.innerText = '-'
+      button.classList.add("toggle-button-disabled");
+      button.innerText = "";
     }
   }
-  if (ear === 'L') {
+  if (ear === "L") {
     if (data.scoresL[index] === 0) {
       data.scoresL[index] = 1;
-      button.classList.add('toggle-button-enabled');
-            button.innerText = '+'
+      button.classList.add("toggle-button-enabled");
+      button.innerText = "+";
     } else {
       data.scoresL[index] = 0;
-      button.classList.add('toggle-button-disabled');
-            button.innerText = '-'
+      button.classList.add("toggle-button-disabled");
+      button.innerText = "";
     }
   }
   data.scoreTotalR[0] = sumScore(data.scoresR);
@@ -56,13 +56,13 @@ const data = {
   scoresL: [0, 0, 0],
   scoreTotalR: [0],
   scoreTotalL: [0],
-  bg_R: 'rgba(255, 0, 0, 0.2)',
-  bg_L: 'rgba(0, 0, 255, 0.2)',
-  border_R: 'rgba(255, 0, 0, 0.4)',
-  border_L: 'rgba(0, 0, 255, 0.4)',
+  bg_R: "rgba(255, 0, 0, 0.2)",
+  bg_L: "rgba(0, 0, 255, 0.2)",
+  border_R: "rgba(255, 0, 0, 0.4)",
+  border_L: "rgba(0, 0, 255, 0.4)",
   barSize_R: 0.2,
   barSize_L: 0.2,
-}
+};
 
 function setStyles() {
   //updates alpha for both ears each time data changes for either
@@ -82,9 +82,9 @@ function setStyles() {
 }
 
 const chartOptions = {
-aspectRatio: 1,
+  aspectRatio: 1,
   layout: {
-    padding: 0
+    padding: 0,
   },
   scales: {
     y: {
@@ -95,23 +95,23 @@ aspectRatio: 1,
         stepSize: 1,
         padding: 20,
       },
-    }
+    },
   },
   plugins: {
     legend: {
-    display: false,
-      position: 'right',
+      display: false,
+      position: "right",
       labels: {
         boxWidth: 20,
         padding: 10,
-      }
+      },
     },
     tooltip: {
       callbacks: {
-        label: function(context) {
-          let label = context.dataset.label || '';
+        label: function (context) {
+          let label = context.dataset.label || "";
           if (label) {
-            label += ': ';
+            label += ": ";
           }
           if (context.parsed.y === 1) {
             label += "low suspicion";
@@ -123,18 +123,19 @@ aspectRatio: 1,
             label += "very high suspicion";
           }
           return label;
-        }
-      }
-    }
-  }
-}
+        },
+      },
+    },
+  },
+};
 
-const chartVEMP = new Chart(document.getElementById('VEMPchart'), {
-  type: 'bar',
+const chartVEMP = new Chart(document.getElementById("VEMPchart"), {
+  type: "bar",
   data: {
-    labels: ['Suspicion Level'],
-    datasets: [{
-        label: 'Right',
+    labels: ["Suspicion Level"],
+    datasets: [
+      {
+        label: "Right",
         data: data.scoreTotalR,
         borderWidth: data.scoreTotalR,
         backgroundColor: data.bg_R,
@@ -142,14 +143,14 @@ const chartVEMP = new Chart(document.getElementById('VEMPchart'), {
         barPercentage: data.barSize_R,
       },
       {
-        label: 'Left',
+        label: "Left",
         data: data.scoreTotalL,
         borderWidth: data.scoreTotalL,
         backgroundColor: data.bg_L,
         borderColor: data.border_L,
-        barPercentage: data.barSize_L
-      }
-    ]
+        barPercentage: data.barSize_L,
+      },
+    ],
   },
-  options: chartOptions
+  options: chartOptions,
 });

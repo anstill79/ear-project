@@ -10,22 +10,22 @@ class SiteHeader extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    this.setupEventListeners();
+    //this.setupEventListeners();
   }
 
-  setupEventListeners() {
-    const menuButton = this.shadowRoot.querySelector(".mobile-menu-button");
-    menuButton.addEventListener("click", () => {
-      const mobileMenu = this.shadowRoot.querySelector(".mobile-menu");
-      mobileMenu.classList.toggle("hidden");
+  // setupEventListeners() {
+  //   const menuButton = this.shadowRoot.querySelector(".mobile-menu-button");
+  //   menuButton.addEventListener("click", () => {
+  //     const mobileMenu = this.shadowRoot.querySelector(".mobile-menu");
+  //     mobileMenu.classList.toggle("hidden");
 
-      // Toggle menu icon
-      const menuIcon = this.shadowRoot.querySelector(".menu-icon");
-      const closeIcon = this.shadowRoot.querySelector(".close-icon");
-      menuIcon.classList.toggle("hidden");
-      closeIcon.classList.toggle("hidden");
-    });
-  }
+  //     // Toggle menu icon
+  //     const menuIcon = this.shadowRoot.querySelector(".menu-icon");
+  //     const closeIcon = this.shadowRoot.querySelector(".close-icon");
+  //     menuIcon.classList.toggle("hidden");
+  //     closeIcon.classList.toggle("hidden");
+  //   });
+  // }
 
   render() {
     const siteName = this.getAttribute("site-name") || "Site Name";
