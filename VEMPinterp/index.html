@@ -9,101 +9,77 @@
   </head>
 
   <body>
-    
-      <site-header site-name="Ear Project"></site-header></div>
+    <site-header site-name="Ear Project"></site-header>
 
-    <h1>Is it third window?</h1>
+    <h1>Third Window Suspicion Level</h1>
 
-    <div class="container">
-      <div
-        id="head"
-        class="container-item container-header"
-        style="grid-area: head"
-      >
-        Indicators
-      </div>
+    <main>
+      <div id="head"><p>Results</p></div>
+      <div class="spacer"></div>
 
-      <div id="section1" class="container-item" style="grid-area: section1">
-        oVEMP
-      </div>
+      <div><p>Right</p></div>
 
-      <div style="grid-area: right; padding-left: 3px; align-self: center">
-        Right
-      </div>
-      <div style="grid-area: left; padding-left: 5px; align-self: center">
-        Left
-      </div>
+      <div><p>Left</p></div>
+      <div class="spacer"></div>
 
-      <div class="container-item sub-head" style="grid-area: sub">
-        4k Present & Repeatable?
-      </div>
-      <div class="container-item" style="grid-area: score1">
+      <div><p>oVEMP 4kHz present response</p></div>
+
+      <div>
         <button
           id="fourKayR"
           onClick="updateScore(id)"
           class="toggle-button-disabled"
-        >
-          
-        </button>
+        ></button>
       </div>
-      <div class="container-item" style="grid-area: score2">
+      <div>
         <button
           id="fourKayL"
           onClick="updateScore(id)"
           class="toggle-button-disabled"
-        >
-          
-        </button>
+        ></button>
       </div>
-      <div class="container-item sub-head" style="grid-area: sub2">
-        500Hz large?
-      </div>
-      <div class="container-item" style="grid-area: score3">
+
+      <div class="spacer"></div>
+      <div><p>oVEMP 500Hz response large</p></div>
+
+      <div>
         <button
           id="fiveHunR"
           onClick="updateScore(id)"
           class="toggle-button-disabled"
-        >
-          
-        </button>
+        ></button>
       </div>
-      <div class="container-item" style="grid-area: score4">
+
+      <div>
         <button
           id="fiveHunL"
           onClick="updateScore(id)"
           class="toggle-button-disabled"
-        >
-          
-        </button>
+        ></button>
       </div>
-      <div id="section2" class="container-item" style="grid-area: section2">
-        cVEMP
-      </div>
-      <div class="container-item sub-head" style="grid-area: sub3">
-        Low thresh?
-      </div>
-      <div class="container-item" style="grid-area: score5">
+      <div class="spacer"></div>
+      <div><p>cVEMP low threshold</p></div>
+
+      <div>
         <button
           id="threshR"
           onClick="updateScore(id)"
           class="toggle-button-disabled"
-        >
-          
-        </button>
+        ></button>
       </div>
-      <div class="container-item" style="grid-area: score6">
+
+      <div>
         <button
           id="threshL"
           onClick="updateScore(id)"
           class="toggle-button-disabled"
-        >
-          
-        </button>
+        ></button>
       </div>
-      <div id="container-for-chart" style="grid-area: chart">
+      <div class="spacer"></div>
+      <div id="container-for-chart">
         <canvas id="VEMPchart"></canvas>
       </div>
-    </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

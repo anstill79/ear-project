@@ -6,48 +6,41 @@
   font-weight: normal;
   font-style: normal;
 }
-
+* {
+  /* border: 1px solid limegreen; */
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+site-header {
+  margin: auto;
+  max-width: 880px;
+}
 body {
   font-family: "Inter", sans-serif;
 }
-
-.container {
+main {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr 1fr;
   grid-gap: 2px;
-  grid-template-areas:
-    "head head head head"
-    "section1 . right left"
-    "sub sub score1 score2"
-    "sub2 sub2 score3 score4"
-    "section2 . . ."
-    "sub3 sub3 score5 score6"
-    ". chart chart chart";
   max-width: 880px;
   margin: auto;
   border: solid 1px black;
   padding: 10px;
 }
+.spacer {
+  width: 100%;
+  height: 100%;
+}
 
-#section1,
-#section2,
 #head {
   font-size: 30px;
   margin-bottom: 10px;
   margin-top: 10px;
 }
 
-.sub-head {
-  justify-self: left;
-  padding-left: 40px;
-}
-
-.container-item {
-  background-color: none;
-}
-
 #container-for-chart {
-  padding-left: 38px;
+  grid-column: 1 / span 4;
 }
 
 #VEMPchart {
