@@ -1,7 +1,3 @@
-import Chart from "chart.js/auto";
-import annotationPlugin from "chartjs-plugin-annotation";
-import ChartDataLabels from "chartjs-plugin-datalabels";
-import * as crosshair from "chartjs-plugin-crosshair";
 import {
   audiogramData,
   oldAudiogramData,
@@ -11,9 +7,9 @@ import {
   BC_L_M,
   R_NR,
   L_NR,
-} from "/dataAndImages.js";
+} from "./dataAndImages.js";
 
-Chart.register(annotationPlugin);
+// Chart.register(annotationPlugin);
 
 const CrosshairRemover = {
   id: "crosshair-remover",
