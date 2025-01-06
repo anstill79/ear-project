@@ -638,10 +638,10 @@ function calcChange(index, ear) {
   let color4 = ear === "R" ? "rgba(255, 0, 0, 0.30)" : "rgba(0, 0, 255, 0.30)";
 
   if (
-    (ioTestNew[index] === 0 && index === 4) ||
-    index === 6 ||
-    index === 8 ||
-    index === 10
+    (ioTestOld[index] === 0 && index === 4) ||
+    (ioTestOld[index] === 0 && index === 6) ||
+    (ioTestOld[index] === 0 && index === 8) ||
+    (ioTestOld[index] === 0 && index === 10)
   ) {
     change.splice(index, 1, null);
     return;
