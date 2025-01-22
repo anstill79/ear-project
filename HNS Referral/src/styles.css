@@ -267,11 +267,6 @@ label {
   color: #677083;
 }
 
-.age-timing-grouper {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-}
 .age-timing {
   display: grid;
   select {

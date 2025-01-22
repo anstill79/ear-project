@@ -19,30 +19,19 @@
         <label for="audiogram_result">Audiogram Result:</label>
         <button id="clear_form" class="btn-yellow-hover2">Clear Form</button>
       </div>
+      <!-- populate select w keys, use vals as in memory check to see if rest of fields are required -->
       <select id="audiogram_result" name="dropdown1">
-        <option value="">--Data loading--</option>
+        <option value="">--Choose an option--</option>
       </select>
-      <!-- this -->
-      <div id="tester" class="age-timing-grouper">
-        <div class="age-timing">
-          <!-- this -->
 
-          <label for="age_result">Age:</label>
-          <select id="age_result" name="dropdown2">
-            <option value="">--Data loading--</option>
-          </select>
-        </div>
-        <div class="age-timing">
-          <!-- this -->
-          <label for="timing_result">Onset Timing:</label>
-          <select id="timing_result" name="dropdown2">
-            <option value="">--Data loading--</option>
-          </select>
-          <!-- this -->
-        </div>
-        <!-- this -->
+      <div class="age-timing" id="timing_result_wrapper" style="opacity: 0.5">
+        <label for="timing_result">Onset Timing:</label>
+        <select id="timing_result"></select>
       </div>
-      <!-- this -->
+      <div class="age-timing" id="age_result_wrapper" style="opacity: 0.5">
+        <label for="age_result">Age:</label>
+        <select id="age_result"></select>
+      </div>
     </section>
     <section class="inputs-contents">
       <div class="grid-one-row">
