@@ -3,6 +3,9 @@
   font-family: "Inter", sans-serif;
   margin: 10;
 }
+@view-transition {
+  navigation: auto;
+}
 #app {
   margin-top: 10px;
 }
