@@ -13,29 +13,22 @@ body {
   place-content: center;
   background-color: #f0f0f0;
 }
-section {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+
 #audiogram_result {
   field-sizing: content;
   width: var(--width);
 }
-#admin_guidance_text {
-  field-sizing: content;
-  min-width: 100%;
-  height: 16lh;
-}
+
 h1 {
   text-align: center;
   margin-top: 10px;
   margin-bottom: 5px;
   margin-inline: auto;
 }
-
-.inputs-contents,
-.guidance-contents {
+section {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   display: grid;
   gap: 10px;
   margin-inline: auto;
@@ -49,28 +42,28 @@ h1 {
 }
 
 #guidance_text {
-  /* max-width: 500px; */
   width: var(--width);
-  /* background-image: linear-gradient(120deg, #fdfbfb 20%, #ebedee 100%); */
-  /* border: 2px solid #ebedee; */
-
   padding-block: 10px;
   padding-inline: 10px;
-  margin-inline: 5px;
   line-height: 150%;
   max-width: 100%;
-}
-.ready {
-  /* background-color: #e6ffe6; */
-  border: 2px solid black;
-  /* box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); */
-  /* color: #2e7d32; */
-  /* font-weight: bold; */
-}
-.guidance-not-ready {
   background-image: linear-gradient(120deg, #fdfbfb 20%, #ebedee 100%);
   border: 2px solid #ebedee;
 }
+#definition {
+  width: calc(var(--width) - 50px);
+  padding-block: 5px;
+  max-width: 100%;
+  span {
+    padding-inline: 15px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    font-style: italic;
+    font-size: 14px;
+    background-color: #85d7fa79;
+  }
+}
+
 #picker_wrapper {
   display: grid;
   gap: 5px;
@@ -86,26 +79,6 @@ h1 {
   display: grid;
   gap: 5px;
 }
-.btn-yellow-hover {
-  width: minmax(80px 100%);
-  /* width: 80px; */
-  cursor: pointer;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 7px;
-}
-.btn-yellow-hover2 {
-  background-color: white;
-  cursor: pointer;
-  border: 1px solid black;
-}
-.btn-yellow-hover:hover,
-.btn-yellow-hover:focus,
-.btn-yellow-hover2:hover,
-.btn-yellow-hover2:focus {
-  background-color: yellow;
-  border: 1px solid black;
-}
 
 #timing {
   width: 150px;
@@ -116,144 +89,6 @@ h1 {
 input,
 select {
   padding: 5px;
-}
-
-.admin-popover {
-  margin: auto;
-  height: 90%;
-}
-.admin-popover::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.admin-popover-contents {
-  display: grid;
-  grid-template-columns: minmax(0, 500px) 1.5fr 1fr;
-  /* grid-template-rows: 50px 1fr; */
-  margin: auto;
-}
-.selected-btn {
-  opacity: 1;
-}
-
-.admin-card {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-auto-rows: min-content;
-  border: 1px solid black;
-  padding: 10px;
-  margin: 10px;
-  text-wrap: nowrap;
-  input {
-    padding: 0px;
-    min-width: 100px;
-  }
-  p {
-    max-width: 100%;
-  }
-}
-
-.admin-select-or-delete-btns {
-  border: 0px;
-  padding: 0px;
-  background-color: transparent;
-  margin-inline: 5px;
-  cursor: pointer;
-  opacity: 0.3;
-  max-width: fit-content;
-}
-.admin-select-or-delete-btns:hover {
-  border: 1px solid black;
-  margin-inline: 4px;
-  opacity: 1;
-}
-
-.admin-popover-contents input {
-  font-size: 16px;
-  width: 100%;
-}
-
-.admin-popover-contents h5 {
-  text-align: center;
-  margin: 0;
-  height: 30px;
-}
-.admin-popover-contents ul {
-  list-style-type: none;
-  margin: 0px;
-  padding: 0px;
-}
-
-.admin-li-wrapper {
-  display: flex;
-  gap: 2px;
-}
-
-.admin-guidance-wrapper {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-
-#admin_selected_audioResult,
-#admin_selected_ageResult,
-#admin_selected_timingResult {
-  padding-left: 30px;
-  padding-block: 8px;
-}
-.admin-add-new-option-btns {
-  cursor: pointer;
-  border: 1px solid black;
-  box-shadow: 0px 1px 1px black;
-  background-color: rgba(130, 169, 194, 0.3);
-}
-.admin-add-new-option-btns:hover {
-  background-color: white;
-}
-
-.log-in-btn-wrapper {
-  display: grid;
-  place-content: end;
-  padding: 5px;
-}
-
-/* log in modal */
-.create-or-login {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  padding: 5px;
-  gap: 5px;
-  margin-top: 10px;
-  width: 450px;
-  button {
-    place-self: end;
-    cursor: pointer;
-  }
-  h3 {
-    margin-bottom: 15px;
-  }
-}
-
-#log_in_modal {
-  display: grid;
-  place-content: center;
-  max-width: 800px;
-  margin: auto;
-  border: 0px;
-  padding: 30px;
-}
-
-#log_in_modal_wrapper {
-  background-color: rgba(0, 0, 0, 0);
-  border: 0px;
-}
-
-#log_in_modal_wrapper::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-#save_admin_button {
-  padding-inline: 15px;
 }
 
 .grid-one-row {
@@ -267,12 +102,7 @@ label {
   color: #677083;
 }
 
-.age-timing-grouper {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 5px;
-}
-.age-timing {
+.secondary-selects {
   display: grid;
   select {
     min-width: 200px;

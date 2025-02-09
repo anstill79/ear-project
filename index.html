@@ -2,137 +2,99 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-<script src="/Components/Site-Header.js"></script>
-    <link href="styles.css" rel="stylesheet" />
-
-    <title>Ear Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
   </head>
-
   <body>
-    
-    
-    <main id="main">
-      <div class="site-header-wrapper">
-      <site-header site-name="Ear Project"></site-header></div>
-
-      <div class="gradient-1 radius">
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/SAL/SAL.html';"
-        >
-          <strong>[ SAL ]</strong>
-          <span class="gray-italics">Sensorineural Acuity Level Test</span>
-          <span
-            >Interactive worksheet and guide for using SAL to avoid masking
-            dilemmas</span
-          >
-        </button>
-      </div>
-
-      <div class="gradient-2 radius">
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/Audiogram';"
-        >
-          <strong>Audiogram</strong>
-          <span class="gray-italics">Down 10, Up 5</span>
-          <span>The best point and click audiogram on the web</span>
-          <!-- <div class="spacer"></div> -->
-        </button>
-      </div>
-      <div class="gradient-3 radius">
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/Vestib_CI';"
-        >
-          <strong>Vestibular Test Summary</strong>
-          <span
-            >A very simple interactive form for summarizing peripheral tests of vestibular function.
-          </span>
-        </button>
-      </div>
-      <div class="gradient-4 radius">
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/Patulous';"
-        >
-          <strong>Patulous</strong>
-          <span class="gray-italics">Patulous Eustachian Tube Testing</span>
-          <span
-            >Template for building a single-page printout or report of patulous
-            testing images from screenshots
-          </span>
-        </button>
-      </div>
-
-      <div class="gradient-5 radius">
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/CROS helper/index.html';"
-        >
-          <strong>CROS Helper</strong>
-          <span
-            >Tiny resource for quickly getting back up to speed about how to
-            setup a probe mic system for CROS/BiCROS verification
-          </span>
-        </button>
-      </div>
-      <div class="gradient-5 radius">
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/HNS Referral/index.html';"
-        >
-          <strong>Clinical Decision Guide</strong>
-          <span class="gray-italics">IFTTT</span>
-          <span
-            >Interactive guide for determining when to refer to HNS, for
-            imaging, follow-up testing, or other recommendations based on audio
-            results and symptom onset
-          </span>
-        </button>
-      </div>
-
-      <div class="gradient-6 radius">
-        <button class="buttons btn-card" onclick="window.location.href='/VRA';">
-          <strong>VRA</strong>
-          <span class="gray-italics">Visual Reinforcement Audiometry</span>
-          <span
-            >VRA app for use with computers that have two or more monitors in
-            the booth. Send images or video to either side as needed
-          </span>
-        </button>
-      </div>
-
-      <div class="gradient-8 radius">
-        <button
-        class="buttons btn-card"
-        onclick="window.location.href='/MWST/index.html';"
-        >
-        <strong>MWST</strong>
-        <span
-          >Monothermal Warm Screening Test Calculator
-        </span>
-      </div>
-    </button>
-      <div>
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/Caloric Chart-er/index.html';"
-        >
-          Caloric Chart-er
-        </button>
-      </div>
-
-      <div>
-        <button
-          class="buttons btn-card"
-          onclick="window.location.href='/Tinnitus Pitch/index.html';"
-        >
-          Tinn Pitch
-        </button>
+    <style>
+      @view-transition {
+        navigation: auto;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+      body {
+        background-color: #fefdf9;
+      }
+      main {
+        display: flex;
+        justify-content: center;
+        div {
+          max-width: 800px;
+        }
+      }
+      li {
+        font-size: 2rem;
+        list-style-type: none;
+        margin-block: 2rem;
+        a {
+          text-decoration: none;
+          color: #342590;
+        }
+        p {
+          font-size: 1.5rem;
+          margin-top: 0.5rem;
+          color: #28908d;
+        }
+      }
+      a:hover {
+        background-color: lightgray;
+      }
+      a:visited {
+        color: #342590;
+      }
+      #wrapper {
+        margin-inline: 1rem;
+      }
+    </style>
+    <header style="display: grid; place-items: center; margin-top: 2rem">
+      <h1>Ear Project</h1>
+    </header>
+    <main>
+      <div id="wrapper">
+        <ul>
+          <li>
+            <a href="/SAL/SAL.html">SAL</a>
+            <p>Interactive worksheet for avoid BC masking dilemmas</p>
+          </li>
+          <li>
+            <a href="/HNS Referral/index.html">HNS Referral Guidance</a>
+            <p>Interactive decision tree for referring patients to HNS</p>
+          </li>
+          <li>
+            <a href="/Audiogram">Audiogram</a>
+            <p>The best point and click audiogram on the web</p>
+          </li>
+          <li>
+            <a href="/Vestib_CI">Vestibular Test Summary</a>
+            <p>
+              A very simple interactive form for summarizing peripheral tests of
+              vestibular function.
+            </p>
+          </li>
+          <li>
+            <a href="/MWST">Monothermal Warm Screen Calculator</a>
+            <p>
+              Tiny calculator to check MWST if you use an old VNG system without
+              it built in
+            </p>
+          </li>
+          <li>
+            <a href="/Patulous/index.html">Patulous Eustachian Tube Testing</a>
+            <p>
+              Template for building a single-page printout or report of patulous
+              testing images from screenshots
+            </p>
+          </li>
+        </ul>
       </div>
     </main>
-    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "baa96b76d0cf468ba91b4d8b9a4c561b"}'></script><!-- End Cloudflare Web Analytics -->
+    <footer style="display: grid; place-items: center; padding: 2rem">
+      <p>Austin Swanson</p>
+    </footer>
   </body>
 </html>
