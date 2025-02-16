@@ -1,13 +1,6 @@
-// import {
-//   doc,
-//   setDoc,
-//   addDoc,
-//   collection,
-//   updateDoc,
-//   getDocs,
-// } from "firebase/firestore";
-// import { db } from "./db.js";
-// import { auth } from "./auth.js";
+audiogram_result.addEventListener("change", populateSecondarySelects);
+age_result.addEventListener("change", evaluateSecondarySelect);
+timing_result.addEventListener("change", evaluateSecondarySelect);
 
 let dataObj = {
   Audiogram: [],
@@ -20,11 +13,20 @@ let newDataObj = {
   "----Select a result-----": {},
   //list keys to create the primary Select list
   "Sudden Sensorineural Hearing Loss": {
-    Definition:
-      "Sudden hearing loss of 30dB or more over 3 contiguous frequencies",
+    Definition: `Onset of hearing loss less than or equal to 6 weeks.
+30 dB asymmetry over 3 frequencies (not including inter-octaves) - if no baseline audio available.
+If previous audio available, thresholds must have declined 30 dB over 3 consecutive frequencies in the affected ear.
+Asymmetry of 24% or more in word recognition scores (new patient) or drop of 24% in affected ear.`,
     Timing: {
-      "0-6 Weeks": "On-call HNS for steroids",
-      "Over 6 Weeks": "Too late for steroids. MRI to rule out tumor. Offer HA",
+      "0-6 Weeks": `Same day appointments should be available with physican assistant or on call HNS MD. If end of day, on-call MD should be contacted (by phone if needed) for further follow-up/treatment plan.
+      Order MRI if asymmetry criteria is met (refer to section 2.7)
+      If a previous MRI has been ordered previously and not read by a neurotologist, the electronic chart needs to be forwarded to the neurotologist for further review.
+      There is no age limit if patient has had a sudden loss and meets MRI criteria.`,
+      "Over 6 Weeks": `Too late for steroids.
+      Order MRI if asymmetry criteria is met (refer to section 2.7)
+      If a previous MRI has been ordered previously and not read by a neurotologist, the electronic chart needs to be forwarded to the neurotologist for further review.
+      There is no age limit if patient has had a sudden loss and meets MRI criteria.
+      Offer hearing aid if appropriate.`,
     },
   },
   "Unilateral Tinnitus, Constant": {
