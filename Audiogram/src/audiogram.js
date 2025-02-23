@@ -216,6 +216,9 @@ function setNR() {
   } else {
     calcInterOct(index, null, earNR);
   }
+  audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
+  audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+  annotatePTA();
   updateCharts();
 }
 
