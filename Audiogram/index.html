@@ -51,39 +51,52 @@
       </div> -->
 
       <div class="top-controls-container">
-                <button id="AC_button" class="button_T" style="align-self: center">
-          AC
-        </button>        <button id="BC_button" class="button_T" style="align-self: center">
-          BC
-        </button>
+        <div class="top-controls-container-item ">
+          <button id="AC_button" class="button_T">
+            AC
+          </button>        <button id="BC_button" class="button_T" style="align-self: center">
+            BC
+          </button>
         </button>        <button id="aided_button" class="button_T" style="align-self: center">
           Aided
         </button>
+      </div>
+      <div class="top-controls-container-item ">
+        <div>
+        <label for="select_transducer">Transducer:</label>
         <select
-          name="select_transducer"
-          id="select_transducer"
-          class="top-controls-button"
+        name="select_transducer"
+        id="select_transducer"
+        class="top-controls-button"
         >
-          <option value="blank">--Transducer--</option>
-          <option value="circumaural">Circumaural</option>
-          <option value="insert">Insert</option>
-          <option value="supraaural">Supraaural</option>
-        </select>
-        <select
-          id="Reliability"
-          name="Reliability"
-          class="top-controls-button"
-        >
-          <option value="blank">--Reliability--</option>
-          <option value="Good">Good</option>
-          <option value="Fair">Fair</option>
-          <option value="Poor">Poor</option>
-        </select>
+        <option value="blank">--Transducer--</option>
+        <option value="circumaural">Circumaural</option>
+        <option value="insert">Insert</option>
+        <option value="supraaural">Supraaural</option>
+      </select>
+      </div>
+      <div>
+      <label for="Reliability">Reliability:</label>
+      <select
+      id="Reliability"
+      name="Reliability"
+      class="top-controls-button"
+      >
+      <option value="blank">--Reliability--</option>
+      <option value="Good">Good</option>
+      <option value="Fair">Fair</option>
+      <option value="Poor">Poor</option>
+    </select>
+    </div>
+  </div>
+  <div class="top-controls-container-item ">
         <button id="word_rec" class="top-controls-button box-shadow-1px">Word Rec</button>
 
         <button id="command_palette" class="top-controls-button box-shadow-1px">
           Controls
         </button>
+
+      </div>
       </div>
 
       <div class="spacer3" style="grid-column: 1/-1">
@@ -95,9 +108,7 @@
       </div>
 
       <div
-        style="grid-column: 2; "
-      >
-
+        style="grid-column: 2; ">
         <h3>Left:</h3>
       </div>
 

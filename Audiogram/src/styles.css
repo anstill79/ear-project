@@ -52,7 +52,6 @@
 
 .top-controls-button {
   cursor: pointer;
-  width: 250px;
   background: white;
   font-size: 12px;
   border: 1px solid #000000;
@@ -94,6 +93,13 @@
   gap: 10px;
   padding: 5px;
   grid-column: 1 / span 2;
+  justify-content: space-around;
+}
+
+.top-controls-container-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 select {
@@ -102,14 +108,11 @@ select {
   width: 80px;
 }
 
-label {
+.labels {
   float: left;
   width: 10em;
   margin-right: 1em;
   text-align: right;
-}
-
-.labels {
   width: 60px;
   font-style: italic;
   height: 15px;
@@ -498,7 +501,6 @@ h3 {
 .button_T {
   cursor: pointer;
   top: 72%;
-  width: 250px;
   height: 20px;
   background: white;
   font-size: 14px;
@@ -521,7 +523,6 @@ h3 {
 .button_U {
   cursor: pointer;
   top: 72%;
-  width: 250px;
   height: 20px;
   background: white;
   font-size: 14px;
@@ -532,6 +533,10 @@ h3 {
   border-width: 1.5px;
   background-color: rgb(255, 255, 255, 1);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px, rgb(51, 51, 51) 0px 0px 0px 1px;
+}
+.button_T,
+.button_U {
+  width: 80px;
 }
 
 .spacer1 {
