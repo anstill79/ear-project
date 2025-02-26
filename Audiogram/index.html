@@ -20,7 +20,8 @@
       <site-header site-name="Ear Project"></site-header>
 
     <div class="grid-container">
-      <div
+      <!-- Pt info component. Removing for now -->
+      <!-- <div
         id="PHI_box"
         class="PHI-sub-grid"
         style="
@@ -47,58 +48,68 @@
         <div class="PHI-sub-grid-item">
           <input type="text" />
         </div>
+      </div> -->
+
+      <div class="top-controls-container">
+        <div class="top-controls-container-item ">
+          <button id="AC_button" class="button_T">
+            AC
+          </button>        <button id="BC_button" class="button_T" style="align-self: center">
+            BC
+          </button>
+        </button>        <button id="aided_button" class="button_T" style="align-self: center">
+          Aided
+        </button>
       </div>
-
-      <div class="top-controls-grid">
+      <div class="top-controls-container-item ">
+        <div>
+        <label for="select_transducer">Transducer:</label>
         <select
-          name="select_transducer"
-          id="select_transducer"
-          style="width: 100%; font-size: 12px; padding: 0px"
-          class="top-controls-button"
+        name="select_transducer"
+        id="select_transducer"
+        class="top-controls-button"
         >
-          <option value="blank">--Transducer--</option>
-          <option value="circumaural">Circumaural</option>
-          <option value="insert">Insert</option>
-          <option value="supraaural">Supraaural</option>
-        </select>
-        <button id="word_rec" class="top-controls-button">Word Rec</button>
-        <select
-          id="Reliability"
-          name="Reliability"
-          style="width: 100%; font-size: 12px; padding: 0px"
-          class="top-controls-button"
-        >
-          <option value="blank">--Reliability--</option>
-          <option value="Good">Good</option>
-          <option value="Fair">Fair</option>
-          <option value="Poor">Poor</option>
-        </select>
+        <option value="blank">--Transducer--</option>
+        <option value="circumaural">Circumaural</option>
+        <option value="insert">Insert</option>
+        <option value="supraaural">Supraaural</option>
+      </select>
+      </div>
+      <div>
+      <label for="Reliability">Reliability:</label>
+      <select
+      id="Reliability"
+      name="Reliability"
+      class="top-controls-button"
+      >
+      <option value="blank">--Reliability--</option>
+      <option value="Good">Good</option>
+      <option value="Fair">Fair</option>
+      <option value="Poor">Poor</option>
+    </select>
+    </div>
+  </div>
+  <div class="top-controls-container-item ">
+        <button id="word_rec" class="top-controls-button box-shadow-1px">Word Rec</button>
 
-        <button id="command_palette" class="top-controls-button">
+        <button id="command_palette" class="top-controls-button box-shadow-1px">
           Controls
         </button>
+
+      </div>
       </div>
 
       <div class="spacer3" style="grid-column: 1/-1">
         <hr />
       </div>
 
-      <div class="sub-head-controls" style="grid-column: 1">
-        <h3 style="padding-right: 55px">Right:</h3>
-
-        <button id="AC_button" class="button_T" style="align-self: center">
-          AC
-        </button>
+      <div style="grid-column: 1">
+        <h3 style="padding-left: 55px">Right:</h3>
       </div>
 
       <div
-        class="sub-head-controls"
-        style="grid-column: 2; justify-self: left; padding-left: 5px"
-      >
-        <button id="BC_button" class="button_T" style="align-self: center">
-          BC
-        </button>
-        <h3 style="padding-left: 85px">Left:</h3>
+        style="grid-column: 2; ">
+        <h3>Left:</h3>
       </div>
 
       <div class="grid-item" style="grid-column: 1; justify-self: right">
@@ -122,6 +133,7 @@
       <div class="spacer2" style="grid-column: 1"></div>
 
       <div class="grid-item right-position no-print" style="grid-column: 1">
+    
                 <button id="mask_right" class="button_R" style="width: 50px; margin: -2px;">
           Mask All
         </button>
