@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Loud Text</title>
     <style>
-      /* :root {
-        --border-color: rgba(255, 255, 255, 0.2);
-      } */
       * {
         margin: 0;
         padding: 0;
@@ -44,7 +41,7 @@
         position: sticky;
         bottom: 0;
         background-color: #f5f5f5;
-        padding: 1rem;
+        padding: 0.5rem;
         border-top: 3px solid #888;
         display: flex;
         flex-direction: column;
@@ -52,8 +49,8 @@
 
       textarea {
         flex: 1;
-        padding: 1rem;
-        font-size: 1.5rem;
+        padding: 0.5rem;
+        font-size: 1.2rem;
         border: 2px solid #666;
         border-radius: 8px;
         resize: none;
@@ -192,10 +189,6 @@
         displayArea.style.fontSize = `${this.value}rem`;
       });
 
-      textColorPicker.addEventListener("input", function () {
-        displayArea.style.color = this.value;
-      });
-
       bgColorPicker.addEventListener("input", function () {
         displayArea.style.backgroundColor = this.value;
       });
@@ -240,6 +233,7 @@
           "--border-color",
           hexToRgb(this.value)
         );
+        displayArea.style.color = this.value;
       });
     </script>
   </body>
