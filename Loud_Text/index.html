@@ -160,6 +160,7 @@
         if (inputText.value.trim() !== "") {
           const p = document.createElement("p");
           p.innerText = inputText.value;
+          p.setAttribute("contenteditable", "true");
           displayArea.appendChild(p);
 
           // Scroll to the bottom to show the latest text
