@@ -94,6 +94,10 @@
         font-size: 1.2rem;
       }
 
+      input[type="color"] {
+      border: none; 
+      border-radius: 45px;
+      }
       input[type="color"],
       input[type="range"] {
         cursor: pointer;
@@ -103,6 +107,16 @@
         border-bottom: 1px solid rgba(var(--border-color), 0.2);
         padding: 10px;
         margin-block: 5px;
+      }
+      #info_popover {
+        margin: auto;
+        padding: 2rem;
+        font-size: 2rem;
+        max-width: 50%;
+        border-radius: 15px;
+      }
+      #info_popover::backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
       }
     </style>
   </head>
@@ -138,11 +152,26 @@
               Background:
               <input type="color" id="bgColorPicker" value="#000000" />
             </label>
+                    <select id="color_presets">
+          <option value="1">Colors 1</option>
+          <option value="2">Colors 2</option>
+          <option value="3">Colors 3</option>
+          <option value="4">Colors 4</option>
+          <option value="5">Colors 5</option>
+        </select>
           </div>
           <button id="fullscreen" onclick="toggleFullScreen()">
             Turn Fullscreen On
           </button>
+          <button id="info" popovertarget="info_popover">
+            About
+          </button>
+          <div popover id="info_popover">
+            <p>
+              <strong>Loud Text</strong> is a local web app.</p> <p> The text you type is not saved or sent to a server. Refreshing the page or using the Clear All button cannot be undone and all text will be lost.
+            </p>
         </div>
+
       </div>
     </div>
 
@@ -155,7 +184,38 @@
       const textColorPicker = document.getElementById("textColorPicker");
       const bgColorPicker = document.getElementById("bgColorPicker");
 
-      // Function to append the message and clear input
+      color_presets.addEventListener("change", function () {
+        switch (this.value) {
+          case "1":
+            textColorPicker.value = "#ffffff";
+            bgColorPicker.value = "#000000";
+            break;
+          case "2":
+            textColorPicker.value = "#000000";
+            bgColorPicker.value = "#ffffff";
+            break;
+          case "3":
+            textColorPicker.value = "#00FF00";
+            bgColorPicker.value = "#000000";
+            break;
+          case "4":
+            textColorPicker.value = "#080808";
+            bgColorPicker.value = "#2DF505";
+            break;
+          case "5":
+            textColorPicker.value = "#FFFFFF";
+            bgColorPicker.value = "#4D4D4D";
+            break;
+          
+        }
+        displayArea.style.color = textColorPicker.value;
+        displayArea.style.backgroundColor = bgColorPicker.value;
+                document.documentElement.style.setProperty(
+          "--border-color",
+          hexToRgb(textColorPicker.value)
+        );
+      });
+
       function appendMessage() {
         if (inputText.value.trim() !== "") {
           const p = document.createElement("p");
@@ -165,8 +225,6 @@
 
           // Scroll to the bottom to show the latest text
           displayArea.scrollTop = displayArea.scrollHeight;
-
-          // Clear the input
           inputText.value = "";
         }
       }
