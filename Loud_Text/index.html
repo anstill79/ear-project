@@ -57,6 +57,10 @@
         resize: none;
         white-space: nowrap;
         overflow-x: hidden;
+        height: 3rem;
+      }
+      textarea:focus {
+ box-shadow: inset;
       }
 
       .controls {
@@ -66,7 +70,7 @@
       }
 
       button {
-        padding: 0.5rem 1rem;
+        padding: 0.2rem 0.2rem;
         font-size: 1.2rem;
         background-color: #0066cc;
         color: white;
@@ -118,19 +122,27 @@
       #info_popover::backdrop {
         background-color: rgba(0, 0, 0, 0.5);
       }
+      #text_section {
+        display: grid;
+     grid-template-columns: 4fr 1fr 1fr;
+     gap: 5px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <div id="displayArea" class="display-area"></div>
       <div class="input-area">
+        <div id="text_section">
         <textarea
           id="inputText"
-          placeholder="Type your message here..."
+          placeholder="Type here..."
         ></textarea>
+        <button id="sendBtn">Send (Enter)</button>
+        <button id="clearBtn">Clear All</button>
+        </div>
         <div class="controls">
-          <button id="sendBtn">Send (Enter)</button>
-          <button id="clearBtn">Clear All</button>
+          </div>
           <!-- settings -->
           <div class="settings">
             <label>
@@ -160,19 +172,20 @@
           <option value="5">Colors 5</option>
         </select>
           </div>
+          <div id="misc">
           <button id="fullscreen" onclick="toggleFullScreen()">
             Turn Fullscreen On
           </button>
           <button id="info" popovertarget="info_popover">
             About
           </button>
+          </div>
           <div popover id="info_popover">
             <p>
               <strong>Loud Text</strong> is a local web app.</p> <p> The text you type is not saved or sent to a server. Refreshing the page or using the Clear All button cannot be undone and all text will be lost.
             </p>
         </div>
 
-      </div>
     </div>
 
     <script>
