@@ -1,0 +1,321 @@
+ <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Overlay Image Tool</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin: 2em;
+      }
+
+      .drop-zone-container {
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        margin-bottom: 1em;
+      }
+
+      .drop-zone {
+        position: relative;
+        flex-direction: column;
+        padding: 0.5em;
+        width: 100px;
+        height: 100px;
+        background-color: lightblue;
+      }
+
+      .preview-thumb {
+        max-width: 100%;
+        max-height: 60px;
+        margin-top: 0.5em;
+        border: 1px solid #ccc;
+      }
+
+      .delete-btn {
+        margin-top: 0.25em;
+        font-size: 12px;
+        background: #eee;
+        border: 1px solid #999;
+        cursor: pointer;
+      }
+
+      .drop-zone.dragover {
+        background-color: #d0f0ff;
+        border-color: #00aaff;
+      }
+
+      #canvas-container {
+        position: relative;
+        width: 800px;
+        height: 500px;
+        margin: 0 auto;
+        border: 2px dashed #ccc;
+        background-color: #f9f9f9;
+        overflow: hidden;
+      }
+
+      .pasted-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.5;
+        max-width: none;
+        max-height: none;
+        cursor: move;
+      }
+
+      #info {
+        margin-top: 1em;
+        color: #555;
+      }
+
+      .center-thumbnail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+      .zoom-control {
+        display: flex;
+      }
+      button {
+        cursor: pointer;
+      }
+
+      @media print {
+        .no-print {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image Comparer</h1>
+
+    <div class="drop-zone-container no-print">
+      <div>
+        <div class="drop-zone" data-index="0">
+          <div class="drop-info">Drop or Paste Image 1</div>
+        </div>
+        <div>
+          <label> Image 1 Opacity: </label>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+          data-index="0"
+        />
+        <div class="zoom-controls">
+          <button data-index="0">-</button>
+          <button data-index="0">Center</button>
+          <button data-index="0">+</button>
+        </div>
+      </div>
+      <div>
+        <div class="drop-zone" data-index="1">
+          <div class="drop-info">Drop or Paste Image 2</div>
+        </div>
+        <div>
+          <label> Image 2 Opacity: </label>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+          data-index="1"
+        />
+        <div class="zoom-controls">
+          <button data-index="1">-</button>
+          <button data-index="1">Center</button>
+          <button data-index="1">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script>
+      const container = document.getElementById("canvas-container");
+      const dropZones = document.querySelectorAll(".drop-zone");
+      const images = [];
+      const canvasWidth = 500;
+      const canvasHeight = 500;
+
+      dropZones.forEach((zone, index) => {
+        zone.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          zone.classList.add("dragover");
+        });
+
+        zone.addEventListener("dragleave", () => {
+          zone.classList.remove("dragover");
+        });
+
+        zone.addEventListener("drop", (e) => {
+          e.preventDefault();
+          zone.classList.remove("dragover");
+          const file = [...e.dataTransfer.files].find((f) =>
+            f.type.startsWith("image")
+          );
+          if (file) handleImageFile(file, index);
+        });
+
+        zone.addEventListener("paste", (e) => {
+          const item = [...e.clipboardData.items].find((i) =>
+            i.type.startsWith("image")
+          );
+          if (item) handleImageFile(item.getAsFile(), index);
+        });
+      });
+      function handleImageFile(file, index) {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          const { width, height } = getScaledDimensions(
+            img.width,
+            img.height,
+            canvasWidth,
+            canvasHeight
+          );
+
+          const existingImg = images[index];
+          if (existingImg) {
+            container.removeChild(existingImg);
+          }
+
+          const displayedImg = document.createElement("img");
+          displayedImg.src = url;
+          displayedImg.className = "pasted-image";
+          displayedImg.style.width = `${width}px`;
+          displayedImg.style.height = `${height}px`;
+          displayedImg.style.left = "0px";
+          displayedImg.style.top = "0px";
+          container.appendChild(displayedImg);
+          makeDraggable(displayedImg);
+          images[index] = displayedImg;
+
+          // Update thumbnail preview
+          const dropZone = document.querySelector(
+            `.drop-zone[data-index="${index}"]`
+          );
+          dropZone.innerHTML = `
+          <div class="center-thumbnail">
+      <div class="drop-info">Image ${index + 1}</div>
+      <img src="${url}" class="preview-thumb" />
+      <button class="delete-btn" data-index="${index}">Delete</button>
+      </div>
+    `;
+
+          // Reattach delete handler
+          dropZone
+            .querySelector(".delete-btn")
+            .addEventListener("click", () => {
+              if (images[index]) {
+                container.removeChild(images[index]);
+                images[index] = null;
+              }
+              dropZone.innerHTML = `<div class="drop-info">Drop or Paste Image ${
+                index + 1
+              }</div>`;
+              // Reset corresponding slider if exists
+              const slider = document.querySelector(
+                `.drop-zone-container input[data-index="${index}"]`
+              );
+              if (slider) slider.value = 0.5;
+            });
+        };
+        img.src = url;
+      }
+
+      function getScaledDimensions(
+        originalWidth,
+        originalHeight,
+        maxWidth,
+        maxHeight
+      ) {
+        const aspectRatio = originalWidth / originalHeight;
+        let width = originalWidth;
+        let height = originalHeight;
+
+        if (width > maxWidth) {
+          width = maxWidth;
+          height = width / aspectRatio;
+        }
+        if (height > maxHeight) {
+          height = maxHeight;
+          width = height * aspectRatio;
+        }
+
+        return { width, height };
+      }
+
+      function makeDraggable(el) {
+        let offsetX, offsetY;
+
+        const onMouseMove = (e) => {
+          const x = e.clientX - offsetX;
+          const y = e.clientY - offsetY;
+          el.style.left = `${x}px`;
+          el.style.top = `${y}px`;
+        };
+
+        const onMouseUp = () => {
+          document.removeEventListener("mousemove", onMouseMove);
+          document.removeEventListener("mouseup", onMouseUp);
+        };
+
+        el.addEventListener("mousedown", (e) => {
+          e.preventDefault(); // prevent unwanted selection behavior
+          offsetX = e.clientX - el.offsetLeft;
+          offsetY = e.clientY - el.offsetTop;
+          el.style.zIndex = Date.now();
+          document.addEventListener("mousemove", onMouseMove);
+          document.addEventListener("mouseup", onMouseUp);
+        });
+      }
+      // Opacity control for each image
+      document
+        .querySelectorAll('.drop-zone-container input[type="range"]')
+        .forEach((slider) => {
+          slider.addEventListener("input", () => {
+            const i = slider.dataset.index;
+            if (images[i]) {
+              images[i].style.opacity = slider.value;
+            }
+          });
+        });
+
+      document.querySelectorAll(".zoom-controls button").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const index = e.target.dataset.index;
+          const img = images[index];
+          if (!img) return;
+
+          if (e.target.textContent === "+") {
+            img.style.width = `${img.offsetWidth * 1.1}px`;
+            img.style.height = `${img.offsetHeight * 1.1}px`;
+          } else if (e.target.textContent === "-") {
+            img.style.width = `${img.offsetWidth / 1.1}px`;
+            img.style.height = `${img.offsetHeight / 1.1}px`;
+          } else if (e.target.textContent === "Center") {
+            img.style.left = `${
+              (container.clientWidth - img.offsetWidth) / 2
+            }px`;
+            img.style.top = `${
+              (container.clientHeight - img.offsetHeight) / 2
+            }px`;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
