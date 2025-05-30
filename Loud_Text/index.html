@@ -51,26 +51,26 @@
 
       textarea {
         flex: 1;
-        padding: 0.5rem;
-        font-size: 1.2rem;
+        padding: 0.3rem;
+        font-size: 1rem;
         border: 2px solid #666;
         border-radius: 8px;
         resize: none;
         white-space: nowrap;
         overflow-x: hidden;
-        height: 3rem;
+        height: 2rem;
         background-color: #f5f5f5;
       }
       textarea:focus {
-  box-shadow: inset 1px 1px 1px rgba(0,0,0,1);
-  border: 2px solid black;
-  background-color: #fff;
+        box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 1);
+        border: 2px solid black;
+        background-color: #fff;
       }
 
       .controls {
         display: flex;
-        margin-top: 0.5rem;
-        gap: 0.5rem;
+        margin-top: 0.2rem;
+        gap: 0.2rem;
       }
 
       button {
@@ -102,8 +102,8 @@
       }
 
       input[type="color"] {
-      border: none; 
-      width: 30px;
+        border: none;
+        width: 30px;
       }
       input[type="color"],
       input[type="range"] {
@@ -128,8 +128,14 @@
       }
       #text_section {
         display: grid;
-     grid-template-columns: 4fr 1fr 1fr;
-     gap: 5px;
+        gap: 5px;
+      }
+      .border {
+        border: 1px solid black;
+        display: grid;
+        place-content: center;
+        height: 100%;
+        padding-inline: 1rem;
       }
     </style>
   </head>
@@ -138,29 +144,27 @@
       <div id="displayArea" class="display-area"></div>
       <div class="input-area">
         <div id="text_section">
-        <textarea
-          id="inputText"
-          placeholder="Type here..."
-        ></textarea>
-        <button id="sendBtn">Send (Enter)</button>
-        <button id="clearBtn">Clear All</button>
+          <textarea id="inputText" placeholder="Type here..."></textarea>
         </div>
-        <div class="controls">
-          </div>
-          <!-- settings -->
-          <div class="settings">
-            <label>
-              Text Size:
-              <input
-                type="range"
-                id="textSizeSlider"
-                min="2"
-                max="8"
-                step="0.5"
-                value="4"
-              />
-            </label>
-            <div style="display:flex; gap: 15px; align-items: center;">
+        <div class="controls"></div>
+        <!-- settings -->
+        <div class="settings">
+          <div class="border">
+          <label>
+            Text Size:
+            <input
+              type="range"
+              id="textSizeSlider"
+              min="2"
+              max="8"
+              step="0.5"
+              value="4"
+            />
+          </label>
+        </div>
+          <div style="display:flex; gap: 5px; align-items: center; flex-direction: column; align-items: flex-start;" class="border">
+
+          <div style="display: flex; gap: 1rem;">
             <span>Colors:</span>
             <label>
               Text
@@ -170,28 +174,40 @@
               BG
               <input type="color" id="bgColorPicker" value="#000000" />
             </label>
-            <label for="color_presets">Presets</label>
-                    <select id="color_presets">
-          <option value="1">Wht/Blk</option>
-          <option value="2">Blk/Wht</option>
-          <option value="3">Grn/Blk</option>
-          <option value="4">Blk/Grn</option>
-          <option value="5">Wht/Gry</option>
-        </select>
-        </div>
-        <button id="fullscreen" onclick="toggleFullScreen()">
-          Turn Fullscreen On
-        </button>
-        <button id="info" popovertarget="info_popover">
-          About
-        </button>
           </div>
-          <div popover id="info_popover">
-            <p>
-              <strong>Loud Text</strong> is a local web app.</p> <p> The text you type is not saved or sent to a server. Refreshing the page or using the Clear All button cannot be undone and all text will be lost.
-            </p>
-        </div>
 
+          <div style="display: flex; gap: 1rem;">
+            <label for="color_presets">Presets:</label>
+            <select id="color_presets">
+              <option value="1">Wht/Blk</option>
+              <option value="2">Blk/Wht</option>
+              <option value="3">Grn/Blk</option>
+              <option value="4">Blk/Grn</option>
+              <option value="5">Wht/Gry</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;" class="border">
+        <div style="display: flex; gap: 1rem;">          
+          <button id="sendBtn">Send (Enter)</button>
+          <button id="clearBtn">Clear All</button>
+        </div>
+        <div style="display: flex; gap: 1rem;">          
+          <button id="fullscreen" onclick="toggleFullScreen()">
+            Turn Fullscreen On
+          </button>
+          <button id="info" popovertarget="info_popover">About</button>
+        </div>
+        </div>
+      </div>
+      <div popover id="info_popover">
+        <p><strong>Loud Text</strong> is a local web app.</p>
+        <p>
+          The text you type is not saved or sent to a server. Refreshing the
+          page or using the Clear All button cannot be undone and all text will
+          be lost.
+        </p>
+      </div>
     </div>
 
     <script>
@@ -225,11 +241,10 @@
             textColorPicker.value = "#FFFFFF";
             bgColorPicker.value = "#4D4D4D";
             break;
-          
         }
         displayArea.style.color = textColorPicker.value;
         displayArea.style.backgroundColor = bgColorPicker.value;
-                document.documentElement.style.setProperty(
+        document.documentElement.style.setProperty(
           "--border-color",
           hexToRgb(textColorPicker.value)
         );

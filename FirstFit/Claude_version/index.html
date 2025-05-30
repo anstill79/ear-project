@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Sound On</title>
+  </head>
+  <body>
+    <h1>🔈 Sound On 🔈</h1>
+
+    <div class="control-panel">
+      <div class="volume-control">
+        <label for="global-volume">Global Volume:</label>
+        <input
+          type="range"
+          id="global-volume"
+          min="0"
+          max="1"
+          step="0.1"
+          value="0.7"
+        />
+        <span id="volume-value">70%</span>
+      </div>
+      <div style="display: flex;">
+          <label for="loop_all">Loop</label>
+          <input type="checkbox" id="loop_all" style="margin-right: 1.5rem;" />
+        <button id="stop_all_btn1">Stop</button>
+      </div>
+    </div>
+
+    <div class="card-grid" id="card-container">
+      <!-- Sample cards - these will serve as templates -->
+      <div class="sound-card">
+        <div class="card-header">
+          <h3 class="card-title">Speech in Quiet</h3>
+        </div>
+        <p class="sound-description">
+          Clear human speech in a quiet environment to test basic speech
+          intelligibility.
+        </p>
+        <audio class="audio-player" controls>
+          <source src="W 143rd Terr.m4a" type="audio/mpeg" />
+        </audio>
+      </div>
+
+      <div class="sound-card">
+        <div class="card-header">
+          <h3 class="card-title">Background Conversation</h3>
+        </div>
+        <p class="sound-description">
+          Multiple people talking simultaneously to test speech discrimination.
+        </p>
+        <audio class="audio-player" controls>
+          <source src="W 143rd Terr 2.m4a" type="audio/mpeg" />
+        </audio>
+      </div>
+
+
+
+    <button id="stop_all_btn2"></button>
+
+    
+  </body>
+</html>
