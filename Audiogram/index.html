@@ -17,7 +17,7 @@
 
   <body>
     
-      <site-header site-name="Ear Project"></site-header>
+      <!-- <site-header site-name="Ear Project"></site-header> -->
 
     <div class="grid-container">
       <!-- Pt info component. Removing for now -->
@@ -753,46 +753,42 @@
         <div style="grid-column: 1 / span 3">
           <h3 style="font-weight: bold">Command Palette</h3>
         </div>
-        <div style="grid-column: 1; grid-row: 2">Shade Norm:</div>
-        <div style="grid-column: 2; grid-row: 2">
+        <div>Shade Norm:</div>
+        <div>
           <button id="shade_norm_on" class="toggle-button-enabled">On</button>
         </div>
-        <div style="grid-column: 3; grid-row: 2">
+        <div>
           <button id="shade_norm_off" class="toggle-button-disabled">
             Off
           </button>
         </div>
 
-        <div style="grid-column: 1; grid-row: 3">Shade Loss:</div>
-        <div style="grid-column: 2; grid-row: 3">
+        <div>Shade Loss:</div>
+        <div>
           <button id="shadeLossOn" class="toggle-button-enabled">On</button>
         </div>
-        <div style="grid-column: 3; grid-row: 3">
+        <div>
           <button id="shadeLossOff" class="toggle-button-disabled">Off</button>
         </div>
-        <div style="grid-column: 1; grid-row: 4">Crosshair:</div>
-        <div style="grid-column: 2; grid-row: 4">
+        <div>Crosshair:</div> <div>
           <button id="crosshairOn" class="toggle-button-enabled">On</button>
-        </div>
-        <div style="grid-column: 3; grid-row: 4">
+        </div> <div>
           <button id="crosshairOff" class="toggle-button-disabled">Off</button>
-        </div>
-        <div style="grid-column: 1; grid-row: 5">PTA:</div>
-        <div style="grid-column: 2; grid-row: 5">
+        </div> <div>PTA:</div> <div>
           <button id="annotatePTAon" class="toggle-button-enabled">On</button>
-        </div>
-        <div style="grid-column: 3; grid-row: 5">
+        </div> <div>
           <button id="annotatePTAoff" class="toggle-button-disabled">
             Off
           </button>
         </div>
-        
-          <label for="secondary_data">Secondary Data</label>
+        <div style="grid-column: 1/span 3;">
+          <label for="secondary_data">Secondary (ghost) Data</label>
           <select id="secondary_data">
             <option>Prev. Results</option>
             <option>Other Ear</option>
             <option>None</option>
           </select>
+        </div>
           <div style="grid-column: 2 / span 2; grid-row: 6">
             <button
             id="copy_data"
@@ -816,6 +812,19 @@
           >
           DL Image
         </button>
+        <label for="ac_point_size_slider">AC Point Size:</label>
+        <input type="range" id="ac_point_size_slider" min="-2" max="2" value="0"  list="point_size_slider_list" class="point_size_slider">
+        <label for="bc_point_size_slider">BC Point Size:</label>
+        <input type="range" id="bc_point_size_slider" min="-2" max="2" value="0"  list="point_size_slider_list" class="point_size_slider">
+
+        <datalist id="point_size_slider_list" class="point_size_slider_list">
+          <option value="-2" label="tiny"></option>
+          <option value="-1" label="small"></option>
+          <option value="0" label="medium"></option>
+          <option value="1" label="large"></option>
+          <option value="2" label="huge"></option>
+        </datalist>
+
       </div>
       <div style="grid-column: 1; grid-row: 9">WR defaults:</div>
       <div style="grid-column: 2 / span 2; grid-row: 9; justify-self: center">
@@ -853,7 +862,7 @@
     <script type="module" crossorigin src="src/audiogram.js"></script>
 
     <!-- Cloudflare Web Analytics -->
-     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "baa96b76d0cf468ba91b4d8b9a4c561b"}'></script>
+     <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "baa96b76d0cf468ba91b4d8b9a4c561b"}'></script> -->
      <!-- End Cloudflare Web Analytics -->
   </body>
 </html>

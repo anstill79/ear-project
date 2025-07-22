@@ -9,6 +9,13 @@ import {
   L_NR,
 } from "./dataAndImages.js";
 
+import {
+  adjustAllACpointSizes,
+  adjustAllBCpointSizes,
+  acPointSize,
+  bcPointSize,
+} from "./adjustPointSizes.js";
+
 // Chart.register(annotationPlugin);
 
 const CrosshairRemover = {
@@ -300,7 +307,8 @@ function calcInterOct(index, dB, ear) {
     for (let i = 0; i < 12; i++) {
       //sets point size to show if tested is true
       if (audiogramData.interOctTested_AC_R[i] === 1) {
-        audiogramData.pointSize_AC_R.splice(i, 1, 10);
+        audiogramData.pointSize_AC_R.splice(i, 1, acPointSize);
+        audiogramData.pointSize_hover_AC_R.splice(i, 1, acPointSize);
       }
       //calcs the interoct
       if (audiogramData.interOctTested_AC_R[i] === 0) {
@@ -332,7 +340,8 @@ function calcInterOct(index, dB, ear) {
   if (ear === "L") {
     for (let i = 0; i < 12; i++) {
       if (audiogramData.interOctTested_AC_L[i] === 1) {
-        audiogramData.pointSize_AC_L.splice(i, 1, 10);
+        audiogramData.pointSize_AC_L.splice(i, 1, acPointSize);
+        audiogramData.pointSize_hover_AC_L.splice(i, 1, acPointSize);
       }
       if (audiogramData.interOctTested_AC_L[i] === 0) {
         let a = audiogramData.thresh_AC_L[i - 1];
@@ -357,6 +366,7 @@ function calcInterOct(index, dB, ear) {
       }
     }
   }
+  calcChange(index, ear);
 }
 
 //-----------------------------------this is the main function
@@ -403,8 +413,7 @@ function moveIt(freqIndex, dB, ear) {
   updateCharts();
   annotatePTA();
 }
-
-function updateCharts() {
+export function updateCharts() {
   myChart.update();
   myChart2.update();
   myChart3.update();
@@ -614,6 +623,23 @@ function toggleCrosshair() {
 }
 //**
 function calcChange(index, ear) {
+  if (ear === "R") {
+    if (
+      oldAudiogramData.thresh_AC_R[index] === null ||
+      audiogramData.thresh_AC_R[index] === null ||
+      audiogramData.interOctTested_AC_R[index] === 0
+    )
+      audiogramData.changeDetails.change_R.splice(index, 1, null);
+  }
+  if (ear === "L") {
+    if (
+      oldAudiogramData.thresh_AC_L[index] === null ||
+      audiogramData.thresh_AC_L[index] === null ||
+      audiogramData.interOctTested_AC_L[index] === 0
+    )
+      audiogramData.changeDetails.change_R.splice(index, 1, null);
+  }
+
   let threshOld =
     ear === "R" ? oldAudiogramData.thresh_AC_R : oldAudiogramData.thresh_AC_L;
   let threshNew =
@@ -778,7 +804,7 @@ function calcChange(index, ear) {
 let transducer = "AC";
 //----sets AC BC toggle to AC when load.
 
-const options_R = {
+export const options_R = {
   type: "line",
   data: {
     labels: bigHz,
@@ -1054,7 +1080,7 @@ const options_R = {
   },
 };
 
-const options_L = {
+export const options_L = {
   type: "line",
   data: {
     labels: bigHz,
@@ -1871,7 +1897,6 @@ function reduceOldPointSizes() {
     }
   }
 }
-
 reduceOldPointSizes();
 
 function calcPTA(array) {
@@ -2152,3 +2177,6 @@ window.onafterprint = (event) => {
     toggleCrosshair("on");
   }
 };
+
+ac_point_size_slider.addEventListener("change", adjustAllACpointSizes);
+bc_point_size_slider.addEventListener("change", adjustAllBCpointSizes);

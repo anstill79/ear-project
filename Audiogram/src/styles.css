@@ -585,3 +585,18 @@ h3 {
     visibility: hidden;
   }
 }
+.point_size_slider {
+  width: 100px;
+  height: 20px;
+  margin: 0;
+}
+.point_size_slider_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  writing-mode: vertical-lr;
+  width: 100px;
+  option {
+    padding: 0;
+  }
+}
