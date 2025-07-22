@@ -5,7 +5,7 @@
 }
 
 :root {
-  --width: 600px;
+  --width: 700px;
 }
 
 body {
@@ -52,15 +52,18 @@ section {
 }
 #definition {
   width: calc(var(--width) - 50px);
-  padding-block: 5px;
+  padding: 15px;
   max-width: 100%;
+  justify-self: center;
+  background-color: #85d7fa79;
+  border-radius: 5px;
+  border: 1px solid lightgray;
   span {
-    padding-inline: 15px;
+    line-height: 150%;
     padding-top: 5px;
     padding-bottom: 3px;
     font-style: italic;
     font-size: 14px;
-    background-color: #85d7fa79;
   }
 }
 
@@ -78,6 +81,8 @@ section {
 #picker_outer_wrapper {
   display: grid;
   gap: 5px;
+
+  color: #2e1065;
 }
 
 #timing {
@@ -117,4 +122,8 @@ label {
   justify-items: center;
   border: 1px solid dodgerblue;
   border-radius: 7px;
+}
+
+#timing_picker_card {
+  background: #ecfccb;
 }

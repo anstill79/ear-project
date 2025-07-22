@@ -7,6 +7,7 @@
     <title>HNS Guidance</title>
     <link href="styles.css" rel="stylesheet" />
   </head>
+
   <body>
     <div>
       <h1>HNS Guidance</h1>
@@ -19,8 +20,9 @@
       <select id="audiogram_result">
         <option value="">--Choose an option--</option>
       </select>
-      <div class="secondary-selects" style="justify-items: end">
+      <div class="secondary-selects">
         <div id="definition">
+          <p id="definition_label" style="visibility: hidden">Definition:</p>
           <span></span>
         </div>
       </div>
@@ -49,7 +51,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="timing_picker_card">
       <div class="grid-one-row">
         <div id="picker_outer_wrapper">
           <div id="picker_wrapper">
