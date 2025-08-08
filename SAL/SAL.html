@@ -9,22 +9,15 @@
     />
     <link rel="stylesheet" href="./style.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-
-    <script
-      type="module"
-      src="../Svelte/src/builtComponents/HeaderWithSection.js"
-    ></script>
-    <link
-      rel="stylesheet"
-      href="../Svelte/src/builtComponents/HeaderWithSection.css"
-    />
     <title>Sensorineural Acuity Test</title>
   </head>
 
   <body>
-    <div id="app"></div>
-
     <div id="SAL" class="main-container">
+      <div class="title">
+        <h1>Sensorineural Acuity Level Test</h1>
+        <span>(SAL)</span>
+      </div>
       <div class="red-border threshold-container">
         <div>
           <p class="labels">Right</p>
@@ -88,7 +81,7 @@
           <p id="R_result_four" class="result"></p>
         </div>
         <div>
-          <p class="labels">More Info</p>
+          <p class="labels">Explanation</p>
         </div>
 
         <div class="no-border threshold-item">
@@ -166,7 +159,7 @@
           <p id="L_result_four" class="result"></p>
         </div>
         <div>
-          <p class="labels">More Info</p>
+          <p class="labels">Explanation</p>
         </div>
         <div class="no-border threshold-item">
           <p id="L_info_five" class="info"></p>

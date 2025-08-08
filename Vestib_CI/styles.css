@@ -101,6 +101,10 @@ main {
   text-align: center;
 }
 .criteria-text {
-  padding-left: 5rem;
+  padding-left: 4rem;
   font-size: 0.8rem;
+  span {
+    font-weight: bold;
+    padding-right: 5px;
+  }
 }

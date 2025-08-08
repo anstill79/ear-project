@@ -99,37 +99,6 @@ function setKeyImages() {
 }
 setKeyImages();
 
-function showCriteria() {
-  const results = document.querySelectorAll(".test-label:not(.DNT");
-  results.forEach((result) => {
-    if (result.id === "vHIT_label") {
-      key_checked_vHIT.style.display = "block";
-      key_tilde_vHIT.style.display = "block";
-      key_X_vHIT.style.display = "block";
-    }
-    if (result.id === "caloric_label") {
-      key_checked_caloric.style.display = "block";
-      key_tilde_caloric.style.display = "block";
-      key_X_caloric.style.display = "block";
-    }
-    if (result.id === "step_label") {
-      key_checked_step.style.display = "block";
-      key_tilde_step.style.display = "block";
-      key_X_step.style.display = "block";
-    }
-    if (result.id === "sha_label") {
-      key_checked_SHA.style.display = "block";
-      key_tilde_SHA.style.display = "block";
-      key_X_SHA.style.display = "block";
-    }
-    if (result.id === "vemp_label") {
-      key_checked_VEMP.style.display = "block";
-      key_tilde_VEMP.style.display = "block";
-      key_X_VEMP.style.display = "block";
-    }
-  });
-}
-
 function showCriteria2() {
   const results = document.querySelectorAll(".test-label:not(.DNT)");
   const criteriaMap = {
