@@ -151,18 +151,20 @@
         <div class="controls"></div>
         <!-- settings -->
         <div class="settings">
-          <div>
-          <label>
-            Text Size:
-            <input
+          <div style="display: flex;">
+            <button id="testSizeDownBtn">-</button>
+            <label>
+              Text Size:
+              <input
               type="range"
               id="textSizeSlider"
               min="2"
               max="8"
               step="0.5"
               value="4"
-            />
-          </label>
+              />
+            </label>
+            <button id="textSizeUpBtn">+</button>
         </div>
 
           <div style="display: flex; gap: 1rem;">
@@ -290,6 +292,19 @@ window.addEventListener("keydown", function (e) {
 
       textSizeSlider.addEventListener("input", function () {
         displayArea.style.fontSize = `${this.value}rem`;
+      });
+
+      testSizeDownBtn.addEventListener("click", function () {
+        if (textSizeSlider.value > textSizeSlider.min) {
+          textSizeSlider.value = parseFloat(textSizeSlider.value) - 0.5;
+          displayArea.style.fontSize = `${textSizeSlider.value}rem`;
+        }
+      });
+      textSizeUpBtn.addEventListener("click", function () {
+        if (textSizeSlider.value < textSizeSlider.max) {
+          textSizeSlider.value = parseFloat(textSizeSlider.value) + 0.5;
+          displayArea.style.fontSize = `${textSizeSlider.value}rem`;
+        }
       });
 
       bgColorPicker.addEventListener("input", function () {
