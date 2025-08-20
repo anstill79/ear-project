@@ -11,6 +11,7 @@
         font-family: sans-serif;
         padding: 0px;
         margin: 0px;
+        /* border: 1px solid green; */
       }
       :root {
         --font-size: 2rem;
@@ -21,28 +22,21 @@
       }
       main {
         display: grid;
-        @media screen and (max-width: 768px) {
-          grid-template-columns: 80%;
-        }
         justify-content: center;
         justify-items: center;
         margin-top: 40px;
         h1 {
-          @media screen and (min-width: 769px) {
-            grid-column: 1 / span 3;
-          }
           text-wrap: pretty;
           text-align: center;
-          border: 1px solid black;
           padding: 15px;
+          max-width: 600px;
         }
       }
       .input-wrappers {
         font-size: var(--font-size2);
         display: grid;
         justify-content: center;
-        border: 1px solid black;
-        width: 100%;
+        width: 300px;
         padding-block: 20px;
         gap: 5px;
         input {
@@ -67,23 +61,34 @@
         text-wrap: balance;
         padding-inline: 5px;
       }
+      .flex-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+      .group-wrapper {
+        border: 1px solid black;
+      }
     </style>
 
     <main>
       <h1>Monothermal Warm Screen Test (MWST) Calculator</h1>
-
-      <div id="RW_wrapper" class="input-wrappers">
-        <label for="right_warm">Right Warm:</label>
-        <input id="right_warm" type="number" />
-      </div>
-      <div id="LW_wrapper" class="input-wrappers">
-        <label for="right_warm">Left Warm:</label>
-        <input id="left_warm" type="number" />
-      </div>
-
-      <div id="result_wrapper" class="input-wrappers">
-        <label for="result" class="centered-text">Result:</label>
-        <output id="result" class="centered-text"></output>
+      <div class="group-wrapper">
+        <div class="flex-wrapper">
+          <div id="RW_wrapper" class="input-wrappers">
+            <label for="right_warm">Right Warm:</label>
+            <input id="right_warm" type="number" />
+          </div>
+          <div id="LW_wrapper" class="input-wrappers">
+            <label for="right_warm">Left Warm:</label>
+            <input id="left_warm" type="number" />
+          </div>
+        </div>
+        <div id="result_wrapper" class="input-wrappers">
+          <label for="result" class="centered-text">Result:</label>
+          <output id="result" class="centered-text"></output>
+        </div>
       </div>
     </main>
 
@@ -112,10 +117,12 @@
               return `Right ear ${Math.abs(final)}% weaker`;
             }
           }
+
           function alertMWSTnoGood() {
             const result_wrapper = document.getElementById("result_wrapper");
             const prevWarning = document.getElementById("warning");
             let newWarning;
+
             if (prevWarning) {
               prevWarning.innerText = "";
               newWarning = prevWarning;
@@ -128,22 +135,35 @@
                 "(MWST is not recommended since one or both of the responses are below 7 deg/second)";
               newWarning.classList.add("warning-text");
               result_wrapper.appendChild(newWarning);
+            } else {
+              //check final value as absolute value. if greater than 15, set new warning
+              if (Math.abs(final) > 15) {
+                newWarning.innerText =
+                  "MWST is not recommended since the difference between ears is greater than 15%";
+                newWarning.classList.add("warning-text");
+                result_wrapper.appendChild(newWarning);
+              }
+              if (newWarning) {
+                newWarning.innerText = "";
+                newWarning.classList.remove("warning-text");
+              }
             }
+
+            const final = Math.round(
+              ((rightW - leftW) / (rightW + leftW)) * 100
+            );
+            result.innerText = checkSymm();
+            alertMWSTnoGood();
           }
-          const final = Math.round(((rightW - leftW) / (rightW + leftW)) * 100);
-          result.innerText = checkSymm();
-          alertMWSTnoGood();
-        } else {
-          result.innerText = "";
         }
       }
     </script>
     <!-- Cloudflare Web Analytics -->
-    <script
+    <!-- <script
       defer
       src="https://static.cloudflareinsights.com/beacon.min.js"
       data-cf-beacon='{"token": "baa96b76d0cf468ba91b4d8b9a4c561b"}'
-    ></script>
+    ></script> -->
     <!-- End Cloudflare Web Analytics -->
   </body>
 </html>

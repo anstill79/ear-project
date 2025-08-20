@@ -11,7 +11,6 @@
         padding: 0;
         box-sizing: border-box;
         scroll-behavior: smooth;
-        font-size: 1.2rem;
       }
 
       body,
@@ -25,6 +24,7 @@
         display: flex;
         flex-direction: column;
         height: 100vh;
+        overflow: scroll;
       }
 
       .display-area {
@@ -59,7 +59,6 @@
         white-space: nowrap;
         overflow-x: hidden;
         height: 2rem;
-        background-color: #f5f5f5;
       }
       textarea:focus {
         box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 1);
@@ -92,7 +91,7 @@
         align-items: center;
         margin-bottom: 0.5rem;
         margin-block: auto;
-        justify-content: space-around;
+        justify-content: flex-start;
       }
 
       .settings label {
@@ -128,6 +127,7 @@
       }
       #text_section {
         display: grid;
+        grid-template-columns: 80% repeat(2, 1fr);
         gap: 5px;
       }
       .border {
@@ -144,12 +144,14 @@
       <div id="displayArea" class="display-area"></div>
       <div class="input-area">
         <div id="text_section">
-          <textarea id="inputText" placeholder="Type here..."></textarea>
+          <textarea id="inputText"></textarea>
+          <button id="sendBtn">Send (Enter)</button>
+          <button id="clearBtn">Clear All (Cntrl + Enter)</button>
         </div>
         <div class="controls"></div>
         <!-- settings -->
         <div class="settings">
-          <div class="border">
+          <div>
           <label>
             Text Size:
             <input
@@ -162,10 +164,9 @@
             />
           </label>
         </div>
-          <div style="display:flex; gap: 5px; align-items: center; flex-direction: column; align-items: flex-start;" class="border">
 
           <div style="display: flex; gap: 1rem;">
-            <span>Colors:</span>
+            <p>Colors:</p>
             <label>
               Text
               <input type="color" id="textColorPicker" value="#ffffff" />
@@ -186,12 +187,9 @@
               <option value="5">Wht/Gry</option>
             </select>
           </div>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;" class="border">
-        <div style="display: flex; gap: 1rem;">          
-          <button id="sendBtn">Send (Enter)</button>
-          <button id="clearBtn">Clear All</button>
-        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+
         <div style="display: flex; gap: 1rem;">          
           <button id="fullscreen" onclick="toggleFullScreen()">
             Turn Fullscreen On
@@ -274,10 +272,21 @@
         }
       });
 
-      clearBtn.addEventListener("click", function () {
+      clearBtn.addEventListener("click", clearDisplayText);
+
+      function clearDisplayText() {
         displayArea.innerHTML = "";
         inputText.value = "";
-      });
+      }
+
+window.addEventListener("keydown", function (e) {
+  if (e.ctrlKey && e.key === "Enter") {
+    console.log('Control + Enter pressed!');
+    clearDisplayText();
+    e.preventDefault();
+    return;
+  }
+});
 
       textSizeSlider.addEventListener("input", function () {
         displayArea.style.fontSize = `${this.value}rem`;
