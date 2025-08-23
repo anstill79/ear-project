@@ -50,6 +50,11 @@ textarea {
   overflow-x: hidden;
 }
 
+textarea:focus {
+  outline: none;
+  border: 3px solid #067df5;
+}
+
 .controls {
   display: flex;
   margin-top: 0.2rem;
@@ -117,7 +122,7 @@ p {
 }
 #text_section {
   display: grid;
-  grid-template-columns: 80% repeat(2, 1fr);
+  grid-template-columns: 1fr 70% repeat(2, 1fr);
   gap: 5px;
 }
 .border {
@@ -126,4 +131,9 @@ p {
   place-content: center;
   height: 100%;
   padding-inline: 1rem;
+}
+
+.small-text {
+  font-size: 0.7rem;
+  opacity: 0.5;
 }

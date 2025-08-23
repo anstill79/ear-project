@@ -12,9 +12,10 @@
       <div id="displayArea" class="display-area"></div>
       <div class="input-area">
         <div id="text_section">
+          <p>Input 👉</p>
           <textarea id="inputText"></textarea>
-          <button id="sendBtn" class="button1">Send   (Enter)</button>
-          <button id="clearBtn" class="button1" >Clear All (Cntrl + Enter)</button>
+          <button id="sendBtn" class="button1">Send<br><span class="small-text"></span></button>
+          <button id="clearBtn" class="button1" >Clear All<br><span class="small-text">(Cntrl + Enter)</span></button>
         </div>
         <div class="controls"></div>
         <!-- settings -->
@@ -50,11 +51,11 @@
           <div style="display: flex; gap: 0.2rem; flex-direction: column;">
             <label for="color_presets">Presets:</label>
             <select id="color_presets">
-              <option value="1">Wht/Blk</option>
-              <option value="2">Blk/Wht</option>
-              <option value="3">Grn/Blk</option>
-              <option value="4">Blk/Grn</option>
-              <option value="5">Wht/Gry</option>
+              <option value="1">W / B</option>
+              <option value="2">B / W</option>
+              <option value="3">G / B</option>
+              <option value="4">B / G</option>
+              <option value="5">W / Gray</option>
             </select>
           </div>
         
@@ -71,8 +72,8 @@
       <div popover id="info_popover">
         <p><strong>Loud Text</strong> is a local web app.</p>
         <p>
-          The text you type is not saved or sent to a server. Refreshing the
-          page or using the Clear All button cannot be undone and all text will
+          The text you type into the app is local and not saved or sent to a remote server. Refreshing the
+          page or using the Clear All button will remove all text permanently. 
           be lost.
         </p>
       </div>
