@@ -98,7 +98,7 @@ textarea:focus {
   align-items: center;
   margin-bottom: 0.5rem;
   margin-block: auto;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .settings label {
