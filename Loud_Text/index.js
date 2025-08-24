@@ -70,7 +70,6 @@ function clearDisplayText() {
 
 window.addEventListener("keydown", function (e) {
   if (e.ctrlKey && e.key === "Enter") {
-    console.log("Control + Enter pressed!");
     clearDisplayText();
     e.preventDefault();
     return;

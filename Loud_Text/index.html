@@ -12,9 +12,9 @@
       <div id="displayArea" class="display-area"></div>
       <div class="input-area">
         <div id="text_section">
-          <p>Input 👉</p>
+          <p class="no-pad">Input 👉</p>
           <textarea id="inputText"></textarea>
-          <button id="sendBtn" class="button1">Send<br><span class="small-text"></span></button>
+          <button id="sendBtn" class="button1">Send<br><span class="small-text">(Enter)</span></button>
           <button id="clearBtn" class="button1" >Clear All<br><span class="small-text">(Cntrl + Enter)</span></button>
         </div>
         <div class="controls"></div>
@@ -61,11 +61,11 @@
         
         <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
 
-        <div style="display: flex; gap: 1rem;">          
-          <button id="fullscreen" onclick="toggleFullScreen()">
+        <div class="misc-buttons">          
+          <button id="fullscreen" onclick="toggleFullScreen()" class="button2">
             Turn Fullscreen On
           </button>
-          <button id="info" popovertarget="info_popover">About</button>
+          <button id="info" popovertarget="info_popover" class="button2">About</button>
         </div>
         </div>
       </div>

@@ -48,6 +48,8 @@ textarea {
   border-radius: 8px;
   white-space: nowrap;
   overflow-x: hidden;
+  width: auto;
+  height: 2rem;
 }
 
 textarea:focus {
@@ -65,7 +67,6 @@ textarea:focus {
 /* =============  */
 
 .button1 {
-  padding: 0.2rem 0.2rem;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -74,6 +75,17 @@ textarea:focus {
   background-color: #4f9ce8;
   color: white;
 }
+
+.button2 {
+  border: 1px solid black;
+  padding-inline: 0.2rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.button2:hover {
+  background-color: cornsilk;
+}
+
 #textSizeUpBtn,
 #textSizeDownBtn {
   padding: 0.3rem;
@@ -86,7 +98,7 @@ textarea:focus {
   align-items: center;
   margin-bottom: 0.5rem;
   margin-block: auto;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .settings label {
@@ -136,4 +148,14 @@ p {
 .small-text {
   font-size: 0.7rem;
   opacity: 0.5;
+}
+
+.no-pad {
+  padding: 0;
+}
+
+.misc-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
 }
