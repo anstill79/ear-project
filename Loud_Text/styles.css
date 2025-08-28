@@ -164,3 +164,28 @@ p {
   flex-direction: column;
   gap: 0.2rem;
 }
+
+.splash-container {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  animation: fadeOut 7s ease-in-out forwards;
+  animation-delay: 0s;
+  inset: 0;
+  span {
+    font-size: 7rem;
+    text-align: center;
+    color: #067df5;
+    font-weight: bold;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    filter: blur();
+  }
+}
