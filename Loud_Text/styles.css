@@ -69,6 +69,7 @@ textarea:focus {
 .button1 {
   border-radius: 5px;
   cursor: pointer;
+  background-color: white;
 }
 
 .button1:hover {
@@ -81,6 +82,7 @@ textarea:focus {
   padding-inline: 0.2rem;
   border-radius: 3px;
   cursor: pointer;
+  background-color: white;
 }
 .button2:hover {
   background-color: cornsilk;
@@ -90,6 +92,9 @@ textarea:focus {
 #textSizeDownBtn {
   padding: 0.3rem;
   cursor: pointer;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 .settings {
