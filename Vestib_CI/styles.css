@@ -10,12 +10,14 @@
 body {
   background-color: white;
 }
-main {
+#primary-section-wrapper {
+  border: 1px solid black;
+  border-radius: 5px;
   background-color: white;
   display: grid;
   max-width: 690px;
-  border: 1px solid black;
   margin: auto;
+  padding: 1rem;
   place-content: center;
   justify-items: center;
   grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -34,7 +36,6 @@ main {
     padding: 10px;
     text-wrap: pretty;
   }
-  border-top: 1px solid black;
 }
 
 .spacer {
@@ -61,7 +62,6 @@ main {
   grid-column: 1 / span 4;
   justify-self: stretch;
   padding-left: 10px;
-  /* border: 1px solid black; */
   padding-top: 15px;
   h4 {
     padding-block: 5px;
@@ -82,7 +82,7 @@ main {
   font-style: italic;
 }
 .DNT:after {
-  content: "*";
+  content: " *";
 }
 .DNT-box {
   border: 1px solid rgba(128, 128, 128, 0.524);
