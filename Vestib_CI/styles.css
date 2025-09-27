@@ -108,3 +108,10 @@ body {
     padding-right: 5px;
   }
 }
+
+.key-wrapper {
+  background-color: white;
+  width: 96%;
+  padding: 0.5rem;
+  border-radius: 9px;
+}
