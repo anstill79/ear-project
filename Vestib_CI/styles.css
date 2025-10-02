@@ -100,9 +100,13 @@ body {
 .test-label {
   text-align: center;
 }
+
 .criteria-text {
-  padding-left: 4rem;
+  padding-left: 3.5rem;
   font-size: 0.8rem;
+  display: grid;
+  grid-template-columns: 10% 1fr;
+  gap: 15px;
   span {
     font-weight: bold;
     padding-right: 5px;
