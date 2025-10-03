@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Free Field</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="setupScreen" class="btn-column">
+        <h1>Volume Setup</h1>
+        <p>
+          Please set your device volume to the middle (50%) before continuing.
+        </p>
+        <button id="confirmBtn">Volume is Set - Continue</button>
+      </div>
+
+      <main style="display: none">
+        <h1>Free Field</h1>
+        <p>Click a button to play audio:</p>
+        <div class="btn-column">
+          <button data-volume="1.0">100%</button>
+          <button data-volume="0.8">80%</button>
+          <button data-volume="0.6">60%</button>
+          <button data-volume="0.4">40%</button>
+          <button data-volume="0.2">20%</button>
+          <button data-volume="0">0%</button>
+        </div>
+      </main>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
