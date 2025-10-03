@@ -6,6 +6,7 @@ body {
   width: 80%;
   background-color: #212529;
   padding-inline: 3rem;
+  padding-block: 1rem;
   border: 2px solid rgba(0, 0, 0, 0.16);
   border-radius: 12px;
   max-width: 600px;
@@ -29,6 +30,7 @@ button:hover {
 }
 
 h1,
+h2,
 p {
   color: white;
   text-align: center;
@@ -37,5 +39,13 @@ p {
 .btn-column {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 1rem;
+  h2 {
+    margin-bottom: 0px;
+  }
+}
+.btn-column-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
