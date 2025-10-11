@@ -35,7 +35,6 @@ function playTone(volume) {
   };
 }
 
-// Setup screen
 const setupScreen = document.getElementById("setupScreen");
 const testScreen = document.getElementById("testScreen");
 const confirmBtn = document.getElementById("confirmBtn");
@@ -46,12 +45,21 @@ confirmBtn.addEventListener("click", () => {
   main.style.display = "block";
 });
 
-// Volume test buttons
-const volumeButtons = document.querySelectorAll(".volume-btn");
+function setFill() {
+  const thisSection = this.parentElement.id;
 
-volumeButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const volume = parseFloat(btn.dataset.volume);
-    playTone(volume);
+  const section = document.getElementById(thisSection);
+  const buttons = section.querySelectorAll("button");
+  buttons.forEach((btn) => {
+    btn.classList.remove("filled");
   });
-});
+  this.classList.add("filled");
+  let next = this.nextElementSibling;
+  while (next) {
+    next.classList.add("filled");
+    next = next.nextElementSibling;
+  }
+}
+
+const volumeButtons = document.querySelectorAll("button[data-volume]");
+volumeButtons.forEach((btn) => btn.addEventListener("click", setFill));

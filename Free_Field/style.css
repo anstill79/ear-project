@@ -3,14 +3,15 @@ body {
 }
 
 .container {
-  width: 80%;
+  /* width: 80%; */
   background-color: #212529;
   padding-inline: 3rem;
   padding-block: 1rem;
   border: 2px solid rgba(0, 0, 0, 0.16);
   border-radius: 12px;
-  max-width: 600px;
+  max-width: 400px;
   margin: auto;
+  height: 100vh;
 }
 
 button {
@@ -21,7 +22,7 @@ button {
   cursor: pointer;
   font-weight: 700;
   font-size: max(1rem, min(4vw, 1.5rem));
-  padding-block: 1.75rem;
+  padding-block: 0.75rem;
   padding-inline: 3rem;
 }
 button:hover {
@@ -48,4 +49,15 @@ p {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
+}
+.filled {
+  background-color: #8fafc7;
+  color: black;
+}
+
+.column-header {
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.812);
+  color: black;
 }
