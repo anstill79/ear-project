@@ -46,18 +46,52 @@ confirmBtn.addEventListener("click", () => {
 });
 
 function setFill() {
-  const thisSection = this.parentElement.id;
-
-  const section = document.getElementById(thisSection);
+  const section = document.getElementById(this.parentElement.id);
   const buttons = section.querySelectorAll("button");
+
+  // Clear filled and highlighted classes
   buttons.forEach((btn) => {
-    btn.classList.remove("filled");
+    btn.classList.remove("filled", "highlighted");
   });
+
+  // Add filled to clicked button and all following buttons
   this.classList.add("filled");
   let next = this.nextElementSibling;
   while (next) {
     next.classList.add("filled");
     next = next.nextElementSibling;
+  }
+
+  // Update columnB highlighting based on columnA
+  const sectionA = document.getElementById("sectionA");
+  const sectionB = document.getElementById("sectionB");
+  const buttonsA = sectionA.querySelectorAll("button");
+  const buttonsB = sectionB.querySelectorAll("button");
+
+  // Find the index of the first filled button in columnA
+  let startIndex = -1;
+  buttonsA.forEach((btn, index) => {
+    if (btn.classList.contains("filled") && startIndex === -1) {
+      startIndex = index;
+    }
+  });
+
+  console.log("start", startIndex);
+
+  // Clear any existing highlighting in columnB
+  buttonsB.forEach((btn) => btn.classList.remove("highlighted"));
+
+  const filledCountB = Array.from(buttonsB).filter((btn) =>
+    btn.classList.contains("filled")
+  ).length;
+
+  if (filledCountB > 0 && startIndex !== -1) {
+    for (let i = startIndex; i < buttonsB.length; i++) {
+      if (buttonsB[i].classList.contains("filled")) {
+        break; // Stop at first filled button
+      }
+      buttonsB[i].classList.add("highlighted");
+    }
   }
 }
 
