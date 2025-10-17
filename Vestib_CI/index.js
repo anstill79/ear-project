@@ -22,47 +22,45 @@ function changeSymbol() {
   const currentTest = this.getAttribute("data-test");
   const label = document.getElementById(currentTest);
   const targetImg = this.querySelector("img");
-  const targetAnimation = this.querySelector("sl-animation");
+
+  // Remove existing image if present
   if (targetImg) {
-    thisDiv.removeChild(targetAnimation);
+    targetImg.remove();
   }
+
   let newImg;
-  let newAnimation = document.createElement("sl-animation");
-  const attributes = {
-    name: "fadeIn",
-    duration: "1000",
-    iterations: "1",
-    play: "",
-  };
-  for (const [key, value] of Object.entries(attributes)) {
-    newAnimation.setAttribute(key, value);
-  }
+
+  // Remove all state classes first
+  thisDiv.classList.remove("good", "mild", "severe", "DNT-box");
 
   switch (currentState) {
     case "emptyBox":
       newImg = checkedImage.cloneNode();
-      newAnimation.appendChild(newImg);
-      thisDiv.appendChild(newAnimation);
+      newImg.classList.add("fade-in");
+      thisDiv.appendChild(newImg);
       thisDiv.setAttribute("data-state", "checkedImage");
       label.classList.remove("DNT");
-      thisDiv.classList.remove("DNT-box");
+      thisDiv.classList.add("good");
       break;
+
     case "checkedImage":
       newImg = tildeImage.cloneNode();
-      newAnimation.appendChild(newImg);
-      thisDiv.appendChild(newAnimation);
+      newImg.classList.add("fade-in");
+      thisDiv.appendChild(newImg);
       thisDiv.setAttribute("data-state", "tildeImage");
       label.classList.remove("DNT");
-      thisDiv.classList.remove("DNT-box");
+      thisDiv.classList.add("mild");
       break;
+
     case "tildeImage":
       newImg = xImage.cloneNode();
-      newAnimation.appendChild(newImg);
-      thisDiv.appendChild(newAnimation);
+      newImg.classList.add("fade-in");
+      thisDiv.appendChild(newImg);
       thisDiv.setAttribute("data-state", "xImage");
       label.classList.remove("DNT");
-      thisDiv.classList.remove("DNT-box");
+      thisDiv.classList.add("severe");
       break;
+
     case "xImage":
       thisDiv.setAttribute("data-state", "emptyBox");
       const string = `[data-test="${currentTest}"]`;
