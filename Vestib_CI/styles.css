@@ -135,16 +135,13 @@ body {
 
 /* State color classes */
 .good {
-  background-color: rgb(172, 255, 47); /* Light green */
-  /* border-color: #28a745; */
+  background-color: green;
 }
 
 .mild {
-  background-color: rgba(255, 255, 0, 0.422); /* Light yellow */
-  /* border-color: #ffc107; */
+  background-color: yellow;
 }
 
 .severe {
-  background-color: #8a051056; /* Light red */
-  /* border-color: #dc3545; */
+  background-color: red;
 }
