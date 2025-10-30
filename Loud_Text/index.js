@@ -37,7 +37,12 @@ color_presets.addEventListener("change", function () {
   );
 });
 
+const splash = document.querySelector(".splash-container");
+
 function appendMessage() {
+  if (splash) {
+    splash.remove();
+  }
   if (inputText.value.trim() !== "") {
     const p = document.createElement("p");
     p.innerText = inputText.value;
