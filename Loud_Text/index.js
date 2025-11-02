@@ -28,6 +28,10 @@ color_presets.addEventListener("change", function () {
       textColorPicker.value = "#FFFFFF";
       bgColorPicker.value = "#4D4D4D";
       break;
+    case "6":
+      textColorPicker.value = "#cdd6f4";
+      bgColorPicker.value = "#073751";
+      break;
   }
   displayArea.style.color = textColorPicker.value;
   displayArea.style.backgroundColor = bgColorPicker.value;

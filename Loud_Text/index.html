@@ -16,7 +16,7 @@
       <div id="displayArea" class="display-area"></div>
       <div class="input-area">
         <div id="text_section">
-          <p class="no-pad" style="place-self: center;">Input 👉</p>
+          <p class="input-label no-pad">Input 👉</p>
           <textarea id="inputText"></textarea>
           <button id="sendBtn" class="button1">Send<br><span class="small-text">(Enter)</span></button>
           <button id="clearBtn" class="button1" >Clear All<br><span class="small-text">(Cntrl + Enter)</span></button>
@@ -36,19 +36,19 @@
               value="4"
               />
             </label>
-            <button id="textSizeDownBtn">&#9660</button>
-            <button id="textSizeUpBtn">&#9650</button>
+            <button id="textSizeDownBtn"> 🔽 </button>
+            <button id="textSizeUpBtn"> 🔼</button>
         </div>
 
           <div style="display: flex; gap: 0.2rem;">
             <p>Colors:</p>
-            <label>
+            <label for="textColorPicker">
               Text
-              <input type="color" id="textColorPicker" value="#ffffff" />
             </label>
-            <label>
+            <input type="color" id="textColorPicker" value="#ffffff" />
+            <input type="color" id="bgColorPicker" value="#000000" />
+            <label for="bgColorPicker">
               BG
-              <input type="color" id="bgColorPicker" value="#000000" />
             </label>
             <div style="display: flex; gap: 0.2rem; flex-direction: column; padding-left: 5px;">
               <label for="color_presets">Presets:</label>
@@ -58,6 +58,7 @@
                 <option value="3">G / B</option>
                 <option value="4">B / G</option>
                 <option value="5">W / Gray</option>
+                <option value="6">Cat</option>
               </select>
             </div>
           </div>
