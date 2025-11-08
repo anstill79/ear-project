@@ -1,3 +1,5 @@
+const { color } = require("chart.js/helpers");
+
 const displayArea = document.getElementById("displayArea");
 const inputText = document.getElementById("inputText");
 const sendBtn = document.getElementById("sendBtn");
@@ -32,6 +34,9 @@ color_presets.addEventListener("change", function () {
       textColorPicker.value = "#cdd6f4";
       bgColorPicker.value = "#073751";
       break;
+    case "7":
+      this.value = "--";
+      return;
   }
   displayArea.style.color = textColorPicker.value;
   displayArea.style.backgroundColor = bgColorPicker.value;
@@ -39,6 +44,7 @@ color_presets.addEventListener("change", function () {
     "--border-color",
     hexToRgb(textColorPicker.value)
   );
+  saveSettings();
 });
 
 const splash = document.querySelector(".splash-container");
@@ -94,16 +100,14 @@ textSizeDownBtn.addEventListener("click", function () {
     textSizeSlider.value = parseFloat(textSizeSlider.value) - 0.5;
     displayArea.style.fontSize = `${textSizeSlider.value}rem`;
   }
+  saveSettings();
 });
 textSizeUpBtn.addEventListener("click", function () {
   if (textSizeSlider.value < textSizeSlider.max) {
     textSizeSlider.value = parseFloat(textSizeSlider.value) + 0.5;
     displayArea.style.fontSize = `${textSizeSlider.value}rem`;
   }
-});
-
-bgColorPicker.addEventListener("input", function () {
-  displayArea.style.backgroundColor = this.value;
+  saveSettings();
 });
 
 window.onload = function () {
@@ -121,7 +125,6 @@ function toggleFullScreen() {
   }
 }
 
-// Function to convert hex to rgb values
 function hexToRgb(hex) {
   // Remove the # if present
   hex = hex.replace("#", "");
@@ -140,12 +143,49 @@ document.documentElement.style.setProperty(
   hexToRgb(textColorPicker.value)
 );
 
-// Update the CSS variable when the color picker value changes
 textColorPicker.addEventListener("input", function () {
-  // Update the RGB values for use with alpha
   document.documentElement.style.setProperty(
     "--border-color",
     hexToRgb(this.value)
   );
   displayArea.style.color = this.value;
+  color_presets.value = "7";
+  saveSettings();
 });
+
+bgColorPicker.addEventListener("input", function () {
+  displayArea.style.backgroundColor = this.value;
+  color_presets.value = "7";
+  saveSettings();
+});
+
+function saveSettings() {
+  const date = new Date().toLocaleDateString();
+  const time = new Date().toLocaleTimeString();
+  const timeStamp = `${date} ${time}`;
+  const obj = {
+    textColor: textColorPicker.value,
+    bgColor: bgColorPicker.value,
+    textSize: textSizeSlider.value,
+    colorPreset: color_presets.value,
+    savedAt: timeStamp,
+  };
+  localStorage.setItem("loudTextSettings", JSON.stringify(obj));
+}
+function loadSettings() {
+  const settings = JSON.parse(localStorage.getItem("loudTextSettings"));
+  if (settings) {
+    textColorPicker.value = settings.textColor;
+    bgColorPicker.value = settings.bgColor;
+    textSizeSlider.value = settings.textSize;
+    displayArea.style.color = settings.textColor;
+    displayArea.style.backgroundColor = settings.bgColor;
+    color_presets.value = settings.colorPreset;
+    displayArea.style.fontSize = `${settings.textSize}rem`;
+    document.documentElement.style.setProperty(
+      "--border-color",
+      hexToRgb(settings.textColor)
+    );
+  }
+}
+loadSettings();
