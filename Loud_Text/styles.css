@@ -91,14 +91,14 @@ textarea:focus {
   background-color: cornsilk;
 }
 
-#textSizeUpBtn,
-#textSizeDownBtn {
-  padding: 0.3rem;
-  width: 45px;
+.text-size-buttons {
+  padding: 0px;
+  font-size: 2rem;
   cursor: pointer;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
+  border: none;
+}
+.text-size-buttons:hover {
+  background-color: #067df5;
 }
 
 .settings {
