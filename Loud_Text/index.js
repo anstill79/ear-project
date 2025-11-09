@@ -1,5 +1,3 @@
-const { color } = require("chart.js/helpers");
-
 const displayArea = document.getElementById("displayArea");
 const inputText = document.getElementById("inputText");
 const sendBtn = document.getElementById("sendBtn");
