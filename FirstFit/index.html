@@ -8,36 +8,37 @@
     <title>Sound City</title>
   </head>
   <body>
-    <h1>Sound City</h1>
-
-    <fieldset>
-      <legend>Audio Controls</legend>
-      <div class="main-controls">
-        <div class="vol-controls">
-          <label for="volume">Volume:</label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            step="10"
-            id="volume"
-            onchange="setVolume(this.value)"
-            oninput="setVolume(this.value)"
-            value="50"
-          />
-          <output id="volumeValue">50</output>
-        </div>
-        <button id="stop_all_btn" onclick="stopPrevAudio()">◼️ Stop All</button>
-        <!--  -->
-        <div>
-          <label for="loop_all">Loop</label>
-          <input type="checkbox" id="loop_all" />
-        </div>
-      </div>
-    </fieldset>
     <!--  -->
 
     <div class="layout">
+      <h1>Sound City</h1>
+      <fieldset class="controls-fieldset">
+        <legend>Audio Controls</legend>
+        <div class="main-controls">
+          <div class="vol-controls">
+            <label for="volume">Volume:</label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="10"
+              id="volume"
+              onchange="setVolume(this.value)"
+              oninput="setVolume(this.value)"
+              value="50"
+            />
+            <output id="volumeValue">50</output>
+          </div>
+          <button id="stop_all_btn" onclick="stopPrevAudio()">
+            ◼️ Stop All
+          </button>
+          <!--  -->
+          <div>
+            <label for="loop_all">Loop</label>
+            <input type="checkbox" id="loop_all" />
+          </div>
+        </div>
+      </fieldset>
       <div class="card">
         <h2>Sample 1</h2>
         <audio id="sample1" controls src="W 143rd Terr.m4a"></audio>
