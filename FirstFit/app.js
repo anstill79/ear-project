@@ -15,6 +15,10 @@ function playThisAudio(card) {
   });
   const audio = card.querySelector("audio");
   audio.play();
+
+  audio.addEventListener("ended", function () {
+    card.classList.remove("highlight-card");
+  });
 }
 
 function stopPrevAudio() {

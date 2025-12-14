@@ -16,6 +16,7 @@ root {
   border: 1px solid black;
 }
 .card {
+  cursor: pointer;
   display: grid;
   place-content: center;
   gap: 1rem;
