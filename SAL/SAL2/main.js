@@ -187,7 +187,7 @@ const chart = new Chart(ctx, {
         ],
         grid: {
           color: (c) =>
-            ["500", "1kHz", "2kHz", "4kHz", "8kHz"].includes(c.tick.label)
+            ["500", "1kHz", "2kHz", "4kHz"].includes(c.tick.label)
               ? "#350909"
               : "#f2f2f2",
         },

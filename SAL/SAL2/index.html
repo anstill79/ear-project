@@ -3,152 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Clinical SAL Analysis Suite</title>
+    <title>SAL - (masking dilemma)</title>
     <script src="/Audiogram/lib/chartjs447.umd.js"></script>
-
-    <style>
-      :root {
-        --right-ear: rgb(231, 76, 60);
-        --left-ear: rgb(52, 152, 219);
-        --error-bg: #fff3e0;
-        --error-border: #ff9800;
-      }
-
-      body {
-        font-family:
-          "Inter",
-          -apple-system,
-          sans-serif;
-        background: #f0f2f5;
-        padding: 20px;
-        color: #1a1a1a;
-      }
-
-      .container {
-        max-width: 1300px;
-        margin: 0 auto;
-        background: white;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
-      }
-
-      .field {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .field label {
-        font-size: 11px;
-        font-weight: 700;
-        color: #888;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-      }
-
-      .field input {
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 14px;
-      }
-
-      .main-layout {
-        display: grid;
-        grid-template-columns: 1fr 600px;
-        gap: 40px;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 25px;
-        font-size: 13px;
-      }
-
-      th,
-      td {
-        border: 1px solid #eee;
-        padding: 12px 8px;
-        text-align: center;
-      }
-
-      .row-label {
-        text-align: left;
-        font-weight: 600;
-        width: 150px;
-        background: #f9fafb;
-      }
-
-      input[type="number"] {
-        width: 55px;
-        padding: 6px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        text-align: center;
-        font-weight: 500;
-      }
-
-      input.input-error {
-        background-color: var(--error-bg);
-        border-color: var(--error-border);
-        color: #d35400;
-      }
-
-      .result-row {
-        background: #f8fbff;
-        font-weight: 800;
-        color: #2c3e50;
-        font-size: 1.1em;
-      }
-
-      .chart-wrapper {
-        background: white;
-        border: 1px solid #e9ecef;
-        border-radius: 10px;
-        padding: 20px;
-        position: relative;
-      }
-
-      .no-print {
-        margin-top: 20px;
-        background: #2d3436;
-        color: white;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: 0.2s;
-      }
-
-      .no-print:hover {
-        background: #000;
-      }
-
-      @media print {
-        .no-print {
-          display: none;
-        }
-
-        .container {
-          box-shadow: none;
-          border: none;
-          padding: 0;
-        }
-
-        body {
-          background: white;
-        }
-      }
-    </style>
+<link rel="stylesheet" href="styles.css" />
+   
   </head>
 <div class="container">
 
 
     <div class="main-layout">
         <div class="controls">
-            <h3 style="color:var(--right-ear); border-left: 4px solid var(--right-ear); padding-left: 10px;">Right Ear</h3>
+            <div style="border-left: 4px solid var(--right-ear)">
+            <h3 style="color:var(--right-ear); padding-left: 10px;">Right Ear</h3>
             <table>
                 <thead><tr><th>Freq</th><th>500Hz</th><th>1kHz</th><th>2kHz</th><th>4kHz</th></tr></thead>
                 <tbody>
@@ -175,8 +41,9 @@
                     </tr>
                 </tbody>
             </table>
-
-            <h3 style="color:var(--left-ear); border-left: 4px solid var(--left-ear); padding-left: 10px;">Left Ear</h3>
+        </div>
+<div style="border-left: 4px solid var(--left-ear)">
+            <h3 style="color:var(--left-ear); padding-left: 10px;">Left Ear</h3>
             <table>
                 <thead><tr><th>Freq</th><th>500Hz</th><th>1kHz</th><th>2kHz</th><th>4kHz</th></tr></thead>
                 <tbody>
@@ -202,8 +69,7 @@
                         <td id="resl500">-</td><td id="resl1kHz">-</td><td id="resl2kHz">-</td><td id="resl4kHz">-</td>
                     </tr>
                 </tbody>
-            </table>
-            <button class="no-print" onclick="window.print()">Export Clinical PDF</button>
+            </table></div>
         </div>
 
         <div class="chart-wrapper">
