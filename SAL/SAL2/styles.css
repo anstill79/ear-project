@@ -59,7 +59,7 @@ table {
 th,
 td {
   border: 1px solid #eee;
-  padding: 12px 8px;
+  padding: 6px 3px;
   text-align: center;
 }
 
@@ -98,6 +98,8 @@ input.input-error {
 
 .controls {
   display: flex;
+  gap: 15px;
+  justify-content: center;
 }
 
 @media print {
