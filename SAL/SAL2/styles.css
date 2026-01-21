@@ -93,7 +93,11 @@ input.input-error {
 }
 
 .chart-wrapper {
-  margin: auto;
+  width: 70%;
+  place-self: center;
+  canvas {
+    place-self: center;
+  }
 }
 
 .controls {

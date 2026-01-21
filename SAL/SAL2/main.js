@@ -1,8 +1,8 @@
 const ctx = document.getElementById("salChart").getContext("2d");
 
 // Clinical Visual Parameters
-const bcOffset = 15;
-const acOffset = 25;
+const bcOffset = 12;
+const acOffset = 20;
 const pathOffset = 35;
 let hoveredData = null;
 
@@ -152,7 +152,7 @@ const chart = new Chart(ctx, {
   options: {
     responsive: true,
     maintainAspectRatio: true,
-    aspectRatio: 1,
+    aspectRatio: 2,
     interaction: { mode: "nearest", intersect: false },
     onHover: (event, elements) => {
       if (elements.length > 0) {
@@ -172,19 +172,7 @@ const chart = new Chart(ctx, {
     scales: {
       x: {
         type: "category",
-        labels: [
-          "250",
-          "375",
-          "500",
-          "750",
-          "1kHz",
-          "1500",
-          "2kHz",
-          "3000",
-          "4kHz",
-          "6000",
-          "8kHz",
-        ],
+        labels: ["500", "750", "1kHz", "1500", "2kHz", "3000", "4kHz"],
         grid: {
           color: (c) =>
             ["500", "1kHz", "2kHz", "4kHz"].includes(c.tick.label)
@@ -194,10 +182,12 @@ const chart = new Chart(ctx, {
         ticks: {
           callback: function (v) {
             const lbl = this.getLabelForValue(v);
-            const active = ["250", "500", "1kHz", "2kHz", "4kHz", "8kHz"];
+            const active = ["500", "1kHz", "2kHz", "4kHz"];
             return active.includes(lbl) ? lbl : null;
           },
+          padding: 10,
         },
+        offset: true,
       },
       y: {
         reverse: true,
