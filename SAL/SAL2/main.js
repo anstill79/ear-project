@@ -1,5 +1,9 @@
 const ctx = document.getElementById("salChart").getContext("2d");
 
+// todo: put help modal text
+// todo: add module to add custom norms
+// todo: send this to J Hall and get feedback and see if adding the ability to enter unmasked BC would be helpful and how it should be handled.
+
 // Clinical Visual Parameters
 const bcOffset = 12;
 const acOffset = 20;
@@ -197,10 +201,52 @@ const chart = new Chart(ctx, {
         grid: { color: (c) => (c.tick.value === 0 ? "#000" : "#e9ecef") },
       },
     },
-    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+    plugins: {
+      // ... inside your Chart options ...
+      legend: { display: false },
+      tooltip: {
+        enabled: true,
+        // Only show the tooltip if warnings exist for the hovered point
+        filter: function (tooltipItem) {
+          const warnings = tooltipItem.raw.warnings;
+          return warnings && warnings.length > 0;
+        },
+        displayColors: false, // Removes the little color square
+        callbacks: {
+          // Remove the standard frequency title
+          title: () => null,
+
+          // Remove the standard "Dataset Label: Value" line
+          label: () => null,
+
+          // Inject the errors into the body of the tooltip
+          beforeBody: function (context) {
+            // context[0] is the hovered point
+            if (context[0]) {
+              const warnings = context[0].raw.warnings;
+              return warnings.join("\n");
+            }
+          },
+        },
+        // Optional styling to make it look like a warning box
+        backgroundColor: "rgba(255, 243, 224, 1)", // Light orange background
+        bodyColor: "#d35400", // Burnt orange text
+        bodyFont: {
+          weight: "bold",
+          size: 13,
+        },
+        borderColor: "#ff9800",
+        borderWidth: 1,
+        padding: 10,
+        cornerRadius: 6,
+        caretSize: 6,
+      },
+    },
   },
   plugins: [salPlugin, hoverHighlightPlugin],
 });
+
+// ==================   Main function
 
 function updateChart() {
   const ears = ["r", "l"];
@@ -211,31 +257,54 @@ function updateChart() {
     freqs.forEach((f) => {
       const acIn = document.getElementById(`ac${ear}${f}`);
       const macIn = document.getElementById(`mac${ear}${f}`);
+      const res = document.getElementById(`res${ear}${f}`);
       const ac = parseFloat(acIn.value);
       const mac = parseFloat(macIn.value);
       const norm =
         parseFloat(document.getElementById(`n${ear}${f}`).value) || 0;
 
-      if (!isNaN(ac) && !isNaN(mac) && mac < ac)
-        macIn.classList.add("input-error");
-      else macIn.classList.remove("input-error");
-
       if (!isNaN(ac) && !isNaN(mac)) {
         const estBC = norm - (mac - ac);
-        document.getElementById(`res${ear}${f}`).innerText = estBC + " dB";
-        const points = [
-          { x: f, y: ac, pairedY: mac },
-          { x: f, y: mac, pairedY: null },
-        ];
-        if (ear === "r") {
-          d.rAC.push(...points);
-          d.rBC.push({ x: f, y: estBC });
+        const warnings = [];
+
+        // 1. Populate Warnings
+        if (mac < ac) warnings.push("⚠️ Masked AC is better than Initial AC.");
+        if (estBC < -10)
+          warnings.push("⚠️ Est. BC is outside clinical norms (<-10dB).");
+        if (ac < 60)
+          warnings.push(
+            "ℹ️ Initial AC is below 60dB; Traditional masking may be more appropriate, unless contra ear is too poor.",
+          );
+        if (mac - ac > norm)
+          warnings.push("⚠️ Measured shift exceeds normative shift.");
+        if (ac > 90)
+          warnings.push(
+            "⚠️ Initial AC is very high; limits of equipment may not allow enough room to measure.",
+          );
+        res.innerText = estBC + " dB";
+        if (warnings[0]) {
+          res.classList.add("input-error");
         } else {
-          d.lAC.push(...points);
-          d.lBC.push({ x: f, y: estBC });
+          res.classList.remove("input-error");
         }
-      } else {
-        document.getElementById(`res${ear}${f}`).innerText = "-";
+        // 2. Attach warnings to the data points
+        const acPoints = [
+          { x: f, y: ac, pairedY: mac, warnings: warnings },
+          { x: f, y: mac, pairedY: null, warnings: warnings },
+        ];
+
+        const bcPoint = { x: f, y: estBC, warnings: warnings };
+
+        if (ear === "r") {
+          d.rAC.push(...acPoints);
+          d.rBC.push(bcPoint);
+        } else {
+          d.lAC.push(...acPoints);
+          d.lBC.push(bcPoint);
+        }
+
+        // Apply visual error state to input
+        macIn.classList.toggle("input-error", mac < ac);
       }
     });
   });
@@ -244,4 +313,17 @@ function updateChart() {
   chart.data.datasets[2].data = d.lAC;
   chart.data.datasets[3].data = d.lBC;
   chart.update();
+}
+
+function syncValues(ear, freq) {
+  const acIn = document.getElementById(`ac${ear}${freq}`);
+  const macIn = document.getElementById(`mac${ear}${freq}`);
+
+  // Only auto-fill if AC has a value and MAC is currently empty
+  if (acIn.value !== "" && macIn.value === "") {
+    macIn.value = acIn.value;
+    // Manually trigger updateChart since changing .value via JS
+    // doesn't always fire the 'oninput' event automatically
+    updateChart();
+  }
 }

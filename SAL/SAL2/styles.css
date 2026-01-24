@@ -79,7 +79,8 @@ input[type="number"] {
   font-weight: 500;
 }
 
-input.input-error {
+input.input-error,
+td.input-error {
   background-color: var(--error-bg);
   border-color: var(--error-border);
   color: #d35400;
