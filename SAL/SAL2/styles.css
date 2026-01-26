@@ -11,7 +11,7 @@ body {
     -apple-system,
     sans-serif;
   background: #f0f2f5;
-  padding: 20px;
+  padding: 10px;
   color: #1a1a1a;
 }
 
@@ -147,7 +147,7 @@ td.input-error {
   display: grid;
   gap: 15px;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 
 @media print {

@@ -47,11 +47,20 @@ const salPlugin = {
 
           if (point.pairedY !== null) {
             const yPaired = y.getPixelForValue(point.pairedY);
+            const radius = 8; // Adjust this value to make the curve sharper or smoother
+
             ctx.beginPath();
             ctx.moveTo(xSym, yPos);
-            ctx.lineTo(xPath, yPos);
-            ctx.lineTo(xPath, yPaired);
+
+            // First corner: Curve from horizontal to vertical
+            ctx.arcTo(xPath, yPos, xPath, yPaired, radius);
+
+            // Second corner: Curve from vertical back to horizontal
+            ctx.arcTo(xPath, yPaired, xSym, yPaired, radius);
+
+            // Final line to the destination symbol
             ctx.lineTo(xSym, yPaired);
+
             ctx.stroke();
           }
         }
