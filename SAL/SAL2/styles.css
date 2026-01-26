@@ -16,12 +16,7 @@ body {
 }
 
 .container {
-  /* max-width: 1300px; */
   margin: 0 auto;
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
 }
 
 .field {
@@ -46,10 +41,58 @@ body {
 
 .main-layout {
   display: grid;
-  gap: 10px;
 }
 
+/* this is the capsule style from Gemini */
 table {
+  width: 100%;
+  /* Changed to separate to allow spacing between the capsules */
+  border-collapse: separate;
+  border-spacing: 10px 0; /* Horizontal gap between pairs, no vertical gap */
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+td {
+  padding: 8px 12px;
+  text-align: center;
+  border-left: 2px solid #64748b; /* The side borders of the capsule */
+  border-right: 2px solid #64748b;
+}
+
+/* Round the top of the first row */
+tr:first-child td:not(.row-label) {
+  border-top: 2px solid #64748b;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+/* Round the bottom of the second row */
+tr:last-child td:not(.row-label) {
+  border-bottom: 2px solid #64748b;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.row-label {
+  text-align: left;
+  font-weight: 600;
+  width: 150px;
+  background: #f9fafb;
+  border: none; /* Keep labels outside the capsule style */
+}
+
+input[type="number"] {
+  width: 40px;
+  padding: 4px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+}
+/* this is the capsule style from Gemini */
+
+/* table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 10px;
@@ -77,7 +120,7 @@ input[type="number"] {
   border-radius: 4px;
   text-align: center;
   font-weight: 500;
-}
+} */
 
 input.input-error,
 td.input-error {
@@ -94,8 +137,7 @@ td.input-error {
 }
 
 .chart-wrapper {
-  width: 70%;
-  place-self: center;
+  max-height: 400px;
   canvas {
     place-self: center;
   }
@@ -122,4 +164,15 @@ td.input-error {
   body {
     background: white;
   }
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  margin-bottom: 10px; /* Stronger separation from the chart */
 }
