@@ -176,17 +176,17 @@ const chart = new Chart(ctx, {
     scales: {
       x: {
         type: "category",
-        labels: ["500", "750", "1kHz", "1500", "2kHz", "3000", "4kHz"],
+        labels: ["500Hz", "750", "1kHz", "1500", "2kHz", "3000", "4kHz"],
         grid: {
           color: (c) =>
-            ["500", "1kHz", "2kHz", "4kHz"].includes(c.tick.label)
+            ["500Hz", "1kHz", "2kHz", "4kHz"].includes(c.tick.label)
               ? "#350909"
               : "#f2f2f2",
         },
         ticks: {
           callback: function (v) {
             const lbl = this.getLabelForValue(v);
-            const active = ["500", "1kHz", "2kHz", "4kHz"];
+            const active = ["500Hz", "1kHz", "2kHz", "4kHz"];
             return active.includes(lbl) ? lbl : null;
           },
           padding: 10,
@@ -197,7 +197,7 @@ const chart = new Chart(ctx, {
         reverse: true,
         min: -10,
         max: 120,
-        ticks: { stepSize: 10 },
+        ticks: { stepSize: 10, autoSkip: false },
         grid: { color: (c) => (c.tick.value === 0 ? "#000" : "#e9ecef") },
       },
     },
@@ -250,7 +250,7 @@ const chart = new Chart(ctx, {
 
 function updateChart() {
   const ears = ["r", "l"];
-  const freqs = ["500", "1kHz", "2kHz", "4kHz"];
+  const freqs = ["500Hz", "1kHz", "2kHz", "4kHz"];
   let d = { rAC: [], rBC: [], lAC: [], lBC: [] };
 
   ears.forEach((ear) => {
@@ -273,7 +273,7 @@ function updateChart() {
           warnings.push("⚠️ Est. BC is outside clinical norms (<-10dB).");
         if (ac < 60)
           warnings.push(
-            "ℹ️ Initial AC is below 60dB; Traditional masking may be more appropriate, unless contra ear is too poor.",
+            "ℹ️ Initial AC is below 60dB; Traditional masking may \n be  more  appropriate, unless contra ear is too poor.",
           );
         if (mac - ac > norm)
           warnings.push("⚠️ Measured shift exceeds normative shift.");

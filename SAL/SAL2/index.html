@@ -19,25 +19,25 @@
                 <thead><tr><th>Freq</th><th>500Hz</th><th>1kHz</th><th>2kHz</th><th>4kHz</th></tr></thead>
                 <tbody>
                     <tr><td class="row-label">Initial AC</td>
-                        <td><input type="number" id="acr500" step="5" oninput="updateChart(event)" onblur="syncValues('r', '500')"></td>
+                        <td><input type="number" id="acr500Hz" step="5" oninput="updateChart(event)" onblur="syncValues('r', '500Hz')"></td>
                         <td><input type="number" id="acr1kHz" step="5" oninput="updateChart(event)" onblur="syncValues('r', '1kHz')"></td>
                         <td><input type="number" id="acr2kHz" step="5" oninput="updateChart(event)" onblur="syncValues('r', '2kHz')"></td>
                         <td><input type="number" id="acr4kHz" step="5" oninput="updateChart(event)" onblur="syncValues('r', '4kHz')"></td>
                     </tr>
                     <tr><td class="row-label">Masked AC</td>
-                        <td><input type="number" id="macr500" step="5" oninput="updateChart(event)"></td>
+                        <td><input type="number" id="macr500Hz" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="macr1kHz" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="macr2kHz" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="macr4kHz" step="5" oninput="updateChart(event)"></td>
                     </tr>
                     <tr><td class="row-label">Norm Shift</td>
-                        <td><input type="number" id="nr500" value="50" step="5" oninput="updateChart(event)"></td>
+                        <td><input type="number" id="nr500Hz" value="50" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="nr1kHz" value="60" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="nr2kHz" value="60" step="5" oninput="updateChart(event)"></td>
-                        <td><input type="number" id="nr4kHz" value="50" step="5" oninput="updateChart(event)"></td>
+                        <td><input type="number" id="nr4kHz" value="60" step="5" oninput="updateChart(event)"></td>
                     </tr>
                     <tr class="result-row"><td class="row-label">Est. SAL BC</td>
-                        <td id="resr500">-</td><td id="resr1kHz">-</td><td id="resr2kHz">-</td><td id="resr4kHz">-</td>
+                        <td id="resr500Hz">-</td><td id="resr1kHz">-</td><td id="resr2kHz">-</td><td id="resr4kHz">-</td>
                     </tr>
                 </tbody>
             </table>
@@ -48,25 +48,25 @@
                 <thead><tr><th>Freq</th><th>500Hz</th><th>1kHz</th><th>2kHz</th><th>4kHz</th></tr></thead>
                 <tbody>
                     <tr><td class="row-label">Initial AC</td>
-                        <td><input type="number" id="acl500" step="5" oninput="updateChart(event)" onblur="syncValues('l', '500')"></td>
+                        <td><input type="number" id="acl500Hz" step="5" oninput="updateChart(event)" onblur="syncValues('l', '500Hz')"></td>
                         <td><input type="number" id="acl1kHz" step="5" oninput="updateChart(event)" onblur="syncValues('l', '1kHz')"></td>
                         <td><input type="number" id="acl2kHz" step="5" oninput="updateChart(event)" onblur="syncValues('l', '2kHz')"></td>
                         <td><input type="number" id="acl4kHz" step="5" oninput="updateChart(event)" onblur="syncValues('l', '4kHz')"></td>
                     </tr>
                     <tr><td class="row-label">Masked AC</td>
-                        <td><input type="number" id="macl500" step="5" oninput="updateChart(event)"></td>
+                        <td><input type="number" id="macl500Hz" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="macl1kHz" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="macl2kHz" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="macl4kHz" step="5" oninput="updateChart(event)"></td>
                     </tr>
                     <tr><td class="row-label">Norm Shift</td>
-                        <td><input type="number" id="nl500" value="50" step="5" oninput="updateChart(event)"></td>
+                        <td><input type="number" id="nl500Hz" value="50" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="nl1kHz" value="60" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="nl2kHz" value="60" step="5" oninput="updateChart(event)"></td>
                         <td><input type="number" id="nl4kHz" value="50" step="5" oninput="updateChart(event)"></td>
                     </tr>
                     <tr class="result-row"><td class="row-label">Est. SAL BC</td>
-                        <td id="resl500">-</td><td id="resl1kHz">-</td><td id="resl2kHz">-</td><td id="resl4kHz">-</td>
+                        <td id="resl500Hz">-</td><td id="resl1kHz">-</td><td id="resl2kHz">-</td><td id="resl4kHz">-</td>
                     </tr>        
                 </tbody>
             </table></div>
