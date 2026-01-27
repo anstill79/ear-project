@@ -336,3 +336,12 @@ function syncValues(ear, freq) {
     updateChart();
   }
 }
+
+// Select all text-based inputs
+const allInputs = document.querySelectorAll('input[type="number"]');
+
+allInputs.forEach((input) => {
+  input.addEventListener("focus", () => {
+    input.select();
+  });
+});

@@ -41,6 +41,9 @@ body {
 
 .main-layout {
   display: grid;
+  /* gap: 15px; */
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
 }
 
 /* this is the capsule style from Gemini */
@@ -49,7 +52,6 @@ table {
   /* Changed to separate to allow spacing between the capsules */
   border-collapse: separate;
   border-spacing: 10px 0; /* Horizontal gap between pairs, no vertical gap */
-  margin-bottom: 10px;
   font-size: 13px;
 }
 
@@ -92,36 +94,6 @@ input[type="number"] {
 }
 /* this is the capsule style from Gemini */
 
-/* table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-  font-size: 13px;
-}
-
-th,
-td {
-  border: 1px solid #eee;
-  padding: 6px 3px;
-  text-align: center;
-}
-
-.row-label {
-  text-align: left;
-  font-weight: 600;
-  width: 150px;
-  background: #f9fafb;
-}
-
-input[type="number"] {
-  width: 55px;
-  padding: 6px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  text-align: center;
-  font-weight: 500;
-} */
-
 input.input-error,
 td.input-error {
   background-color: var(--error-bg);
@@ -143,12 +115,12 @@ td.input-error {
   }
 }
 
-.controls {
+/* .controls {
   display: grid;
   gap: 15px;
   justify-content: center;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-}
+} */
 
 @media print {
   .no-print {
@@ -175,4 +147,5 @@ td.input-error {
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-bottom: 10px; /* Stronger separation from the chart */
+  margin-left: 10px;
 }
