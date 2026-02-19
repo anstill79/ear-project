@@ -149,3 +149,89 @@ td.input-error {
   margin-bottom: 10px; /* Stronger separation from the chart */
   margin-left: 10px;
 }
+
+/* 👇imported from SAL 1, to use in the norms modal */
+.no-border {
+  border: none;
+}
+.threshold-item {
+  max-height: 30px;
+}
+.sm-border {
+  border: 1px solid black;
+}
+.defaults {
+  height: 50px;
+}
+.spacer {
+  height: 10px;
+  margin-bottom: 10px;
+}
+.width-3 {
+  width: 150px;
+}
+.btn {
+  width: auto;
+  height: 100%;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 3px;
+  text-align: center;
+  cursor: pointer;
+}
+/* 👆 imported from SAL 1, to use in the norms modal */
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 5x;
+}
+h1 {
+  font-size: 16px;
+  padding-left: 15px;
+  margin: 0px;
+  margin-bottom: 5px;
+}
+::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.tiny-flex {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+#help_content {
+  display: grid;
+  grid-template-columns: 80vw;
+}
+
+#help_text_modal {
+  overflow: auto;
+  margin-top: 10dvh;
+  max-height: 80dvh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+}
+
+#help_text_modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+@media screen and (max-width: 860px) {
+  .norm-labels {
+    transform: rotate(-45deg);
+  }
+
+  .threshold-item {
+    max-height: 30px;
+  }
+
+  .norms-container {
+    max-width: 100%;
+    grid-template-columns: 60px repeat(5, 1fr);
+  }
+  .width-3 {
+    width: 60px;
+  }
+}
