@@ -8,6 +8,22 @@ cards.forEach((card) => {
   });
 });
 
+const stopBtn = document.getElementById("stop_all_btn");
+
+function updateStopButtonState() {
+  const isAnyPlaying = Array.from(audios).some((audio) => !audio.paused);
+  stopBtn.disabled = !isAnyPlaying;
+}
+
+audios.forEach((audio) => {
+  audio.addEventListener("play", updateStopButtonState);
+  audio.addEventListener("pause", updateStopButtonState);
+  audio.addEventListener("ended", updateStopButtonState);
+});
+
+// Initial state
+updateStopButtonState();
+
 function playThisAudio(card) {
   audios.forEach((audio) => {
     audio.pause();
@@ -18,6 +34,7 @@ function playThisAudio(card) {
 
   audio.addEventListener("ended", function () {
     card.classList.remove("highlight-card");
+    updateStopButtonState();
   });
 }
 
