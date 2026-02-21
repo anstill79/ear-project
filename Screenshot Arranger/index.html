@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Screenshot Arranger</title>
+  </head>
+  <body>
+    <div class="ui-bar">
+      <h1>Screenshot Arranger</h1>
+      <span style="color: #555">|</span>
+      <span
+        >Click a cell to select, then paste · or drag &amp; drop · double-click
+        to browse files</span
+      >
+      <button class="btn btn-print" onclick="window.print()">
+        &#9113; Print
+      </button>
+      <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
+    </div>
+
+    <div class="sheet" id="sheet">
+      <div class="sheet-header">
+        <input
+          class="sheet-title"
+          type="text"
+          placeholder="Test title…"
+          maxlength="120"
+          id="sheetTitle"
+        />
+        <input class="sheet-date" type="date" id="sheetDate" />
+      </div>
+      <div class="col-headers">
+        <div class="ear-header right">
+          <span class="ear-dot"></span>Right Ear
+        </div>
+        <div class="ear-header left"><span class="ear-dot"></span>Left Ear</div>
+      </div>
+      <div class="image-rows" id="imageRows"></div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*" />
+    <script src="script.js"></script>
+  </body>
+</html>
