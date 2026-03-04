@@ -155,3 +155,25 @@ body {
 .mild img {
   filter: brightness(0);
 }
+
+@media print {
+  /* Hide SVG marks and replace with large text glyphs */
+  .good img,
+  .mild img,
+  .severe img {
+    display: none;
+  }
+
+  .good::after   { content: "✓"; }
+  .mild::after   { content: "~"; }
+  .severe::after { content: "✗"; }
+
+  .good::after,
+  .mild::after,
+  .severe::after {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+    color: black;
+  }
+}
