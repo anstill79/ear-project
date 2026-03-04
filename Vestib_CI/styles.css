@@ -135,13 +135,23 @@ body {
 
 /* State color classes */
 .good {
-  background-color: green;
+  background-color: #2a8c2a;
 }
 
 .mild {
-  background-color: yellow;
+  background-color: #d4a800;
 }
 
 .severe {
-  background-color: red;
+  background-color: #c02020;
+}
+
+/* White marks on dark backgrounds; black marks on amber */
+.good img,
+.severe img {
+  filter: brightness(0) invert(1);
+}
+
+.mild img {
+  filter: brightness(0);
 }
