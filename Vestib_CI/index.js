@@ -91,9 +91,9 @@ function setKeyImages() {
   keyChecked.src = checkedImage.src;
   keyAsterisk.src = asterisk.src;
   keyAsterisk.classList.remove("key-symbol");
-  keyAsterisk.style.width = "50px";
-  keyAsterisk.style.height = "50px";
-  keyAsterisk.style.margin = "-11px";
+  keyAsterisk.style.width = "30px";
+  keyAsterisk.style.height = "30px";
+  // keyAsterisk.style.margin = "-11px";
 }
 setKeyImages();
 
