@@ -1,15 +1,15 @@
 const emptyBoxes = document.querySelectorAll(".result");
 const checkedImage = new Image();
-checkedImage.src = "Checked1.png";
+checkedImage.src = "check.svg";
 checkedImage.classList.add("img-sizer");
 const tildeImage = new Image();
-tildeImage.src = "Tilde1.png";
+tildeImage.src = "tilde.svg";
 tildeImage.classList.add("img-sizer");
 const xImage = new Image();
-xImage.src = "Xmark1.png";
+xImage.src = "xmark.svg";
 xImage.classList.add("img-sizer");
 const asterisk = new Image();
-asterisk.src = "Asterisk.png";
+asterisk.src = "asterisk.svg";
 
 emptyBoxes.forEach((div) => {
   div.setAttribute("data-state", "emptyBox");
