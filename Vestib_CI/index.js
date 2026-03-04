@@ -2,12 +2,21 @@ const emptyBoxes = document.querySelectorAll(".result");
 const checkedImage = new Image();
 checkedImage.src = "check.svg";
 checkedImage.classList.add("img-sizer");
+const checkedImageBlack = new Image();
+checkedImageBlack.src = "check.svg";
+checkedImageBlack.classList.add("print-mark");
 const tildeImage = new Image();
 tildeImage.src = "tilde.svg";
 tildeImage.classList.add("img-sizer");
+const tildeImageBlack = new Image();
+tildeImageBlack.src = "tilde.svg";
+tildeImageBlack.classList.add("print-mark");
 const xImage = new Image();
 xImage.src = "xmark.svg";
 xImage.classList.add("img-sizer");
+const xImageBlack = new Image();
+xImageBlack.src = "xmark.svg";
+xImageBlack.classList.add("print-mark");
 const asterisk = new Image();
 asterisk.src = "asterisk.svg";
 
@@ -21,22 +30,21 @@ function changeSymbol() {
   const currentState = this.getAttribute("data-state");
   const currentTest = this.getAttribute("data-test");
   const label = document.getElementById(currentTest);
-  const targetImg = this.querySelector("img");
-
-  // Remove existing image if present
-  if (targetImg) {
-    targetImg.remove();
-  }
+  // Remove all existing images
+  thisDiv.querySelectorAll("img").forEach((img) => img.remove());
 
   let newImg;
+  let newImgBlack;
 
   // Remove all state classes first
   thisDiv.classList.remove("good", "mild", "severe", "DNT-box");
 
   switch (currentState) {
     case "emptyBox":
+      newImgBlack = checkedImageBlack.cloneNode();
       newImg = checkedImage.cloneNode();
       newImg.classList.add("fade-in");
+      thisDiv.appendChild(newImgBlack);
       thisDiv.appendChild(newImg);
       thisDiv.setAttribute("data-state", "checkedImage");
       label.classList.remove("DNT");
@@ -44,8 +52,10 @@ function changeSymbol() {
       break;
 
     case "checkedImage":
+      newImgBlack = tildeImageBlack.cloneNode();
       newImg = tildeImage.cloneNode();
       newImg.classList.add("fade-in");
+      thisDiv.appendChild(newImgBlack);
       thisDiv.appendChild(newImg);
       thisDiv.setAttribute("data-state", "tildeImage");
       label.classList.remove("DNT");
@@ -53,8 +63,10 @@ function changeSymbol() {
       break;
 
     case "tildeImage":
+      newImgBlack = xImageBlack.cloneNode();
       newImg = xImage.cloneNode();
       newImg.classList.add("fade-in");
+      thisDiv.appendChild(newImgBlack);
       thisDiv.appendChild(newImg);
       thisDiv.setAttribute("data-state", "xImage");
       label.classList.remove("DNT");

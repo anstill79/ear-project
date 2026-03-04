@@ -147,33 +147,22 @@ body {
 }
 
 /* White marks on dark backgrounds; black marks on amber */
-.good img,
-.severe img {
+.good img:not(.print-mark),
+.severe img:not(.print-mark) {
   filter: brightness(0) invert(1);
 }
 
-.mild img {
+.mild img:not(.print-mark) {
   filter: brightness(0);
 }
 
+.print-mark {
+  display: none;
+  height: 2rem;
+  width: 2rem;
+}
+
 @media print {
-  /* Hide SVG marks and replace with large text glyphs */
-  .good img,
-  .mild img,
-  .severe img {
-    display: none;
-  }
-
-  .good::after   { content: "✓"; }
-  .mild::after   { content: "~"; }
-  .severe::after { content: "✗"; }
-
-  .good::after,
-  .mild::after,
-  .severe::after {
-    font-size: 2rem;
-    font-weight: bold;
-    line-height: 1;
-    color: black;
-  }
+  .img-sizer { display: none; }
+  .print-mark { display: block; }
 }
