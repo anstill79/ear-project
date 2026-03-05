@@ -40,7 +40,7 @@ color_presets.addEventListener("change", function () {
   displayArea.style.backgroundColor = bgColorPicker.value;
   document.documentElement.style.setProperty(
     "--border-color",
-    hexToRgb(textColorPicker.value)
+    hexToRgb(textColorPicker.value),
   );
   saveSettings();
 });
@@ -69,6 +69,7 @@ function appendMessage() {
     const p = document.createElement("p");
     p.innerText = inputText.value;
     p.setAttribute("contenteditable", "true");
+    p.setAttribute("spellcheck", "false");
     displayArea.appendChild(p);
 
     // Scroll to the bottom to show the latest text
@@ -152,13 +153,13 @@ function hexToRgb(hex) {
 // Set initial RGB values
 document.documentElement.style.setProperty(
   "--border-color",
-  hexToRgb(textColorPicker.value)
+  hexToRgb(textColorPicker.value),
 );
 
 textColorPicker.addEventListener("input", function () {
   document.documentElement.style.setProperty(
     "--border-color",
-    hexToRgb(this.value)
+    hexToRgb(this.value),
   );
   displayArea.style.color = this.value;
   color_presets.value = "7";
@@ -196,7 +197,7 @@ function loadSettings() {
     displayArea.style.fontSize = `${settings.textSize}rem`;
     document.documentElement.style.setProperty(
       "--border-color",
-      hexToRgb(settings.textColor)
+      hexToRgb(settings.textColor),
     );
   }
 }
