@@ -45,15 +45,10 @@ html {
 }
 
 textarea {
-  /* flex: 1; */
+  width: 100%;
   padding: 0.3rem;
   font-size: 1rem;
-  margin-inline: 0.5rem;
   border-radius: 8px;
-  /* white-space: nowrap;
-  overflow-x: hidden;
-  width: auto;
-  height: clamp(50px, 100%, 150px); */
 }
 
 textarea:focus {
@@ -146,7 +141,7 @@ p {
 }
 #text_section {
   display: grid;
-  grid-template-columns: 1fr 70% repeat(3, 1fr);
+  grid-template-columns: 70% repeat(3, 1fr);
   gap: 5px;
 }
 .border {
@@ -187,11 +182,6 @@ p {
   }
 }
 
-.input-label {
-  place-self: center;
-  font-size: 1.3rem;
-}
-
 @keyframes fadeOut {
   0% {
     opacity: 1;
@@ -201,4 +191,8 @@ p {
     scale: 1.4;
     filter: blur(10px);
   }
+}
+
+text-cntrls-subsection {
+  display: grid;
 }
