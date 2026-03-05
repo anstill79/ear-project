@@ -47,6 +47,16 @@ color_presets.addEventListener("change", function () {
 
 const splash = document.querySelector(".splash-container");
 
+if (splash) {
+  splash.addEventListener("animationend", function () {
+    splash.remove();
+    const p = document.createElement("p");
+    p.setAttribute("contenteditable", "true");
+    p.setAttribute("spellcheck", "false");
+    displayArea.appendChild(p);
+  });
+}
+
 function appendMessage() {
   if (splash) {
     splash.remove();
