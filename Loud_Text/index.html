@@ -17,9 +17,15 @@
       <div class="input-area">
         <div id="text_section">
           <p class="input-label no-pad">Input 👉</p>
-          <textarea id="inputText"></textarea>
+          <textarea id="inputText" autocorrect="off" spellcheck="false"></textarea>
           <button id="sendBtn" class="button1">Send<br><span class="small-text">(Enter)</span></button>
           <button id="clearBtn" class="button1" >Clear All<br><span class="small-text">(Cntrl + Enter)</span></button>
+                  <div class="misc-buttons">          
+          <button id="fullscreen" onclick="toggleFullScreen()" class="button2">
+            Turn Fullscreen On
+          </button>
+          <button id="info" popovertarget="info_popover" class="button2">About</button>
+        </div>
         </div>
         <div class="controls"></div>
         <!-- settings -->
@@ -67,12 +73,7 @@
         
         <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
 
-        <div class="misc-buttons">          
-          <button id="fullscreen" onclick="toggleFullScreen()" class="button2">
-            Turn Fullscreen On
-          </button>
-          <button id="info" popovertarget="info_popover" class="button2">About</button>
-        </div>
+
         </div>
       </div>
       <div popover id="info_popover">

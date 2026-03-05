@@ -45,14 +45,15 @@ html {
 }
 
 textarea {
-  flex: 1;
+  /* flex: 1; */
   padding: 0.3rem;
   font-size: 1rem;
+  margin-inline: 0.5rem;
   border-radius: 8px;
-  white-space: nowrap;
+  /* white-space: nowrap;
   overflow-x: hidden;
   width: auto;
-  height: clamp(50px, 100%, 150px);
+  height: clamp(50px, 100%, 150px); */
 }
 
 textarea:focus {
@@ -145,7 +146,7 @@ p {
 }
 #text_section {
   display: grid;
-  grid-template-columns: 1fr 70% repeat(2, 1fr);
+  grid-template-columns: 1fr 70% repeat(3, 1fr);
   gap: 5px;
 }
 .border {

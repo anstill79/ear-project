@@ -53,6 +53,7 @@ if (splash) {
     const p = document.createElement("p");
     p.setAttribute("contenteditable", "true");
     p.setAttribute("spellcheck", "false");
+    p.setAttribute("autocorrect", "off");
     displayArea.appendChild(p);
   });
 }
@@ -70,6 +71,7 @@ function appendMessage() {
     p.innerText = inputText.value;
     p.setAttribute("contenteditable", "true");
     p.setAttribute("spellcheck", "false");
+    p.setAttribute("autocorrect", "off");
     displayArea.appendChild(p);
     displayArea.scrollTop = displayArea.scrollHeight;
     inputText.value = "";
