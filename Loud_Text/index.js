@@ -47,11 +47,25 @@ color_presets.addEventListener("change", function () {
 
 const splash = document.querySelector(".splash-container");
 
+if (splash) {
+  splash.addEventListener("animationend", function () {
+    splash.remove();
+    const p = document.createElement("p");
+    p.setAttribute("contenteditable", "true");
+    p.setAttribute("spellcheck", "false");
+    displayArea.appendChild(p);
+  });
+}
+
 function appendMessage() {
   if (splash) {
     splash.remove();
   }
   if (inputText.value.trim() !== "") {
+    const paragraphs = displayArea.querySelectorAll("p");
+    if (paragraphs.length === 1 && paragraphs[0].textContent.trim() === "") {
+      paragraphs[0].remove();
+    }
     const p = document.createElement("p");
     p.innerText = inputText.value;
     p.setAttribute("contenteditable", "true");
