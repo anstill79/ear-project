@@ -71,8 +71,6 @@ function appendMessage() {
     p.setAttribute("contenteditable", "true");
     p.setAttribute("spellcheck", "false");
     displayArea.appendChild(p);
-
-    // Scroll to the bottom to show the latest text
     displayArea.scrollTop = displayArea.scrollHeight;
     inputText.value = "";
   }
