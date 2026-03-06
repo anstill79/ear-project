@@ -1,70 +1,111 @@
-export const shiftNorms = {
-  five: 55,
-  one: 60,
-  two: 60,
-  four: 60,
-};
-
-// Configuration for frequencies to avoid magic strings and repetitive code
 const FREQS = ["five", "one", "two", "four"];
+const FREQ_IDS = { five: "500Hz", one: "1kHz", two: "2kHz", four: "4kHz" };
 const DEFAULTS = { five: 55, one: 60, two: 60, four: 60 };
+const LS_KEY = "customNorms";
 
-/** * Helper to update the UI labels and trigger calculation
+// ── localStorage helpers ──────────────────────────────────────────────────────
+
+/** Persist a norms object to localStorage. */
+function saveNormsToLocalStorage(norms) {
+  localStorage.setItem(LS_KEY, JSON.stringify(norms));
+}
+
+/** Retrieve saved norms from localStorage, or null if none exist. */
+function loadNormsFromLocalStorage() {
+  const raw = localStorage.getItem(LS_KEY);
+  return raw ? JSON.parse(raw) : null;
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+
+/** Write norm values into every Norm Shift input row and re-run the chart. */
+function setNormInputs(norms) {
+  FREQS.forEach((f) => {
+    const freqId = FREQ_IDS[f];
+    document.getElementById(`nr${freqId}`).value = norms[f];
+    document.getElementById(`nl${freqId}`).value = norms[f];
+  });
+  updateChart(); // defined in main.js
+}
+
+/** Refresh the "Custom Norms" display row inside the modal. */
+function updateCustomNormDisplay(norms) {
+  FREQS.forEach((f) => {
+    const el = document.getElementById(`custom_norm_${f}`);
+    if (el) el.innerText = norms ? norms[f] : "-";
+  });
+}
+
+/** Reset both action buttons to their default "Load" label. */
+function resetButtonLabels() {
+  document.getElementById("load_custom").innerText = "Load";
+  document.getElementById("load_default").innerText = "Load";
+}
+
+// ── Public functions ──────────────────────────────────────────────────────────
+
+/**
+ * Read the four input fields in the modal, validate them, save to
+ * localStorage, and refresh the display row.
  */
-const updateUI = (label) => {
-  document.querySelector("#main_screen_button_label").innerText = label;
-  document.querySelectorAll("#SAL input").forEach(doSAL);
-  custom_norms_modal.hidePopover();
-};
+function saveNewNorms() {
+  const inputs = [
+    document.getElementById("newNorm500"),
+    document.getElementById("newNorm1k"),
+    document.getElementById("newNorm2k"),
+    document.getElementById("newNorm4k"),
+  ];
 
-export function saveNewNorms() {
-  const inputs = [...document.querySelectorAll(".norms-container input")];
-
-  // Validation: Check if all are integers
   const isValid = inputs.every(
-    (i) => i.value.trim() !== "" && Number.isInteger(Number(i.value)),
+    (i) => i.value.trim() !== "" && Number.isInteger(Number(i.value))
   );
 
-  if (!isValid)
-    return alert("Please enter numeric values for all frequencies.");
+  if (!isValid) return alert("Please enter whole-number values for all frequencies.");
 
   const newNorms = {
-    five: newNorm500.value,
-    one: newNorm1k.value,
-    two: newNorm2k.value,
-    four: newNorm4k.value,
+    five: Number(inputs[0].value),
+    one:  Number(inputs[1].value),
+    two:  Number(inputs[2].value),
+    four: Number(inputs[3].value),
   };
 
-  localStorage.setItem("customNorms", JSON.stringify(newNorms));
-  alert("New norms saved!");
-
-  // Clear inputs and refresh display
+  saveNormsToLocalStorage(newNorms);
+  updateCustomNormDisplay(newNorms);
   inputs.forEach((i) => (i.value = ""));
-  FREQS.forEach((f) => (window[`custom_norm_${f}`].innerText = newNorms[f]));
+  alert("Custom norms saved!");
 }
 
-export function loadNorms(mode = "auto") {
-  const saved = JSON.parse(localStorage.getItem("customNorms"));
-  const isDefault = this?.id === "load_default";
+/**
+ * Load previously saved custom norms from localStorage into the norm
+ * input fields and close the modal.
+ */
+function loadCustomNorms() {
+  const saved = loadNormsFromLocalStorage();
+  if (!saved) return alert("No custom norms saved yet. Enter values and click Save first.");
 
-  // Determine which data to use
-  const targetNorms =
-    isDefault || (!saved && mode === "auto") ? DEFAULTS : saved;
-
-  if (!targetNorms) return updateUI("(Default norms loaded)");
-
-  // Update logic
-  Object.assign(shiftNorms, targetNorms);
-
-  // Update UI Elements
-  FREQS.forEach((f) => (window[`custom_norm_${f}`].innerText = targetNorms[f]));
-
-  // Toggle checkmarks
-  load_default.innerText = isDefault ? "✅" : "Load";
-  load_custom.innerText = !isDefault ? "✅" : "Load";
-
-  updateUI(isDefault ? "(Default norms loaded)" : "(Custom norms loaded)");
+  setNormInputs(saved);
+  resetButtonLabels();
+  document.getElementById("load_custom").innerText = "✅";
+  document.getElementById("custom_norms_modal").hidePopover();
 }
 
-// Initialize on load
-loadNorms();
+/**
+ * Reset the norm input fields to the application default values and
+ * close the modal.
+ */
+function loadDefaultNorms() {
+  setNormInputs(DEFAULTS);
+  resetButtonLabels();
+  document.getElementById("load_default").innerText = "✅";
+  document.getElementById("custom_norms_modal").hidePopover();
+}
+
+// ── Initialisation ────────────────────────────────────────────────────────────
+
+// Populate the display row with any previously saved norms on page load.
+updateCustomNormDisplay(loadNormsFromLocalStorage());
+
+// Wire up modal buttons.
+document.getElementById("saveNormsButton").addEventListener("click", saveNewNorms);
+document.getElementById("load_custom").addEventListener("click", loadCustomNorms);
+document.getElementById("load_default").addEventListener("click", loadDefaultNorms);
