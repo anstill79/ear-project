@@ -291,6 +291,7 @@ function updateChart() {
             "⚠️ Initial AC is very high; limits of equipment may not allow enough room to measure.",
           );
         res.innerText = estBC + " dB";
+        res.dataset.warnings = JSON.stringify(warnings);
         if (warnings[0]) {
           res.classList.add("input-error");
         } else {
@@ -343,5 +344,25 @@ const allInputs = document.querySelectorAll('input[type="number"]');
 allInputs.forEach((input) => {
   input.addEventListener("focus", () => {
     input.select();
+  });
+});
+
+// Warnings popover on hover for Est. SAL BC result cells
+const warningsPopover = document.getElementById("warnings_popover");
+document.querySelectorAll('[id^="res"]').forEach((el) => {
+  el.addEventListener("mouseenter", () => {
+    const warnings = JSON.parse(el.dataset.warnings || "[]");
+    if (!warnings.length) return;
+    warningsPopover.innerHTML = warnings
+      .map((w) => `<div>${w}</div>`)
+      .join("");
+    const rect = el.getBoundingClientRect();
+    warningsPopover.style.left = rect.left + window.scrollX + "px";
+    warningsPopover.style.top =
+      rect.bottom + window.scrollY + 8 + "px";
+    warningsPopover.showPopover();
+  });
+  el.addEventListener("mouseleave", () => {
+    warningsPopover.hidePopover();
   });
 });

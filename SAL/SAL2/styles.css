@@ -218,6 +218,21 @@ h1 {
 #help_text_modal::backdrop {
   background: rgba(0, 0, 0, 0.5);
 }
+#warnings_popover {
+  position: absolute;
+  margin: 0;
+  padding: 10px 12px;
+  background-color: rgba(255, 243, 224, 1);
+  border: 1px solid var(--error-border);
+  border-radius: 6px;
+  color: #d35400;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.7;
+  max-width: 300px;
+  pointer-events: none;
+}
+
 @media screen and (max-width: 860px) {
   .norm-labels {
     transform: rotate(-45deg);
