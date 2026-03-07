@@ -232,6 +232,9 @@ h1 {
   max-width: 300px;
   pointer-events: none;
 }
+#warnings_popover::backdrop {
+  background: rgba(0, 0, 0, 0.2);
+}
 
 @media screen and (max-width: 860px) {
   .norm-labels {
