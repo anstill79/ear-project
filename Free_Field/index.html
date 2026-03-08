@@ -7,6 +7,7 @@
     <title>Free Field</title>
   </head>
   <body>
+    <nav-bar></nav-bar>
     <div class="container">
       <div id="setupScreen" class="btn-column">
         <h1>Volume Setup</h1>
@@ -22,17 +23,6 @@
         <div class="btn-column-wrapper">
           <div class="btn-column" id="sectionA">
             <h2 class="column-header">Test One</h2>
-            <button data-volume="1.0">10</button>
-            <button data-volume="0.9">9</button>
-            <button data-volume="0.8">8</button>
-            <button data-volume="0.7">7</button>
-            <button data-volume="0.6">6</button>
-            <button data-volume="0.5">5</button>
-            <button data-volume="0.4">4</button>
-            <button data-volume="0.3">3</button>
-            <button data-volume="0.2">2</button>
-            <button data-volume="0.1">1</button>
-            <button data-volume="0">0</button>
             <audio
               id="audio_player_A"
               src="W 143rd Terr.m4a"
@@ -40,9 +30,6 @@
               controls
               class="audio-player"
             ></audio>
-          </div>
-          <div class="btn-column" id="sectionB">
-            <h2 class="column-header">Test Two</h2>
             <button data-volume="1.0">10</button>
             <button data-volume="0.9">9</button>
             <button data-volume="0.8">8</button>
@@ -54,6 +41,9 @@
             <button data-volume="0.2">2</button>
             <button data-volume="0.1">1</button>
             <button data-volume="0">0</button>
+          </div>
+          <div class="btn-column" id="sectionB">
+            <h2 class="column-header">Test Two</h2>
             <audio
               id="audio_player_B"
               src="W 143rd Terr.m4a"
@@ -61,6 +51,17 @@
               controls
               class="audio-player"
             ></audio>
+            <button data-volume="1.0">10</button>
+            <button data-volume="0.9">9</button>
+            <button data-volume="0.8">8</button>
+            <button data-volume="0.7">7</button>
+            <button data-volume="0.6">6</button>
+            <button data-volume="0.5">5</button>
+            <button data-volume="0.4">4</button>
+            <button data-volume="0.3">3</button>
+            <button data-volume="0.2">2</button>
+            <button data-volume="0.1">1</button>
+            <button data-volume="0">0</button>
           </div>
         </div>
         <div>
@@ -69,6 +70,7 @@
       </main>
     </div>
 
+    <script src="../Components/NavBar.js"></script>
     <script src="index.js"></script>
   </body>
 </html>
