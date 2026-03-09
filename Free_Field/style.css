@@ -70,3 +70,24 @@ h1 {
   display: block;
   background-color: transparent;
 }
+
+.heard-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  font-size: 0.85rem;
+  vertical-align: middle;
+  opacity: 0.25;
+  transition: opacity 0.15s, background-color 0.15s;
+}
+.heard-indicator.heard {
+  opacity: 1;
+  background-color: #2ecc71;
+  border-color: #27ae60;
+  color: black;
+}

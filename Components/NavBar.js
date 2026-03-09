@@ -12,6 +12,10 @@ class NavBar extends HTMLElement {
           font-family: "Inter", system-ui, -apple-system, sans-serif;
         }
 
+        @media print {
+          :host { display: none; }
+        }
+
         nav {
           display: flex;
           align-items: center;

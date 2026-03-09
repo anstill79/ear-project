@@ -1,100 +1,123 @@
- <!DOCTYPE html>
+ <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Overlay Image Tool</title>
     <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
       body {
-        font-family: sans-serif;
+        font-family: system-ui, sans-serif;
+        background: #f0f0f0;
+        color: #222;
         text-align: center;
-        margin-inline: 2em;
+        margin: 0;
+        padding: 1rem;
       }
       h1 {
-        margin-top: 0rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin: 0 0 1rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
       }
       .drop-zone-container {
         display: flex;
         justify-content: center;
-        gap: 6rem;
-        margin-bottom: 1em;
+        gap: 4rem;
+        margin-bottom: 1rem;
       }
-
+      .grid-center {
+        display: grid;
+        place-items: center;
+        gap: 0.4rem;
+      }
       .drop-zone {
-        position: relative;
-        flex-direction: column;
-        padding: 0.5em;
-        width: 100px;
-        height: 100px;
-        background-color: lightblue;
-        border: 1px solid black;
-      }
-
-      .preview-thumb {
-        max-width: 100%;
-        max-height: 80%;
-        margin-top: 0.5em;
-        border: 1px solid #ccc;
-      }
-
-      .delete-btn {
-        margin-top: 0.25em;
-        font-size: 12px;
-        background: #eee;
-        border: 1px solid #999;
+        width: 110px;
+        height: 110px;
+        border: 2px dashed #aaa;
+        border-radius: 6px;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        font-size: 0.75rem;
+        color: #888;
         cursor: pointer;
       }
-
       .drop-zone.dragover {
-        background-color: #d0f0ff;
-        border-color: #00aaff;
+        border-color: #4a90d9;
+        background: #e8f2fc;
       }
-
-      #canvas-container {
-        position: relative;
-        width: 800px;
-        height: 500px;
-        margin: 0 auto;
-        border: 2px dashed #ccc;
-        background-color: #f9f9f9;
-        overflow: hidden;
-      }
-
-      .pasted-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0.5;
-        max-width: none;
-        max-height: none;
-        cursor: move;
-      }
-
-      #info {
-        margin-top: 1em;
-        color: #555;
-      }
-
       .center-thumbnail {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100%;
+        gap: 0.3rem;
       }
-      .zoom-control {
+      .preview-thumb {
+        max-width: 90%;
+        max-height: 70%;
+        border-radius: 3px;
+      }
+      label {
+        font-size: 0.75rem;
+        color: #666;
+      }
+      input[type="range"] {
+        width: 110px;
+        accent-color: #4a90d9;
+      }
+      .zoom-controls {
         display: flex;
+        gap: 0.25rem;
       }
       button {
         cursor: pointer;
+        padding: 0.2rem 0.6rem;
+        font-size: 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fff;
+        color: #333;
       }
-      .grid-center {
-        display: grid;
-        place-items: center;
-        gap: 0.3rem;
+      button:hover {
+        background: #e8f2fc;
+        border-color: #4a90d9;
       }
-      .white-bg {
-        background-color: #fff;
+      .delete-btn {
+        font-size: 0.7rem;
+        color: #c00;
+        border-color: #fcc;
+      }
+      .delete-btn:hover {
+        background: #fff0f0;
+        border-color: #c00;
+      }
+      #canvas-container {
+        position: relative;
+        width: 800px;
+        height: 500px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .pasted-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        mix-blend-mode: multiply;
+        max-width: none;
+        max-height: none;
+        cursor: move;
       }
       @media print {
         .no-print {
@@ -104,6 +127,7 @@
     </style>
   </head>
   <body>
+    <nav-bar></nav-bar>
     <h1>Image Overlay</h1>
 
     <div class="drop-zone-container no-print">
@@ -178,14 +202,14 @@
           e.preventDefault();
           zone.classList.remove("dragover");
           const file = [...e.dataTransfer.files].find((f) =>
-            f.type.startsWith("image")
+            f.type.startsWith("image"),
           );
           if (file) handleImageFile(file, index);
         });
 
         zone.addEventListener("paste", (e) => {
           const item = [...e.clipboardData.items].find((i) =>
-            i.type.startsWith("image")
+            i.type.startsWith("image"),
           );
           if (item) handleImageFile(item.getAsFile(), index);
         });
@@ -198,7 +222,7 @@
             img.width,
             img.height,
             canvasWidth,
-            canvasHeight
+            canvasHeight,
           );
 
           const existingImg = images[index];
@@ -211,20 +235,15 @@
           displayedImg.className = "pasted-image";
           displayedImg.style.width = `${width}px`;
           displayedImg.style.height = `${height}px`;
-          if (index === 1) {
-            displayedImg.style.left = `${container.clientWidth - width}px`;
-            displayedImg.style.top = "0px";
-          } else {
-            displayedImg.style.left = "0px";
-            displayedImg.style.top = "0px";
-          }
+          displayedImg.style.left = `${(container.clientWidth - width) / 2}px`;
+          displayedImg.style.top = `${(container.clientHeight - height) / 2}px`;
           container.appendChild(displayedImg);
           makeDraggable(displayedImg);
           images[index] = displayedImg;
 
           // Update thumbnail preview
           const dropZone = document.querySelector(
-            `.drop-zone[data-index="${index}"]`
+            `.drop-zone[data-index="${index}"]`,
           );
           dropZone.innerHTML = `
           <div class="center-thumbnail">
@@ -246,7 +265,7 @@
               }</div>`;
               // Reset corresponding slider if exists
               const slider = document.querySelector(
-                `.drop-zone-container input[data-index="${index}"]`
+                `.drop-zone-container input[data-index="${index}"]`,
               );
               if (slider) slider.value = 0.5;
             });
@@ -258,7 +277,7 @@
         originalWidth,
         originalHeight,
         maxWidth,
-        maxHeight
+        maxHeight,
       ) {
         const aspectRatio = originalWidth / originalHeight;
         let width = originalWidth;
@@ -335,5 +354,7 @@
         });
       });
     </script>
+
+    <script src="../Components/NavBar.js"></script>
   </body>
 </html>

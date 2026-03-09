@@ -52,6 +52,13 @@ function setFill(btn) {
 const volumeButtons = document.querySelectorAll("button[data-volume]");
 volumeButtons.forEach((btn) => btn.addEventListener("click", playAudio));
 
+document.querySelectorAll(".heard-indicator").forEach((indicator) => {
+  indicator.addEventListener("click", (e) => {
+    e.stopPropagation();
+    indicator.classList.toggle("heard");
+  });
+});
+
 function playAudio(event) {
   const audio_player_A = document.getElementById("audio_player_A");
   const audio_player_B = document.getElementById("audio_player_B");
