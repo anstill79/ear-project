@@ -1,0 +1,257 @@
+:root {
+  --primary: #6707ed;
+  --bg: #1e2530;
+  --container-bg: #2b3240;
+  --surface: #343d4e;
+  --border: #4a5568;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #74c0fc;
+  --accent-hover: #a5d8ff;
+  --filled: #4a6fa5;
+  --filled-text: #e2e8f0;
+  --highlighted: #7bb661;
+  --heard-green: #2ecc71;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem 1rem 3rem;
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+
+/* ── Controls Fieldset ── */
+.controls-fieldset {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--container-bg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.controls-fieldset legend {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 0 0.5rem;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.control-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* File input — hidden, triggered by styled label */
+input[type="file"] {
+  display: none;
+}
+
+.file-btn {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 7px;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.file-btn:hover {
+  background: var(--accent);
+  color: #111;
+}
+
+.file-name {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Stop button */
+.stop-btn {
+  padding: 0.45rem 1.1rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+
+.stop-btn:hover:not(:disabled) {
+  background: #4a1515;
+  border-color: #e05555;
+  color: #f99;
+}
+
+.stop-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Loop checkbox */
+.loop-group label {
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+/* ── Two-column button grid ── */
+.btn-column-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.btn-column {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.65rem;
+}
+
+.column-header {
+  margin: 0 0 0.25rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px;
+  padding: 0.35rem 0;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  letter-spacing: 0.04em;
+}
+
+/* Volume buttons */
+button[data-volume] {
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--accent-hover);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: max(0.9rem, min(3vw, 1.1rem));
+  padding: 0.45rem 0;
+  width: 100%;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+button[data-volume]:hover {
+  background-color: var(--accent);
+  color: #111;
+}
+
+button[data-volume].filled {
+  background-color: var(--filled);
+  border-color: var(--filled);
+  color: var(--filled-text);
+}
+
+button[data-volume].highlighted {
+  background-color: var(--highlighted);
+  border-color: var(--highlighted);
+  color: #111;
+}
+
+/* Audio players — hidden but functional */
+.audio-player {
+  display: none;
+}
+
+/* Heard indicator */
+.heard-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  opacity: 0.2;
+  transition: opacity 0.15s, background-color 0.15s;
+  flex-shrink: 0;
+}
+
+.heard-indicator.heard {
+  opacity: 1;
+  background-color: var(--heard-green);
+  border-color: #27ae60;
+  color: #111;
+}
