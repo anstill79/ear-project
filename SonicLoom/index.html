@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>SonicLoom</title>
+  </head>
+  <body>
+    <nav-bar></nav-bar>
+
+    <div class="layout">
+      <h1>SonicLoom</h1>
+      <p class="subtitle">Weave your audio through the field</p>
+
+      <fieldset class="controls-fieldset">
+        <legend>Controls</legend>
+        <div class="controls-row">
+
+          <div class="control-group">
+            <label for="audioFile">Audio File</label>
+            <label class="file-btn" for="audioFile">
+              Choose File
+              <input type="file" id="audioFile" accept="audio/*" />
+            </label>
+            <span id="fileName" class="file-name">No file selected</span>
+          </div>
+
+          <button id="stopAllBtn" class="stop-btn">&#9646; Stop All</button>
+
+          <div class="control-group loop-group">
+            <label for="loopToggle">Loop</label>
+            <input type="checkbox" id="loopToggle" />
+          </div>
+
+        </div>
+      </fieldset>
+
+      <div class="btn-column-wrapper">
+
+        <div class="btn-column" id="sectionA">
+          <h2 class="column-header">Test One</h2>
+          <audio id="audio_player_A" preload="auto" class="audio-player"></audio>
+          <button data-volume="1.0">10 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.9">9 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.8">8 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.7">7 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.6">6 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.5">5 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.4">4 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.3">3 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.2">2 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.1">1 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0">0 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+        </div>
+
+        <div class="btn-column" id="sectionB">
+          <h2 class="column-header">Test Two</h2>
+          <audio id="audio_player_B" preload="auto" class="audio-player"></audio>
+          <button data-volume="1.0">10 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.9">9 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.8">8 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.7">7 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.6">6 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.5">5 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.4">4 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.3">3 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.2">2 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0.1">1 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+          <button data-volume="0">0 <span class="heard-indicator" title="I heard this">&#10003;</span></button>
+        </div>
+
+      </div>
+    </div>
+
+    <script src="../Components/NavBar.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
