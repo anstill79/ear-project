@@ -4,16 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+
+    <script src="../Components/NavBar.js"></script>
     <title>Screenshot Arranger</title>
   </head>
   <body>
+    <nav-bar></nav-bar>
     <div class="ui-bar">
       <h1>Screenshot Arranger</h1>
       <span style="color: #555">|</span>
       <span
         >Click a cell to select, then paste · or drag &amp; drop · double-click
-        to browse files</span
+        to browse files · Empty sections will be hidden when printing</span
       >
+
       <button class="btn btn-print" onclick="window.print()">
         &#9113; Print
       </button>
@@ -41,6 +45,13 @@
     </div>
 
     <input type="file" id="fileInput" accept="image/*" />
+    <datalist id="test-label-options">
+      <option value="Tympanometry"></option>
+      <option value="Patulous: Baseline"></option>
+      <option value="Patulous: Forced Breathing"></option>
+      <option value="cVEMP"></option>
+      <option value="oVEMP"></option>
+    </datalist>
     <script src="script.js"></script>
   </body>
 </html>

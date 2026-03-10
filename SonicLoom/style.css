@@ -19,7 +19,13 @@
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   background-color: var(--bg);
   color: var(--text);
   margin: 0;
@@ -114,7 +120,9 @@ input[type="file"] {
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.18s, color 0.18s;
+  transition:
+    background 0.18s,
+    color 0.18s;
 }
 
 .file-btn:hover {
@@ -141,7 +149,10 @@ input[type="file"] {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  transition:
+    background 0.18s,
+    border-color 0.18s,
+    color 0.18s;
 }
 
 .stop-btn:hover:not(:disabled) {
@@ -205,7 +216,10 @@ button[data-volume] {
   font-size: max(0.9rem, min(3vw, 1.1rem));
   padding: 0.45rem 0;
   width: 100%;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -245,7 +259,9 @@ button[data-volume].highlighted {
   border-radius: 4px;
   font-size: 0.75rem;
   opacity: 0.2;
-  transition: opacity 0.15s, background-color 0.15s;
+  transition:
+    opacity 0.15s,
+    background-color 0.15s;
   flex-shrink: 0;
 }
 

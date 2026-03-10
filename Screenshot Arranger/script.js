@@ -40,7 +40,7 @@ function createCell(ear, rowNum) {
         <circle cx="8.5" cy="8.5" r="1.5"/>
         <polyline points="21 15 16 10 5 21"/>
       </svg>
-      <span>Click to select,<br>then paste or drag</span>
+      <span>Click to highlight,<br>then paste or drag</span>
     `;
 
   const removeBtn = document.createElement("button");
@@ -93,6 +93,7 @@ function createCell(ear, rowNum) {
   caption.placeholder =
     ear === "right" ? `Right ear label ${rowNum}` : `Left ear label ${rowNum}`;
   caption.maxLength = 120;
+  caption.setAttribute("list", "test-label-options");
   caption.addEventListener("click", (e) => e.stopPropagation());
 
   captionWrap.appendChild(caption);
