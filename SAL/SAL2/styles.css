@@ -179,6 +179,18 @@ td.input-error {
   text-align: center;
   cursor: pointer;
 }
+.btn:hover {
+  background-color: #f0f0f0;
+}
+
+a.btn {
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+
+  padding-inline: 4px;
+  padding-block: 1px;
+}
 /* 👆 imported from SAL 1, to use in the norms modal */
 
 header {
@@ -252,4 +264,8 @@ h1 {
   .width-3 {
     width: 60px;
   }
+}
+
+#custom_norms_content {
+  padding: 2rem;
 }
