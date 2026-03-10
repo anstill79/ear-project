@@ -216,18 +216,40 @@ button[data-volume] {
   font-size: max(0.9rem, min(3vw, 1.1rem));
   padding: 0.45rem 0;
   width: 100%;
+  position: relative;
   transition:
     background 0.15s,
     color 0.15s,
-    border-color 0.15s;
+    border-color 0.15s,
+    transform 0.1s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+}
+
+button[data-volume]::before {
+  content: "▶";
+  font-size: 0.6em;
+  opacity: 0;
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: opacity 0.15s;
 }
 
 button[data-volume]:hover {
   background-color: var(--accent);
+  color: #111;
+}
+
+button[data-volume]:hover::before {
+  opacity: 1;
+}
+
+button[data-volume]:active {
+  transform: scale(0.97);
+  background-color: var(--accent-hover);
   color: #111;
 }
 
@@ -262,7 +284,10 @@ button[data-volume].highlighted {
   transition:
     opacity 0.15s,
     background-color 0.15s;
-  flex-shrink: 0;
+  position: absolute;
+  right: 0.4rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .heard-indicator.heard {

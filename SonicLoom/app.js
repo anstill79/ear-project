@@ -142,7 +142,14 @@ document.querySelectorAll("button[data-volume]").forEach((btn) => {
 document.querySelectorAll(".heard-indicator").forEach((indicator) => {
   indicator.addEventListener("click", (e) => {
     e.stopPropagation();
-    indicator.classList.toggle("heard");
+    const column = indicator.closest(".btn-column");
+    const isHeard = indicator.classList.contains("heard");
+    column.querySelectorAll(".heard-indicator").forEach((sibling) => {
+      sibling.classList.remove("heard");
+    });
+    if (!isHeard) {
+      indicator.classList.add("heard");
+    }
   });
 });
 
