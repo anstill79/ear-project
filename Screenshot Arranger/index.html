@@ -21,8 +21,17 @@
       <button class="btn btn-print" onclick="window.print()">
         &#9113; Print
       </button>
+      <button
+        class="btn btn-print"
+        onclick="document.body.classList.toggle('print-preview')"
+      >
+        &#9113; Print Preview
+      </button>
       <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
     </div>
+    <button class="btn btn-exit-preview" onclick="document.body.classList.remove('print-preview')">
+      &#10005; Exit Preview
+    </button>
 
     <div class="sheet" id="sheet">
       <div class="sheet-header">

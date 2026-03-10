@@ -64,6 +64,16 @@ body {
 .btn-print {
   background: #2e6da4;
 }
+.btn-exit-preview {
+  background: #2e6da4;
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 1000;
+}
+body:not(.print-preview) .btn-exit-preview {
+  display: none;
+}
 .btn-clear {
   background: transparent;
   color: #888;
@@ -454,6 +464,40 @@ input[type="file"] {
   input[type="text"]:placeholder-shown {
     visibility: hidden;
   }
+}
+
+.print-preview body,
+body.print-preview {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+.print-preview .ui-bar {
+  display: none;
+}
+.print-preview .sheet {
+  box-shadow: none;
+}
+.print-preview .slot-remove,
+.print-preview .fit-toggle,
+.print-preview .paste-hint {
+  display: none !important;
+}
+.print-preview .slot:not(.has-image) {
+  visibility: hidden !important;
+  border: none !important;
+}
+.print-preview .slot.has-image.ear-right {
+  border: 1.5px solid var(--red) !important;
+}
+.print-preview .slot.has-image.ear-left {
+  border: 1.5px solid var(--blue) !important;
+}
+.print-preview .caption {
+  border-bottom-color: #bbb;
+}
+.print-preview input[type="text"]:placeholder-shown {
+  visibility: hidden;
 }
 
 @page {
