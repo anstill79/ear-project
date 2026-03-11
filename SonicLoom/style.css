@@ -60,13 +60,6 @@ h1 {
   background-clip: text;
 }
 
-.subtitle {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-}
-
 /* ── Controls Fieldset ── */
 .controls-fieldset {
   width: 100%;
