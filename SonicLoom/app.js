@@ -5,28 +5,16 @@ const allPlayers = [audioPlayerA, audioPlayerB];
 const loopToggle = document.getElementById("loopToggle");
 const stopAllBtn = document.getElementById("stopAllBtn");
 const audioFileInput = document.getElementById("audioFile");
-const fileNameDisplay = document.getElementById("fileName");
 
 // ── Audio File Selection ───────────────────────────────────────────────────
-let currentObjectURL = null;
-
 audioFileInput.addEventListener("change", () => {
-  const file = audioFileInput.files[0];
-  if (!file) return;
-
-  // Revoke the previous object URL to free memory
-  if (currentObjectURL) {
-    URL.revokeObjectURL(currentObjectURL);
-  }
-
-  currentObjectURL = URL.createObjectURL(file);
+  const url = audioFileInput.value;
+  if (!url) return;
 
   allPlayers.forEach((player) => {
-    player.src = currentObjectURL;
+    player.src = url;
     player.load();
   });
-
-  fileNameDisplay.textContent = file.name;
 });
 
 // ── Loop Toggle ────────────────────────────────────────────────────────────
@@ -44,6 +32,7 @@ function stopAll() {
     player.pause();
     player.currentTime = 0;
   });
+  activeButton = null;
   updateStopButtonState();
 }
 
@@ -57,7 +46,10 @@ stopAllBtn.addEventListener("click", stopAll);
 allPlayers.forEach((player) => {
   player.addEventListener("play", updateStopButtonState);
   player.addEventListener("pause", updateStopButtonState);
-  player.addEventListener("ended", updateStopButtonState);
+  player.addEventListener("ended", () => {
+    activeButton = null;
+    updateStopButtonState();
+  });
 });
 
 // Keyboard shortcut: Escape or Enter stops all audio
@@ -113,16 +105,24 @@ function setFill(btn) {
   }
 }
 
-function playAudio(event) {
-  if (!currentObjectURL) return;
+let activeButton = null;
 
-  // Pause both players before playing the selected one
+function playAudio(event) {
+  if (!audioFileInput.value) return;
+
+  const button = event.currentTarget;
+
+  if (allPlayers.some((p) => !p.paused) && button === activeButton) {
+    stopAll();
+    activeButton = null;
+    return;
+  }
+
   allPlayers.forEach((p) => {
     p.pause();
     p.currentTime = 0;
   });
 
-  const button = event.currentTarget;
   const volume = parseFloat(button.getAttribute("data-volume"));
   const sectionId = button.parentElement.id;
   const player = sectionId === "sectionA" ? audioPlayerA : audioPlayerB;
@@ -130,6 +130,7 @@ function playAudio(event) {
   player.volume = volume;
   applyLoop();
   player.play();
+  activeButton = button;
 
   setFill(button);
 }
@@ -156,3 +157,13 @@ document.querySelectorAll(".heard-indicator").forEach((indicator) => {
 // ── Initial State ──────────────────────────────────────────────────────────
 updateStopButtonState();
 applyLoop();
+
+setTimeout(() => {
+  const url = audioFileInput.value;
+  if (url) {
+    allPlayers.forEach((player) => {
+      player.src = url;
+      player.load();
+    });
+  }
+}, 100);

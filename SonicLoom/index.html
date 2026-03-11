@@ -20,11 +20,10 @@
         <div class="controls-row">
           <div class="control-group">
             <label for="audioFile">Audio File</label>
-            <label class="file-btn" for="audioFile">
-              Choose File
-              <input type="file" id="audioFile" accept="audio/*" />
-            </label>
-            <span id="fileName" class="file-name">No file selected</span>
+            <select id="audioFile">
+              <option value="W 143rd Terr.m4a" selected>W 143rd Terr</option>
+              <option value="W 143rd Terr 2.m4a">W 143rd Terr 2</option>
+            </select>
           </div>
 
           <button id="stopAllBtn" class="stop-btn">&#9646; Stop All</button>
@@ -38,7 +37,7 @@
 
       <div class="btn-column-wrapper">
         <div class="btn-column" id="sectionA">
-          <h2 class="column-header">Test One</h2>
+          <h2 class="column-header">Level One</h2>
           <audio
             id="audio_player_A"
             preload="auto"
