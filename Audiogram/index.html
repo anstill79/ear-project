@@ -51,52 +51,35 @@
       </div> -->
 
       <div class="top-controls-container">
-        <div class="top-controls-container-item ">
-          <button id="AC_button" class="button_T">
-            AC
-          </button>        <button id="BC_button" class="button_T" style="align-self: center">
-            BC
-          </button>
-        </button>        <button id="aided_button" class="button_T" style="align-self: center">
-          Aided
-        </button>
-      </div>
-      <div class="top-controls-container-item ">
-        <div>
-        <label for="select_transducer">Transducer:</label>
-        <select
-        name="select_transducer"
-        id="select_transducer"
-        class="top-controls-button"
-        >
-        <option value="blank">--Transducer--</option>
-        <option value="circumaural">Circumaural</option>
-        <option value="insert">Insert</option>
-        <option value="supraaural">Supraaural</option>
-      </select>
-      </div>
-      <div>
-      <label for="Reliability">Reliability:</label>
-      <select
-      id="Reliability"
-      name="Reliability"
-      class="top-controls-button"
-      >
-      <option value="blank">--Reliability--</option>
-      <option value="Good">Good</option>
-      <option value="Fair">Fair</option>
-      <option value="Poor">Poor</option>
-    </select>
-    </div>
-  </div>
-  <div class="top-controls-container-item ">
-        <button id="word_rec" class="top-controls-button box-shadow-1px">Word Rec</button>
-
-        <button id="command_palette" class="top-controls-button box-shadow-1px">
-          Controls
-        </button>
-
-      </div>
+        <div class="top-controls-container-item">
+          <button id="AC_button" class="button_T">AC</button>
+          <button id="BC_button" class="button_T">BC</button>
+          <button id="aided_button" class="button_T">Aided</button>
+        </div>
+        <div class="top-controls-container-item">
+          <div class="control-select-group">
+            <label for="select_transducer" class="control-label">Transducer</label>
+            <select name="select_transducer" id="select_transducer" class="top-controls-button">
+              <option value="blank">--</option>
+              <option value="circumaural">Circumaural</option>
+              <option value="insert">Insert</option>
+              <option value="supraaural">Supraaural</option>
+            </select>
+          </div>
+          <div class="control-select-group">
+            <label for="Reliability" class="control-label">Reliability</label>
+            <select id="Reliability" name="Reliability" class="top-controls-button">
+              <option value="blank">--</option>
+              <option value="Good">Good</option>
+              <option value="Fair">Fair</option>
+              <option value="Poor">Poor</option>
+            </select>
+          </div>
+        </div>
+        <div class="top-controls-container-item">
+          <button id="word_rec" class="top-controls-button">Word Rec</button>
+          <button id="command_palette" class="top-controls-button" popovertarget="command_modal">Controls</button>
+        </div>
       </div>
 
       <div class="spacer3" style="grid-column: 1/-1">
@@ -495,32 +478,32 @@
           </tr>
 
           <tr id="ACnormal" style="display: none">
-            <td>Air Conduction (AC)</td>
+            <td class="legend-label" data-category="AC">Air Conduction (AC)</td>
             <td>O</td>
             <td>X</td>
           </tr>
           <tr id="ACmasked" style="display: none">
-            <td>AC masked</td>
+            <td class="legend-label" data-category="AC">AC masked</td>
             <td>△</td>
             <td>□</td>
           </tr>
           <tr id="BCnormal" style="display: none">
-            <td>Bone Conduction (BC)</td>
+            <td class="legend-label" data-category="BC">Bone Conduction (BC)</td>
             <td>&lt;</td>
             <td>&gt;</td>
           </tr>
           <tr id="BCmasked" style="display: none">
-            <td>BC masked</td>
+            <td class="legend-label" data-category="BC">BC masked</td>
             <td>[</td>
             <td>]</td>
           </tr>
           <tr id="NR" style="display: none">
-            <td>No response</td>
+            <td class="legend-label" data-category="NR">No response</td>
             <td>↙</td>
             <td>↘</td>
           </tr>
           <tr id="previousLegend" style="display: none">
-            <td id="previous_dateContent">Previous</td>
+            <td id="previous_dateContent" class="legend-label" data-category="previous">Previous</td>
             <td colspan="2">●---●</td>
           </tr>
         </table>
@@ -531,292 +514,176 @@
 
     <!-- The Modal, word rec-->
     <div id="WR_modal" class="WR-modal">
-      <!-- Modal content -->
       <div id="WR_modal_content" class="WR-modal-content">
+        <p class="wr-title">Word Recognition</p>
         <div class="word-rec-advanced">
-          <div style="grid-column: 2; padding: 10px">Right</div>
-          <div style="grid-column: 4; padding: 10px">Left</div>
 
-          <div id="PTA_R_forWR" style="grid-row: 2; grid-column: 1"></div>
-          <div id="PTA_L_forWR" style="grid-row: 2; grid-column: 7"></div>
+          <!-- Header -->
+          <div></div>
+          <div class="wr-ear-header wr-right">Right</div>
+          <div class="wr-ear-header wr-left">Left</div>
 
-          <div style="grid-row: 2; grid-column: 2">
+          <!-- PTA -->
+          <div class="wr-row-label">PTA</div>
+          <div id="PTA_R_forWR" class="wr-value wr-right"></div>
+          <div id="PTA_L_forWR" class="wr-value wr-left"></div>
+
+          <!-- SRT -->
+          <div class="wr-row-label">SRT</div>
+          <div class="wr-input-group">
             <input
               type="number"
               id="SRT_right_advanced"
-              class="word-rec-advanced-item-right"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
+              class="wr-input wr-right"
+              step="5" min="0" max="120"
+              onclick="calcMasking()" onblur="calcMasking()"
               value="90"
             />
+            <div class="wr-mask-row">
+              <span class="wr-mask-label">&#8627; mask</span>
+              <input
+                type="number"
+                id="SRT_right_masking"
+                class="wr-input wr-mask"
+                step="5" min="0" max="120"
+              />
+            </div>
           </div>
-          <div style="grid-column: 2 / span 3; grid-row: 2; margin: auto">
-            SRT
-          </div>
-          <div style="grid-row: 2; grid-column: 4">
+          <div class="wr-input-group">
             <input
               type="number"
               id="SRT_left_advanced"
-              class="word-rec-advanced-item-left"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
+              class="wr-input wr-left"
+              step="5" min="0" max="120"
+              onclick="calcMasking()" onblur="calcMasking()"
             />
+            <div class="wr-mask-row">
+              <span class="wr-mask-label">&#8627; mask</span>
+              <input
+                type="number"
+                id="SRT_left_masking"
+                class="wr-input wr-mask"
+                step="5" min="0" max="120"
+              />
+            </div>
           </div>
 
-          <div class="labels" style="grid-row: 3; grid-column: 1">masking</div>
-          <div style="grid-row: 3; grid-column: 3; margin-bottom: 20px">
-            <input
-              type="number"
-              id="SRT_right_masking"
-              class="word-rec-advanced-item-right word-rec-sub-item"
-              style="color: black; border-color: black"
-              step="5"
-              min="0"
-              max="120"
-            />
-          </div>
+          <!-- WR% -->
+          <div class="wr-row-label">WR %</div>
+          <div id="WR_right_advanced" class="wr-value wr-right"></div>
+          <div id="WR_left_advanced" class="wr-value wr-left">58 %</div>
 
-          <div style="grid-row: 3; grid-column: 5">
-            <input
-              type="number"
-              id="SRT_left_masking"
-              class="word-rec-advanced-item-left word-rec-sub-item"
-              style="color: black; border-color: black"
-              step="5"
-              min="0"
-              max="120"
-            />
-          </div>
-
-          <div class="labels" style="grid-row: 3; grid-column: 6">masking</div>
-
-          <div
-            style="
-              grid-column: 2 / span 3;
-              justify-self: center;
-              grid-row: 4;
-              margin: auto;
-            "
-          >
-            Word Rec
-          </div>
-
-          <div
-            id="WR_right_advanced"
-            class="word-rec-advanced-item-right"
-            style="grid-column: 2; grid-row: 4"
-          ></div>
-          <div
-            id="WR_left_advanced"
-            class="word-rec-advanced-item-left"
-            style="grid-column: 4; grid-row: 4"
-          >
-            58 %
-          </div>
-
-          <div class="labels" style="grid-column: 1; grid-row: 5">
-            pres. level
-          </div>
-
-          <div style="grid-column: 2; grid-row: 5">
+          <!-- Pres. level + Mask -->
+          <div class="wr-row-label">Pres. level</div>
+          <div class="wr-input-group">
             <input
               type="number"
               id="WR_right_pres_level"
-              class="word-rec-advanced-item-right word-rec-sub-item"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
+              class="wr-input wr-right"
+              step="5" min="0" max="120"
+              onclick="calcMasking()" onblur="calcMasking()"
             />
+            <div class="wr-mask-row">
+              <span class="wr-mask-label">&#8627; mask</span>
+              <input
+                type="number"
+                id="WR_right_mask_level"
+                class="wr-input wr-mask"
+                step="5" min="0" max="120"
+              />
+            </div>
           </div>
-
-          <div style="grid-column: 4; grid-row: 5">
+          <div class="wr-input-group">
             <input
               type="number"
               id="WR_left_pres_level"
-              class="word-rec-advanced-item-left word-rec-sub-item"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
+              class="wr-input wr-left"
+              step="5" min="0" max="120"
+              onclick="calcMasking()" onblur="calcMasking()"
             />
+            <div class="wr-mask-row">
+              <span class="wr-mask-label">&#8627; mask</span>
+              <input
+                type="number"
+                id="WR_left_mask_level"
+                class="wr-input wr-mask"
+                step="5" min="0" max="120"
+              />
+            </div>
           </div>
 
-          <div class="labels" style="grid-column: 6; grid-row: 5">
-            pres. level
-          </div>
+          <!-- List -->
+          <div class="wr-row-label">List</div>
+          <div id="WR_right_list" class="wr-value wr-right">NU-6 List 1A</div>
+          <div id="WR_left_list" class="wr-value wr-left">NU-6 List 2A</div>
 
-          <div class="labels" style="grid-column: 1; grid-row: 6">masking</div>
-
-          <div style="grid-column: 3; grid-row: 6">
-            <input
-              type="number"
-              id="WR_right_mask_level"
-              class="word-rec-advanced-item-right word-rec-sub-item"
-              style="color: black; border-color: black"
-              step="5"
-              min="0"
-              max="120"
-            />
-          </div>
-
-          <div style="grid-column: 5; grid-row: 6">
-            <input
-              type="number"
-              id="WR_left_mask_level"
-              class="word-rec-advanced-item-left word-rec-sub-item"
-              style="color: black; border-color: black"
-              step="5"
-              min="0"
-              max="120"
-            />
-          </div>
-
-          <div class="labels" style="grid-column: 6; grid-row: 6">masking</div>
-
-          <div class="labels" style="grid-row: 7; grid-column: 1">list</div>
-          <div
-            id="WR_right_list"
-            class="word-rec-advanced-item-right word-rec-sub-item"
-            style="
-              grid-row: 7;
-              grid-column: 2 / span 2;
-              width: 80px;
-              justify-self: left;
-            "
-          >
-            NU-6 List 1A
-          </div>
-          <div
-            id="WR_left_list"
-            class="word-rec-advanced-item-left word-rec-sub-item"
-            style="
-              grid-row: 7;
-              grid-column: 4 / span 2;
-              width: 80px;
-              justify-self: right;
-            "
-          >
-            NU-6 List 2A
-          </div>
-          <div class="labels" style="grid-row: 7; grid-column: 6">list</div>
-
-          <div style="grid-row: 9; grid-column: 1 / span 5">
-            <label
-              for="WR_mode"
-              class="labels"
-              style="text-align: right; margin-top: 2px"
-            >
-              Mode:
-            </label>
-            <select name="WR_mode" id="WR_mode">
+          <!-- Mode -->
+          <div class="wr-row-label">Mode</div>
+          <div style="grid-column: 2 / span 2">
+            <select name="WR_mode" id="WR_mode" class="wr-select">
               <option value="">--</option>
               <option value="recorded">Recorded</option>
               <option value="live voice">Live Voice</option>
             </select>
           </div>
 
-          <div style="grid-row: 10; grid-column: 1 / span 4">
-            <label
-              for="calc_WR_masking"
-              class="labels"
-              style="width: 140px; text-align: right; margin-top: 2px"
-              >Calculate masking levels:</label
-            >
-            <input
-              type="checkbox"
-              id="calc_WR_masking_please"
-              name="calc_WR_masking"
-            />
+          <!-- Masking calc -->
+          <div class="wr-checkbox-row" style="grid-column: 1 / span 3">
+            <input type="checkbox" id="calc_WR_masking_please" name="calc_WR_masking" />
+            <label for="calc_WR_masking_please" class="wr-checkbox-label">Calculate masking levels</label>
           </div>
+
         </div>
+        <button id="closeWR" class="top-controls-button wr-close-btn">Close</button>
       </div>
     </div>
 
     <!-- Command Palette modal-->
-    <div
-      id="command_modal"
-      class="command-modal"
-      style="background-color: transparent"
-    >
-      <!-- Modal content -->
+    <div id="command_modal" popover="auto" class="command-modal-content">
 
-      <div id="command_modal_content" class="command-modal-content">
-        <div style="grid-column: 1 / span 3">
-          <h3 style="font-weight: bold">Command Palette</h3>
-        </div>
-        <div>Shade Norm:</div>
-        <div>
+      <p class="command-modal-title">Controls</p>
+
+      <!-- Display toggles -->
+      <div class="command-section">
+        <div class="command-toggle-grid">
+          <span class="command-row-label">Shade Norm</span>
           <button id="shade_norm_on" class="toggle-button-enabled">On</button>
-        </div>
-        <div>
-          <button id="shade_norm_off" class="toggle-button-disabled">
-            Off
-          </button>
-        </div>
+          <button id="shade_norm_off" class="toggle-button-disabled">Off</button>
 
-        <div>Shade Loss:</div>
-        <div>
+          <span class="command-row-label">Shade Loss</span>
           <button id="shadeLossOn" class="toggle-button-enabled">On</button>
-        </div>
-        <div>
           <button id="shadeLossOff" class="toggle-button-disabled">Off</button>
-        </div>
-        <div>Crosshair:</div> <div>
-          <button id="crosshairOn" class="toggle-button-enabled">On</button>
-        </div> <div>
-          <button id="crosshairOff" class="toggle-button-disabled">Off</button>
-        </div> <div>PTA:</div> <div>
-          <button id="annotatePTAon" class="toggle-button-enabled">On</button>
-        </div> <div>
-          <button id="annotatePTAoff" class="toggle-button-disabled">
-            Off
-          </button>
-        </div>
-        <div style="grid-column: 1/span 3;">
-          <label for="secondary_data">Secondary (ghost) Data</label>
-          <select id="secondary_data">
-            <option>Prev. Results</option>
-            <option>Other Ear</option>
-            <option>None</option>
-          </select>
-        </div>
-          <div style="grid-column: 2 / span 2; grid-row: 6">
-            <button
-            id="copy_data"
-            class="top-controls-button"
-            style="height: 20px"
-            >
-            Copy Data
-          </button>
-        </div>
-        
-        <div style="grid-column: 2 / span 2; grid-row: 7">
-          <button id="print" class="top-controls-button" style="height: 20px">
-            Print
-          </button>
-        </div>
-        <div style="grid-column: 2 / span 2; grid-row: 8">
-          <button
-          id="save_image"
-          class="top-controls-button"
-          style="height: 20px"
-          >
-          DL Image
-        </button>
-        <label for="ac_point_size_slider">AC Point Size:</label>
-        <input type="range" id="ac_point_size_slider" min="-2" max="2" value="0"  list="point_size_slider_list" class="point_size_slider">
-        <label for="bc_point_size_slider">BC Point Size:</label>
-        <input type="range" id="bc_point_size_slider" min="-2" max="2" value="0"  list="point_size_slider_list" class="point_size_slider">
 
+          <span class="command-row-label">Crosshair</span>
+          <button id="crosshairOn" class="toggle-button-enabled">On</button>
+          <button id="crosshairOff" class="toggle-button-disabled">Off</button>
+
+          <span class="command-row-label">PTA line</span>
+          <button id="annotatePTAon" class="toggle-button-enabled">On</button>
+          <button id="annotatePTAoff" class="toggle-button-disabled">Off</button>
+        </div>
+      </div>
+
+      <!-- Secondary data -->
+      <div class="command-section">
+        <label class="command-row-label" for="secondary_data">Secondary Data</label>
+        <select id="secondary_data" class="command-select">
+          <option>Prev. Results</option>
+          <option>Other Ear</option>
+          <option>None</option>
+        </select>
+      </div>
+
+      <!-- Point size sliders -->
+      <div class="command-section">
+        <div class="command-slider-row">
+          <label for="ac_point_size_slider" class="command-row-label">AC size</label>
+          <input type="range" id="ac_point_size_slider" min="-2" max="2" value="0" list="point_size_slider_list" class="point_size_slider" />
+        </div>
+        <div class="command-slider-row">
+          <label for="bc_point_size_slider" class="command-row-label">BC size</label>
+          <input type="range" id="bc_point_size_slider" min="-2" max="2" value="0" list="point_size_slider_list" class="point_size_slider" />
+        </div>
         <datalist id="point_size_slider_list" class="point_size_slider_list">
           <option value="-2" label="tiny"></option>
           <option value="-1" label="small"></option>
@@ -824,40 +691,26 @@
           <option value="1" label="large"></option>
           <option value="2" label="huge"></option>
         </datalist>
+      </div>
 
+      <!-- Default transducer -->
+      <div class="command-section">
+        <label class="command-row-label" for="default_transducer">Default Transducer</label>
+        <select name="default_transducer" id="default_transducer" class="command-select">
+          <option value="blank">--</option>
+          <option value="circumaural">Circumaural</option>
+          <option value="insert">Insert</option>
+          <option value="supraaural">Supraaural</option>
+        </select>
       </div>
-      <div style="grid-column: 1; grid-row: 9">WR defaults:</div>
-      <div style="grid-column: 2 / span 2; grid-row: 9; justify-self: center">
-        <input
-        type="number"
-        step="5"
-        id="default_WR_level_R"
-        style="height: 20px; width: 30px"
-        />
+
+      <!-- Action buttons -->
+      <div class="command-section command-action-row">
+        <button id="copy_data" class="top-controls-button">Copy Data</button>
+        <button id="print" class="top-controls-button">Print</button>
+        <button id="save_image" class="top-controls-button">DL Image</button>
       </div>
-      
-      <div style="grid-column: 1; grid-row: 10">Default transd.:</div>
-      
-      <div style="grid-column: 2 / span 2; grid-row: 10">
-        <select
-        name="default_transducer"
-        id="default_transducer"
-        style="width: 100%; font-size: 12px; padding: 0px"
-        class="top-controls-button"
-        >
-        <option value="blank">--Transducer--</option>
-        <option value="circumaural">Circumaural</option>
-        <option value="insert">Insert</option>
-        <option value="supraaural">Supraaural</option>
-      </select>
-    </div>
-    <div style="grid-column: 2 / span 2; grid-row: 11">
-      <button class="top-controls-button" style="height: 20px">
-        Save Defaults
-      </button>
-    </div>
-  </div>
-      </div>
+
     </div>
     <script type="module" crossorigin src="src/audiogram.js"></script>
 

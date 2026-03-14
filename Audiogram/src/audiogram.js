@@ -5,8 +5,6 @@ import {
   BC_L,
   BC_R_M,
   BC_L_M,
-  R_NR,
-  L_NR,
 } from "./dataAndImages.js";
 
 import {
@@ -15,6 +13,16 @@ import {
   acPointSize,
   bcPointSize,
 } from "./adjustPointSizes.js";
+
+import { createOptionsR, createOptionsL } from "./chartConfig_audiogram.js";
+
+import {
+  options_bar_R,
+  options_bar_L,
+  barColors_R,
+  barColors_L,
+  lilHz,
+} from "./chartConfig_bar.js";
 
 // Chart.register(annotationPlugin);
 
@@ -110,8 +118,6 @@ Left Ear:
 
 const WR_modal = document.getElementById("WR_modal");
 const closeWRbutton = document.getElementById("closeWR");
-const command_modal = document.getElementById("command_modal");
-command_palette.addEventListener("click", launchCommandPalette);
 function closeWordRec(event) {
   if (event.target === WR_modal || event.target === closeWRbutton) {
     WR_modal.style.display = "none";
@@ -132,17 +138,6 @@ function launchWordRec() {
   }
 }
 
-function launchCommandPalette() {
-  command_modal.style.display = "block";
-  command_modal.addEventListener("click", closeCommandPalette);
-}
-
-function closeCommandPalette(event) {
-  if (event.target.id === "command_modal") {
-    command_modal.style.display = "none";
-    command_modal.removeEventListener("click", closeCommandPalette);
-  }
-}
 
 const NRbtns = document.querySelectorAll(".NR");
 NRbtns.forEach((btn) => {
@@ -286,6 +281,8 @@ function prepareMovement(index, dB, ear) {
       dB = null;
     }
   }
+  const category = transducer === "AC" ? "AC" : "BC";
+  if (legendHidden[category]) toggleLegendCategory(category);
   moveIt(index, dB, ear);
 }
 
@@ -427,37 +424,6 @@ const userPrefs = {
   lossShadeFlag: "off",
 };
 
-const bigHz = [125, 250, "", 500, "", 1000, "", 2000, "", 4000, "", 8000];
-const lilHz = ["", 250, "", 500, "", 1000, "", 2000, "", 4000, "", 8000];
-
-const barColors_R = [
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-];
-const barColors_L = [
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-  "rgba(255, 0, 0, 0.2)",
-];
 
 const barColors_LMH_R = [
   "rgba(255, 0, 0, 0.2)",
@@ -804,788 +770,8 @@ function calcChange(index, ear) {
 let transducer = "AC";
 //----sets AC BC toggle to AC when load.
 
-export const options_R = {
-  type: "line",
-  data: {
-    labels: bigHz,
-    datasets: [
-      {
-        label: "AC_R",
-        data: audiogramData.thresh_AC_R,
-        borderWidth: 1,
-        pointStyle: audiogramData.symbols_R,
-        pointRadius: audiogramData.pointSize_AC_R,
-        pointHoverRadius: audiogramData.pointSize_AC_R,
-        pointBorderWidth: 2,
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        lineTension: 0,
-        spanGaps: false,
-        borderColor: "rgba(255,0,0,0.7)",
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-        fill: {
-          above: "rgba(0,0,0,0)",
-          below: "rgba(0,0,0,0.1)",
-          target: {
-            value: 25,
-          },
-        },
-      },
-      {
-        label: "BC_R",
-        data: audiogramData.thresh_BC_R,
-        borderWidth: 0,
-        pointStyle: audiogramData.symbols_BC_R,
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-        lineTension: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "AC NR arrow",
-        data: audiogramData.thresh_NR_R,
-        pointRadius: audiogramData.pointSize_NR_R,
-        pointStyle: R_NR,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "AC NR thresh",
-        data: audiogramData.thresh_NR_R,
-        pointRadius: audiogramData.pointSize_NR_R,
-        pointStyle: audiogramData.symbols_R,
-        borderWidth: 0,
-        pointBorderWidth: 2,
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        borderColor: "rgba(255,0,0,0.3)",
-        spanGaps: false,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "BC NR arrow",
-        data: audiogramData.thresh_BC_R,
-        pointRadius: audiogramData.pointSize_NR_BC_R,
-        pointStyle: R_NR,
-        pointHoverRadius: 0,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "ghost",
-        data: audiogramData.thresh_AC_L,
-        pointRadius: audiogramData.pointSize_AC_L,
-        borderColor: "rgba(0,0,255,0.1)",
-        pointStyle: audiogramData.symbols_L,
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "old",
-        data: oldAudiogramData.thresh_AC_R,
-        pointRadius: oldAudiogramData.pointSize_AC_R,
-        borderColor: "rgba(255,0,0,0.1)",
-        pointStyle: "circle",
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-      },
-    ],
-  },
-  options: {
-    layout: {
-      padding: 0,
-    },
-
-    transitions: {
-      show: {
-        animations: {
-          x: {
-            from: 300,
-          },
-          y: {
-            from: -100,
-          },
-        },
-      },
-      hide: {
-        animations: {
-          x: {
-            to: 60,
-          },
-          y: {
-            to: 1000,
-          },
-        },
-      },
-    },
-    elements: {
-      point: {
-        hitRadius: 3,
-        hoverRadius: 15,
-      },
-    },
-
-    animations: {
-      tension: {
-        duration: 700,
-        easing: "easeInOutSine",
-        from: 0.4,
-        to: 0,
-        loop: false,
-      },
-    },
-    animation: {
-      duration: 0,
-    },
-    interaction: {
-      mode: "index",
-    },
-    responsive: false,
-    plugins: {
-      autocolors: false,
-      annotation: {
-        annotations: {
-          normAdult: {
-            type: "box",
-            yMin: 0,
-            yMax: 25,
-            xMin: 1,
-            backgroundColor: "rgba(230, 255, 110, 0.1)",
-            borderColor: "gray",
-            borderWidth: 0,
-            drawTime: "beforeDatasetsDraw",
-          },
-          linePTA: {
-            type: "line",
-            yMin: 0,
-            yMax: 0,
-            xMin: 3,
-            xMax: 7,
-            borderColor: "rgba(255, 0, 0, 0.4)",
-            borderWidth: 0,
-            drawTime: "beforeDatasetsDraw",
-          },
-        },
-      },
-      legend: {
-        display: false,
-        labels: {
-          padding: 0,
-          boxWidth: 5,
-        },
-      },
-      tooltip: {
-        enabled: false,
-      },
-      title: {
-        display: false,
-        align: "center",
-        text: "Right",
-        padding: 5,
-      },
-      crosshair: {
-        sync: {
-          enabled: false,
-        },
-        line: {
-          width: 3,
-          color: "red",
-        },
-        zoom: {
-          enabled: false,
-        },
-        snap: {
-          enabled: false,
-        },
-      },
-    },
-    scales: {
-      y: {
-        grid: {
-          drawTicks: false,
-          color: "grey",
-          lineWidth: 0.5,
-        },
-        min: -10,
-        max: 120,
-        ticks: {
-          stepSize: 10,
-          padding: 20,
-          color: "red",
-          font: {
-            size: 12,
-          },
-        },
-        reverse: true,
-        beginAtZero: false,
-      },
-      x: {
-        grid: {
-          display: true,
-          drawTicks: false,
-          lineWidth: [0, 0.5, 0, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5],
-          color: "grey",
-        },
-        ticks: {
-          //space between Hz and border
-          padding: 10,
-          color: "red",
-          maxRotation: 0,
-          autoSkip: false,
-          font: {
-            size: 12,
-          },
-        },
-      },
-    },
-    onClick: function (e) {
-      const xLabel = this.scales.x.getValueForPixel(e.x);
-      let yLabel = this.scales.y.getValueForPixel(e.y);
-      yLabel = Math.round(yLabel / 5) * 5;
-      prepareMovement(xLabel, yLabel, "R");
-    },
-  },
-};
-
-export const options_L = {
-  type: "line",
-  data: {
-    labels: bigHz,
-    datasets: [
-      {
-        label: "AC_L",
-        data: audiogramData.thresh_AC_L,
-        borderWidth: 1,
-        pointStyle: audiogramData.symbols_L,
-        pointRadius: audiogramData.pointSize_AC_L,
-        pointHoverRadius: audiogramData.pointSize_AC_L,
-        pointBorderWidth: 2,
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        lineTension: 0,
-        spanGaps: false,
-        borderColor: "rgba(0,0,255,0.7)",
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-        fill: {
-          above: "rgba(0,0,0,0)",
-          below: "rgba(0,0,0,0.1)",
-          target: {
-            value: 25,
-          },
-        },
-      },
-      {
-        label: "BC_L",
-        data: audiogramData.thresh_BC_L,
-        borderWidth: 0,
-        pointStyle: audiogramData.symbols_BC_L,
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
-        lineTension: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "AC NR arrow",
-        data: audiogramData.thresh_NR_L,
-        pointRadius: audiogramData.pointSize_NR_L,
-        pointStyle: L_NR,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "AC NR thresh",
-        data: audiogramData.thresh_NR_L,
-        pointRadius: audiogramData.pointSize_NR_L,
-        pointStyle: audiogramData.symbols_L,
-        borderWidth: 0,
-        pointBorderWidth: 2,
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        borderColor: "rgba(0,0,255,0.3)",
-        spanGaps: false,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "BC NR arrow",
-        data: audiogramData.thresh_BC_L,
-        pointRadius: audiogramData.pointSize_NR_BC_L,
-        pointStyle: L_NR,
-        pointHoverRadius: 0,
-        borderWidth: 0,
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "ghost",
-        data: audiogramData.thresh_AC_R,
-        pointRadius: audiogramData.pointSize_AC_R,
-        borderColor: "rgba(255,0,0,0.1)",
-        pointBackgroundColor: "rgba(0, 0, 0, 0)",
-        pointStyle: audiogramData.symbols_R,
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-      {
-        label: "old",
-        data: oldAudiogramData.thresh_AC_L,
-        pointRadius: oldAudiogramData.pointSize_AC_L,
-        borderColor: "rgba(0,0,255,0.1)",
-        pointStyle: "circle",
-        spanGaps: true,
-        pointHoverRadius: 0,
-        borderWidth: 2,
-        borderDash: [5, 5],
-        clip: {
-          left: false,
-          top: false,
-          right: false,
-          bottom: false,
-        },
-      },
-    ],
-  },
-  options: {
-    transitions: {
-      show: {
-        animations: {
-          x: {
-            from: 300,
-          },
-          y: {
-            from: -100,
-          },
-        },
-      },
-      hide: {
-        animations: {
-          x: {
-            to: 60,
-          },
-          y: {
-            to: 1000,
-          },
-        },
-      },
-    },
-    elements: {
-      point: {
-        hitRadius: 15,
-        hoverRadius: 15,
-      },
-    },
-
-    animations: {
-      tension: {
-        duration: 700,
-        easing: "easeInOutSine",
-        from: 0.4,
-        to: 0,
-      },
-    },
-    animation: {
-      duration: 0,
-    },
-    interaction: {
-      mode: "index",
-    },
-    responsive: false,
-    plugins: {
-      annotation: {
-        annotations: {
-          normAdult: {
-            type: "box",
-            yMin: 0,
-            yMax: 25,
-            xMin: 1,
-            backgroundColor: "rgba(230, 255, 110, 0.1)",
-            borderColor: "gray",
-            borderWidth: 0,
-            drawTime: "beforeDatasetsDraw",
-          },
-          linePTA: {
-            type: "line",
-            yMin: 0,
-            yMax: 0,
-            xMin: 3,
-            xMax: 7,
-            borderColor: "rgba(0, 0, 255, 0.4)",
-            borderWidth: 0,
-            drawTime: "beforeDatasetsDraw",
-          },
-        },
-      },
-      legend: {
-        display: false,
-        labels: {
-          padding: 0,
-          boxWidth: 5,
-        },
-      },
-      tooltip: {
-        enabled: false,
-      },
-      title: {
-        display: false,
-        text: "Left",
-        padding: 5,
-      },
-      crosshair: {
-        sync: {
-          enabled: false,
-        },
-        line: {
-          width: 3,
-          color: "blue",
-        },
-        zoom: {
-          enabled: false,
-        },
-        snap: {
-          enabled: false,
-        },
-      },
-    },
-    scales: {
-      y: {
-        grid: {
-          drawTicks: false,
-          color: "grey",
-          lineWidth: 0.5,
-        },
-        min: -10,
-        max: 120,
-        ticks: {
-          stepSize: 10,
-          padding: 20,
-          color: "blue",
-          font: {
-            size: 12,
-          },
-        },
-        reverse: true,
-        beginAtZero: false,
-      },
-      x: {
-        grid: {
-          display: true,
-          drawTicks: false,
-          lineWidth: [0, 0.5, 0, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5],
-          color: "grey",
-        },
-        ticks: {
-          //space between Hz and border
-          padding: 10,
-          color: "blue",
-          maxRotation: 0,
-          autoSkip: false,
-          font: {
-            size: 12,
-          },
-        },
-      },
-    },
-    onClick: function (e) {
-      const xLabel = this.scales.x.getValueForPixel(e.x);
-      let yLabel = this.scales.y.getValueForPixel(e.y);
-      yLabel = Math.round(yLabel / 5) * 5;
-      prepareMovement(xLabel, yLabel, "L");
-    },
-  },
-};
-
-const options_bar_R = {
-  type: "bar",
-  data: {
-    labels: lilHz,
-    datasets: [
-      {
-        label: "R Change",
-        data: audiogramData.changeDetails.change_R,
-        borderWidth: 0.5,
-        backgroundColor: barColors_R,
-        borderColor: "gray",
-      },
-    ],
-  },
-  plugins: [ChartDataLabels],
-  options: {
-    animation: {
-      delay: 50,
-      duration: 1000,
-      easing: "easeOutSine",
-    },
-    layout: {
-      padding: {
-        right: 4,
-        left: 3,
-      },
-    },
-    responsive: false,
-    plugins: {
-      datalabels: {
-        color: "red",
-        formatter: function (value, context) {
-          var i = context.dataIndex;
-          var direction = context.dataset.data[i];
-          var glyph = direction > 0 ? "▲" : direction < 0 ? "▼" : "=";
-          return value === null ? "" : glyph + " " + Math.abs(value);
-        },
-        align: "center",
-        //        align: function(context) {
-        //          var index = context.dataIndex;
-        //          var position = context.dataset.data[index];
-        //          return position > 0 ? 'end' :
-        //            position < 0 ? 'start' :
-        //           'center';
-        //        },
-        padding: 15,
-      },
-      crosshair: {
-        line: {
-          width: 1,
-          color: "red",
-        },
-        zoom: {
-          enabled: false,
-        },
-        snap: {
-          enabled: false,
-        },
-      },
-      legend: {
-        display: false,
-      },
-      title: {
-        display: false,
-      },
-      annotation: {
-        annotations: {
-          line0: {
-            type: "line",
-            yMin: 0,
-            yMax: 0,
-            borderColor: "rgb(0, 0, 0)",
-            borderWidth: 1,
-          },
-          line1: {
-            type: "line",
-            yMin: 10,
-            yMax: 10,
-            borderColor: "rgba(0, 0, 0, 0.5)",
-            borderWidth: 1,
-            borderDash: [3, 3],
-          },
-          line2: {
-            type: "line",
-            yMin: -10,
-            yMax: -10,
-            borderColor: "rgba(0, 0, 0, 0.5)",
-            borderWidth: 1,
-            borderDash: [3, 3],
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: true,
-        },
-        ticks: {
-          maxRotation: 0,
-          autoSkip: false,
-          color: "rgb(255, 0, 0)",
-        },
-      },
-      y: {
-        display: false,
-        min: -60,
-        max: 60,
-        ticks: {
-          stepSize: 10,
-        },
-        reverse: false,
-      },
-    },
-  },
-};
-
-const options_bar_L = {
-  type: "bar",
-  data: {
-    labels: lilHz,
-    datasets: [
-      {
-        label: "L Change",
-        data: audiogramData.changeDetails.change_L,
-        borderWidth: 0.2,
-        backgroundColor: barColors_L,
-        borderColor: "gray",
-      },
-    ],
-  },
-  plugins: [ChartDataLabels],
-  options: {
-    animation: {
-      delay: 50,
-      duration: 1000,
-      easing: "easeOutSine",
-    },
-    layout: {
-      padding: {
-        right: 13,
-      },
-    },
-    responsive: false,
-    plugins: {
-      datalabels: {
-        color: "blue",
-        formatter: function (value, context) {
-          var i = context.dataIndex;
-          var direction = context.dataset.data[i];
-          var glyph = direction > 0 ? "▲" : direction < 0 ? "▼" : "=";
-          return value === null ? "" : glyph + " " + Math.abs(value);
-        },
-        align: function (context) {
-          var index = context.dataIndex;
-          var position = context.dataset.data[index];
-          return position > 0 ? "end" : position < 0 ? "start" : "center";
-        },
-        padding: 15,
-      },
-      crosshair: {
-        line: {
-          width: 1,
-          color: "blue",
-        },
-        zoom: {
-          enabled: false,
-        },
-        snap: {
-          enabled: false,
-        },
-      },
-      legend: {
-        display: false,
-      },
-      title: {
-        display: false,
-        text: "Change L",
-      },
-      annotation: {
-        annotations: {
-          line0: {
-            type: "line",
-            yMin: 0,
-            yMax: 0,
-            borderColor: "rgb(0, 0, 0)",
-            borderWidth: 1,
-          },
-          line1: {
-            type: "line",
-            yMin: 10,
-            yMax: 10,
-            borderColor: "rgba(0, 0, 0,0.5)",
-            borderWidth: 1,
-            borderDash: [3, 3],
-          },
-          line2: {
-            type: "line",
-            yMin: -10,
-            yMax: -10,
-            borderColor: "rgb(0, 0, 0,0.5)",
-            borderWidth: 1,
-            borderDash: [3, 3],
-          },
-        },
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: true,
-        },
-        ticks: {
-          maxRotation: 0,
-          autoSkip: false,
-          color: "rgb(0, 0, 255)",
-        },
-      },
-      y: {
-        display: false,
-        min: -60,
-        max: 60,
-        ticks: {
-          stepSize: 10,
-        },
-        reverse: false,
-      },
-    },
-  },
-};
+export const options_R = createOptionsR(prepareMovement);
+export const options_L = createOptionsL(prepareMovement);
 
 const ctx = document.getElementById("audiogram_R").getContext("2d");
 const myChart = new Chart(ctx, options_R);
@@ -1601,6 +787,42 @@ const myChart4 = new Chart(ctx4, options_bar_L);
 
 change_R.addEventListener("click", function (evt) {
   changeResolution("R");
+});
+
+const legendHidden = { AC: false, BC: false, NR: false, previous: false };
+
+function toggleLegendCategory(category) {
+  legendHidden[category] = !legendHidden[category];
+  const hidden = legendHidden[category];
+
+  const setVisibility = (datasets) => {
+    datasets.forEach((i) => {
+      hidden ? myChart.hide(i) : myChart.show(i);
+      hidden ? myChart2.hide(i) : myChart2.show(i);
+    });
+  };
+
+  if (category === "AC") {
+    setVisibility([0]);
+    ACnormal.classList.toggle("legend-row-hidden", hidden);
+    ACmasked.classList.toggle("legend-row-hidden", hidden);
+  } else if (category === "BC") {
+    setVisibility([1]);
+    BCnormal.classList.toggle("legend-row-hidden", hidden);
+    BCmasked.classList.toggle("legend-row-hidden", hidden);
+  } else if (category === "NR") {
+    setVisibility([2, 3, 4]);
+    NR.classList.toggle("legend-row-hidden", hidden);
+  } else if (category === "previous") {
+    setVisibility([6]);
+    previousLegend.classList.toggle("legend-row-hidden", hidden);
+  }
+}
+
+document.querySelectorAll(".legend-label").forEach((td) => {
+  td.addEventListener("click", () =>
+    toggleLegendCategory(td.dataset.category)
+  );
 });
 change_L.addEventListener("click", function (evt) {
   changeResolution("L");
