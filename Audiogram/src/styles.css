@@ -576,6 +576,70 @@ h3 {
   padding-left: 48px;
 }
 
+.button-row-details {
+  margin: 0;
+  padding: 0;
+  interpolate-size: allow-keywords;
+}
+
+.button-row-details::details-content {
+  overflow: hidden;
+  block-size: 0;
+  opacity: 0;
+  transition:
+    block-size 0.35s ease,
+    opacity 0.25s ease,
+    content-visibility 0.35s allow-discrete;
+}
+
+.button-row-details[open]::details-content {
+  block-size: auto;
+  opacity: 1;
+}
+
+.button-row-summary {
+  list-style: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  font-family: sans-serif;
+  user-select: none;
+  padding: 2px 0;
+}
+.button-row-summary:hover {
+  font-weight: 900;
+}
+
+.button-row-summary::-webkit-details-marker {
+  display: none;
+}
+
+.button-row-summary::after {
+  content: " ▸";
+}
+
+.button-row-details[open] > .button-row-summary::after {
+  content: " ▾";
+}
+
+.button-row-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  padding: 0.5rem;
+}
+
+.button-row-R {
+  justify-self: end;
+  padding-right: 13px;
+}
+
+.button-row-L {
+  justify-self: start;
+  padding-left: 48px;
+}
+
 .bar_R {
   cursor: pointer;
   font-family: Helvetica;

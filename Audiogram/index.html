@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <link
@@ -7,17 +7,16 @@
     />
     <meta charset="UTF-8" />
     <title>Audiogram</title>
-    <link rel="stylesheet" crossorigin href="src/styles.css">
-  <script src="lib/chartjs447.umd.js"></script>
-  <script src="lib/annotation130.js"></script>
-  <script src="lib/datalabels200.js"></script>
-  <script src="lib/crosshair200.js"></script>
-  <script src="/Components/Site-Header.js"></script>
+    <link rel="stylesheet" crossorigin href="src/styles.css" />
+    <script src="lib/chartjs447.umd.js"></script>
+    <script src="lib/annotation130.js"></script>
+    <script src="lib/datalabels200.js"></script>
+    <script src="lib/crosshair200.js"></script>
+    <script src="/Components/Site-Header.js"></script>
   </head>
 
   <body>
-    
-      <!-- <site-header site-name="Ear Project"></site-header> -->
+    <!-- <site-header site-name="Ear Project"></site-header> -->
 
     <div class="grid-container">
       <!-- Pt info component. Removing for now -->
@@ -54,12 +53,20 @@
         <div class="top-controls-container-item">
           <button id="AC_button" class="button_T">AC</button>
           <button id="BC_button" class="button_T">BC</button>
+
+          <button id="word_rec" class="button_T">Speech</button>
           <button id="aided_button" class="button_T">Aided</button>
         </div>
         <div class="top-controls-container-item">
           <div class="control-select-group">
-            <label for="select_transducer" class="control-label">Transducer</label>
-            <select name="select_transducer" id="select_transducer" class="top-controls-button">
+            <label for="select_transducer" class="control-label"
+              >Transducer</label
+            >
+            <select
+              name="select_transducer"
+              id="select_transducer"
+              class="top-controls-button"
+            >
               <option value="blank">--</option>
               <option value="circumaural">Circumaural</option>
               <option value="insert">Insert</option>
@@ -68,30 +75,45 @@
           </div>
           <div class="control-select-group">
             <label for="Reliability" class="control-label">Reliability</label>
-            <select id="Reliability" name="Reliability" class="top-controls-button">
+            <select
+              id="Reliability"
+              name="Reliability"
+              class="top-controls-button"
+            >
               <option value="blank">--</option>
               <option value="Good">Good</option>
               <option value="Fair">Fair</option>
               <option value="Poor">Poor</option>
             </select>
           </div>
+          <div class="control-select-group">
+            <!-- Secondary data -->
+            <label class="control-label" for="secondary_data"
+              >Secondary Data</label
+            >
+            <select id="secondary_data" class="command-select">
+              <option>Prev. Results</option>
+              <option>Other Ear</option>
+              <option>None</option>
+            </select>
+          </div>
         </div>
         <div class="top-controls-container-item">
-          <button id="word_rec" class="top-controls-button">Word Rec</button>
-          <button id="command_palette" class="top-controls-button" popovertarget="command_modal">Controls</button>
+          <button
+            id="command_palette"
+            class="button_T"
+            popovertarget="command_modal"
+          >
+            Controls
+          </button>
         </div>
-      </div>
-
-      <div class="spacer3" style="grid-column: 1/-1">
-        <hr />
       </div>
 
       <div style="grid-column: 1">
         <h3 style="padding-left: 55px">Right:</h3>
       </div>
 
-      <div
-        style="grid-column: 2; ">
+      <div style="grid-column: 2">
         <h3>Left:</h3>
       </div>
 
@@ -115,282 +137,333 @@
 
       <div class="spacer2" style="grid-column: 1"></div>
 
-      <div class="grid-item right-position no-print" style="grid-column: 1">
-    
-                <button id="mask_right" class="button_R" style="width: 50px; margin: -2px;">
-          Mask All
-        </button>
-        <button
-        data-ear="R"
-        data-index="0"
-        data-masking="true"
-          class="button_R_two masking"
-        >
-          M
-        </button>
-        <button 
-        data-ear="R"
-        data-index="1"
-        data-masking="true" class="button_R masking">
-          M
-        </button>
-        <button onClick="" class="invisible">..</button>
-        <button 
-        data-ear="R"
-        data-index="3"
-        data-masking="true" class="button_R masking">
-          M
-        </button>
-        <button
-        data-ear="R"
-        data-index="4"
-        data-masking="true"
-          class="button_R_two masking"
-        >
-          M
-        </button>
-        <button 
-        data-ear="R"
-        data-index="5"
-        data-masking="true" class="button_R masking">
-          M
-        </button>
-        <button
-        data-ear="R"
-        data-index="6"
-        data-masking="true"
-          class="button_R_two masking"
-        >
-          M
-        </button>
-        <button 
-        data-ear="R"
-        data-index="7"
-        data-masking="true" class="button_R masking">
-          M
-        </button>
-        <button
-        data-ear="R"
-        data-index="8"
-        data-masking="true"
-          class="button_R_two masking"
-        >
-          M
-        </button>
-        <button 
-        data-ear="R"
-        data-index="9"
-        data-masking="true" class="button_R masking">
-          M
-        </button>
-        <button
-        data-ear="R"
-        data-index="10"
-        data-masking="true"
-          class="button_R_two masking"
-        >
-          M
-        </button>
-        <button 
-        data-ear="R"
-        data-index="11"
-        data-masking="true" class="button_R masking">
-          M
-        </button>
-      </div>
-
-      <div class="grid-item no-print" style="grid-column: 2; justify-self: left;">
-      <button id="mask_left" class="button_L" style="width: 50px; margin: -2px; justify-self: left;">
-          Mask All
-        </button>
-        <button
-        
-        data-ear="L"
-        data-index="0"
-        data-masking="true"
-          class="button_L_two masking"
-        >
-          M
-        </button>
-        <button 
-        data-ear="L"
-        data-index="1"
-        data-masking="true" class="button_L masking">
-          M
-        </button>
-        <button onClick="" class="invisible">..</button>
-        <button 
-        data-ear="L"
-        data-index="3"
-        data-masking="true" class="button_L masking">
-          M
-        </button>
-        <button
-        data-ear="L"
-        data-index="4"
-        data-masking="true"
-          class="button_L_two masking"
-        >
-          M
-        </button>
-        <button
-        data-ear="L"
-        data-index="5"
-        data-masking="true" class="button_L masking">
-          M
-        </button>
-        <button
-        data-ear="L"
-        data-index="6"
-        data-masking="true"
-          class="button_L_two masking"
-        >
-          M
-        </button>
-        <button
-        
-        data-ear="L"
-        data-index="7"
-        data-masking="true" class="button_L masking">
-          M
-        </button>
-        <button
-        
-        data-ear="L"
-        data-index="8"
-        data-masking="true"
-          class="button_L_two masking"
-        >
-          M
-        </button>
-        <button 
-        
-        data-ear="L"
-        data-index="9"
-        data-masking="true" class="button_L masking">
-          M
-        </button>
-        <button
-        data-ear="L"
-        data-index="10"
-        data-masking="true"
-          class="button_L_two masking"
-        >
-          M
-        </button>
-        <button 
-        data-ear="L"
-        data-index="11"
-        data-masking="true" class="button_L masking">
-          M
-        </button>
-      </div>
+      <details
+        class="button-row-details no-print"
+        style="grid-column: 1 / span 2"
+      >
+        <summary class="button-row-summary">Masking</summary>
+        <div class="button-row-container">
+          <div class="button-row-R">
+            <div>
+              <button
+                data-ear="R"
+                data-index="0"
+                data-masking="true"
+                class="button_R_two masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="1"
+                data-masking="true"
+                class="button_R masking"
+              >
+                M
+              </button>
+              <button onClick="" class="invisible">..</button>
+              <button
+                data-ear="R"
+                data-index="3"
+                data-masking="true"
+                class="button_R masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="4"
+                data-masking="true"
+                class="button_R_two masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="5"
+                data-masking="true"
+                class="button_R masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="6"
+                data-masking="true"
+                class="button_R_two masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="7"
+                data-masking="true"
+                class="button_R masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="8"
+                data-masking="true"
+                class="button_R_two masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="9"
+                data-masking="true"
+                class="button_R masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="10"
+                data-masking="true"
+                class="button_R_two masking"
+              >
+                M
+              </button>
+              <button
+                data-ear="R"
+                data-index="11"
+                data-masking="true"
+                class="button_R masking"
+              >
+                M
+              </button>
+            </div>
+            <button
+              id="mask_right"
+              class="button_R"
+              style="width: 50px; margin: -2px"
+            >
+              Mask All
+            </button>
+          </div>
+          <!-- left ear masking buttons -->
+          <div class="button-row-L">
+            <button
+              data-ear="L"
+              data-index="0"
+              data-masking="true"
+              class="button_L_two masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="1"
+              data-masking="true"
+              class="button_L masking"
+            >
+              M
+            </button>
+            <button onClick="" class="invisible">..</button>
+            <button
+              data-ear="L"
+              data-index="3"
+              data-masking="true"
+              class="button_L masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="4"
+              data-masking="true"
+              class="button_L_two masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="5"
+              data-masking="true"
+              class="button_L masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="6"
+              data-masking="true"
+              class="button_L_two masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="7"
+              data-masking="true"
+              class="button_L masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="8"
+              data-masking="true"
+              class="button_L_two masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="9"
+              data-masking="true"
+              class="button_L masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="10"
+              data-masking="true"
+              class="button_L_two masking"
+            >
+              M
+            </button>
+            <button
+              data-ear="L"
+              data-index="11"
+              data-masking="true"
+              class="button_L masking"
+            >
+              M
+            </button>
+            <button
+              id="mask_left"
+              class="button_L"
+              style="width: 50px; margin: -2px; justify-self: left"
+            >
+              Mask All
+            </button>
+          </div>
+        </div>
+      </details>
       <div class="spacer2" style="grid-column: 1"></div>
 
-      <div class="grid-item right-position no-print" style="grid-column: 1">
-        <button data-ear="R" data-index="0" class="button_R_two NR">
-          NR
-        </button>
-        <button data-ear="R" data-index="1"  class="button_R NR">
-          NR
-        </button>
-        <button onClick="" class="invisible">..</button>
-        <button  data-ear="R" data-index="3"  class="button_R NR">
-          NR
-        </button>
-        <button  data-ear="R" data-index="4"  class="button_R_two NR">
-          NR
-        </button>
-        <button  data-ear="R" data-index="5"  class="button_R NR">
-          NR
-        </button>
-        <button data-ear="R" data-index="6" class="button_R_two NR">
-          NR
-        </button>
-        <button  data-ear="R" data-index="7"  class="button_R NR">
-          NR
-        </button>
-        <button  data-ear="R" data-index="8"  class="button_R_two NR">
-          NR
-        </button>
-        <button  data-ear="R" data-index="9"  class="button_R NR">
-          NR
-        </button>
-        <button  data-ear="R" data-index="10"  class="button_R_two NR">
-          NR
-        </button>
-        <button  data-ear="R" data-index="11"  class="button_R NR">
-          NR
-        </button>
-      </div>
-
-      <div class="grid-item left-position no-print" style="grid-column: 2;">
-        <button  data-ear="L" data-index="0"  class="button_L_two NR">
-          NR
-        </button>
-        <button
-           data-ear="L" data-index="1" 
-          class="button_L NR"
-          style="left: 433px; top: 395px"
-        >
-          NR
-        </button>
-        <button onClick="" class="invisible">..</button>
-        <button data-ear="L" data-index="3" 
-          class="button_L NR"
-          style="left: 481px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="4" 
-          class="button_L_two NR"
-          style="left: 505px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="5" 
-          class="button_L NR"
-          style="left: 530px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="6" 
-          class="button_L_two NR"
-          style="left: 554px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="7" 
-          class="button_L NR"
-          style="left: 578px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="8" 
-          class="button_L_two NR"
-          style="left: 603px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="9" 
-          class="button_L NR"
-          style="left: 627px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="10" 
-          class="button_L_two NR"
-          style="left: 651px; top: 395px"
-        >
-          NR
-        </button>
-        <button data-ear="L" data-index="11" 
-          class="button_L NR"
-          style="left: 675px; top: 395px"
-        >
-          NR
-        </button>
-      </div>
+      <details
+        class="button-row-details no-print"
+        style="grid-column: 1 / span 2"
+      >
+        <summary class="button-row-summary">NR</summary>
+        <div class="button-row-container">
+          <div class="button-row-R">
+            <button data-ear="R" data-index="0" class="button_R_two NR">
+              NR
+            </button>
+            <button data-ear="R" data-index="1" class="button_R NR">NR</button>
+            <button onClick="" class="invisible">..</button>
+            <button data-ear="R" data-index="3" class="button_R NR">NR</button>
+            <button data-ear="R" data-index="4" class="button_R_two NR">
+              NR
+            </button>
+            <button data-ear="R" data-index="5" class="button_R NR">NR</button>
+            <button data-ear="R" data-index="6" class="button_R_two NR">
+              NR
+            </button>
+            <button data-ear="R" data-index="7" class="button_R NR">NR</button>
+            <button data-ear="R" data-index="8" class="button_R_two NR">
+              NR
+            </button>
+            <button data-ear="R" data-index="9" class="button_R NR">NR</button>
+            <button data-ear="R" data-index="10" class="button_R_two NR">
+              NR
+            </button>
+            <button data-ear="R" data-index="11" class="button_R NR">NR</button>
+          </div>
+          <div class="button-row-L">
+            <button data-ear="L" data-index="0" class="button_L_two NR">
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="1"
+              class="button_L NR"
+              style="left: 433px; top: 395px"
+            >
+              NR
+            </button>
+            <button onClick="" class="invisible">..</button>
+            <button
+              data-ear="L"
+              data-index="3"
+              class="button_L NR"
+              style="left: 481px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="4"
+              class="button_L_two NR"
+              style="left: 505px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="5"
+              class="button_L NR"
+              style="left: 530px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="6"
+              class="button_L_two NR"
+              style="left: 554px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="7"
+              class="button_L NR"
+              style="left: 578px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="8"
+              class="button_L_two NR"
+              style="left: 603px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="9"
+              class="button_L NR"
+              style="left: 627px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="10"
+              class="button_L_two NR"
+              style="left: 651px; top: 395px"
+            >
+              NR
+            </button>
+            <button
+              data-ear="L"
+              data-index="11"
+              class="button_L NR"
+              style="left: 675px; top: 395px"
+            >
+              NR
+            </button>
+          </div>
+        </div>
+      </details>
 
       <div class="spacer2" style="grid-column: 1"></div>
       <div
@@ -488,7 +561,9 @@
             <td>□</td>
           </tr>
           <tr id="BCnormal" style="display: none">
-            <td class="legend-label" data-category="BC">Bone Conduction (BC)</td>
+            <td class="legend-label" data-category="BC">
+              Bone Conduction (BC)
+            </td>
             <td>&lt;</td>
             <td>&gt;</td>
           </tr>
@@ -503,7 +578,13 @@
             <td>↘</td>
           </tr>
           <tr id="previousLegend" style="display: none">
-            <td id="previous_dateContent" class="legend-label" data-category="previous">Previous</td>
+            <td
+              id="previous_dateContent"
+              class="legend-label"
+              data-category="previous"
+            >
+              Previous
+            </td>
             <td colspan="2">●---●</td>
           </tr>
         </table>
@@ -517,7 +598,6 @@
       <div id="WR_modal_content" class="WR-modal-content">
         <p class="wr-title">Word Recognition</p>
         <div class="word-rec-advanced">
-
           <!-- Header -->
           <div></div>
           <div class="wr-ear-header wr-right">Right</div>
@@ -535,8 +615,11 @@
               type="number"
               id="SRT_right_advanced"
               class="wr-input wr-right"
-              step="5" min="0" max="120"
-              onclick="calcMasking()" onblur="calcMasking()"
+              step="5"
+              min="0"
+              max="120"
+              onclick="calcMasking()"
+              onblur="calcMasking()"
               value="90"
             />
             <div class="wr-mask-row">
@@ -545,7 +628,9 @@
                 type="number"
                 id="SRT_right_masking"
                 class="wr-input wr-mask"
-                step="5" min="0" max="120"
+                step="5"
+                min="0"
+                max="120"
               />
             </div>
           </div>
@@ -554,8 +639,11 @@
               type="number"
               id="SRT_left_advanced"
               class="wr-input wr-left"
-              step="5" min="0" max="120"
-              onclick="calcMasking()" onblur="calcMasking()"
+              step="5"
+              min="0"
+              max="120"
+              onclick="calcMasking()"
+              onblur="calcMasking()"
             />
             <div class="wr-mask-row">
               <span class="wr-mask-label">&#8627; mask</span>
@@ -563,7 +651,9 @@
                 type="number"
                 id="SRT_left_masking"
                 class="wr-input wr-mask"
-                step="5" min="0" max="120"
+                step="5"
+                min="0"
+                max="120"
               />
             </div>
           </div>
@@ -580,8 +670,11 @@
               type="number"
               id="WR_right_pres_level"
               class="wr-input wr-right"
-              step="5" min="0" max="120"
-              onclick="calcMasking()" onblur="calcMasking()"
+              step="5"
+              min="0"
+              max="120"
+              onclick="calcMasking()"
+              onblur="calcMasking()"
             />
             <div class="wr-mask-row">
               <span class="wr-mask-label">&#8627; mask</span>
@@ -589,7 +682,9 @@
                 type="number"
                 id="WR_right_mask_level"
                 class="wr-input wr-mask"
-                step="5" min="0" max="120"
+                step="5"
+                min="0"
+                max="120"
               />
             </div>
           </div>
@@ -598,8 +693,11 @@
               type="number"
               id="WR_left_pres_level"
               class="wr-input wr-left"
-              step="5" min="0" max="120"
-              onclick="calcMasking()" onblur="calcMasking()"
+              step="5"
+              min="0"
+              max="120"
+              onclick="calcMasking()"
+              onblur="calcMasking()"
             />
             <div class="wr-mask-row">
               <span class="wr-mask-label">&#8627; mask</span>
@@ -607,7 +705,9 @@
                 type="number"
                 id="WR_left_mask_level"
                 class="wr-input wr-mask"
-                step="5" min="0" max="120"
+                step="5"
+                min="0"
+                max="120"
               />
             </div>
           </div>
@@ -629,18 +729,24 @@
 
           <!-- Masking calc -->
           <div class="wr-checkbox-row" style="grid-column: 1 / span 3">
-            <input type="checkbox" id="calc_WR_masking_please" name="calc_WR_masking" />
-            <label for="calc_WR_masking_please" class="wr-checkbox-label">Calculate masking levels</label>
+            <input
+              type="checkbox"
+              id="calc_WR_masking_please"
+              name="calc_WR_masking"
+            />
+            <label for="calc_WR_masking_please" class="wr-checkbox-label"
+              >Calculate masking levels</label
+            >
           </div>
-
         </div>
-        <button id="closeWR" class="top-controls-button wr-close-btn">Close</button>
+        <button id="closeWR" class="top-controls-button wr-close-btn">
+          Close
+        </button>
       </div>
     </div>
 
     <!-- Command Palette modal-->
     <div id="command_modal" popover="auto" class="command-modal-content">
-
       <p class="command-modal-title">Controls</p>
 
       <!-- Display toggles -->
@@ -648,7 +754,9 @@
         <div class="command-toggle-grid">
           <span class="command-row-label">Shade Norm</span>
           <button id="shade_norm_on" class="toggle-button-enabled">On</button>
-          <button id="shade_norm_off" class="toggle-button-disabled">Off</button>
+          <button id="shade_norm_off" class="toggle-button-disabled">
+            Off
+          </button>
 
           <span class="command-row-label">Shade Loss</span>
           <button id="shadeLossOn" class="toggle-button-enabled">On</button>
@@ -660,29 +768,41 @@
 
           <span class="command-row-label">PTA line</span>
           <button id="annotatePTAon" class="toggle-button-enabled">On</button>
-          <button id="annotatePTAoff" class="toggle-button-disabled">Off</button>
+          <button id="annotatePTAoff" class="toggle-button-disabled">
+            Off
+          </button>
         </div>
-      </div>
-
-      <!-- Secondary data -->
-      <div class="command-section">
-        <label class="command-row-label" for="secondary_data">Secondary Data</label>
-        <select id="secondary_data" class="command-select">
-          <option>Prev. Results</option>
-          <option>Other Ear</option>
-          <option>None</option>
-        </select>
       </div>
 
       <!-- Point size sliders -->
       <div class="command-section">
         <div class="command-slider-row">
-          <label for="ac_point_size_slider" class="command-row-label">AC size</label>
-          <input type="range" id="ac_point_size_slider" min="-2" max="2" value="0" list="point_size_slider_list" class="point_size_slider" />
+          <label for="ac_point_size_slider" class="command-row-label"
+            >AC size</label
+          >
+          <input
+            type="range"
+            id="ac_point_size_slider"
+            min="-2"
+            max="2"
+            value="0"
+            list="point_size_slider_list"
+            class="point_size_slider"
+          />
         </div>
         <div class="command-slider-row">
-          <label for="bc_point_size_slider" class="command-row-label">BC size</label>
-          <input type="range" id="bc_point_size_slider" min="-2" max="2" value="0" list="point_size_slider_list" class="point_size_slider" />
+          <label for="bc_point_size_slider" class="command-row-label"
+            >BC size</label
+          >
+          <input
+            type="range"
+            id="bc_point_size_slider"
+            min="-2"
+            max="2"
+            value="0"
+            list="point_size_slider_list"
+            class="point_size_slider"
+          />
         </div>
         <datalist id="point_size_slider_list" class="point_size_slider_list">
           <option value="-2" label="tiny"></option>
@@ -695,8 +815,14 @@
 
       <!-- Default transducer -->
       <div class="command-section">
-        <label class="command-row-label" for="default_transducer">Default Transducer</label>
-        <select name="default_transducer" id="default_transducer" class="command-select">
+        <label class="command-row-label" for="default_transducer"
+          >Default Transducer</label
+        >
+        <select
+          name="default_transducer"
+          id="default_transducer"
+          class="command-select"
+        >
           <option value="blank">--</option>
           <option value="circumaural">Circumaural</option>
           <option value="insert">Insert</option>
@@ -710,12 +836,11 @@
         <button id="print" class="top-controls-button">Print</button>
         <button id="save_image" class="top-controls-button">DL Image</button>
       </div>
-
     </div>
     <script type="module" crossorigin src="src/audiogram.js"></script>
 
     <!-- Cloudflare Web Analytics -->
-     <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "baa96b76d0cf468ba91b4d8b9a4c561b"}'></script> -->
-     <!-- End Cloudflare Web Analytics -->
+    <!-- <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "baa96b76d0cf468ba91b4d8b9a4c561b"}'></script> -->
+    <!-- End Cloudflare Web Analytics -->
   </body>
 </html>
