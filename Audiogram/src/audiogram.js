@@ -633,10 +633,8 @@ function calcChange(index, ear) {
   let color4 = ear === "R" ? "rgba(255, 0, 0, 0.30)" : "rgba(0, 0, 255, 0.30)";
 
   if (
-    (ioTestOld[index] === 0 && index === 4) ||
-    (ioTestOld[index] === 0 && index === 6) ||
-    (ioTestOld[index] === 0 && index === 8) ||
-    (ioTestOld[index] === 0 && index === 10)
+    [4, 6, 8, 10].includes(index) &&
+    (ioTestOld[index] === 0 || ioTestNew[index] === 0)
   ) {
     change.splice(index, 1, null);
     return;
@@ -1280,7 +1278,7 @@ function fillInLegendPrevDate() {
     return;
   }
   previousLegend.style.display = "table-row";
-  previous_dateContent.innerText = oldAudiogramData.DateOfTest;
+  previous_dateContent.innerText = "Previous " + oldAudiogramData.DateOfTest;
 }
 
 function fillInLegend() {

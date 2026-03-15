@@ -215,10 +215,12 @@ export function createOptionsR(prepareMovement) {
           enabled: false,
         },
         title: {
-          display: false,
+          display: true,
           align: "center",
           text: "Right",
-          padding: 5,
+          color: "rgba(255,0,0,0.8)",
+          font: { size: 16, family: "Rubik", weight: "500" },
+          padding: { top: 6, bottom: 4 },
         },
         crosshair: {
           sync: {
@@ -494,9 +496,12 @@ export function createOptionsL(prepareMovement) {
           enabled: false,
         },
         title: {
-          display: false,
+          display: true,
+          align: "center",
           text: "Left",
-          padding: 5,
+          color: "rgba(0,0,255,0.8)",
+          font: { size: 16, family: "Rubik", weight: "500" },
+          padding: { top: 6, bottom: 4 },
         },
         crosshair: {
           sync: {

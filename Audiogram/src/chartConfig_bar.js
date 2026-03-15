@@ -63,20 +63,17 @@ export const options_bar_R = {
       datalabels: {
         color: "red",
         formatter: function (value, context) {
-          var i = context.dataIndex;
-          var direction = context.dataset.data[i];
-          var glyph = direction > 0 ? "▲" : direction < 0 ? "▼" : "=";
-          return value === null ? "" : glyph + " " + Math.abs(value);
+          if (value === null) return "";
+          var direction = context.dataset.data[context.dataIndex];
+          if (direction > 0) return "▲\n" + Math.abs(value);
+          if (direction < 0) return Math.abs(value) + "\n▼";
+          return "=";
         },
-        align: "center",
-        //        align: function(context) {
-        //          var index = context.dataIndex;
-        //          var position = context.dataset.data[index];
-        //          return position > 0 ? 'end' :
-        //            position < 0 ? 'start' :
-        //           'center';
-        //        },
-        padding: 15,
+        align: function (context) {
+          var val = context.dataset.data[context.dataIndex];
+          return val > 0 ? "end" : val < 0 ? "start" : "center";
+        },
+        padding: 4,
       },
       crosshair: {
         line: {
@@ -179,17 +176,17 @@ export const options_bar_L = {
       datalabels: {
         color: "blue",
         formatter: function (value, context) {
-          var i = context.dataIndex;
-          var direction = context.dataset.data[i];
-          var glyph = direction > 0 ? "▲" : direction < 0 ? "▼" : "=";
-          return value === null ? "" : glyph + " " + Math.abs(value);
+          if (value === null) return "";
+          var direction = context.dataset.data[context.dataIndex];
+          if (direction > 0) return "▲\n" + Math.abs(value);
+          if (direction < 0) return Math.abs(value) + "\n▼";
+          return "=";
         },
         align: function (context) {
-          var index = context.dataIndex;
-          var position = context.dataset.data[index];
-          return position > 0 ? "end" : position < 0 ? "start" : "center";
+          var val = context.dataset.data[context.dataIndex];
+          return val > 0 ? "end" : val < 0 ? "start" : "center";
         },
-        padding: 15,
+        padding: 4,
       },
       crosshair: {
         line: {

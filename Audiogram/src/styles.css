@@ -446,11 +446,7 @@ td {
 }
 
 .legend-table-container {
-  margin: 3px;
-  margin-top: 5px;
-  padding: 2px;
-  justify-self: left;
-  margin-left: 150px;
+  place-self: center;
   background-color: rgba(183, 239, 197, 0.2);
   grid-column-start: 2;
   grid-row-start: 16;
