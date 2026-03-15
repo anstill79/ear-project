@@ -7,6 +7,11 @@
     <title>Loud Text</title>
   </head>
   <body>
+    <a href="../index.html" class="home-link" aria-label="Home">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </a>
     <div class="splash-container">
       <div>
         <span>Loud Text</span>
@@ -16,71 +21,65 @@
       <div id="displayArea" class="display-area"></div>
       <div class="input-area">
         <div id="text_section">
-          <div class="text-cntrls-subsection">
+          <div id="settingsPanel" class="text-cntrls-subsection">
             <div class="settings">
-              <div style="display: flex; gap: 5px">
-                <label>
-                  Text Size:
-                  <input
-                    type="range"
-                    id="textSizeSlider"
-                    min="2"
-                    max="8"
-                    step="0.5"
-                    value="4"
-                  />
-                </label>
-                <button id="textSizeDownBtn" class="text-size-buttons">
-                  🔽
-                </button>
-                <button id="textSizeUpBtn" class="text-size-buttons">🔼</button>
-              </div>
-
               <p>Colors:</p>
               <label for="textColorPicker"> Text </label>
               <input type="color" id="textColorPicker" value="#ffffff" />
               <input type="color" id="bgColorPicker" value="#000000" />
               <label for="bgColorPicker"> BG </label>
-              <div style="display: flex; gap: 0.2rem; padding-left: 5px">
-                <label for="color_presets">Presets:</label>
-                <select id="color_presets">
-                  <option value="1">W / B</option>
-                  <option value="2">B / W</option>
-                  <option value="3">G / B</option>
-                  <option value="4">B / G</option>
-                  <option value="5">W / Gray</option>
-                  <option value="6">Cat</option>
-                  <option value="7">--</option>
-                </select>
-              </div>
+              <button
+                id="fullscreen"
+                onclick="toggleFullScreen()"
+                class="button2"
+              >
+                Fullscreen
+              </button>
+              <button id="info" popovertarget="info_popover" class="button2">
+                About
+              </button>
             </div>
           </div>
-          <button id="sendBtn" class="button1">
-            Send<br /><span class="small-text">(Enter)</span>
-          </button>
-          <button id="clearBtn" class="button1">
-            Clear All<br /><span class="small-text">(Cntrl + Enter)</span>
-          </button>
-          <div class="misc-buttons">
-            <button
-              id="fullscreen"
-              onclick="toggleFullScreen()"
-              class="button2"
-            >
-              Fullscreen
+          <div class="main-input-row">
+            <textarea
+              id="inputText"
+              autocorrect="off"
+              spellcheck="false"
+              placeholder="Type here"
+            ></textarea>
+            <select id="color_presets">
+              <option value="1">W / B</option>
+              <option value="2">B / W</option>
+              <option value="3">G / B</option>
+              <option value="4">B / G</option>
+              <option value="5">W / Gray</option>
+              <option value="6">Cat</option>
+              <option value="7">--</option>
+            </select>
+            <div class="size-controls">
+              <button id="textSizeDownBtn" class="text-size-buttons">🔽</button>
+              <input
+                type="range"
+                id="textSizeSlider"
+                min="2"
+                max="8"
+                step="0.5"
+                value="4"
+              />
+              <button id="textSizeUpBtn" class="text-size-buttons">🔼</button>
+            </div>
+            <button id="sendBtn" class="button1" title="Send (Enter)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              Send
             </button>
-            <button id="info" popovertarget="info_popover" class="button2">
-              About
+            <button id="clearBtn" class="button1" title="Clear All (Ctrl + Enter)">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+              Clear All
+            </button>
+            <button id="settingsToggle" class="button2" title="Settings" aria-label="Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M19.14 12.94c.04-.3.06-.61.06-.94s-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54A.48.48 0 0 0 14 2h-4a.48.48 0 0 0-.48.41l-.36 2.54a7.4 7.4 0 0 0-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.74 8.47a.47.47 0 0 0 .12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.47.47 0 0 0-.12.61l1.92 3.32c.12.22.37.3.59.22l2.39-.96c.5.36 1.04.67 1.62.94l.36 2.54c.06.28.31.47.59.47h4c.28 0 .53-.19.59-.47l.36-2.54a7.4 7.4 0 0 0 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.47.47 0 0 0-.12-.61zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>
             </button>
           </div>
-          <!-- here -->
-          <textarea
-            id="inputText"
-            autocorrect="off"
-            spellcheck="false"
-            placeholder="Type here"
-          ></textarea>
-          <!-- here -->
         </div>
       </div>
       <div popover id="info_popover">

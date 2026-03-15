@@ -127,6 +127,10 @@ window.onload = function () {
   inputText.focus();
 };
 
+document.getElementById("settingsToggle").addEventListener("click", function () {
+  document.getElementById("settingsPanel").classList.toggle("visible");
+});
+
 function toggleFullScreen() {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen();
