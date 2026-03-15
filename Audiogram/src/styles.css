@@ -310,6 +310,36 @@ select {
   border-color: rgba(0, 0, 200, 0.35);
 }
 
+.wr-score-input {
+  width: 42px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-family: Rubik, sans-serif;
+  text-align: right;
+  color: inherit;
+  padding: 0;
+}
+
+.wr-score-input:focus {
+  outline: none;
+}
+
+.wr-score-input::-webkit-outer-spin-button,
+.wr-score-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.wr-score-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.wr-score-pct {
+  font-size: 13px;
+  margin-left: 2px;
+  color: inherit;
+}
+
 .wr-mask-row {
   display: flex;
   align-items: center;
@@ -365,42 +395,59 @@ select {
 
 .word-rec-simple {
   display: grid;
+  grid-template-columns: 52px 1fr 1fr;
   grid-column: 1 / span 2;
   grid-row-start: 16;
-  grid-gap: 3px;
+  column-gap: 0;
+  row-gap: 4px;
   justify-self: center;
-  justify-items: center;
-  border: solid;
-  border-width: 1px;
-  border-radius: 3px;
-  width: 120px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 185px;
   margin-top: 5px;
-  padding: 2px;
+  padding: 6px 8px;
   font-family: Rubik;
-  font-weight: normal;
   font-size: 12px;
+  background: #fafafa;
 }
 
-.word-rec-simple-item-right {
-  padding-top: 4px;
-  padding-left: 4px;
+.wrs-col-header {
   text-align: center;
-  color: red;
-  border: solid;
-  border-width: 1px;
-  width: 45px;
-  height: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  padding-bottom: 3px;
+  border-bottom: 2px solid;
 }
 
-.word-rec-simple-item-left {
-  padding-top: 5px;
-  padding-left: 5px;
+.wrs-right-header {
+  color: darkred;
+  border-color: rgba(255, 0, 0, 0.4);
+}
+
+.wrs-left-header {
+  color: darkblue;
+  border-color: rgba(0, 0, 255, 0.4);
+}
+
+.wrs-row-label {
+  font-size: 11px;
+  color: #555;
+  align-self: center;
+}
+
+.wrs-value {
   text-align: center;
-  color: blue;
-  border: solid;
-  border-width: 1px;
-  width: 45px;
-  height: 20px;
+  font-size: 12px;
+  align-self: center;
+  min-height: 16px;
+}
+
+.wrs-right-val {
+  color: darkred;
+}
+
+.wrs-left-val {
+  color: darkblue;
 }
 
 .WR-modal {
@@ -604,6 +651,7 @@ h3 {
 }
 .button-row-summary:hover {
   font-weight: 900;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .button-row-summary::-webkit-details-marker {

@@ -128,14 +128,39 @@ word_rec.addEventListener("click", launchWordRec);
 function launchWordRec() {
   WR_modal.style.display = "block";
   WR_modal.addEventListener("click", closeWordRec);
+  updatePTAforWR();
+}
+
+document.getElementById("WR_right_advanced").addEventListener("input", function () {
+  audiogramData.wordRec_R.splice(0, 1, this.value !== "" ? parseInt(this.value) : null);
+  updateSimpleView();
+});
+
+document.getElementById("WR_left_advanced").addEventListener("input", function () {
+  audiogramData.wordRec_L.splice(0, 1, this.value !== "" ? parseInt(this.value) : null);
+  updateSimpleView();
+});
+
+function updateSimpleView() {
+  document.getElementById("PTA_right_simple").innerText =
+    audiogramData.PTA_R !== undefined ? Math.round(audiogramData.PTA_R) + " dB" : "";
+  document.getElementById("PTA_left_simple").innerText =
+    audiogramData.PTA_L !== undefined ? Math.round(audiogramData.PTA_L) + " dB" : "";
+  document.getElementById("WR_right_simple").innerText =
+    audiogramData.wordRec_R[0] ? audiogramData.wordRec_R[0] + " %" : "";
+  document.getElementById("WR_left_simple").innerText =
+    audiogramData.wordRec_L[0] ? audiogramData.wordRec_L[0] + " %" : "";
+}
+
+function updatePTAforWR() {
   const PTA_R = document.getElementById("PTA_R_forWR");
   const PTA_L = document.getElementById("PTA_L_forWR");
-  if (audiogramData.PTA_R !== undefined) {
-    PTA_R.innerText = `PTA ${Math.floor(audiogramData.PTA_R)} dB`;
-  }
-  if (audiogramData.PTA_L !== undefined) {
-    PTA_L.innerText = `PTA ${Math.floor(audiogramData.PTA_L)} dB`;
-  }
+  PTA_R.innerText = audiogramData.PTA_R !== undefined
+    ? `${Math.round(audiogramData.PTA_R)} dB`
+    : "";
+  PTA_L.innerText = audiogramData.PTA_L !== undefined
+    ? `${Math.round(audiogramData.PTA_L)} dB`
+    : "";
 }
 
 
@@ -1140,12 +1165,8 @@ function annotatePTA() {
     if (annotatePTApref === "off") {
       annotatePTAon.classList.add("toggle-button-disabled");
       annotatePTAoff.classList.add("toggle-button-enabled");
-      myChart.options.plugins.annotation.annotations.linePTA.yMin = 0;
-      myChart.options.plugins.annotation.annotations.linePTA.yMax = 0;
-      myChart.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
-      myChart2.options.plugins.annotation.annotations.linePTA.yMin = 0;
-      myChart2.options.plugins.annotation.annotations.linePTA.yMax = 0;
-      myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = 0;
+      myChart.options.plugins.annotation.annotations.labelPTA.display = false;
+      myChart2.options.plugins.annotation.annotations.labelPTA.display = false;
       updateCharts();
       return;
     }
@@ -1155,30 +1176,26 @@ function annotatePTA() {
     }
   }
 
-  let valueR;
-  let valueL;
-  let lineR = 4;
-  let lineL = 4;
+  const labelR = myChart.options.plugins.annotation.annotations.labelPTA;
+  const labelL = myChart2.options.plugins.annotation.annotations.labelPTA;
+
   if (audiogramData.PTA_R === undefined) {
-    valueR = 0;
-    lineR = 0;
+    labelR.display = false;
   } else {
-    valueR = audiogramData.PTA_R;
+    labelR.yValue = audiogramData.PTA_R;
+    labelR.content = String(Math.round(audiogramData.PTA_R));
+    labelR.display = true;
   }
   if (audiogramData.PTA_L === undefined) {
-    valueL = 0;
-    lineL = 0;
+    labelL.display = false;
   } else {
-    valueL = audiogramData.PTA_L;
+    labelL.yValue = audiogramData.PTA_L;
+    labelL.content = String(Math.round(audiogramData.PTA_L));
+    labelL.display = true;
   }
-
-  myChart.options.plugins.annotation.annotations.linePTA.yMin = valueR;
-  myChart.options.plugins.annotation.annotations.linePTA.yMax = valueR;
-  myChart.options.plugins.annotation.annotations.linePTA.borderWidth = lineR;
-  myChart2.options.plugins.annotation.annotations.linePTA.yMin = valueL;
-  myChart2.options.plugins.annotation.annotations.linePTA.yMax = valueL;
-  myChart2.options.plugins.annotation.annotations.linePTA.borderWidth = lineL;
   updateCharts();
+  updatePTAforWR();
+  updateSimpleView();
 }
 
 function LMH(array, ear) {

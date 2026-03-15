@@ -499,39 +499,17 @@
       </div>
 
       <div class="word-rec-simple">
-        <div>Right</div>
-        <div>Left</div>
-        <div style="grid-column: 1 / span 2; justify-self: center">SRT</div>
+        <div></div>
+        <div class="wrs-col-header wrs-right-header">Right</div>
+        <div class="wrs-col-header wrs-left-header">Left</div>
 
-        <div
-          id="SRT_right_simple"
-          class="word-rec-simple-item-right"
-          style="grid-row: 3; grid-column: 1"
-        ></div>
-        <div
-          id="SRT_left_simple"
-          class="word-rec-simple-item-left"
-          style="grid-row: 3; grid-column: 2"
-        >
-          125 dB
-        </div>
+        <div class="wrs-row-label">PTA</div>
+        <div id="PTA_right_simple" class="wrs-value wrs-right-val"></div>
+        <div id="PTA_left_simple" class="wrs-value wrs-left-val"></div>
 
-        <div style="grid-column: 1 / span 2; justify-self: center">
-          Word Rec
-        </div>
-
-        <div
-          id="WR_right_simple"
-          class="word-rec-simple-item-right"
-          style="grid-column: 1; grid-row: 5"
-        ></div>
-        <div
-          id="WR_left_simple"
-          class="word-rec-simple-item-left"
-          style="grid-column: 2; grid-row: 5"
-        >
-          58 %
-        </div>
+        <div class="wrs-row-label">Word Rec</div>
+        <div id="WR_right_simple" class="wrs-value wrs-right-val"></div>
+        <div id="WR_left_simple" class="wrs-value wrs-left-val"></div>
       </div>
 
       <div class="legend-table-container">
@@ -652,8 +630,28 @@
 
           <!-- WR% -->
           <div class="wr-row-label">WR %</div>
-          <div id="WR_right_advanced" class="wr-value wr-right"></div>
-          <div id="WR_left_advanced" class="wr-value wr-left">58 %</div>
+          <div class="wr-value wr-right">
+            <input
+              type="number"
+              id="WR_right_advanced"
+              class="wr-score-input"
+              min="0"
+              max="100"
+              step="4"
+            />
+            <span class="wr-score-pct">%</span>
+          </div>
+          <div class="wr-value wr-left">
+            <input
+              type="number"
+              id="WR_left_advanced"
+              class="wr-score-input"
+              min="0"
+              max="100"
+              step="4"
+            />
+            <span class="wr-score-pct">%</span>
+          </div>
 
           <!-- Pres. level + Mask -->
           <div class="wr-row-label">Pres. level</div>
