@@ -1,12 +1,12 @@
 /* ── AVSplus – main app logic ─────────────────────────────────────────────
-   No build step. Vanilla JS (ES2022). Served by Express.
-───────────────────────────────────────────────────────────────────────────── */
+   No server. No build step. Resources loaded from js/resources.js.
+   Open index.html directly in any browser.
+────────────────────────────────────────────────────────────────────────── */
 
 const state = {
-  resources: [],        // all resources from API
-  document: [],         // { resource, values, html } ordered list
-  modalResource: null,  // resource being configured
-  modalDocIndex: null,  // if editing existing doc item
+  document: [],         // { resource, values, html }
+  modalResource: null,
+  modalDocIndex: null,
   dragSrcIndex: null,
 };
 
@@ -38,27 +38,20 @@ const $toast        = document.getElementById('toast');
 const $printable    = document.getElementById('printable');
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────
-(async function init() {
-  try {
-    const res = await fetch('/api/resources');
-    state.resources = await res.json();
-    renderLibrary(state.resources);
-  } catch (e) {
-    $resourceList.innerHTML = `<div style="padding:20px;color:#dc2626;">Failed to load resources: ${e.message}</div>`;
-  }
-})();
+renderLibrary();
+updateDocumentUI();
 
 // ── Render resource library ───────────────────────────────────────────────
-function renderLibrary(resources) {
+function renderLibrary() {
   const query = $search.value.toLowerCase().trim();
   const filtered = query
-    ? resources.filter(r =>
+    ? RESOURCES.filter(r =>
         r.name.toLowerCase().includes(query) ||
-        r.description?.toLowerCase().includes(query) ||
+        (r.description || '').toLowerCase().includes(query) ||
         r.category.toLowerCase().includes(query))
-    : resources;
+    : RESOURCES;
 
-  // Group by category
+  // Group by category, preserving definition order within each group
   const groups = {};
   filtered.forEach(r => {
     if (!groups[r.category]) groups[r.category] = [];
@@ -72,9 +65,9 @@ function renderLibrary(resources) {
     html += `<div class="category-group">
       <div class="category-label">${esc(cat)}</div>`;
     items.forEach(r => {
-      const inDocClass = inDoc.has(r.id) ? ' in-doc' : '';
+      const dimmed = inDoc.has(r.id) ? ' in-doc' : '';
       html += `
-        <div class="resource-item${inDocClass}" data-id="${r.id}" role="button" tabindex="0"
+        <div class="resource-item${dimmed}" data-id="${r.id}" role="button" tabindex="0"
              aria-label="Add ${esc(r.name)}">
           <span class="resource-icon">${r.icon}</span>
           <div class="resource-info">
@@ -94,7 +87,6 @@ function renderLibrary(resources) {
 
   $resourceList.innerHTML = html;
 
-  // Events
   $resourceList.querySelectorAll('.resource-item').forEach(el => {
     el.addEventListener('click', () => handleResourceClick(parseInt(el.dataset.id)));
     el.addEventListener('keydown', e => {
@@ -103,17 +95,15 @@ function renderLibrary(resources) {
   });
 }
 
-$search.addEventListener('input', () => renderLibrary(state.resources));
+$search.addEventListener('input', renderLibrary);
 
 // ── Handle adding a resource ──────────────────────────────────────────────
-async function handleResourceClick(id) {
-  const resource = state.resources.find(r => r.id === id);
+function handleResourceClick(id) {
+  const resource = RESOURCES.find(r => r.id === id);
   if (!resource) return;
 
   if (resource.type === 'static') {
-    // Fetch full content on demand
-    const data = await apiFetch(`/api/resources/${id}`);
-    addToDocument(resource, {}, data.content);
+    addToDocument(resource, {}, resource.content);
   } else {
     openConfigModal(resource, null, null);
   }
@@ -134,9 +124,7 @@ function removeFromDocument(index) {
 function moveItem(index, direction) {
   const newIndex = index + direction;
   if (newIndex < 0 || newIndex >= state.document.length) return;
-  const tmp = state.document[index];
-  state.document[index] = state.document[newIndex];
-  state.document[newIndex] = tmp;
+  [state.document[index], state.document[newIndex]] = [state.document[newIndex], state.document[index]];
   updateDocumentUI();
 }
 
@@ -146,29 +134,17 @@ function updateDocumentUI() {
   $btnBuild.disabled = items.length === 0;
   $emptyState.style.display = items.length === 0 ? '' : 'none';
 
-  // Re-render doc items
-  const existing = $docItems.querySelectorAll('.doc-item');
-  existing.forEach(el => el.remove());
+  $docItems.querySelectorAll('.doc-item').forEach(el => el.remove());
+  items.forEach((item, idx) => $docItems.appendChild(buildDocItemEl(item, idx)));
 
-  items.forEach((item, idx) => {
-    const el = buildDocItemEl(item, idx);
-    $docItems.appendChild(el);
-  });
-
-  // Refresh library to grey out already-added static items (optional)
-  renderLibrary(state.resources);
+  renderLibrary();
 }
 
-function buildDocItemEl({ resource, values, html }, idx) {
+function buildDocItemEl({ resource, values }, idx) {
   const div = document.createElement('div');
   div.className = 'doc-item';
   div.dataset.index = idx;
   div.draggable = true;
-
-  const isConfigured = resource.type === 'form';
-  const statusText = isConfigured
-    ? '✓ Configured'
-    : 'Static content';
 
   div.innerHTML = `
     <div class="doc-item-header">
@@ -182,38 +158,32 @@ function buildDocItemEl({ resource, values, html }, idx) {
         <button class="btn-icon btn-remove" data-idx="${idx}" title="Remove">✕</button>
       </div>
     </div>
-    <div class="doc-item-status ${isConfigured ? 'configured' : ''}">${statusText}</div>`;
+    <div class="doc-item-status ${resource.type === 'form' ? 'configured' : ''}">
+      ${resource.type === 'form' ? '✓ Configured' : 'Static content'}
+    </div>`;
 
-  // Button events
   div.querySelector('.btn-remove').addEventListener('click', () => removeFromDocument(idx));
-  div.querySelectorAll('[data-move]').forEach(btn => {
-    btn.addEventListener('click', () => moveItem(idx, parseInt(btn.dataset.move)));
-  });
-  const editBtn = div.querySelector('.btn-edit');
-  if (editBtn) {
-    editBtn.addEventListener('click', () => openConfigModal(resource, values, idx));
-  }
+  div.querySelectorAll('[data-move]').forEach(btn =>
+    btn.addEventListener('click', () => moveItem(idx, parseInt(btn.dataset.move))));
+  div.querySelector('.btn-edit')?.addEventListener('click', () =>
+    openConfigModal(resource, values, idx));
 
-  // Drag-and-drop
+  // Drag-and-drop reordering
   div.addEventListener('dragstart', e => {
     state.dragSrcIndex = idx;
     e.dataTransfer.effectAllowed = 'move';
     setTimeout(() => div.style.opacity = '.4', 0);
   });
-  div.addEventListener('dragend', () => { div.style.opacity = ''; });
-  div.addEventListener('dragover', e => {
-    e.preventDefault();
-    div.classList.add('drag-over');
-  });
-  div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+  div.addEventListener('dragend',  () => { div.style.opacity = ''; });
+  div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('drag-over'); });
+  div.addEventListener('dragleave',() => div.classList.remove('drag-over'));
   div.addEventListener('drop', e => {
     e.preventDefault();
     div.classList.remove('drag-over');
     const src = state.dragSrcIndex;
-    const dest = idx;
-    if (src === null || src === dest) return;
+    if (src === null || src === idx) return;
     const [removed] = state.document.splice(src, 1);
-    state.document.splice(dest, 0, removed);
+    state.document.splice(idx, 0, removed);
     state.dragSrcIndex = null;
     updateDocumentUI();
   });
@@ -222,28 +192,25 @@ function buildDocItemEl({ resource, values, html }, idx) {
 }
 
 $btnClear.addEventListener('click', () => {
-  if (state.document.length === 0) return;
+  if (!state.document.length) return;
   if (!confirm('Clear all items from the document?')) return;
   state.document = [];
   updateDocumentUI();
 });
 
 // ── Configure modal ───────────────────────────────────────────────────────
-async function openConfigModal(resource, existingValues, docIndex) {
-  const data = await apiFetch(`/api/resources/${resource.id}`);
-  state.modalResource = data;
+function openConfigModal(resource, existingValues, docIndex) {
+  state.modalResource = resource;
   state.modalDocIndex = docIndex;
 
-  $modalIcon.textContent = resource.icon;
+  $modalIcon.textContent  = resource.icon;
   $modalTitle.textContent = resource.name;
-  $modalDesc.textContent = resource.description || '';
-  $modalSave.textContent = docIndex !== null ? '✓ Update' : '+ Add to Document';
+  $modalDesc.textContent  = resource.description || '';
+  $modalSave.textContent  = docIndex !== null ? '✓ Update' : '+ Add to Document';
 
-  $modalBody.innerHTML = renderFormFields(data.fields, existingValues || {});
-
-  // Attach radio button listeners (for real-time preview if needed)
+  $modalBody.innerHTML = renderFormFields(resource.fields, existingValues || {});
   $configModal.classList.add('open');
-  // Focus first input
+
   const first = $modalBody.querySelector('input, select, textarea');
   if (first) setTimeout(() => first.focus(), 50);
 }
@@ -258,21 +225,19 @@ $modalClose.addEventListener('click', closeConfigModal);
 $modalCancel.addEventListener('click', closeConfigModal);
 $configModal.addEventListener('click', e => { if (e.target === $configModal) closeConfigModal(); });
 
-$modalSave.addEventListener('click', async () => {
+$modalSave.addEventListener('click', () => {
   const resource = state.modalResource;
   if (!resource) return;
 
   const values = collectFormValues($modalBody, resource.fields);
 
-  // Validate required fields
   const missing = resource.fields.filter(f => f.required && !values[f.field_name]?.trim());
   if (missing.length) {
     toast(`Please fill in: ${missing.map(f => f.field_label).join(', ')}`, true);
     return;
   }
 
-  // Render via API
-  const { html } = await apiFetch('/api/render', 'POST', { resource_id: resource.id, values });
+  const html = renderTemplate(resource.template, values);
 
   if (state.modalDocIndex !== null) {
     state.document[state.modalDocIndex] = { resource, values, html };
@@ -285,42 +250,39 @@ $modalSave.addEventListener('click', async () => {
   closeConfigModal();
 });
 
+// ── Form field rendering ──────────────────────────────────────────────────
 function renderFormFields(fields, defaults) {
   return fields.map(f => {
     const val = defaults[f.field_name] ?? f.default_value ?? '';
     let input = '';
 
     if (f.field_type === 'textarea') {
-      input = `<textarea name="${f.field_name}" rows="4" ${f.required ? 'required' : ''}>${esc(val)}</textarea>`;
+      input = `<textarea name="${f.field_name}" rows="4"${f.required ? ' required' : ''}>${esc(val)}</textarea>`;
 
     } else if (f.field_type === 'select') {
       const opts = (f.field_options || []).map(o =>
-        `<option value="${esc(o)}" ${o === val ? 'selected' : ''}>${esc(o)}</option>`
+        `<option value="${esc(o)}"${o === val ? ' selected' : ''}>${esc(o)}</option>`
       ).join('');
-      input = `<select name="${f.field_name}" ${f.required ? 'required' : ''}>${opts}</select>`;
+      input = `<select name="${f.field_name}"${f.required ? ' required' : ''}>${opts}</select>`;
 
     } else if (f.field_type === 'radio') {
-      const opts = (f.field_options || []).map((o, i) => `
+      const opts = (f.field_options || []).map(o => `
         <label class="radio-option">
-          <input type="radio" name="${f.field_name}" value="${esc(o)}" ${o === val ? 'checked' : ''}>
+          <input type="radio" name="${f.field_name}" value="${esc(o)}"${o === val ? ' checked' : ''}>
           ${esc(o)}
         </label>`).join('');
       input = `<div class="radio-group">${opts}</div>`;
 
-    } else if (f.field_type === 'checkbox') {
-      input = `<label class="radio-option">
-        <input type="checkbox" name="${f.field_name}" ${val ? 'checked' : ''}> ${esc(f.field_label)}
-      </label>`;
-
     } else {
-      input = `<input type="${f.field_type}" name="${f.field_name}" value="${esc(val)}" ${f.required ? 'required' : ''} />`;
+      // text, date, number, checkbox
+      input = `<input type="${f.field_type}" name="${f.field_name}" value="${esc(val)}"${f.required ? ' required' : ''} />`;
     }
 
-    const labelHtml = f.field_type !== 'checkbox'
-      ? `<label for="${f.field_name}">${esc(f.field_label)}${f.required ? ' <span class="req">*</span>' : ''}</label>`
+    const label = f.field_type !== 'checkbox'
+      ? `<label>${esc(f.field_label)}${f.required ? ' <span class="req">*</span>' : ''}</label>`
       : '';
 
-    return `<div class="field-group">${labelHtml}${input}</div>`;
+    return `<div class="field-group">${label}${input}</div>`;
   }).join('');
 }
 
@@ -331,34 +293,62 @@ function collectFormValues(container, fields) {
       const checked = container.querySelector(`input[name="${f.field_name}"]:checked`);
       values[f.field_name] = checked ? checked.value : '';
     } else if (f.field_type === 'checkbox') {
-      const el = container.querySelector(`input[name="${f.field_name}"]`);
-      values[f.field_name] = el?.checked ? 'true' : '';
+      values[f.field_name] = container.querySelector(`input[name="${f.field_name}"]`)?.checked ? 'true' : '';
     } else {
-      const el = container.querySelector(`[name="${f.field_name}"]`);
-      values[f.field_name] = el ? el.value : '';
+      values[f.field_name] = container.querySelector(`[name="${f.field_name}"]`)?.value ?? '';
     }
   });
   return values;
+}
+
+// ── Template renderer ─────────────────────────────────────────────────────
+// Supports: {{var}}, {{#var}}...{{/var}}, {{#var_not_X}}...{{/var_not_X}},
+//           {{#each var_lines}}...{{/each}}
+function renderTemplate(template, values) {
+  let out = template;
+
+  // {{#each varname_lines}} ... {{/each}} — split value on newlines
+  out = out.replace(/\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g, (_, key, body) => {
+    const lines = (values[key] || '').split('\n').map(l => l.trim()).filter(Boolean);
+    return lines.map(line => body.replace(/\{\{this\}\}/g, esc(line))).join('');
+  });
+
+  // {{#var_not_X}} ... {{/var_not_X}}
+  out = out.replace(/\{\{#(\w+)_not_(\w+)\}\}([\s\S]*?)\{\{\/\1_not_\2\}\}/g, (_, key, notVal, body) => {
+    const val = (values[key] || '').trim();
+    return val && val.toLowerCase() !== notVal.toLowerCase() ? body : '';
+  });
+
+  // {{#var}} ... {{/var}} — conditional block
+  out = out.replace(/\{\{#(\w+)\}\}([\s\S]*?)\{\{\/\1\}\}/g, (_, key, body) =>
+    values[key] ? body : '');
+
+  // {{var}} — interpolation
+  out = out.replace(/\{\{(\w+)\}\}/g, (_, key) => esc(values[key] || ''));
+
+  return out;
 }
 
 // ── Build & Print ─────────────────────────────────────────────────────────
 $btnBuild.addEventListener('click', buildDocument);
 
 function buildDocument() {
-  const sections = state.document.map(({ html }) => `
-    <section class="avs-section">${html}</section>`
+  const sections = state.document.map(({ html }) =>
+    `<section class="avs-section">${html}</section>`
   ).join('\n<hr class="section-divider">\n');
+
+  const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
   const fullDoc = `
     <div class="print-page">
-      <div class="avs-header" style="margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #2563eb;">
+      <div class="avs-header">
         <div style="display:flex;align-items:center;gap:12px;">
           <div>
             <div style="font-size:22px;font-weight:800;color:#2563eb;">AVSplus</div>
             <div style="font-size:11px;color:#64748b;">After Visit Summary</div>
           </div>
           <div style="margin-left:auto;font-size:12px;color:#64748b;text-align:right;">
-            <div>Date: <strong>${new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'})}</strong></div>
+            Date: <strong>${date}</strong>
           </div>
         </div>
       </div>
@@ -367,7 +357,6 @@ function buildDocument() {
 
   $printBody.innerHTML = fullDoc;
   $printable.innerHTML = fullDoc;
-
   $printModal.classList.add('open');
 }
 
@@ -376,45 +365,23 @@ $printCancel.addEventListener('click', () => $printModal.classList.remove('open'
 $printModal.addEventListener('click', e => { if (e.target === $printModal) $printModal.classList.remove('open'); });
 
 $btnPrintNow.addEventListener('click', () => {
-  // Inject printable styles then print
   const style = document.createElement('style');
   style.id = '__avsprint';
   style.textContent = `
     @media print {
       body > *:not(#printable) { display: none !important; }
       #printable { display: block !important; }
-      .avs-section { page-break-inside: avoid; margin-bottom: 24px; }
-      .section-divider { border: none; border-top: 1px dashed #cbd5e1; margin: 20px 0; }
-      table { width: 100%; border-collapse: collapse; margin: 8px 0; }
-      th, td { padding: 6px 10px; border: 1px solid #e2e8f0; text-align: left; }
-      th { background: #f1f5f9; }
-      h2 { color: #1e40af; margin-bottom: 8px; }
-      h3 { margin: 12px 0 6px; }
-      p, li { line-height: 1.6; }
-      ul, ol { padding-left: 1.4rem; }
-      .tip { background: #fefce8; border-left: 3px solid #fde047; padding: 8px 12px; margin: 8px 0; }
-      .avs-header { margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid #2563eb; }
     }`;
   document.head.appendChild(style);
   window.print();
-  setTimeout(() => style.remove(), 1000);
+  setTimeout(() => style.remove(), 1500);
 });
 
-// ── Utility ───────────────────────────────────────────────────────────────
-async function apiFetch(url, method = 'GET', body = null) {
-  const opts = { method, headers: { 'Content-Type': 'application/json' } };
-  if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(url, opts);
-  if (!res.ok) throw new Error(`API error ${res.status}`);
-  return res.json();
-}
-
+// ── Utilities ─────────────────────────────────────────────────────────────
 function esc(str) {
   return String(str ?? '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 let toastTimer;
@@ -425,6 +392,3 @@ function toast(msg, isError = false) {
   $toast.classList.add('show');
   toastTimer = setTimeout(() => $toast.classList.remove('show'), 3000);
 }
-
-// Initial render
-updateDocumentUI();
