@@ -1165,15 +1165,17 @@ function annotatePTA() {
     if (annotatePTApref === "off") {
       annotatePTAon.classList.add("toggle-button-disabled");
       annotatePTAoff.classList.add("toggle-button-enabled");
-      myChart.options.plugins.annotation.annotations.labelPTA.display = false;
-      myChart2.options.plugins.annotation.annotations.labelPTA.display = false;
-      updateCharts();
-      return;
-    }
-    if (annotatePTApref === "on") {
+    } else {
       annotatePTAon.classList.add("toggle-button-enabled");
       annotatePTAoff.classList.add("toggle-button-disabled");
     }
+  }
+
+  if (annotatePTApref === "off") {
+    myChart.options.plugins.annotation.annotations.labelPTA.display = false;
+    myChart2.options.plugins.annotation.annotations.labelPTA.display = false;
+    updateCharts();
+    return;
   }
 
   const labelR = myChart.options.plugins.annotation.annotations.labelPTA;

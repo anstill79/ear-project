@@ -181,6 +181,7 @@ export function createOptionsR(prepareMovement) {
       plugins: {
         autocolors: false,
         annotation: {
+          clip: false,
           annotations: {
             normAdult: {
               type: "box",
@@ -196,12 +197,11 @@ export function createOptionsR(prepareMovement) {
               type: "label",
               yValue: 0,
               xValue: 0,
-              xAdjust: -35,
+              xAdjust: -45,
               content: "",
               color: "rgba(255,0,0,0.9)",
               font: { size: 10, family: "Rubik", weight: "600" },
               display: false,
-              clip: false,
             },
           },
         },
@@ -463,6 +463,7 @@ export function createOptionsL(prepareMovement) {
       responsive: false,
       plugins: {
         annotation: {
+          clip: false,
           annotations: {
             normAdult: {
               type: "box",
@@ -478,12 +479,11 @@ export function createOptionsL(prepareMovement) {
               type: "label",
               yValue: 0,
               xValue: 0,
-              xAdjust: -35,
+              xAdjust: -45,
               content: "",
               color: "rgba(0,0,255,0.9)",
               font: { size: 10, family: "Rubik", weight: "600" },
               display: false,
-              clip: false,
             },
           },
         },
