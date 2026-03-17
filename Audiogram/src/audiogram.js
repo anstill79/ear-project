@@ -1185,14 +1185,14 @@ function annotatePTA() {
     labelR.display = false;
   } else {
     labelR.yValue = audiogramData.PTA_R;
-    labelR.content = String(Math.round(audiogramData.PTA_R));
+    labelR.content = ["PTA", String(Math.round(audiogramData.PTA_R))];
     labelR.display = true;
   }
   if (audiogramData.PTA_L === undefined) {
     labelL.display = false;
   } else {
     labelL.yValue = audiogramData.PTA_L;
-    labelL.content = String(Math.round(audiogramData.PTA_L));
+    labelL.content = ["PTA", String(Math.round(audiogramData.PTA_L))];
     labelL.display = true;
   }
   updateCharts();

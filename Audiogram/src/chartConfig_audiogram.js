@@ -5,7 +5,20 @@ import {
   L_NR,
 } from "./dataAndImages.js";
 
-export const bigHz = [125, 250, "", 500, "", 1000, "", 2000, "", 4000, "", 8000];
+export const bigHz = [
+  125,
+  250,
+  "",
+  500,
+  "",
+  1000,
+  "",
+  2000,
+  "",
+  4000,
+  "",
+  8000,
+];
 
 export function createOptionsR(prepareMovement) {
   return {
@@ -196,8 +209,8 @@ export function createOptionsR(prepareMovement) {
             labelPTA: {
               type: "label",
               yValue: 0,
-              xValue: 0,
-              xAdjust: -45,
+              xValue: 11,
+              xAdjust: 12,
               content: "",
               color: "rgba(255,0,0,0.9)",
               font: { size: 10, family: "Rubik", weight: "600" },
@@ -478,8 +491,8 @@ export function createOptionsL(prepareMovement) {
             labelPTA: {
               type: "label",
               yValue: 0,
-              xValue: 0,
-              xAdjust: -45,
+              xValue: 11,
+              xAdjust: 12,
               content: "",
               color: "rgba(0,0,255,0.9)",
               font: { size: 10, family: "Rubik", weight: "600" },
