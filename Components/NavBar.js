@@ -55,6 +55,20 @@ class NavBar extends HTMLElement {
           width: 16px;
           height: 16px;
         }
+
+        .page-title {
+          font-size: 0.8rem;
+          font-weight: 400;
+          color: #6b7280;
+          letter-spacing: 0.01em;
+        }
+
+        ::slotted([slot="page-title"]) {
+          font-size: 0.8rem;
+          font-weight: 400;
+          color: #6b7280;
+          letter-spacing: 0.01em;
+        }
       </style>
 
       <nav>
@@ -64,6 +78,7 @@ class NavBar extends HTMLElement {
           </svg>
           Back
         </button>
+        <span class="page-title"><slot name="page-title"></slot></span>
       </nav>
     `;
 
