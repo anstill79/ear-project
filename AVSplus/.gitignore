@@ -1,0 +1,4 @@
+node_modules/
+avsplus.db
+avsplus.db-shm
+avsplus.db-wal

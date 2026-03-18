@@ -1,0 +1,75 @@
+/* ── Print styles ─────────────────────────────────────────────────────── */
+@media print {
+  /* Hide everything except the printable area */
+  body > *:not(#printable) { display: none !important; }
+  #printable { display: block !important; }
+
+  body { background: #fff; }
+
+  .print-page {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    max-width: none;
+  }
+
+  .avs-section {
+    page-break-inside: avoid;
+    margin-bottom: 24pt;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px dashed #cbd5e1;
+    margin: 18pt 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0;
+  }
+
+  th, td {
+    padding: 5pt 8pt;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+    font-size: 10pt;
+  }
+
+  th { background: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
+
+  h2 {
+    color: #1e40af;
+    font-size: 15pt;
+    margin-bottom: 6pt;
+    -webkit-print-color-adjust: exact;
+  }
+
+  h3 { font-size: 11pt; margin: 10pt 0 5pt; }
+
+  p, li { font-size: 10pt; line-height: 1.55; }
+
+  ul, ol { padding-left: 16pt; margin: 4pt 0; }
+
+  .tip {
+    background: #fefce8 !important;
+    border-left: 3pt solid #fde047 !important;
+    padding: 6pt 10pt;
+    margin: 8pt 0;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .avs-header {
+    margin-bottom: 16pt;
+    padding-bottom: 10pt;
+    border-bottom: 2pt solid #2563eb !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  pre { white-space: pre-wrap; font-family: inherit; font-size: 10pt; }
+
+  figure { margin: 8pt 0; }
+  figure svg { max-width: 100%; }
+  figcaption { font-size: 9pt; color: #666; margin-top: 4pt; }
+}
