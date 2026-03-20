@@ -1,3 +1,18 @@
+function createAidedCanvas(color) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 20;
+  canvas.height = 20;
+  const ctx = canvas.getContext("2d");
+  ctx.font = "bold 14px Rubik, sans-serif";
+  ctx.fillStyle = color;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("A", 10, 10);
+  return canvas;
+}
+export const AidedSymbol_R = createAidedCanvas("rgb(255, 0, 0)");
+export const AidedSymbol_L = createAidedCanvas("rgb(0, 0, 255)");
+
 export const BC_R = new Image();
 BC_R.src = "src/BC_R.png";
 BC_R.width = 40;
@@ -179,6 +194,62 @@ export const audiogramData = {
     null,
     null,
   ],
+  thresh_Aided_R: [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ],
+  thresh_Aided_L: [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ],
+  thresh_NR_Aided_R: [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ],
+  thresh_NR_Aided_L: [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+  ],
   interOctTested_AC_R: [1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
   interOctTested_AC_L: [1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
   pointSize_AC_R: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
@@ -189,6 +260,10 @@ export const audiogramData = {
   pointSize_NR_L: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   pointSize_NR_BC_R: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   pointSize_NR_BC_L: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  pointSize_Aided_R: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+  pointSize_Aided_L: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+  pointSize_NR_Aided_R: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  pointSize_NR_Aided_L: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   symbols_BC_R: [
     BC_R,
     BC_R,
@@ -245,6 +320,8 @@ export const audiogramData = {
     "crossRot",
     "crossRot",
   ],
+  symbols_Aided_R: Array(12).fill(AidedSymbol_R),
+  symbols_Aided_L: Array(12).fill(AidedSymbol_L),
   maskAll_AC_R_L_BC_R_L: [0, 0, 0, 0],
   legend: {
     ACunmasked: "hide",
@@ -252,6 +329,7 @@ export const audiogramData = {
     ACmasked: "hide",
     BCmasked: "hide",
     NR: "hide",
+    Aided: "hide",
   },
 };
 
