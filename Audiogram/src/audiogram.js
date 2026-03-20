@@ -5,6 +5,8 @@ import {
   BC_L,
   BC_R_M,
   BC_L_M,
+  AidedSymbol_R,
+  AidedSymbol_L,
 } from "./dataAndImages.js";
 
 import {
@@ -173,6 +175,20 @@ function setNR() {
   const index = parseInt(this.dataset.index);
   const earNR = this.dataset.ear;
 
+  if (transducer === "Aided") {
+    const thresh = earNR === "R" ? audiogramData.thresh_Aided_R : audiogramData.thresh_Aided_L;
+    const NR = earNR === "R" ? audiogramData.thresh_NR_Aided_R : audiogramData.thresh_NR_Aided_L;
+    const size = earNR === "R" ? audiogramData.pointSize_NR_Aided_R : audiogramData.pointSize_NR_Aided_L;
+    const old_dB = thresh[index];
+    if (old_dB !== null) {
+      NR.splice(index, 1, old_dB);
+      size.splice(index, 1, 10);
+      thresh.splice(index, 1, null);
+    }
+    updateCharts();
+    return;
+  }
+
   let thresh =
     earNR === "R" ? audiogramData.thresh_AC_R : audiogramData.thresh_AC_L;
   let thresh_BC =
@@ -258,13 +274,17 @@ function prepareMovement(index, dB, ear) {
     olddB =
       transducer === "AC"
         ? audiogramData.thresh_AC_R[index]
-        : audiogramData.thresh_BC_R[index];
+        : transducer === "BC"
+        ? audiogramData.thresh_BC_R[index]
+        : audiogramData.thresh_Aided_R[index];
   }
   if (ear === "L") {
     olddB =
       transducer === "AC"
         ? audiogramData.thresh_AC_L[index]
-        : audiogramData.thresh_BC_L[index];
+        : transducer === "BC"
+        ? audiogramData.thresh_BC_L[index]
+        : audiogramData.thresh_Aided_L[index];
   }
   if (
     ear === "R" &&
@@ -306,7 +326,7 @@ function prepareMovement(index, dB, ear) {
       dB = null;
     }
   }
-  const category = transducer === "AC" ? "AC" : "BC";
+  const category = transducer === "AC" ? "AC" : transducer === "BC" ? "BC" : "Aided";
   if (legendHidden[category]) toggleLegendCategory(category);
   moveIt(index, dB, ear);
 }
@@ -429,6 +449,16 @@ function moveIt(freqIndex, dB, ear) {
     audiogramData.thresh_NR_BC_L.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_BC_L.splice(freqIndex, 1, null);
     audiogramData.thresh_BC_L.splice(freqIndex, 1, dB);
+  }
+  if (ear === "R" && transducer === "Aided") {
+    audiogramData.thresh_NR_Aided_R.splice(freqIndex, 1, null);
+    audiogramData.pointSize_NR_Aided_R.splice(freqIndex, 1, 0);
+    audiogramData.thresh_Aided_R.splice(freqIndex, 1, dB);
+  }
+  if (ear === "L" && transducer === "Aided") {
+    audiogramData.thresh_NR_Aided_L.splice(freqIndex, 1, null);
+    audiogramData.pointSize_NR_Aided_L.splice(freqIndex, 1, 0);
+    audiogramData.thresh_Aided_L.splice(freqIndex, 1, dB);
   }
   audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
   audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
@@ -812,7 +842,7 @@ change_R.addEventListener("click", function (evt) {
   changeResolution("R");
 });
 
-const legendHidden = { AC: false, BC: false, NR: false, previous: false };
+const legendHidden = { AC: false, BC: false, NR: false, previous: false, Aided: false };
 
 function toggleLegendCategory(category) {
   legendHidden[category] = !legendHidden[category];
@@ -839,6 +869,9 @@ function toggleLegendCategory(category) {
   } else if (category === "previous") {
     setVisibility([6]);
     previousLegend.classList.toggle("legend-row-hidden", hidden);
+  } else if (category === "Aided") {
+    setVisibility([7, 8]);
+    AidedLegend.classList.toggle("legend-row-hidden", hidden);
   }
 }
 
@@ -1041,15 +1074,20 @@ function nonFreq(a, b, ear) {
 }
 AC_button.addEventListener("click", toggleTransducer);
 BC_button.addEventListener("click", toggleTransducer);
+aided_button.addEventListener("click", toggleTransducer);
 function toggleTransducer(initialState) {
+  document.getElementById("AC_button").className = "button_T";
+  document.getElementById("BC_button").className = "button_T";
+  document.getElementById("aided_button").className = "button_T";
   if (initialState === "AC" || this.id === "AC_button") {
     transducer = "AC";
     document.getElementById("AC_button").className = "button_U";
-    document.getElementById("BC_button").className = "button_T";
-  } else {
+  } else if (this.id === "BC_button") {
     transducer = "BC";
     document.getElementById("BC_button").className = "button_U";
-    document.getElementById("AC_button").className = "button_T";
+  } else if (this.id === "aided_button") {
+    transducer = "Aided";
+    document.getElementById("aided_button").className = "button_U";
   }
 }
 
@@ -1307,7 +1345,8 @@ function fillInLegend() {
     audiogramData.legend.ACmasked === "show" &&
     audiogramData.legend.BCunmasked === "show" &&
     audiogramData.legend.BCmasked === "show" &&
-    audiogramData.legend.NR === "show"
+    audiogramData.legend.NR === "show" &&
+    audiogramData.legend.Aided === "show"
   ) {
     return;
   }
@@ -1388,6 +1427,17 @@ function fillInLegend() {
     if (any_R_BC_NR.length > 0 || any_L_BC_NR.length > 0) {
       audiogramData.legend.NR = "show";
       NR.style.display = "table-row";
+    }
+  }
+  if (audiogramData.legend.Aided !== "show") {
+    const any_R_Aided = audiogramData.thresh_Aided_R.filter((thresh) => thresh !== null);
+    const any_L_Aided = audiogramData.thresh_Aided_L.filter((thresh) => thresh !== null);
+    const any_R_Aided_NR = audiogramData.thresh_NR_Aided_R.filter((thresh) => thresh !== null);
+    const any_L_Aided_NR = audiogramData.thresh_NR_Aided_L.filter((thresh) => thresh !== null);
+
+    if (any_R_Aided.length > 0 || any_L_Aided.length > 0 || any_R_Aided_NR.length > 0 || any_L_Aided_NR.length > 0) {
+      audiogramData.legend.Aided = "show";
+      AidedLegend.style.display = "table-row";
     }
   }
 }
