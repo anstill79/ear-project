@@ -12,8 +12,10 @@ import {
 import {
   adjustAllACpointSizes,
   adjustAllBCpointSizes,
+  adjustAllAidedPointSizes,
   acPointSize,
   bcPointSize,
+  aidedPointSize,
 } from "./adjustPointSizes.js";
 
 import { createOptionsR, createOptionsL } from "./chartConfig_audiogram.js";
@@ -406,7 +408,7 @@ function calcInterOct(index, dB, ear) {
     for (let i = 0; i < 12; i++) {
       //sets point size to show if tested is true
       if (ioTested[i] === 1) {
-        pSize.splice(i, 1, acPointSize);
+        pSize.splice(i, 1, isAided ? aidedPointSize : acPointSize);
         if (!isAided) audiogramData.pointSize_hover_AC_R.splice(i, 1, acPointSize);
       }
       //calcs the interoct
@@ -443,7 +445,7 @@ function calcInterOct(index, dB, ear) {
 
     for (let i = 0; i < 12; i++) {
       if (ioTested[i] === 1) {
-        pSize.splice(i, 1, acPointSize);
+        pSize.splice(i, 1, isAided ? aidedPointSize : acPointSize);
         if (!isAided) audiogramData.pointSize_hover_AC_L.splice(i, 1, acPointSize);
       }
       if (ioTested[i] === 0) {
@@ -1541,3 +1543,4 @@ window.onafterprint = (event) => {
 
 ac_point_size_slider.addEventListener("change", adjustAllACpointSizes);
 bc_point_size_slider.addEventListener("change", adjustAllBCpointSizes);
+aided_point_size_slider.addEventListener("change", adjustAllAidedPointSizes);

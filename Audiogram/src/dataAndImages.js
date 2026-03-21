@@ -1,13 +1,13 @@
 function createAidedCanvas(color) {
   const canvas = document.createElement("canvas");
-  canvas.width = 20;
-  canvas.height = 20;
+  canvas.width = 24;
+  canvas.height = 24;
   const ctx = canvas.getContext("2d");
-  ctx.font = "bold 14px Rubik, sans-serif";
+  ctx.font = "bold 17px Rubik, sans-serif";
   ctx.fillStyle = color;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("A", 10, 10);
+  ctx.fillText("A", 12, 12);
   return canvas;
 }
 export const AidedSymbol_R = createAidedCanvas("rgb(255, 0, 0)");

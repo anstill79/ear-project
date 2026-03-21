@@ -6,12 +6,15 @@ import {
   BC_L_M,
   R_NR,
   L_NR,
+  AidedSymbol_R,
+  AidedSymbol_L,
 } from "./dataAndImages.js";
 
 import { updateCharts, options_R, options_L } from "./audiogram.js";
 
 export let acPointSize = 10;
 export let bcPointSize = 10;
+export let aidedPointSize = 10;
 
 export function adjustAllACpointSizes() {
   let desiredPointSize = ac_point_size_slider.value;
@@ -141,5 +144,41 @@ export function adjustAllBCpointSizes() {
   R_NR.width = BCpointSizeMap[desiredPointSize][0];
   L_NR.height = BCpointSizeMap[desiredPointSize][0];
   L_NR.width = BCpointSizeMap[desiredPointSize][0];
+  updateCharts();
+}
+
+export function adjustAllAidedPointSizes() {
+  let desiredPointSize = aided_point_size_slider.value;
+  if (!desiredPointSize && desiredPointSize !== "0") {
+    return;
+  }
+  const AidedSizeMap = {
+    "-2": { canvas: 14, font: 10 },
+    "-1": { canvas: 17, font: 12 },
+    0: { canvas: 20, font: 14 },
+    1: { canvas: 24, font: 17 },
+    2: { canvas: 28, font: 20 },
+  };
+
+  const { canvas: canvasSize, font: fontSize } = AidedSizeMap[desiredPointSize];
+
+  AidedSymbol_R.width = canvasSize;
+  AidedSymbol_R.height = canvasSize;
+  const ctxR = AidedSymbol_R.getContext("2d");
+  ctxR.font = `bold ${fontSize}px Rubik, sans-serif`;
+  ctxR.fillStyle = "rgb(255, 0, 0)";
+  ctxR.textAlign = "center";
+  ctxR.textBaseline = "middle";
+  ctxR.fillText("A", canvasSize / 2, canvasSize / 2);
+
+  AidedSymbol_L.width = canvasSize;
+  AidedSymbol_L.height = canvasSize;
+  const ctxL = AidedSymbol_L.getContext("2d");
+  ctxL.font = `bold ${fontSize}px Rubik, sans-serif`;
+  ctxL.fillStyle = "rgb(0, 0, 255)";
+  ctxL.textAlign = "center";
+  ctxL.textBaseline = "middle";
+  ctxL.fillText("A", canvasSize / 2, canvasSize / 2);
+
   updateCharts();
 }
