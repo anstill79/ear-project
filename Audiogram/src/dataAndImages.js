@@ -252,6 +252,8 @@ export const audiogramData = {
   ],
   interOctTested_AC_R: [1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
   interOctTested_AC_L: [1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+  interOctTested_Aided_R: [1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+  interOctTested_Aided_L: [1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
   pointSize_AC_R: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
   pointSize_AC_L: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
   pointSize_hover_AC_R: [0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10],

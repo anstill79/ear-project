@@ -176,6 +176,9 @@ function setNR() {
   const earNR = this.dataset.ear;
 
   if (transducer === "Aided") {
+    const IO = earNR === "R" ? audiogramData.interOctTested_Aided_R : audiogramData.interOctTested_Aided_L;
+    if (IO[index] === 0) return;
+
     const thresh = earNR === "R" ? audiogramData.thresh_Aided_R : audiogramData.thresh_Aided_L;
     const NR = earNR === "R" ? audiogramData.thresh_NR_Aided_R : audiogramData.thresh_NR_Aided_L;
     const size = earNR === "R" ? audiogramData.pointSize_NR_Aided_R : audiogramData.pointSize_NR_Aided_L;
@@ -184,6 +187,15 @@ function setNR() {
       NR.splice(index, 1, old_dB);
       size.splice(index, 1, 10);
       thresh.splice(index, 1, null);
+      if (thresh[1] !== undefined && thresh[3] !== undefined) {
+        const nonFreqValue = nonFreq(thresh[1], thresh[3], earNR);
+        if (nonFreqValue !== undefined) thresh.splice(2, 1, nonFreqValue);
+      }
+    }
+    if ([4, 6, 8, 10].includes(index)) {
+      calcInterOct(index, 1, earNR);
+    } else {
+      calcInterOct(index, null, earNR);
     }
     updateCharts();
     return;
@@ -309,6 +321,28 @@ function prepareMovement(index, dB, ear) {
   ) {
     return;
   }
+  if (
+    ear === "R" &&
+    dB === olddB &&
+    transducer === "Aided" &&
+    ((index === 4 && audiogramData.interOctTested_Aided_R[3] === 0) ||
+      (index === 6 && audiogramData.interOctTested_Aided_R[5] === 0) ||
+      (index === 8 && audiogramData.interOctTested_Aided_R[7] === 0) ||
+      (index === 10 && audiogramData.interOctTested_Aided_R[9] === 0))
+  ) {
+    return;
+  }
+  if (
+    ear === "L" &&
+    dB === olddB &&
+    transducer === "Aided" &&
+    ((index === 4 && audiogramData.interOctTested_Aided_L[3] === 0) ||
+      (index === 6 && audiogramData.interOctTested_Aided_L[5] === 0) ||
+      (index === 8 && audiogramData.interOctTested_Aided_L[7] === 0) ||
+      (index === 10 && audiogramData.interOctTested_Aided_L[9] === 0))
+  ) {
+    return;
+  }
   if (dB === undefined || dB === -15 || dB === 125) {
     return;
   }
@@ -317,6 +351,15 @@ function prepareMovement(index, dB, ear) {
       if (
         (ear === "R" && audiogramData.interOctTested_AC_R[index] === 0) ||
         (ear === "L" && audiogramData.interOctTested_AC_L[index] === 0)
+      ) {
+        // don't reassign dB, let the dB through
+      } else {
+        dB = null;
+      }
+    } else if (transducer === "Aided") {
+      if (
+        (ear === "R" && audiogramData.interOctTested_Aided_R[index] === 0) ||
+        (ear === "L" && audiogramData.interOctTested_Aided_L[index] === 0)
       ) {
         // don't reassign dB, let the dB through
       } else {
@@ -334,81 +377,99 @@ function prepareMovement(index, dB, ear) {
 function calcInterOct(index, dB, ear) {
   let interOct;
   const tested = dB === null ? 0 : 1;
+  const isAided = transducer === "Aided";
+
   //check for interoct
   if (index === 4 || index === 6 || index === 8 || index === 10) {
     if (ear === "R") {
-      audiogramData.interOctTested_AC_R.splice(index, 1, tested);
+      if (isAided) {
+        audiogramData.interOctTested_Aided_R.splice(index, 1, tested);
+      } else {
+        audiogramData.interOctTested_AC_R.splice(index, 1, tested);
+      }
     } else if (ear === "L") {
-      audiogramData.interOctTested_AC_L.splice(index, 1, tested);
+      if (isAided) {
+        audiogramData.interOctTested_Aided_L.splice(index, 1, tested);
+      } else {
+        audiogramData.interOctTested_AC_L.splice(index, 1, tested);
+      }
     }
     interOct = 1;
   }
 
   if (ear === "R") {
+    const ioTested = isAided ? audiogramData.interOctTested_Aided_R : audiogramData.interOctTested_AC_R;
+    const thresh = isAided ? audiogramData.thresh_Aided_R : audiogramData.thresh_AC_R;
+    const pSize = isAided ? audiogramData.pointSize_Aided_R : audiogramData.pointSize_AC_R;
+
     //-----start of loop
     for (let i = 0; i < 12; i++) {
       //sets point size to show if tested is true
-      if (audiogramData.interOctTested_AC_R[i] === 1) {
-        audiogramData.pointSize_AC_R.splice(i, 1, acPointSize);
-        audiogramData.pointSize_hover_AC_R.splice(i, 1, acPointSize);
+      if (ioTested[i] === 1) {
+        pSize.splice(i, 1, acPointSize);
+        if (!isAided) audiogramData.pointSize_hover_AC_R.splice(i, 1, acPointSize);
       }
       //calcs the interoct
-      if (audiogramData.interOctTested_AC_R[i] === 0) {
-        let a = audiogramData.thresh_AC_R[i - 1];
-        let b = audiogramData.thresh_AC_R[i + 1];
+      if (ioTested[i] === 0) {
+        let a = thresh[i - 1];
+        let b = thresh[i + 1];
         if (a === null || b === null) {
         } else {
-          audiogramData.thresh_AC_R.splice(i, 1, (a + b) / 2);
-          audiogramData.pointSize_AC_R.splice(i, 1, 0);
+          thresh.splice(i, 1, (a + b) / 2);
+          pSize.splice(i, 1, 0);
         }
       }
     } //-----end of loop
     if (!interOct && dB === null) {
       //look left and right of the index in thresh and in io tested
       //if io tested left = 0 and index left thresh <> null, set index left thresh = null
-      let leftSideIO = audiogramData.interOctTested_AC_R[index - 1];
-      let rightSideIO = audiogramData.interOctTested_AC_R[index + 1];
-      let leftSideThresh = audiogramData.thresh_AC_R[index - 1];
-      let rightSideThresh = audiogramData.thresh_AC_R[index + 1];
+      let leftSideIO = ioTested[index - 1];
+      let rightSideIO = ioTested[index + 1];
+      let leftSideThresh = thresh[index - 1];
+      let rightSideThresh = thresh[index + 1];
 
       if (leftSideIO === 0 && leftSideThresh !== null) {
-        audiogramData.thresh_AC_R.splice(index - 1, 1, null);
+        thresh.splice(index - 1, 1, null);
       }
       if (rightSideIO === 0 && rightSideThresh !== null) {
-        audiogramData.thresh_AC_R.splice(index + 1, 1, null);
+        thresh.splice(index + 1, 1, null);
       }
     }
   }
   if (ear === "L") {
+    const ioTested = isAided ? audiogramData.interOctTested_Aided_L : audiogramData.interOctTested_AC_L;
+    const thresh = isAided ? audiogramData.thresh_Aided_L : audiogramData.thresh_AC_L;
+    const pSize = isAided ? audiogramData.pointSize_Aided_L : audiogramData.pointSize_AC_L;
+
     for (let i = 0; i < 12; i++) {
-      if (audiogramData.interOctTested_AC_L[i] === 1) {
-        audiogramData.pointSize_AC_L.splice(i, 1, acPointSize);
-        audiogramData.pointSize_hover_AC_L.splice(i, 1, acPointSize);
+      if (ioTested[i] === 1) {
+        pSize.splice(i, 1, acPointSize);
+        if (!isAided) audiogramData.pointSize_hover_AC_L.splice(i, 1, acPointSize);
       }
-      if (audiogramData.interOctTested_AC_L[i] === 0) {
-        let a = audiogramData.thresh_AC_L[i - 1];
-        let b = audiogramData.thresh_AC_L[i + 1];
+      if (ioTested[i] === 0) {
+        let a = thresh[i - 1];
+        let b = thresh[i + 1];
         if (a === null || b === null) {
         } else {
-          audiogramData.thresh_AC_L.splice(i, 1, (a + b) / 2);
-          audiogramData.pointSize_AC_L.splice(i, 1, 0);
+          thresh.splice(i, 1, (a + b) / 2);
+          pSize.splice(i, 1, 0);
         }
       }
     }
     if (!interOct && dB === null) {
-      let leftSideIO = audiogramData.interOctTested_AC_L[index - 1];
-      let rightSideIO = audiogramData.interOctTested_AC_L[index + 1];
-      let leftSideThresh = audiogramData.thresh_AC_L[index - 1];
-      let rightSideThresh = audiogramData.thresh_AC_L[index + 1];
+      let leftSideIO = ioTested[index - 1];
+      let rightSideIO = ioTested[index + 1];
+      let leftSideThresh = thresh[index - 1];
+      let rightSideThresh = thresh[index + 1];
       if (leftSideIO === 0 && leftSideThresh !== null) {
-        audiogramData.thresh_AC_L.splice(index - 1, 1, null);
+        thresh.splice(index - 1, 1, null);
       }
       if (rightSideIO === 0 && rightSideThresh !== null) {
-        audiogramData.thresh_AC_L.splice(index + 1, 1, null);
+        thresh.splice(index + 1, 1, null);
       }
     }
   }
-  calcChange(index, ear);
+  if (!isAided) calcChange(index, ear);
 }
 
 //-----------------------------------this is the main function
@@ -454,11 +515,23 @@ function moveIt(freqIndex, dB, ear) {
     audiogramData.thresh_NR_Aided_R.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_Aided_R.splice(freqIndex, 1, 0);
     audiogramData.thresh_Aided_R.splice(freqIndex, 1, dB);
+    audiogramData.thresh_Aided_R.splice(
+      2,
+      1,
+      nonFreq(audiogramData.thresh_Aided_R[1], audiogramData.thresh_Aided_R[3], "R")
+    );
+    calcInterOct(freqIndex, dB, "R");
   }
   if (ear === "L" && transducer === "Aided") {
     audiogramData.thresh_NR_Aided_L.splice(freqIndex, 1, null);
     audiogramData.pointSize_NR_Aided_L.splice(freqIndex, 1, 0);
     audiogramData.thresh_Aided_L.splice(freqIndex, 1, dB);
+    audiogramData.thresh_Aided_L.splice(
+      2,
+      1,
+      nonFreq(audiogramData.thresh_Aided_L[1], audiogramData.thresh_Aided_L[3], "L")
+    );
+    calcInterOct(freqIndex, dB, "L");
   }
   audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
   audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
@@ -1059,8 +1132,7 @@ function copyEar() {
 
 //fx used to handle freq between 250 and 500. Takes input and returns 375 interpolation if valid. The calling script does the splice.
 function nonFreq(a, b, ear) {
-  //AC branch
-  if (transducer === "AC") {
+  if (transducer === "AC" || transducer === "Aided") {
     if (ear === "R") {
       if (a === null || b === null) {
         return null;
