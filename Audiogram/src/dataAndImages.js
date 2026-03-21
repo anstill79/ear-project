@@ -10,8 +10,23 @@ function createAidedCanvas(color) {
   ctx.fillText("A", 12, 12);
   return canvas;
 }
+function createAidedNRCanvas(color) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 24;
+  canvas.height = 24;
+  const ctx = canvas.getContext("2d");
+  ctx.globalAlpha = 0.35;
+  ctx.font = "bold 17px Rubik, sans-serif";
+  ctx.fillStyle = color;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("A", 12, 12);
+  return canvas;
+}
 export const AidedSymbol_R = createAidedCanvas("rgb(255, 0, 0)");
 export const AidedSymbol_L = createAidedCanvas("rgb(0, 0, 255)");
+export const AidedNR_Symbol_R = createAidedNRCanvas("rgb(255, 0, 0)");
+export const AidedNR_Symbol_L = createAidedNRCanvas("rgb(0, 0, 255)");
 
 export const BC_R = new Image();
 BC_R.src = "src/BC_R.png";
@@ -324,6 +339,8 @@ export const audiogramData = {
   ],
   symbols_Aided_R: Array(12).fill(AidedSymbol_R),
   symbols_Aided_L: Array(12).fill(AidedSymbol_L),
+  symbols_NR_Aided_R: Array(12).fill(AidedNR_Symbol_R),
+  symbols_NR_Aided_L: Array(12).fill(AidedNR_Symbol_L),
   maskAll_AC_R_L_BC_R_L: [0, 0, 0, 0],
   legend: {
     ACunmasked: "hide",

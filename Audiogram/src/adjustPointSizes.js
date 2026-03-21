@@ -8,6 +8,8 @@ import {
   L_NR,
   AidedSymbol_R,
   AidedSymbol_L,
+  AidedNR_Symbol_R,
+  AidedNR_Symbol_L,
 } from "./dataAndImages.js";
 
 import { updateCharts, options_R, options_L } from "./audiogram.js";
@@ -179,6 +181,26 @@ export function adjustAllAidedPointSizes() {
   ctxL.textAlign = "center";
   ctxL.textBaseline = "middle";
   ctxL.fillText("A", canvasSize / 2, canvasSize / 2);
+
+  AidedNR_Symbol_R.width = canvasSize;
+  AidedNR_Symbol_R.height = canvasSize;
+  const ctxNR_R = AidedNR_Symbol_R.getContext("2d");
+  ctxNR_R.globalAlpha = 0.35;
+  ctxNR_R.font = `bold ${fontSize}px Rubik, sans-serif`;
+  ctxNR_R.fillStyle = "rgb(255, 0, 0)";
+  ctxNR_R.textAlign = "center";
+  ctxNR_R.textBaseline = "middle";
+  ctxNR_R.fillText("A", canvasSize / 2, canvasSize / 2);
+
+  AidedNR_Symbol_L.width = canvasSize;
+  AidedNR_Symbol_L.height = canvasSize;
+  const ctxNR_L = AidedNR_Symbol_L.getContext("2d");
+  ctxNR_L.globalAlpha = 0.35;
+  ctxNR_L.font = `bold ${fontSize}px Rubik, sans-serif`;
+  ctxNR_L.fillStyle = "rgb(0, 0, 255)";
+  ctxNR_L.textAlign = "center";
+  ctxNR_L.textBaseline = "middle";
+  ctxNR_L.fillText("A", canvasSize / 2, canvasSize / 2);
 
   updateCharts();
 }

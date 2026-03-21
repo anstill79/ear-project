@@ -945,7 +945,7 @@ function toggleLegendCategory(category) {
     setVisibility([6]);
     previousLegend.classList.toggle("legend-row-hidden", hidden);
   } else if (category === "Aided") {
-    setVisibility([7, 8]);
+    setVisibility([7, 8, 9]);
     AidedLegend.classList.toggle("legend-row-hidden", hidden);
   }
 }

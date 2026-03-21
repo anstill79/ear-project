@@ -170,6 +170,19 @@ export function createOptionsR(prepareMovement) {
             bottom: false,
           },
         },
+        {
+          label: "Aided NR symbol",
+          data: audiogramData.thresh_NR_Aided_R,
+          pointRadius: audiogramData.pointSize_NR_Aided_R,
+          pointStyle: audiogramData.symbols_NR_Aided_R,
+          borderWidth: 0,
+          clip: {
+            left: false,
+            top: false,
+            right: false,
+            bottom: false,
+          },
+        },
       ],
     },
     options: {
@@ -481,6 +494,19 @@ export function createOptionsL(prepareMovement) {
           data: audiogramData.thresh_NR_Aided_L,
           pointRadius: audiogramData.pointSize_NR_Aided_L,
           pointStyle: L_NR,
+          borderWidth: 0,
+          clip: {
+            left: false,
+            top: false,
+            right: false,
+            bottom: false,
+          },
+        },
+        {
+          label: "Aided NR symbol",
+          data: audiogramData.thresh_NR_Aided_L,
+          pointRadius: audiogramData.pointSize_NR_Aided_L,
+          pointStyle: audiogramData.symbols_NR_Aided_L,
           borderWidth: 0,
           clip: {
             left: false,
