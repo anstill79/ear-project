@@ -44,14 +44,48 @@ export const BC_L_M = new Image();
 BC_L_M.src = "src/BC_L_M.png";
 BC_L_M.width = 40;
 BC_L_M.height = 20;
-export const R_NR = new Image();
-R_NR.src = "src/R_NR.png";
-R_NR.width = 40;
-R_NR.height = 40;
-export const L_NR = new Image();
-L_NR.src = "src/L_NR.png";
-L_NR.width = 40;
-L_NR.height = 40;
+export function drawNRArrow(canvas, direction, color, size) {
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  ctx.strokeStyle = color;
+  ctx.lineWidth = Math.max(1.5, size * 0.062);
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  const cx = size / 2;
+  const cy = size / 2;
+  const shaftLen = size * 0.325;
+  const barbLen = size * 0.225;
+
+  // tip always points downward at 45° left (SW) or right (SE)
+  const tipX = direction === "SW" ? cx - shaftLen : cx + shaftLen;
+  const tipY = cy + shaftLen;
+
+  // shaft: from data point (canvas center) to arrowhead tip
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(tipX, tipY);
+  ctx.stroke();
+
+  // arrowhead barbs: one pointing North, one pointing back along x-axis
+  ctx.beginPath();
+  if (direction === "SW") {
+    ctx.moveTo(tipX, tipY - barbLen);   // North barb
+    ctx.lineTo(tipX, tipY);
+    ctx.lineTo(tipX + barbLen, tipY);   // East barb
+  } else {
+    ctx.moveTo(tipX - barbLen, tipY);   // West barb
+    ctx.lineTo(tipX, tipY);
+    ctx.lineTo(tipX, tipY - barbLen);   // North barb
+  }
+  ctx.stroke();
+}
+
+export const R_NR = document.createElement("canvas");
+export const L_NR = document.createElement("canvas");
+drawNRArrow(R_NR, "SW", "rgb(255, 0, 0)", 40);
+drawNRArrow(L_NR, "SE", "rgb(0, 0, 255)", 40);
 
 export const audiogramData = {
   changeDetails: {

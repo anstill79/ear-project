@@ -10,6 +10,7 @@ import {
   AidedSymbol_L,
   AidedNR_Symbol_R,
   AidedNR_Symbol_L,
+  drawNRArrow,
 } from "./dataAndImages.js";
 
 import { updateCharts, options_R, options_L } from "./audiogram.js";
@@ -142,10 +143,8 @@ export function adjustAllBCpointSizes() {
   BC_R_M.width = BCpointSizeMap[desiredPointSize][1];
   BC_L_M.height = BCpointSizeMap[desiredPointSize][0];
   BC_L_M.width = BCpointSizeMap[desiredPointSize][1];
-  R_NR.height = BCpointSizeMap[desiredPointSize][0];
-  R_NR.width = BCpointSizeMap[desiredPointSize][0];
-  L_NR.height = BCpointSizeMap[desiredPointSize][0];
-  L_NR.width = BCpointSizeMap[desiredPointSize][0];
+  drawNRArrow(R_NR, "SW", "rgb(255, 0, 0)", BCpointSizeMap[desiredPointSize][0]);
+  drawNRArrow(L_NR, "SE", "rgb(0, 0, 255)", BCpointSizeMap[desiredPointSize][0]);
   updateCharts();
 }
 
