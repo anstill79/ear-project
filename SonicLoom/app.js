@@ -35,9 +35,8 @@ function clearLoopTimer() {
 
 function applyLoop() {
   const looping = loopToggle.checked;
-  const duration = getLoopDuration();
   allPlayers.forEach((player) => {
-    player.loop = looping && duration === "forever";
+    player.loop = looping;
   });
   loopLengthGroup.style.visibility = looping ? "visible" : "hidden";
 }
