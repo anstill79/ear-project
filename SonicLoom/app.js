@@ -3,6 +3,7 @@ const audioPlayerB = document.getElementById("audio_player_B");
 const allPlayers = [audioPlayerA, audioPlayerB];
 
 const loopToggle = document.getElementById("loopToggle");
+const loopLengthGroup = document.getElementById("loopLengthGroup");
 const stopAllBtn = document.getElementById("stopAllBtn");
 const audioFileInput = document.getElementById("audioFile");
 
@@ -17,17 +18,56 @@ audioFileInput.addEventListener("change", () => {
   });
 });
 
-// ── Loop Toggle ────────────────────────────────────────────────────────────
+// ── Loop Toggle & Length ────────────────────────────────────────────────────
+let loopLengthTimeout = null;
+
+function getLoopDuration() {
+  const selected = document.querySelector('input[name="loopLength"]:checked');
+  return selected ? selected.value : "forever";
+}
+
+function clearLoopTimer() {
+  if (loopLengthTimeout !== null) {
+    clearTimeout(loopLengthTimeout);
+    loopLengthTimeout = null;
+  }
+}
+
 function applyLoop() {
+  const looping = loopToggle.checked;
+  const duration = getLoopDuration();
   allPlayers.forEach((player) => {
-    player.loop = loopToggle.checked;
+    player.loop = looping && duration === "forever";
   });
+  loopLengthGroup.style.visibility = looping ? "visible" : "hidden";
+}
+
+function startLoopTimer() {
+  clearLoopTimer();
+  if (!loopToggle.checked) return;
+  const duration = getLoopDuration();
+  if (duration === "forever") return;
+
+  loopLengthTimeout = setTimeout(() => {
+    stopAll();
+  }, parseInt(duration) * 1000);
 }
 
 loopToggle.addEventListener("change", applyLoop);
 
+document.querySelectorAll('input[name="loopLength"]').forEach((radio) => {
+  radio.addEventListener("change", () => {
+    applyLoop();
+    // If audio is currently playing with a timed loop, restart the timer
+    if (loopToggle.checked && allPlayers.some((p) => !p.paused)) {
+      startLoopTimer();
+    }
+  });
+});
+
 // ── Stop All ───────────────────────────────────────────────────────────────
 function stopAll() {
+  clearLoopTimer();
   allPlayers.forEach((player) => {
     player.pause();
     player.currentTime = 0;
@@ -130,6 +170,7 @@ function playAudio(event) {
   player.volume = volume;
   applyLoop();
   player.play();
+  startLoopTimer();
   activeButton = button;
 
   setFill(button);
