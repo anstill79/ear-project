@@ -213,14 +213,13 @@ input[type="checkbox"] {
 .column-header {
   margin: 0 0 0.25rem;
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 30px;
-  padding: 0.35rem 0;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text);
-  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
 /* Volume buttons */
@@ -281,6 +280,17 @@ button[data-volume].highlighted {
   background-color: var(--highlighted);
   border-color: var(--highlighted);
   color: #111;
+}
+
+button[data-volume].active {
+  border-width: 2px;
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(116, 192, 252, 0.45), 0 0 12px rgba(116, 192, 252, 0.25);
+  color: #fff;
+}
+
+button[data-volume].active::before {
+  opacity: 1;
 }
 
 /* Audio players — hidden but functional */
