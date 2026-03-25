@@ -65,13 +65,19 @@ document.querySelectorAll('input[name="loopLength"]').forEach((radio) => {
 });
 
 // ── Stop All ───────────────────────────────────────────────────────────────
+function setActiveButton(btn) {
+  if (activeButton) activeButton.classList.remove("active");
+  activeButton = btn;
+  if (activeButton) activeButton.classList.add("active");
+}
+
 function stopAll() {
   clearLoopTimer();
   allPlayers.forEach((player) => {
     player.pause();
     player.currentTime = 0;
   });
-  activeButton = null;
+  setActiveButton(null);
   updateStopButtonState();
 }
 
@@ -86,7 +92,7 @@ allPlayers.forEach((player) => {
   player.addEventListener("play", updateStopButtonState);
   player.addEventListener("pause", updateStopButtonState);
   player.addEventListener("ended", () => {
-    activeButton = null;
+    setActiveButton(null);
     updateStopButtonState();
   });
 });
@@ -153,7 +159,6 @@ function playAudio(event) {
 
   if (allPlayers.some((p) => !p.paused) && button === activeButton) {
     stopAll();
-    activeButton = null;
     return;
   }
 
@@ -170,7 +175,7 @@ function playAudio(event) {
   applyLoop();
   player.play();
   startLoopTimer();
-  activeButton = button;
+  setActiveButton(button);
 
   setFill(button);
 }
