@@ -94,6 +94,7 @@ clearBtn.addEventListener("click", clearDisplayText);
 function clearDisplayText() {
   displayArea.innerHTML = "";
   inputText.value = "";
+  inputText.focus();
 }
 
 window.addEventListener("keydown", function (e) {
