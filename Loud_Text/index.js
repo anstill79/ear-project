@@ -103,6 +103,24 @@ window.addEventListener("keydown", function (e) {
     e.preventDefault();
     return;
   }
+  if (e.ctrlKey && e.key === "ArrowUp") {
+    if (textSizeSlider.value < textSizeSlider.max) {
+      textSizeSlider.value = parseFloat(textSizeSlider.value) + 0.5;
+      displayArea.style.fontSize = `${textSizeSlider.value}rem`;
+      saveSettings();
+    }
+    e.preventDefault();
+    return;
+  }
+  if (e.ctrlKey && e.key === "ArrowDown") {
+    if (textSizeSlider.value > textSizeSlider.min) {
+      textSizeSlider.value = parseFloat(textSizeSlider.value) - 0.5;
+      displayArea.style.fontSize = `${textSizeSlider.value}rem`;
+      saveSettings();
+    }
+    e.preventDefault();
+    return;
+  }
 });
 
 textSizeSlider.addEventListener("input", function () {
