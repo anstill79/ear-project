@@ -66,7 +66,7 @@ h1 {
   border: 1px solid var(--border);
   border-radius: 14px;
   background: var(--container-bg);
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -285,7 +285,9 @@ button[data-volume].highlighted {
 button[data-volume].active {
   border-width: 2px;
   border-color: #fff;
-  box-shadow: 0 0 0 3px rgba(116, 192, 252, 0.45), 0 0 12px rgba(116, 192, 252, 0.25);
+  box-shadow:
+    0 0 0 3px rgba(116, 192, 252, 0.45),
+    0 0 12px rgba(116, 192, 252, 0.25);
   color: #fff;
 }
 

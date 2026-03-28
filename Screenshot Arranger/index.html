@@ -9,10 +9,9 @@
     <title>Screenshot Arranger</title>
   </head>
   <body>
-    <nav-bar></nav-bar>
+    <nav-bar><span slot="page-title">Screenshot Arranger</span></nav-bar>
+
     <div class="ui-bar">
-      <h1>Screenshot Arranger</h1>
-      <span style="color: #555">|</span>
       <span
         >Click a cell to select, then paste · or drag &amp; drop · double-click
         to browse files · Empty sections will be hidden when printing</span
@@ -29,7 +28,10 @@
       </button>
       <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
     </div>
-    <button class="btn btn-exit-preview" onclick="document.body.classList.remove('print-preview')">
+    <button
+      class="btn btn-exit-preview"
+      onclick="document.body.classList.remove('print-preview')"
+    >
       &#10005; Exit Preview
     </button>
 
@@ -61,6 +63,7 @@
       <option value="cVEMP"></option>
       <option value="oVEMP"></option>
     </datalist>
+
     <script src="script.js"></script>
   </body>
 </html>

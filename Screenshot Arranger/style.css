@@ -15,6 +15,9 @@
   margin: 0;
   padding: 0;
 }
+nav-bar {
+  width: 8.5in;
+}
 
 body {
   background: #2c2c2c;
@@ -29,6 +32,7 @@ body {
 
 .ui-bar {
   display: flex;
+  width: 8.5in;
   align-items: center;
   gap: 1rem;
   color: #ccc;
