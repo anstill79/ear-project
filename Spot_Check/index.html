@@ -1,144 +1,200 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="stylesheet" href="style.css">
-  <title>Spot Check</title>
-</head>
-<body>
-  <div class="app">
-    <header class="app-header">
-      <h1>Spot Check</h1>
-      <button id="open_instructions" popovertarget="instructions" class="icon-btn" title="Instructions">?</button>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Spot Check</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="app-header">
+        <h1>Spot Check</h1>
+        <button
+          id="open_instructions"
+          popovertarget="instructions"
+          class="icon-btn"
+          title="Instructions"
+        >
+          ?
+        </button>
+      </header>
 
-    <main class="app-main">
-
-      <!-- Level meter -->
-      <section class="meter-section">
-        <div class="level-display">
-          <span class="level-value" id="levelText">—</span>
-          <span class="level-unit">dB SPL</span>
-        </div>
-        <div class="meter-bar-wrap">
-          <div class="meter-bar">
-            <div class="meter-fill" id="meterFill"></div>
+      <main class="app-main">
+        <!-- Level meter -->
+        <section class="meter-section">
+          <div class="level-display">
+            <span class="level-value" id="levelText">—</span>
+            <span class="level-unit">dB SPL</span>
           </div>
-          <div class="meter-labels">
-            <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+          <div class="meter-bar-wrap">
+            <div class="meter-bar">
+              <div class="meter-fill" id="meterFill"></div>
+            </div>
+            <div class="meter-labels">
+              <span>0</span><span>25</span><span>50</span><span>75</span
+              ><span>100</span>
+            </div>
           </div>
-        </div>
-        <div class="peak-display">
-          <span class="peak-label">Peak</span>
-          <span class="peak-value" id="peakText">—</span>
-        </div>
-      </section>
+          <canvas id="levelChart" class="level-chart"></canvas>
+          <div class="peak-display">
+            <span class="peak-label">Peak</span>
+            <span class="peak-value" id="peakText">—</span>
+          </div>
+        </section>
 
-      <!-- Monitor controls -->
-      <section class="monitor-section">
-        <button id="startBtn" class="btn btn-start">&#9679; Start Monitoring</button>
-        <button id="stopBtn" class="btn btn-stop" style="display:none;">&#9632; Stop Monitoring</button>
-        <div id="status" class="status-bar"></div>
-      </section>
+        <!-- Monitor controls -->
+        <section class="monitor-section">
+          <button id="startBtn" class="btn btn-start">
+            &#9679; Start Monitoring
+          </button>
+          <button id="stopBtn" class="btn btn-stop" style="display: none">
+            &#9632; Stop Monitoring
+          </button>
+          <div class="save-section">
+            <button id="save" class="btn btn-save" disabled>Save Now</button>
+            <button id="saveDelay" class="btn btn-save-delay" disabled>
+              Save in 3 s
+            </button>
+          </div>
+        </section>
 
-      <!-- Signal settings -->
-      <section class="controls-section">
-        <h2 class="section-title">Signal</h2>
-        <div class="control-row">
-          <label class="control-label">Frequency</label>
-          <div class="stepper">
-            <button class="stepper-btn" onclick="changeFreq('up')">&#8249;</button>
-            <select id="stim_freq" class="stepper-select">
-              <option>250 Hz</option>
-              <option>500 Hz</option>
-              <option selected>1000 Hz</option>
-              <option>2000 Hz</option>
-              <option>3000 Hz</option>
-              <option>4000 Hz</option>
-              <option>6000 Hz</option>
-              <option>8000 Hz</option>
+        <!-- Signal settings -->
+        <section class="controls-section">
+          <h2 class="section-title">Audiometer Signal</h2>
+          <div class="control-row">
+            <label class="control-label">Frequency</label>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="changeFreq('up')">
+                &#8249;
+              </button>
+              <select id="stim_freq" class="stepper-select">
+                <option>250 Hz</option>
+                <option>500 Hz</option>
+                <option selected>1000 Hz</option>
+                <option>2000 Hz</option>
+                <option>3000 Hz</option>
+                <option>4000 Hz</option>
+                <option>6000 Hz</option>
+                <option>8000 Hz</option>
+              </select>
+              <button class="stepper-btn" onclick="changeFreq('down')">
+                &#8250;
+              </button>
+            </div>
+          </div>
+          <div class="control-row">
+            <label class="control-label">Pres. Level</label>
+            <div class="stepper">
+              <button class="stepper-btn" onclick="changeLevel('down')">
+                &#8249;
+              </button>
+              <select id="pres_level" class="stepper-select">
+                <option>80 dB</option>
+                <option>75 dB</option>
+                <option selected>70 dB</option>
+                <option>65 dB</option>
+                <option>60 dB</option>
+                <option>55 dB</option>
+                <option>50 dB</option>
+              </select>
+              <button class="stepper-btn" onclick="changeLevel('up')">
+                &#8250;
+              </button>
+            </div>
+          </div>
+          <div class="control-row">
+            <label class="control-label" for="speaker_name">Speaker</label>
+            <select id="speaker_name" class="text-input">
+              <option value="" disabled selected></option>
+              <option value="Right">Right</option>
+              <option value="Left">Left</option>
+              <option value="Center">Center</option>
             </select>
-            <button class="stepper-btn" onclick="changeFreq('down')">&#8250;</button>
           </div>
-        </div>
-        <div class="control-row">
-          <label class="control-label">Pres. Level</label>
-          <div class="stepper">
-            <button class="stepper-btn" onclick="changeLevel('down')">&#8249;</button>
-            <select id="pres_level" class="stepper-select">
-              <option>80 dB</option>
-              <option>75 dB</option>
-              <option selected>70 dB</option>
-              <option>65 dB</option>
-              <option>60 dB</option>
-              <option>55 dB</option>
-              <option>50 dB</option>
-            </select>
-            <button class="stepper-btn" onclick="changeLevel('up')">&#8250;</button>
+        </section>
+
+        <!-- Session info -->
+        <section class="controls-section">
+          <h2 class="section-title">Session</h2>
+          <div class="control-row">
+            <label class="control-label" for="booth_name">Booth</label>
+            <input
+              id="booth_name"
+              type="text"
+              class="text-input"
+              placeholder="Booth name"
+            />
           </div>
-        </div>
-      </section>
+          <div class="control-row">
+            <label class="control-label" for="date">Date</label>
+            <input id="date" type="date" class="text-input" />
+          </div>
+          <div class="control-row">
+            <label class="control-label" for="note">Note</label>
+            <input id="note" type="text" class="text-input" placeholder="Optional note" maxlength="50" />
+          </div>
 
-      <!-- Session info -->
-      <section class="controls-section">
-        <h2 class="section-title">Session</h2>
-        <div class="control-row">
-          <label class="control-label" for="booth_name">Booth</label>
-          <input id="booth_name" type="text" class="text-input" placeholder="Booth name">
-        </div>
-        <div class="control-row">
-          <label class="control-label" for="speaker_name">Speaker</label>
-          <input id="speaker_name" type="text" class="text-input" placeholder="Speaker name">
-        </div>
-        <div class="control-row">
-          <label class="control-label" for="date">Date</label>
-          <input id="date" type="date" class="text-input">
-        </div>
+          <h2 class="section-title results-title">Results</h2>
+          <div class="table-wrap">
+            <table class="results-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Session</th>
+                  <th>250</th>
+                  <th>500</th>
+                  <th>1k</th>
+                  <th>2k</th>
+                  <th>3k</th>
+                  <th>4k</th>
+                  <th>6k</th>
+                  <th>8k</th>
+                </tr>
+              </thead>
+              <tbody id="resultsBody"></tbody>
+            </table>
+          </div>
+        </section>
 
-        <h2 class="section-title results-title">Results</h2>
-        <div class="table-wrap">
-          <table class="results-table">
-            <thead>
-              <tr>
-                <th>Session</th>
-                <th>250</th>
-                <th>500</th>
-                <th>1k</th>
-                <th>2k</th>
-                <th>3k</th>
-                <th>4k</th>
-                <th>6k</th>
-                <th>8k</th>
-              </tr>
-            </thead>
-            <tbody id="resultsBody">
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Save -->
-      <section class="save-section">
-        <button id="save" class="btn btn-save" disabled>Save Now</button>
-        <button id="saveDelay" class="btn btn-save-delay" disabled>Save in 3 s</button>
-      </section>
-
-    </main>
-  </div>
-
-  <div id="instructions" popover>
-    <div id="instructions_content">
-      <h2>How to use</h2>
-      <p>Set the <strong>Frequency</strong> and <strong>Presentation Level</strong> to match your audiometer.</p>
-      <p>Tap <strong>Start Monitoring</strong> to begin capturing from the mic.</p>
-      <p>When the reading is stable, tap <strong>Save Now</strong> — or <strong>Save in 3 s</strong> for a brief countdown before saving.</p>
-      <p>Change the frequency on both the audiometer and this app, then measure again.</p>
-      <p>Results are recorded in the table below.</p>
-      <p><em>Sound field measurements typically require higher presentation levels.</em></p>
+      </main>
     </div>
-  </div>
 
-  <script src="script.js"></script>
-</body>
+    <div id="instructions" popover>
+      <div id="instructions_content">
+        <h2>How to use</h2>
+        <p>
+          Place your phone at ear level in the sound field, with the mic
+          facing the speaker.
+        </p>
+        <p>
+          <strong>1.</strong> Set the <strong>Frequency</strong>,
+          <strong>Pres. Level</strong>, and <strong>Speaker</strong> to match
+          the audiometer.
+        </p>
+        <p>
+          <strong>2.</strong> Start the tone on the audiometer, then tap
+          <strong>Start Monitoring</strong>.
+        </p>
+        <p>
+          <strong>3.</strong> Wait for the reading to settle, then tap
+          <strong>Save Now</strong>. Use <strong>Save in 3 s</strong> if you
+          need a moment to step away before the reading is captured.
+        </p>
+        <p>
+          <strong>4.</strong> Change to the next frequency on both the
+          audiometer and this app, and repeat.
+        </p>
+        <p>
+          Results are saved to the table and grouped by booth and date.
+          Tap the <strong>Peak</strong> value at any time to reset it.
+        </p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>

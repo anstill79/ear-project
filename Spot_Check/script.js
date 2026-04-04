@@ -5,19 +5,102 @@ let peak = -Infinity;
 let smoothedDb = 0;
 const SMOOTHING = 0.75; // exponential smoothing factor (0 = none, 1 = frozen)
 
+const canvas = document.getElementById("levelChart");
+const ctx = canvas.getContext("2d");
+const CHART_WINDOW = 5000; // ms
+let chartData = [];
+
+function resizeChart() {
+  const dpr = window.devicePixelRatio || 1;
+  const cssWidth = canvas.offsetWidth;
+  const cssHeight = canvas.offsetHeight;
+  canvas.width = cssWidth * dpr;
+  canvas.height = cssHeight * dpr;
+  ctx.scale(dpr, dpr);
+}
+
+function pushChartData(value) {
+  const now = Date.now();
+  chartData.push({ time: now, value });
+  const cutoff = now - CHART_WINDOW;
+  chartData = chartData.filter((e) => e.time >= cutoff);
+  drawChart(now);
+}
+
+function drawChart(now) {
+  const w = canvas.offsetWidth;
+  const h = canvas.offsetHeight;
+  ctx.clearRect(0, 0, w, h);
+
+  // Subtle grid lines at 25 / 50 / 75
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "rgba(255,255,255,0.06)";
+  for (const level of [25, 50, 75]) {
+    const y = h - (level / 100) * h;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+
+  if (chartData.length < 2) return;
+
+  // Filled area under the line
+  ctx.beginPath();
+  for (let i = 0; i < chartData.length; i++) {
+    const x = w - ((now - chartData[i].time) / CHART_WINDOW) * w;
+    const y = h - (chartData[i].value / 100) * h;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  const lastX = w - ((now - chartData[chartData.length - 1].time) / CHART_WINDOW) * w;
+  ctx.lineTo(lastX, h);
+  ctx.lineTo(w - ((now - chartData[0].time) / CHART_WINDOW) * w, h);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, "rgba(20,184,166,0.25)");
+  grad.addColorStop(1, "rgba(20,184,166,0)");
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line on top
+  ctx.beginPath();
+  ctx.strokeStyle = "#14b8a6";
+  ctx.lineWidth = 2;
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+  for (let i = 0; i < chartData.length; i++) {
+    const x = w - ((now - chartData[i].time) / CHART_WINDOW) * w;
+    const y = h - (chartData[i].value / 100) * h;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+}
+
 const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
 const meterFill = document.getElementById("meterFill");
 const levelText = document.getElementById("levelText");
 const peakText = document.getElementById("peakText");
-const statusEl = document.getElementById("status");
 
 // Session data: { label, readings: { "250 Hz": db, ... } }
-let sessions = [];
+let sessions = JSON.parse(localStorage.getItem("spotcheck_sessions") || "[]");
 let currentSessionIndex = null;
 
 startBtn.addEventListener("click", startMonitoring);
 stopBtn.addEventListener("click", stopMonitoring);
+document.addEventListener("keydown", (e) => {
+  const tag = e.target.tagName;
+  if (e.code === "Space" && tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+    e.preventDefault();
+    audioContext ? stopMonitoring() : startMonitoring();
+  }
+});
+peakText.addEventListener("click", () => {
+  if (audioContext) {
+    peak = -Infinity;
+    peakText.textContent = "—";
+  }
+});
 document.getElementById("save").addEventListener("click", saveReading);
 document.getElementById("saveDelay").addEventListener("click", saveWithDelay);
 
@@ -25,6 +108,7 @@ async function startMonitoring() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
+    resizeChart();
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     await audioContext.audioWorklet.addModule("audio-processor.js");
 
@@ -52,16 +136,15 @@ async function startMonitoring() {
 
       meterFill.style.width = smoothedDb + "%";
       levelText.textContent = smoothedDb.toFixed(1);
+      pushChartData(smoothedDb);
     };
 
     startBtn.style.display = "none";
     stopBtn.style.display = "block";
     document.getElementById("save").disabled = false;
     document.getElementById("saveDelay").disabled = false;
-    setStatus("Monitoring active — play your tones", "active");
   } catch (err) {
     console.error("Error accessing microphone:", err);
-    setStatus("Microphone access denied", "error");
   }
 }
 
@@ -72,6 +155,8 @@ function stopMonitoring() {
 
   peak = -Infinity;
   smoothedDb = 0;
+  chartData = [];
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   peakText.textContent = "—";
 
   startBtn.style.display = "block";
@@ -80,39 +165,30 @@ function stopMonitoring() {
   document.getElementById("saveDelay").disabled = true;
   meterFill.style.width = "0%";
   levelText.textContent = "—";
-  setStatus("", "");
-}
-
-function setStatus(text, type) {
-  statusEl.textContent = text;
-  statusEl.style.background = type === "active"
-    ? "rgba(63, 185, 80, 0.15)"
-    : type === "error"
-    ? "rgba(248, 81, 73, 0.15)"
-    : "transparent";
-  statusEl.style.padding = text ? "6px 10px" : "2px 0";
 }
 
 function saveReading() {
+  const currentDb = parseFloat(levelText.textContent);
+  stopMonitoring();
+
   const freq = document.getElementById("stim_freq").value;
-  const booth = document.getElementById("booth_name").value.trim() || "—";
+  const booth = document.getElementById("booth_name").value.trim();
   const rawDate = document.getElementById("date").value;
   const date = rawDate
     ? rawDate.split("-").slice(1).concat(rawDate.split("-")[0]).join("/")
     : "—";
-  const currentDb = parseFloat(levelText.textContent);
+  const note = document.getElementById("note").value.trim();
 
-  if (isNaN(currentDb)) {
-    setStatus("Start monitoring before saving", "error");
-    return;
-  }
+  if (isNaN(currentDb)) return;
 
-  const label = booth + " " + date;
+  const label = booth ? booth + " " + date : date;
 
   // Find or create session
   let session = sessions.find((s) => s.label === label);
   if (!session) {
-    session = { label, readings: {} };
+    const now = new Date();
+    const timestamp = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    session = { label, timestamp, note, readings: {} };
     sessions.push(session);
   }
 
@@ -147,13 +223,28 @@ function saveWithDelay() {
 const FREQ_COLS = ["250 Hz", "500 Hz", "1000 Hz", "2000 Hz", "3000 Hz", "4000 Hz", "6000 Hz", "8000 Hz"];
 
 function renderTable() {
+  localStorage.setItem("spotcheck_sessions", JSON.stringify(sessions));
   const tbody = document.getElementById("resultsBody");
   tbody.innerHTML = "";
 
-  for (const session of sessions) {
+  for (let i = 0; i < sessions.length; i++) {
+    const session = sessions[i];
     const tr = document.createElement("tr");
+
+    const tdDel = document.createElement("td");
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "×";
+    delBtn.className = "row-delete-btn";
+    delBtn.addEventListener("click", () => {
+      sessions.splice(i, 1);
+      renderTable();
+    });
+    tdDel.appendChild(delBtn);
+    tr.appendChild(tdDel);
+
     const tdLabel = document.createElement("td");
-    tdLabel.textContent = session.label;
+    tdLabel.textContent = session.note ? session.label + " · " + session.note : session.label;
+    tdLabel.title = session.timestamp ?? "";
     tr.appendChild(tdLabel);
 
     for (const freq of FREQ_COLS) {
@@ -165,6 +256,8 @@ function renderTable() {
     tbody.appendChild(tr);
   }
 }
+
+renderTable();
 
 function setDate() {
   const dateField = document.querySelector("#date");

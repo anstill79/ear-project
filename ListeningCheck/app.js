@@ -88,23 +88,47 @@ function updateStopButtonState() {
 
 stopAllBtn.addEventListener("click", stopAll);
 
+const sectionForPlayer = new Map([
+  [audioPlayerA, document.getElementById("sectionA")],
+  [audioPlayerB, document.getElementById("sectionB")],
+]);
+
 allPlayers.forEach((player) => {
-  player.addEventListener("play", updateStopButtonState);
-  player.addEventListener("pause", updateStopButtonState);
+  const section = sectionForPlayer.get(player);
+  player.addEventListener("play", () => {
+    section.classList.add("playing");
+    updateStopButtonState();
+  });
+  player.addEventListener("pause", () => {
+    section.classList.remove("playing");
+    updateStopButtonState();
+  });
   player.addEventListener("ended", () => {
+    section.classList.remove("playing");
     setActiveButton(null);
     updateStopButtonState();
   });
 });
 
-// Keyboard shortcut: Escape or Enter stops all audio
+// Keyboard shortcut: Escape or Enter stops all audio (but not when editing a header)
 document.addEventListener("keyup", (e) => {
+  if (e.target.classList.contains("column-header")) return;
   if (e.key === "Escape" || e.key === "Enter") stopAll();
+});
+
+// Prevent newlines and blur on Enter in editable headers
+document.querySelectorAll(".column-header").forEach((header) => {
+  header.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      header.blur();
+    }
+  });
 });
 
 // ── Volume Buttons & Fill Logic ────────────────────────────────────────────
 function setFill(btn) {
-  const section = btn.parentElement;
+  const section = btn.closest(".btn-column");
   const buttons = section.querySelectorAll("button[data-volume]");
 
   // Clear fill/highlight within this section
@@ -112,9 +136,10 @@ function setFill(btn) {
 
   // Fill clicked button and everything below it (lower volumes)
   btn.classList.add("filled");
-  let next = btn.nextElementSibling;
-  while (next && next.matches("button[data-volume]")) {
-    next.classList.add("filled");
+  let next = btn.closest(".btn-row").nextElementSibling;
+  while (next && next.classList.contains("btn-row")) {
+    const b = next.querySelector("button[data-volume]");
+    if (b) b.classList.add("filled");
     next = next.nextElementSibling;
   }
 
@@ -168,7 +193,7 @@ function playAudio(event) {
   });
 
   const volume = parseFloat(button.getAttribute("data-volume"));
-  const sectionId = button.parentElement.id;
+  const sectionId = button.closest(".btn-column").id;
   const player = sectionId === "sectionA" ? audioPlayerA : audioPlayerB;
 
   player.volume = volume;

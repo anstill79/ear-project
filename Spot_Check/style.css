@@ -139,6 +139,14 @@ h1 {
   font-variant-numeric: tabular-nums;
 }
 
+.level-chart {
+  display: block;
+  width: 100%;
+  height: 56px;
+  margin-top: 12px;
+  border-radius: 6px;
+}
+
 .peak-display {
   display: flex;
   align-items: center;
@@ -160,6 +168,8 @@ h1 {
   font-weight: 600;
   color: var(--yellow);
   font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  user-select: none;
 }
 
 /* ── Monitor section ── */
@@ -169,15 +179,6 @@ h1 {
   gap: 10px;
 }
 
-.status-bar {
-  font-size: 13px;
-  color: var(--text-secondary);
-  text-align: center;
-  min-height: 18px;
-  padding: 2px 0;
-  border-radius: var(--radius-sm);
-  transition: background 0.2s;
-}
 
 /* ── Buttons ── */
 .btn {
@@ -378,28 +379,28 @@ input[type="date"].text-input {
 .results-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 12px;
   white-space: nowrap;
 }
 
 .results-table th {
   background: var(--surface-2);
   color: var(--text-secondary);
-  font-size: 11px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  padding: 9px 10px;
+  padding: 7px 6px;
   text-align: center;
   font-weight: 600;
 }
 
 .results-table th:first-child {
   text-align: left;
-  padding-left: 12px;
+  padding-left: 8px;
 }
 
 .results-table td {
-  padding: 9px 10px;
+  padding: 7px 6px;
   text-align: center;
   border-top: 1px solid var(--border);
   color: var(--text-primary);
@@ -408,13 +409,30 @@ input[type="date"].text-input {
 
 .results-table td:first-child {
   text-align: left;
-  padding-left: 12px;
+  padding-left: 8px;
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .results-table tbody tr:hover {
   background: var(--surface-2);
+}
+
+.row-delete-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.row-delete-btn:hover {
+  color: var(--red);
+  background: rgba(248, 81, 73, 0.12);
 }
 
 /* ── Instructions popover ── */

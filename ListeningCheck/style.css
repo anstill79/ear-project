@@ -210,6 +210,12 @@ input[type="checkbox"] {
   gap: 0.65rem;
 }
 
+.btn-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .column-header {
   margin: 0 0 0.25rem;
   text-align: center;
@@ -218,8 +224,23 @@ input[type="checkbox"] {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--text-muted);
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.4rem;
   border-bottom: 1px solid var(--border);
+  border-radius: 4px 4px 0 0;
+  outline: none;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: text;
+}
+
+.column-header:hover {
+  background: var(--surface);
+}
+
+.column-header:focus {
+  background: var(--surface);
+  border-bottom-color: var(--accent);
+  color: var(--text);
 }
 
 /* Volume buttons */
@@ -232,7 +253,7 @@ button[data-volume] {
   font-weight: 700;
   font-size: max(0.9rem, min(3vw, 1.1rem));
   padding: 0.45rem 0;
-  width: 100%;
+  flex: 1;
   position: relative;
   transition:
     background 0.15s,
@@ -295,6 +316,71 @@ button[data-volume].active::before {
   opacity: 1;
 }
 
+/* Playing indicator — animated sound bars */
+.playing-indicator {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  width: 100%;
+  height: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.btn-column.playing .playing-indicator {
+  opacity: 1;
+}
+
+.playing-indicator span {
+  display: block;
+  flex: 1;
+  background: var(--accent);
+  border-radius: 1px 1px 0 0;
+  height: 2px;
+}
+
+.btn-column.playing .playing-indicator span {
+  animation: soundBar 0.7s ease-in-out infinite alternate;
+}
+
+.btn-column.playing .playing-indicator span:nth-child(1)  { animation-delay: 0.00s; animation-duration: 0.65s; }
+.btn-column.playing .playing-indicator span:nth-child(2)  { animation-delay: 0.10s; animation-duration: 0.80s; }
+.btn-column.playing .playing-indicator span:nth-child(3)  { animation-delay: 0.20s; animation-duration: 0.55s; }
+.btn-column.playing .playing-indicator span:nth-child(4)  { animation-delay: 0.05s; animation-duration: 0.90s; }
+.btn-column.playing .playing-indicator span:nth-child(5)  { animation-delay: 0.30s; animation-duration: 0.70s; }
+.btn-column.playing .playing-indicator span:nth-child(6)  { animation-delay: 0.15s; animation-duration: 0.60s; }
+.btn-column.playing .playing-indicator span:nth-child(7)  { animation-delay: 0.25s; animation-duration: 0.85s; }
+.btn-column.playing .playing-indicator span:nth-child(8)  { animation-delay: 0.08s; animation-duration: 0.75s; }
+.btn-column.playing .playing-indicator span:nth-child(9)  { animation-delay: 0.35s; animation-duration: 0.65s; }
+.btn-column.playing .playing-indicator span:nth-child(10) { animation-delay: 0.18s; animation-duration: 0.50s; }
+.btn-column.playing .playing-indicator span:nth-child(11) { animation-delay: 0.12s; animation-duration: 0.88s; }
+.btn-column.playing .playing-indicator span:nth-child(12) { animation-delay: 0.28s; animation-duration: 0.72s; }
+.btn-column.playing .playing-indicator span:nth-child(13) { animation-delay: 0.03s; animation-duration: 0.62s; }
+.btn-column.playing .playing-indicator span:nth-child(14) { animation-delay: 0.22s; animation-duration: 0.82s; }
+.btn-column.playing .playing-indicator span:nth-child(15) { animation-delay: 0.38s; animation-duration: 0.58s; }
+.btn-column.playing .playing-indicator span:nth-child(16) { animation-delay: 0.14s; animation-duration: 0.76s; }
+.btn-column.playing .playing-indicator span:nth-child(17) { animation-delay: 0.07s; animation-duration: 0.69s; }
+.btn-column.playing .playing-indicator span:nth-child(18) { animation-delay: 0.23s; animation-duration: 0.83s; }
+.btn-column.playing .playing-indicator span:nth-child(19) { animation-delay: 0.33s; animation-duration: 0.57s; }
+.btn-column.playing .playing-indicator span:nth-child(20) { animation-delay: 0.11s; animation-duration: 0.91s; }
+.btn-column.playing .playing-indicator span:nth-child(21) { animation-delay: 0.19s; animation-duration: 0.64s; }
+.btn-column.playing .playing-indicator span:nth-child(22) { animation-delay: 0.29s; animation-duration: 0.78s; }
+.btn-column.playing .playing-indicator span:nth-child(23) { animation-delay: 0.04s; animation-duration: 0.53s; }
+.btn-column.playing .playing-indicator span:nth-child(24) { animation-delay: 0.36s; animation-duration: 0.87s; }
+.btn-column.playing .playing-indicator span:nth-child(25) { animation-delay: 0.16s; animation-duration: 0.61s; }
+.btn-column.playing .playing-indicator span:nth-child(26) { animation-delay: 0.26s; animation-duration: 0.74s; }
+.btn-column.playing .playing-indicator span:nth-child(27) { animation-delay: 0.09s; animation-duration: 0.89s; }
+.btn-column.playing .playing-indicator span:nth-child(28) { animation-delay: 0.31s; animation-duration: 0.67s; }
+.btn-column.playing .playing-indicator span:nth-child(29) { animation-delay: 0.21s; animation-duration: 0.81s; }
+.btn-column.playing .playing-indicator span:nth-child(30) { animation-delay: 0.13s; animation-duration: 0.56s; }
+.btn-column.playing .playing-indicator span:nth-child(31) { animation-delay: 0.37s; animation-duration: 0.93s; }
+.btn-column.playing .playing-indicator span:nth-child(32) { animation-delay: 0.02s; animation-duration: 0.71s; }
+
+@keyframes soundBar {
+  from { height: 2px; }
+  to   { height: 14px; }
+}
+
 /* Audio players — hidden but functional */
 .audio-player {
   display: none;
@@ -305,19 +391,24 @@ button[data-volume].active::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.1rem;
-  height: 1.1rem;
-  border: 2px solid currentColor;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--border);
   border-radius: 4px;
   font-size: 0.75rem;
-  opacity: 0.2;
+  color: var(--text-muted);
+  opacity: 0.4;
+  cursor: pointer;
   transition:
     opacity 0.15s,
-    background-color 0.15s;
-  position: absolute;
-  right: 0.4rem;
-  top: 50%;
-  transform: translateY(-50%);
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.heard-indicator:hover {
+  opacity: 0.7;
+  border-color: var(--heard-green);
 }
 
 .heard-indicator.heard {
