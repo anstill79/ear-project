@@ -7,11 +7,14 @@
     <link rel="stylesheet" href="styles.css" />
     <title>Vestibular Test Summary</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-
-    <script src="../Components/NavBar.js"></script>
   </head>
   <body>
-    <nav-bar></nav-bar>
+    <header class="app-header">
+      <a href="../index.html" class="icon-btn" title="Back">&#8592;</a>
+      <button popovertarget="help-modal" class="icon-btn" title="Help">
+        ?
+      </button>
+    </header>
     <main>
       <div id="primary-section-wrapper">
         <div class="title">
@@ -192,26 +195,63 @@
         </div>
       </div>
     </main>
-    <p
-      style="
-        font-size: 8px;
-        text-align: center;
-        width: 100%;
-        grid-column: 1 / span 4;
-      "
-    >
-      Created by Austin Swanson
-    </p>
-    <p
-      style="
-        font-size: 8px;
-        text-align: center;
-        width: 100%;
-        grid-column: 1 / span 4;
-      "
-    >
-      2024
-    </p>
+    <footer>Created by Austin Swanson &middot; 2024</footer>
+    <div id="help-modal" popover>
+      <div id="help-modal-content">
+        <h2>How to use this form</h2>
+        <section>
+          <h3>Entering results</h3>
+          <p>Click any result box to cycle through states:</p>
+          <ol>
+            <li>
+              <strong>Empty / Did not test</strong> — no symbol, grayed out
+            </li>
+            <li>
+              <strong>Check mark (green)</strong> — clear response, mostly
+              intact function
+            </li>
+            <li>
+              <strong>Tilde (amber)</strong> — response present but abnormal
+            </li>
+            <li><strong>X (red)</strong> — absent or very abnormal response</li>
+            <li>Click again to reset back to empty</li>
+          </ol>
+        </section>
+        <section>
+          <h3>Layout</h3>
+          <p>
+            Each row is one test. The
+            <span style="color: red">left column</span> is the
+            <strong>right ear</strong> and the
+            <span style="color: blue">right column</span> is the
+            <strong>left ear</strong>. Rotary Chair SHA is a bilateral test and
+            has only one box.
+          </p>
+        </section>
+        <section>
+          <h3>Key criteria</h3>
+          <p>
+            Once a test is marked as performed, the key at the bottom of the
+            form automatically expands to show the numeric pass/fail criteria
+            for that test.
+          </p>
+        </section>
+        <section>
+          <h3>Printing</h3>
+          <p>
+            Use your browser's print function (Ctrl/Cmd + P) to print or save as
+            PDF. The form will print cleanly without this help button.
+          </p>
+        </section>
+        <button
+          id="help-close-btn"
+          popovertarget="help-modal"
+          popovertargetaction="hide"
+        >
+          Close
+        </button>
+      </div>
+    </div>
     <script src="index.js"></script>
     <!-- Cloudflare Web Analytics -->
     <script

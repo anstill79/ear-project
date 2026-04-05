@@ -90,10 +90,6 @@ function setKeyImages() {
   keyTilde.src = tildeImage.src;
   keyChecked.src = checkedImage.src;
   keyAsterisk.src = asterisk.src;
-  keyAsterisk.classList.remove("key-symbol");
-  keyAsterisk.style.width = "30px";
-  keyAsterisk.style.height = "30px";
-  // keyAsterisk.style.margin = "-11px";
 }
 setKeyImages();
 
@@ -111,26 +107,34 @@ function showCriteria2() {
     vemp_label: ["key_checked_VEMP", "key_tilde_VEMP", "key_X_VEMP"],
   };
 
-  // First, set all elements to "none"
+  const stateByIndex = ["checkedImage", "tildeImage", "xImage"];
+
+  // Hide all criteria rows
   Object.values(criteriaMap)
     .flat()
     .forEach((id) => {
       const element = document.getElementById(id);
-      if (element) {
-        element.style.display = "none";
-      }
+      if (element) element.style.display = "none";
     });
 
-  // Then, set to "block" only for present IDs
+  // Show criteria for active tests; dim rows whose symbol isn't present
   results.forEach((result) => {
     const elementsToShow = criteriaMap[result.id];
-    if (elementsToShow) {
-      elementsToShow.forEach((id) => {
-        const element = document.getElementById(id);
-        if (element) {
-          element.style.display = "block";
-        }
-      });
-    }
+    if (!elementsToShow) return;
+
+    const boxes = document.querySelectorAll(`[data-test="${result.id}"]`);
+    const activeStates = new Set();
+    boxes.forEach((box) => {
+      const state = box.getAttribute("data-state");
+      if (state !== "emptyBox") activeStates.add(state);
+    });
+
+    elementsToShow.forEach((id, index) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.style.display = "block";
+        element.style.opacity = activeStates.has(stateByIndex[index]) ? "1" : "0.35";
+      }
+    });
   });
 }
