@@ -224,6 +224,23 @@ document.querySelectorAll(".heard-indicator").forEach((indicator) => {
   });
 });
 
+// ── Help Modal ─────────────────────────────────────────────────────────────
+const helpModal = document.getElementById("helpModal");
+const helpBtn = document.getElementById("helpBtn");
+const helpCloseBtn = document.getElementById("helpCloseBtn");
+
+helpBtn.addEventListener("click", () => { helpModal.hidden = false; });
+helpCloseBtn.addEventListener("click", () => { helpModal.hidden = true; });
+helpModal.addEventListener("click", (e) => {
+  if (e.target === helpModal) helpModal.hidden = true;
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !helpModal.hidden) {
+    helpModal.hidden = true;
+    e.stopImmediatePropagation();
+  }
+});
+
 // ── Initial State ──────────────────────────────────────────────────────────
 updateStopButtonState();
 applyLoop();

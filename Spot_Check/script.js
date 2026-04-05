@@ -80,6 +80,7 @@ const startBtn = document.getElementById("startBtn");
 const stopBtn = document.getElementById("stopBtn");
 const meterFill = document.getElementById("meterFill");
 const levelText = document.getElementById("levelText");
+const levelUnit = document.getElementById("levelUnit");
 const peakText = document.getElementById("peakText");
 
 // Session data: { label, readings: { "250 Hz": db, ... } }
@@ -131,14 +132,16 @@ async function startMonitoring() {
 
       if (smoothedDb > peak) {
         peak = smoothedDb;
-        peakText.textContent = peak.toFixed(1) + " dB";
+        peakText.textContent = Math.round(peak) + " dB";
       }
 
       meterFill.style.width = smoothedDb + "%";
-      levelText.textContent = smoothedDb.toFixed(1);
+      levelText.textContent = Math.round(smoothedDb);
       pushChartData(smoothedDb);
     };
 
+    levelText.classList.add("level-value--active");
+    levelUnit.style.display = "";
     startBtn.style.display = "none";
     stopBtn.style.display = "block";
     document.getElementById("save").disabled = false;
@@ -164,7 +167,9 @@ function stopMonitoring() {
   document.getElementById("save").disabled = true;
   document.getElementById("saveDelay").disabled = true;
   meterFill.style.width = "0%";
-  levelText.textContent = "—";
+  levelText.classList.remove("level-value--active");
+  levelText.textContent = "Click to start monitoring";
+  levelUnit.style.display = "none";
 }
 
 function saveReading() {
@@ -192,7 +197,7 @@ function saveReading() {
     sessions.push(session);
   }
 
-  session.readings[freq] = currentDb.toFixed(1);
+  session.readings[freq] = Math.round(currentDb);
   renderTable();
   setStatus("Saved " + freq + ": " + currentDb.toFixed(1) + " dB", "active");
 }

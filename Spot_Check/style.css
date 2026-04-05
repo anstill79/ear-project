@@ -48,6 +48,10 @@ h1 {
   letter-spacing: -0.3px;
 }
 
+a.icon-btn {
+  text-decoration: none;
+}
+
 .icon-btn {
   width: 34px;
   height: 34px;
@@ -94,9 +98,15 @@ h1 {
 }
 
 .level-value {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--text-secondary);
+}
+
+.level-value--active {
   font-size: 72px;
   font-weight: 800;
-  line-height: 1;
   font-variant-numeric: tabular-nums;
   letter-spacing: -3px;
   color: var(--text-primary);

@@ -12,7 +12,10 @@
     <nav-bar></nav-bar>
 
     <div class="layout">
-      <h1>ListeningCheck</h1>
+      <div class="title-row">
+        <h1>ListeningCheck</h1>
+        <button id="helpBtn" class="help-btn" aria-label="Help">?</button>
+      </div>
       <fieldset class="controls-fieldset">
         <legend>Controls</legend>
         <div class="controls-row">
@@ -93,6 +96,45 @@
           <div class="btn-row"><button data-volume="0.2">2</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
           <div class="btn-row"><button data-volume="0.1">1</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
           <div class="btn-row"><button data-volume="0">0</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="helpModal" class="modal-backdrop" hidden>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+        <div class="modal-header">
+          <h2 id="helpTitle">How to use ListeningCheck</h2>
+          <button id="helpCloseBtn" class="modal-close" aria-label="Close">&#10005;</button>
+        </div>
+        <div class="modal-body">
+          <section>
+            <h3>Overview</h3>
+            <p>ListeningCheck plays audio at different volumes so you can find your hearing threshold — the quietest level you can still detect sound.</p>
+          </section>
+          <section>
+            <h3>Playing audio</h3>
+            <p>Click any numbered button (0–10) to play the selected audio file at that volume. The number represents relative loudness — 10 is full volume, 0 is silent.</p>
+            <p>Click the active button again to stop it. Buttons fill downward to show which levels you've tested.</p>
+          </section>
+          <section>
+            <h3>Two columns</h3>
+            <p>Use <strong>Level One</strong> to establish a reference volume you can clearly hear. Then use <strong>Level Two</strong> to find your threshold — the gap between them is highlighted in green, showing the range you're testing across.</p>
+            <p>Column headers are editable — click to rename them.</p>
+          </section>
+          <section>
+            <h3>Heard indicator</h3>
+            <p>The small checkbox to the right of each button marks whether you heard that level. Click it to toggle. Only one per column can be marked at a time.</p>
+          </section>
+          <section>
+            <h3>Loop</h3>
+            <p>Enable <strong>Loop</strong> to repeat the audio continuously. Choose <em>Forever</em>, <em>5 seconds</em>, or <em>10 seconds</em> to control how long it loops before stopping.</p>
+          </section>
+          <section>
+            <h3>Keyboard shortcuts</h3>
+            <table class="help-table">
+              <tr><td><kbd>Enter</kbd> / <kbd>Esc</kbd></td><td>Stop all audio</td></tr>
+            </table>
+          </section>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@
   <body>
     <div class="app">
       <header class="app-header">
+        <a href="../index.html" class="icon-btn" title="Back">&#8592;</a>
         <h1>Spot Check</h1>
         <button
           id="open_instructions"
@@ -27,8 +28,8 @@
         <!-- Level meter -->
         <section class="meter-section">
           <div class="level-display">
-            <span class="level-value" id="levelText">—</span>
-            <span class="level-unit">dB SPL</span>
+            <span class="level-value" id="levelText">Click to start monitoring</span>
+            <span class="level-unit" id="levelUnit" style="display:none;">dB SPL</span>
           </div>
           <div class="meter-bar-wrap">
             <div class="meter-bar">
@@ -55,10 +56,10 @@
             &#9632; Stop Monitoring
           </button>
           <div class="save-section">
-            <button id="save" class="btn btn-save" disabled>Save Now</button>
             <button id="saveDelay" class="btn btn-save-delay" disabled>
               Save in 3 s
             </button>
+            <button id="save" class="btn btn-save" disabled>Save Now</button>
           </div>
         </section>
 
