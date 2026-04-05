@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
 
-    <script src="../Components/NavBar.js"></script>
     <title>ListeningCheck</title>
   </head>
   <body>
-    <nav-bar></nav-bar>
+    <header class="app-header">
+      <a href="../index.html" class="icon-btn" title="Back">&#8592;</a>
+      <h1>ListeningCheck</h1>
+      <button id="helpBtn" class="icon-btn" aria-label="Help">?</button>
+    </header>
 
     <div class="layout">
-      <div class="title-row">
-        <h1>ListeningCheck</h1>
-        <button id="helpBtn" class="help-btn" aria-label="Help">?</button>
-      </div>
       <fieldset class="controls-fieldset">
         <legend>Controls</legend>
         <div class="controls-row">
@@ -57,82 +56,204 @@
 
       <div class="btn-column-wrapper">
         <div class="btn-column" id="sectionA">
-          <h2 class="column-header" contenteditable="true" spellcheck="false">Level One</h2>
-          <div class="playing-indicator"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <h2 class="column-header" contenteditable="true" spellcheck="false">
+            Level One
+          </h2>
+          <div class="playing-indicator">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span>
+          </div>
           <audio
             id="audio_player_A"
             preload="auto"
             class="audio-player"
           ></audio>
-          <div class="btn-row"><button data-volume="1.0">10</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.9">9</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.8">8</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.7">7</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.6">6</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.5">5</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.4">4</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.3">3</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.2">2</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.1">1</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0">0</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
+          <div class="btn-row">
+            <button data-volume="1.0">10</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.9">9</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.8">8</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.7">7</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.6">6</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.5">5</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.4">4</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.3">3</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.2">2</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.1">1</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0">0</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
         </div>
 
         <div class="btn-column" id="sectionB">
-          <h2 class="column-header" contenteditable="true" spellcheck="false">Level Two</h2>
-          <div class="playing-indicator"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <h2 class="column-header" contenteditable="true" spellcheck="false">
+            Level Two
+          </h2>
+          <div class="playing-indicator">
+            <span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span><span></span><span></span><span></span
+            ><span></span><span></span>
+          </div>
           <audio
             id="audio_player_B"
             preload="auto"
             class="audio-player"
           ></audio>
-          <div class="btn-row"><button data-volume="1.0">10</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.9">9</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.8">8</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.7">7</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.6">6</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.5">5</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.4">4</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.3">3</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.2">2</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0.1">1</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
-          <div class="btn-row"><button data-volume="0">0</button><span class="heard-indicator" title="I heard this">&#10003;</span></div>
+          <div class="btn-row">
+            <button data-volume="1.0">10</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.9">9</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.8">8</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.7">7</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.6">6</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.5">5</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.4">4</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.3">3</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.2">2</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0.1">1</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
+          <div class="btn-row">
+            <button data-volume="0">0</button
+            ><span class="heard-indicator" title="I heard this">&#10003;</span>
+          </div>
         </div>
       </div>
     </div>
 
     <div id="helpModal" class="modal-backdrop" hidden>
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="helpTitle"
+      >
         <div class="modal-header">
           <h2 id="helpTitle">How to use ListeningCheck</h2>
-          <button id="helpCloseBtn" class="modal-close" aria-label="Close">&#10005;</button>
+          <button id="helpCloseBtn" class="modal-close" aria-label="Close">
+            &#10005;
+          </button>
         </div>
         <div class="modal-body">
           <section>
             <h3>Overview</h3>
-            <p>ListeningCheck plays audio at different volumes so you can find your hearing threshold — the quietest level you can still detect sound.</p>
+            <p>
+              ListeningCheck plays audio at different volumes to use when
+              adjusting hearing devices or doing any other "how does this sound"
+              exercises.
+            </p>
           </section>
           <section>
             <h3>Playing audio</h3>
-            <p>Click any numbered button (0–10) to play the selected audio file at that volume. The number represents relative loudness — 10 is full volume, 0 is silent.</p>
-            <p>Click the active button again to stop it. Buttons fill downward to show which levels you've tested.</p>
+            <p>
+              Click any numbered button (0–10) to play the selected audio file
+              at that volume. The number represents relative loudness — 10 is
+              full volume, 0 is silent.
+            </p>
+            <p>
+              Click the active button again (or press space bar) to stop it. You
+              will need to adjust your computer or phone's volume to find the
+              right range for testing. Use the <strong>Stop All</strong> button
+              or press <kbd>Enter</kbd> / <kbd>Esc</kbd> to stop all audio at
+              once.
+            </p>
           </section>
           <section>
             <h3>Two columns</h3>
-            <p>Use <strong>Level One</strong> to establish a reference volume you can clearly hear. Then use <strong>Level Two</strong> to find your threshold — the gap between them is highlighted in green, showing the range you're testing across.</p>
+            <p>
+              Buttons in the second column will fill downward if the first
+              column's level was louder than the second column's.
+            </p>
+
             <p>Column headers are editable — click to rename them.</p>
           </section>
           <section>
-            <h3>Heard indicator</h3>
-            <p>The small checkbox to the right of each button marks whether you heard that level. Click it to toggle. Only one per column can be marked at a time.</p>
+            <h3>Checkbox indicator</h3>
+            <p>
+              The small checkbox to the right of each button marks a level you
+              want to reference. Click it to toggle. Only one per column can be
+              marked at a time.
+            </p>
           </section>
           <section>
             <h3>Loop</h3>
-            <p>Enable <strong>Loop</strong> to repeat the audio continuously. Choose <em>Forever</em>, <em>5 seconds</em>, or <em>10 seconds</em> to control how long it loops before stopping.</p>
+            <p>
+              Enable <strong>Loop</strong> to repeat the audio continuously.
+              Choose <em>Forever</em>, <em>5 seconds</em>, or
+              <em>10 seconds</em> to control how long it loops before stopping.
+            </p>
           </section>
           <section>
             <h3>Keyboard shortcuts</h3>
             <table class="help-table">
-              <tr><td><kbd>Enter</kbd> / <kbd>Esc</kbd></td><td>Stop all audio</td></tr>
+              <tr>
+                <td><kbd>Enter</kbd> / <kbd>Esc</kbd>/ <kbd>Space</kbd></td>
+                <td>Stop all audio</td>
+              </tr>
             </table>
           </section>
         </div>

@@ -33,10 +33,43 @@ body {
   min-height: 100vh;
 }
 
-nav-bar {
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 10;
+  background: var(--bg);
+}
+
+a.icon-btn {
+  text-decoration: none;
+}
+
+.icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  background: var(--surface);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .layout {
@@ -49,16 +82,6 @@ nav-bar {
   padding: 1rem 1rem 3rem;
 }
 
-.title-row {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.title-row h1 {
-  flex: 1;
-}
-
 h1 {
   font-size: 2.2rem;
   font-weight: 800;
@@ -68,28 +91,6 @@ h1 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.help-btn {
-  flex-shrink: 0;
-  width: 1.8rem;
-  height: 1.8rem;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.help-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
 }
 
 /* ── Modal ── */
