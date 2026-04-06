@@ -276,6 +276,19 @@ function setDate() {
 }
 setDate();
 
+function formatFreqLabel(freqString) {
+  const hz = parseInt(freqString, 10);
+  return hz >= 1000 ? hz / 1000 + "kHz" : hz + "Hz";
+}
+
+function updateSaveButtonText() {
+  const freqString = document.getElementById("stim_freq").value;
+  document.getElementById("save").textContent = "Save Now (" + formatFreqLabel(freqString) + ")";
+}
+
+document.getElementById("stim_freq").addEventListener("change", updateSaveButtonText);
+updateSaveButtonText();
+
 function changeFreq(direction) {
   const select = document.getElementById("stim_freq");
   const currentIndex = select.selectedIndex;
