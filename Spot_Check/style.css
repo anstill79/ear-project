@@ -320,6 +320,8 @@ a.icon-btn {
   line-height: 1;
   transition: color 0.15s, font-weight 0.15s;
   user-select: none;
+  transform: rotate(-45deg);
+  display: inline-block;
 }
 
 .freq-viz-label.active {
