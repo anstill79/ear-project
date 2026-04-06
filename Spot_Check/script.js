@@ -286,8 +286,29 @@ function updateSaveButtonText() {
   document.getElementById("save").textContent = "Save Now (" + formatFreqLabel(freqString) + ")";
 }
 
+function buildFreqViz() {
+  const viz = document.getElementById("freqViz");
+  const select = document.getElementById("stim_freq");
+  for (const option of select.options) {
+    const span = document.createElement("span");
+    span.className = "freq-viz-label";
+    span.textContent = formatFreqLabel(option.value);
+    viz.appendChild(span);
+  }
+}
+
+function updateFreqViz() {
+  const select = document.getElementById("stim_freq");
+  document.querySelectorAll(".freq-viz-label").forEach((label, i) => {
+    label.classList.toggle("active", i === select.selectedIndex);
+  });
+}
+
 document.getElementById("stim_freq").addEventListener("change", updateSaveButtonText);
+document.getElementById("stim_freq").addEventListener("change", updateFreqViz);
+buildFreqViz();
 updateSaveButtonText();
+updateFreqViz();
 
 function changeFreq(direction) {
   const select = document.getElementById("stim_freq");

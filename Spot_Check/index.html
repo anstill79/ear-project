@@ -68,23 +68,26 @@
           <h2 class="section-title">Audiometer Signal</h2>
           <div class="control-row">
             <label class="control-label">Frequency</label>
-            <div class="stepper">
-              <button class="stepper-btn" onclick="changeFreq('up')">
-                &#8249;
-              </button>
-              <select id="stim_freq" class="stepper-select">
-                <option>250 Hz</option>
-                <option>500 Hz</option>
-                <option selected>1000 Hz</option>
-                <option>2000 Hz</option>
-                <option>3000 Hz</option>
-                <option>4000 Hz</option>
-                <option>6000 Hz</option>
-                <option>8000 Hz</option>
-              </select>
-              <button class="stepper-btn" onclick="changeFreq('down')">
-                &#8250;
-              </button>
+            <div class="freq-stepper-wrap">
+              <div class="freq-viz" id="freqViz"></div>
+              <div class="stepper">
+                <button class="stepper-btn" onclick="changeFreq('up')">
+                  &#8249;
+                </button>
+                <select id="stim_freq" class="stepper-select">
+                  <option>250 Hz</option>
+                  <option>500 Hz</option>
+                  <option selected>1000 Hz</option>
+                  <option>2000 Hz</option>
+                  <option>3000 Hz</option>
+                  <option>4000 Hz</option>
+                  <option>6000 Hz</option>
+                  <option>8000 Hz</option>
+                </select>
+                <button class="stepper-btn" onclick="changeFreq('down')">
+                  &#8250;
+                </button>
+              </div>
             </div>
           </div>
           <div class="control-row">
