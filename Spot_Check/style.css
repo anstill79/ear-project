@@ -353,6 +353,7 @@ a.icon-btn {
   justify-content: center;
   flex-shrink: 0;
   transition: background 0.12s;
+  touch-action: manipulation;
 }
 
 .stepper-btn:hover {
