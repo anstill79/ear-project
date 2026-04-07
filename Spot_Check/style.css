@@ -330,6 +330,7 @@ a.icon-btn {
   user-select: none;
   transform: rotate(-45deg);
   display: inline-block;
+  padding-bottom: 6px;
 }
 
 .freq-viz-label.active {
