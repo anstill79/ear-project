@@ -189,6 +189,16 @@ a.icon-btn {
   gap: 10px;
 }
 
+.monitor-active-row {
+  display: flex;
+  gap: 8px;
+}
+
+.monitor-active-row .btn {
+  width: auto;
+  flex: 1;
+}
+
 
 /* ── Buttons ── */
 .btn {
@@ -263,11 +273,6 @@ a.icon-btn {
   transform: scale(0.98);
 }
 
-/* ── Save section ── */
-.save-section {
-  display: flex;
-  gap: 10px;
-}
 
 /* ── Controls sections ── */
 .controls-section {
