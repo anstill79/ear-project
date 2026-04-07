@@ -143,7 +143,7 @@ async function startMonitoring() {
     levelText.classList.add("level-value--active");
     levelUnit.style.display = "";
     startBtn.style.display = "none";
-    stopBtn.style.display = "block";
+    document.getElementById("monitorActiveRow").style.display = "flex";
     document.getElementById("save").disabled = false;
     document.getElementById("saveDelay").disabled = false;
   } catch (err) {
@@ -162,8 +162,8 @@ function stopMonitoring() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   peakText.textContent = "—";
 
-  startBtn.style.display = "block";
-  stopBtn.style.display = "none";
+  startBtn.style.display = "";
+  document.getElementById("monitorActiveRow").style.display = "none";
   document.getElementById("save").disabled = true;
   document.getElementById("saveDelay").disabled = true;
   meterFill.style.width = "0%";
