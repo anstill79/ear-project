@@ -241,6 +241,7 @@ function renderTable() {
     delBtn.textContent = "×";
     delBtn.className = "row-delete-btn";
     delBtn.addEventListener("click", () => {
+      if (!confirm("Delete this session's measurements?")) return;
       sessions.splice(i, 1);
       renderTable();
     });
