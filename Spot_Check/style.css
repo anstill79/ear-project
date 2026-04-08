@@ -501,6 +501,12 @@ input[type="date"].text-input {
   gap: 12px;
 }
 
+.instructions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 #instructions_content h2 {
   font-size: 17px;
   font-weight: 700;
