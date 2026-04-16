@@ -36,6 +36,15 @@ body {
   padding-bottom: 40px;
 }
 
+.desktop-banner {
+  background: var(--yellow);
+  color: #0d1117;
+  text-align: center;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 /* ── Header ── */
 .app-header {
   display: flex;

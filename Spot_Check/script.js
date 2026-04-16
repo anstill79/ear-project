@@ -1,3 +1,10 @@
+function updateDesktopBanner() {
+  const banner = document.getElementById("desktop-banner");
+  banner.hidden = window.innerWidth < 1024;
+}
+updateDesktopBanner();
+window.addEventListener("resize", updateDesktopBanner);
+
 let audioContext;
 let microphone;
 let workletNode;
