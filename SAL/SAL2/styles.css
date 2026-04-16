@@ -1,3 +1,6 @@
+@view-transition {
+  navigation: auto;
+}
 :root {
   --right-ear: rgb(231, 76, 60);
   --left-ear: rgb(52, 152, 219);
