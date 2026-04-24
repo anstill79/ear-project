@@ -24,6 +24,10 @@
         </button>
       </header>
 
+      <div id="desktop-banner" class="desktop-banner" hidden>
+        &#128242; This app is designed for mobile phone use
+      </div>
+
       <main class="app-main">
         <!-- Level meter -->
         <section class="meter-section">
@@ -52,10 +56,10 @@
           <button id="startBtn" class="btn btn-start">
             &#9679; Start Monitoring
           </button>
-          <button id="stopBtn" class="btn btn-stop" style="display: none">
-            &#9632; Stop Monitoring
-          </button>
-          <div class="save-section">
+          <div class="monitor-active-row" id="monitorActiveRow" style="display: none;">
+            <button id="stopBtn" class="btn btn-stop">
+              &#9632; Stop
+            </button>
             <button id="saveDelay" class="btn btn-save-delay" disabled>
               Save in 3 s
             </button>
@@ -68,23 +72,26 @@
           <h2 class="section-title">Audiometer Signal</h2>
           <div class="control-row">
             <label class="control-label">Frequency</label>
-            <div class="stepper">
-              <button class="stepper-btn" onclick="changeFreq('up')">
-                &#8249;
-              </button>
-              <select id="stim_freq" class="stepper-select">
-                <option>250 Hz</option>
-                <option>500 Hz</option>
-                <option selected>1000 Hz</option>
-                <option>2000 Hz</option>
-                <option>3000 Hz</option>
-                <option>4000 Hz</option>
-                <option>6000 Hz</option>
-                <option>8000 Hz</option>
-              </select>
-              <button class="stepper-btn" onclick="changeFreq('down')">
-                &#8250;
-              </button>
+            <div class="freq-stepper-wrap">
+              <div class="freq-viz" id="freqViz"></div>
+              <div class="stepper">
+                <button class="stepper-btn" onclick="changeFreq('up')">
+                  &#8249;
+                </button>
+                <select id="stim_freq" class="stepper-select">
+                  <option>250 Hz</option>
+                  <option>500 Hz</option>
+                  <option selected>1000 Hz</option>
+                  <option>2000 Hz</option>
+                  <option>3000 Hz</option>
+                  <option>4000 Hz</option>
+                  <option>6000 Hz</option>
+                  <option>8000 Hz</option>
+                </select>
+                <button class="stepper-btn" onclick="changeFreq('down')">
+                  &#8250;
+                </button>
+              </div>
             </div>
           </div>
           <div class="control-row">
@@ -166,7 +173,35 @@
 
     <div id="instructions" popover>
       <div id="instructions_content">
-        <h2>How to use</h2>
+        <div class="instructions-header">
+          <h2>How to use</h2>
+          <button
+            popovertarget="instructions"
+            popovertargetaction="hide"
+            class="icon-btn"
+            aria-label="Close"
+          >&#10005;</button>
+        </div>
+        <h2>What is this app for?</h2>
+        <p>
+          Spot Check is a quick sanity-check tool for audiometric booth
+          speakers. Use it to track a speaker's output over time, or to
+          compare a suspect speaker against one that is known to be working
+          well.
+        </p>
+        <p>
+          It is <strong>not</strong> intended as a substitute for proper
+          equipment calibration. Use it to spot problems, not to certify
+          that your setup meets any standard.
+        </p>
+        <h2>Best signal types</h2>
+        <p>
+          The app saves the level at a single moment in time, so it works
+          best with steady signals like continuous pure tones or noise.
+          Speech signals are too variable to give a reliable reading — the
+          app does not average over longer periods, so a snapshot of speech
+          will not tell you much.
+        </p>
         <p>
           Place your phone at ear level in the sound field, with the mic
           facing the speaker.
@@ -192,6 +227,15 @@
         <p>
           Results are saved to the table and grouped by booth and date.
           Tap the <strong>Peak</strong> value at any time to reset it.
+        </p>
+        <h2>Privacy</h2>
+        <p>
+          Microphone audio is never recorded or transmitted. It is processed
+          entirely on-device and used only to display the sound level.
+        </p>
+        <p>
+          Measurement results are saved only on this device. Nothing is sent to
+          a server or stored in the cloud.
         </p>
       </div>
     </div>

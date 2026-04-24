@@ -1,3 +1,10 @@
+function updateDesktopBanner() {
+  const banner = document.getElementById("desktop-banner");
+  banner.hidden = window.innerWidth < 1024;
+}
+updateDesktopBanner();
+window.addEventListener("resize", updateDesktopBanner);
+
 let audioContext;
 let microphone;
 let workletNode;
@@ -143,7 +150,7 @@ async function startMonitoring() {
     levelText.classList.add("level-value--active");
     levelUnit.style.display = "";
     startBtn.style.display = "none";
-    stopBtn.style.display = "block";
+    document.getElementById("monitorActiveRow").style.display = "flex";
     document.getElementById("save").disabled = false;
     document.getElementById("saveDelay").disabled = false;
   } catch (err) {
@@ -162,8 +169,8 @@ function stopMonitoring() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   peakText.textContent = "—";
 
-  startBtn.style.display = "block";
-  stopBtn.style.display = "none";
+  startBtn.style.display = "";
+  document.getElementById("monitorActiveRow").style.display = "none";
   document.getElementById("save").disabled = true;
   document.getElementById("saveDelay").disabled = true;
   meterFill.style.width = "0%";
@@ -241,6 +248,7 @@ function renderTable() {
     delBtn.textContent = "×";
     delBtn.className = "row-delete-btn";
     delBtn.addEventListener("click", () => {
+      if (!confirm("Delete this session's measurements?")) return;
       sessions.splice(i, 1);
       renderTable();
     });
@@ -275,6 +283,40 @@ function setDate() {
   }
 }
 setDate();
+
+function formatFreqLabel(freqString) {
+  const hz = parseInt(freqString, 10);
+  return hz >= 1000 ? hz / 1000 + "kHz" : hz + "Hz";
+}
+
+function updateSaveButtonText() {
+  const freqString = document.getElementById("stim_freq").value;
+  document.getElementById("save").textContent = "Save Now (" + formatFreqLabel(freqString) + ")";
+}
+
+function buildFreqViz() {
+  const viz = document.getElementById("freqViz");
+  const select = document.getElementById("stim_freq");
+  for (const option of select.options) {
+    const span = document.createElement("span");
+    span.className = "freq-viz-label";
+    span.textContent = formatFreqLabel(option.value);
+    viz.appendChild(span);
+  }
+}
+
+function updateFreqViz() {
+  const select = document.getElementById("stim_freq");
+  document.querySelectorAll(".freq-viz-label").forEach((label, i) => {
+    label.classList.toggle("active", i === select.selectedIndex);
+  });
+}
+
+document.getElementById("stim_freq").addEventListener("change", updateSaveButtonText);
+document.getElementById("stim_freq").addEventListener("change", updateFreqViz);
+buildFreqViz();
+updateSaveButtonText();
+updateFreqViz();
 
 function changeFreq(direction) {
   const select = document.getElementById("stim_freq");
