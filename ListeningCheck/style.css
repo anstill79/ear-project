@@ -6,7 +6,7 @@
   --bg: #1e2530;
   --container-bg: #2b3240;
   --surface: #343d4e;
-  --border: #4a5568;
+  --border: #8794aa;
   --text: #e2e8f0;
   --text-muted: #94a3b8;
   --accent: #74c0fc;
@@ -65,7 +65,9 @@ a.icon-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
   flex-shrink: 0;
 }
 
@@ -148,7 +150,9 @@ h1 {
   cursor: pointer;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 
 .modal-close:hover {
@@ -496,42 +500,142 @@ button[data-volume].active::before {
   animation: soundBar 0.7s ease-in-out infinite alternate;
 }
 
-.btn-column.playing .playing-indicator span:nth-child(1)  { animation-delay: 0.00s; animation-duration: 0.65s; }
-.btn-column.playing .playing-indicator span:nth-child(2)  { animation-delay: 0.10s; animation-duration: 0.80s; }
-.btn-column.playing .playing-indicator span:nth-child(3)  { animation-delay: 0.20s; animation-duration: 0.55s; }
-.btn-column.playing .playing-indicator span:nth-child(4)  { animation-delay: 0.05s; animation-duration: 0.90s; }
-.btn-column.playing .playing-indicator span:nth-child(5)  { animation-delay: 0.30s; animation-duration: 0.70s; }
-.btn-column.playing .playing-indicator span:nth-child(6)  { animation-delay: 0.15s; animation-duration: 0.60s; }
-.btn-column.playing .playing-indicator span:nth-child(7)  { animation-delay: 0.25s; animation-duration: 0.85s; }
-.btn-column.playing .playing-indicator span:nth-child(8)  { animation-delay: 0.08s; animation-duration: 0.75s; }
-.btn-column.playing .playing-indicator span:nth-child(9)  { animation-delay: 0.35s; animation-duration: 0.65s; }
-.btn-column.playing .playing-indicator span:nth-child(10) { animation-delay: 0.18s; animation-duration: 0.50s; }
-.btn-column.playing .playing-indicator span:nth-child(11) { animation-delay: 0.12s; animation-duration: 0.88s; }
-.btn-column.playing .playing-indicator span:nth-child(12) { animation-delay: 0.28s; animation-duration: 0.72s; }
-.btn-column.playing .playing-indicator span:nth-child(13) { animation-delay: 0.03s; animation-duration: 0.62s; }
-.btn-column.playing .playing-indicator span:nth-child(14) { animation-delay: 0.22s; animation-duration: 0.82s; }
-.btn-column.playing .playing-indicator span:nth-child(15) { animation-delay: 0.38s; animation-duration: 0.58s; }
-.btn-column.playing .playing-indicator span:nth-child(16) { animation-delay: 0.14s; animation-duration: 0.76s; }
-.btn-column.playing .playing-indicator span:nth-child(17) { animation-delay: 0.07s; animation-duration: 0.69s; }
-.btn-column.playing .playing-indicator span:nth-child(18) { animation-delay: 0.23s; animation-duration: 0.83s; }
-.btn-column.playing .playing-indicator span:nth-child(19) { animation-delay: 0.33s; animation-duration: 0.57s; }
-.btn-column.playing .playing-indicator span:nth-child(20) { animation-delay: 0.11s; animation-duration: 0.91s; }
-.btn-column.playing .playing-indicator span:nth-child(21) { animation-delay: 0.19s; animation-duration: 0.64s; }
-.btn-column.playing .playing-indicator span:nth-child(22) { animation-delay: 0.29s; animation-duration: 0.78s; }
-.btn-column.playing .playing-indicator span:nth-child(23) { animation-delay: 0.04s; animation-duration: 0.53s; }
-.btn-column.playing .playing-indicator span:nth-child(24) { animation-delay: 0.36s; animation-duration: 0.87s; }
-.btn-column.playing .playing-indicator span:nth-child(25) { animation-delay: 0.16s; animation-duration: 0.61s; }
-.btn-column.playing .playing-indicator span:nth-child(26) { animation-delay: 0.26s; animation-duration: 0.74s; }
-.btn-column.playing .playing-indicator span:nth-child(27) { animation-delay: 0.09s; animation-duration: 0.89s; }
-.btn-column.playing .playing-indicator span:nth-child(28) { animation-delay: 0.31s; animation-duration: 0.67s; }
-.btn-column.playing .playing-indicator span:nth-child(29) { animation-delay: 0.21s; animation-duration: 0.81s; }
-.btn-column.playing .playing-indicator span:nth-child(30) { animation-delay: 0.13s; animation-duration: 0.56s; }
-.btn-column.playing .playing-indicator span:nth-child(31) { animation-delay: 0.37s; animation-duration: 0.93s; }
-.btn-column.playing .playing-indicator span:nth-child(32) { animation-delay: 0.02s; animation-duration: 0.71s; }
+.btn-column.playing .playing-indicator span:nth-child(1) {
+  animation-delay: 0s;
+  animation-duration: 0.65s;
+}
+.btn-column.playing .playing-indicator span:nth-child(2) {
+  animation-delay: 0.1s;
+  animation-duration: 0.8s;
+}
+.btn-column.playing .playing-indicator span:nth-child(3) {
+  animation-delay: 0.2s;
+  animation-duration: 0.55s;
+}
+.btn-column.playing .playing-indicator span:nth-child(4) {
+  animation-delay: 0.05s;
+  animation-duration: 0.9s;
+}
+.btn-column.playing .playing-indicator span:nth-child(5) {
+  animation-delay: 0.3s;
+  animation-duration: 0.7s;
+}
+.btn-column.playing .playing-indicator span:nth-child(6) {
+  animation-delay: 0.15s;
+  animation-duration: 0.6s;
+}
+.btn-column.playing .playing-indicator span:nth-child(7) {
+  animation-delay: 0.25s;
+  animation-duration: 0.85s;
+}
+.btn-column.playing .playing-indicator span:nth-child(8) {
+  animation-delay: 0.08s;
+  animation-duration: 0.75s;
+}
+.btn-column.playing .playing-indicator span:nth-child(9) {
+  animation-delay: 0.35s;
+  animation-duration: 0.65s;
+}
+.btn-column.playing .playing-indicator span:nth-child(10) {
+  animation-delay: 0.18s;
+  animation-duration: 0.5s;
+}
+.btn-column.playing .playing-indicator span:nth-child(11) {
+  animation-delay: 0.12s;
+  animation-duration: 0.88s;
+}
+.btn-column.playing .playing-indicator span:nth-child(12) {
+  animation-delay: 0.28s;
+  animation-duration: 0.72s;
+}
+.btn-column.playing .playing-indicator span:nth-child(13) {
+  animation-delay: 0.03s;
+  animation-duration: 0.62s;
+}
+.btn-column.playing .playing-indicator span:nth-child(14) {
+  animation-delay: 0.22s;
+  animation-duration: 0.82s;
+}
+.btn-column.playing .playing-indicator span:nth-child(15) {
+  animation-delay: 0.38s;
+  animation-duration: 0.58s;
+}
+.btn-column.playing .playing-indicator span:nth-child(16) {
+  animation-delay: 0.14s;
+  animation-duration: 0.76s;
+}
+.btn-column.playing .playing-indicator span:nth-child(17) {
+  animation-delay: 0.07s;
+  animation-duration: 0.69s;
+}
+.btn-column.playing .playing-indicator span:nth-child(18) {
+  animation-delay: 0.23s;
+  animation-duration: 0.83s;
+}
+.btn-column.playing .playing-indicator span:nth-child(19) {
+  animation-delay: 0.33s;
+  animation-duration: 0.57s;
+}
+.btn-column.playing .playing-indicator span:nth-child(20) {
+  animation-delay: 0.11s;
+  animation-duration: 0.91s;
+}
+.btn-column.playing .playing-indicator span:nth-child(21) {
+  animation-delay: 0.19s;
+  animation-duration: 0.64s;
+}
+.btn-column.playing .playing-indicator span:nth-child(22) {
+  animation-delay: 0.29s;
+  animation-duration: 0.78s;
+}
+.btn-column.playing .playing-indicator span:nth-child(23) {
+  animation-delay: 0.04s;
+  animation-duration: 0.53s;
+}
+.btn-column.playing .playing-indicator span:nth-child(24) {
+  animation-delay: 0.36s;
+  animation-duration: 0.87s;
+}
+.btn-column.playing .playing-indicator span:nth-child(25) {
+  animation-delay: 0.16s;
+  animation-duration: 0.61s;
+}
+.btn-column.playing .playing-indicator span:nth-child(26) {
+  animation-delay: 0.26s;
+  animation-duration: 0.74s;
+}
+.btn-column.playing .playing-indicator span:nth-child(27) {
+  animation-delay: 0.09s;
+  animation-duration: 0.89s;
+}
+.btn-column.playing .playing-indicator span:nth-child(28) {
+  animation-delay: 0.31s;
+  animation-duration: 0.67s;
+}
+.btn-column.playing .playing-indicator span:nth-child(29) {
+  animation-delay: 0.21s;
+  animation-duration: 0.81s;
+}
+.btn-column.playing .playing-indicator span:nth-child(30) {
+  animation-delay: 0.13s;
+  animation-duration: 0.56s;
+}
+.btn-column.playing .playing-indicator span:nth-child(31) {
+  animation-delay: 0.37s;
+  animation-duration: 0.93s;
+}
+.btn-column.playing .playing-indicator span:nth-child(32) {
+  animation-delay: 0.02s;
+  animation-duration: 0.71s;
+}
 
 @keyframes soundBar {
-  from { height: 2px; }
-  to   { height: 14px; }
+  from {
+    height: 2px;
+  }
+  to {
+    height: 14px;
+  }
 }
 
 /* Audio players — hidden but functional */

@@ -1,3 +1,11 @@
+// TODO: style date picker better
+// add a textarea for comments
+// add very simple markup freehand, circle,line,  arrow, and square and *
+// rename contain cover something simpler
+// combine images, overlay
+// remove help text at top now
+// helpp btn popover target
+
 const imageRows = document.getElementById("imageRows");
 const fileInput = document.getElementById("fileInput");
 let activeSlot = null;
@@ -11,7 +19,6 @@ const dd = String(today.getDate()).padStart(2, "0");
 document.getElementById("sheetDate").value = `${yyyy}-${mm}-${dd}`;
 
 // Build 2 rows × 2 columns
-// Convention: left column = Right Ear (red), right column = Left Ear (blue)
 for (let row = 0; row < 2; row++) {
   const rowEl = document.createElement("div");
   rowEl.className = "image-row";
@@ -40,7 +47,7 @@ function createCell(ear, rowNum) {
         <circle cx="8.5" cy="8.5" r="1.5"/>
         <polyline points="21 15 16 10 5 21"/>
       </svg>
-      <span>Click to highlight,<br>then paste or drag</span>
+      <span>${ear} ${rowNum}</span>
     `;
 
   const removeBtn = document.createElement("button");
@@ -62,7 +69,7 @@ function createCell(ear, rowNum) {
 
   const pasteHint = document.createElement("div");
   pasteHint.className = "paste-hint";
-  pasteHint.textContent = "⌘V / Ctrl+V to paste";
+  pasteHint.textContent = "Ctrl+V to paste / double-click to open";
 
   slot.append(label, removeBtn, fitBtn, pasteHint);
 
@@ -163,7 +170,8 @@ function clearSlot(slot) {
 }
 
 function clearAll() {
-  document.querySelectorAll(".slot").forEach(clearSlot);
+  confirm("Are you sure you want to clear all images?") &&
+    document.querySelectorAll(".slot").forEach(clearSlot);
   document.querySelectorAll(".caption").forEach((c) => (c.value = ""));
 }
 
@@ -180,3 +188,17 @@ document.addEventListener("paste", (e) => {
   if (!imageItem) return;
   loadImageFile(imageItem.getAsFile(), selectedSlot);
 });
+
+function printPreview(onOff) {
+  if (onOff === "on") {
+    const nav = document.querySelector(".ui-bar");
+    nav.style.display = "none";
+    const previewBtn = document.querySelector(".btn-exit-preview");
+    previewBtn.style.display = "block";
+  } else {
+    const nav = document.querySelector(".ui-bar");
+    nav.style.display = "flex";
+    const previewBtn = document.querySelector(".btn-exit-preview");
+    previewBtn.style.display = "none";
+  }
+}

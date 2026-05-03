@@ -9,29 +9,26 @@
     <title>Screenshot Arranger</title>
   </head>
   <body>
-    <nav-bar><span slot="page-title">Screenshot Arranger</span></nav-bar>
-
-    <div class="ui-bar">
-      <span
-        >Click a cell to select, then paste · or drag &amp; drop · double-click
-        to browse files · Empty sections will be hidden when printing</span
-      >
-
-      <button class="btn btn-print" onclick="window.print()">
-        &#9113; Print
-      </button>
-      <button
-        class="btn btn-print"
-        onclick="document.body.classList.toggle('print-preview')"
-      >
-        &#9113; Print Preview
+    <header class="ui-bar">
+      <div>
+        <a href="../index.html" class="icon-btn" title="Back">&#8592;</a>
+      </div>
+      <h1>Screenshot Arranger</h1>
+      <button class="btn btn-print" onclick="window.print()">Print</button>
+      <button class="btn btn-print" onclick="printPreview('on')">
+        Preview
       </button>
       <button class="btn btn-clear" onclick="clearAll()">Clear All</button>
-    </div>
-    <button
-      class="btn btn-exit-preview"
-      onclick="document.body.classList.remove('print-preview')"
-    >
+      <button
+        id="helpBtn"
+        class="icon-btn"
+        aria-label="Help"
+        popovertarget="helpModal"
+      >
+        ?
+      </button>
+    </header>
+    <button class="btn btn-exit-preview" onclick="printPreview('off')">
       &#10005; Exit Preview
     </button>
 
@@ -61,6 +58,56 @@
       <option value="cVEMP"></option>
       <option value="oVEMP"></option>
     </datalist>
+    <!-- pasted from other app -->
+    <div
+      id="helpModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="helpTitle"
+      popover
+    >
+      <div class="modal-header">
+        <h2 id="helpTitle">How to use Screenshot Arranger</h2>
+        <button
+          id="helpCloseBtn"
+          class="modal-close"
+          aria-label="Close"
+          popovertarget="helpModal"
+          popovertargetaction="hide"
+        >
+          &#10005;
+        </button>
+      </div>
+      <div class="modal-body">
+        <section>
+          <h3>Overview</h3>
+          <p>
+            Screenshot Arranger helps you place screenshots of test results for
+            the right and left ears in a grid layout. You can drag and drop
+            images into the grid, and each image can be labeled and edited.
+          </p>
+        </section>
+        <section>
+          <h3>Inserting images</h3>
+          <p>There are a few methods to add images to the grid:</p>
+          <ul>
+            <li>
+              Click the "Add Image" button to select an image from your device.
+            </li>
+            <li>Highlight a cell then paste from the clipboard.</li>
+            <li>
+              Highlight a cell then drag and drop an image directly into the
+              grid.
+            </li>
+            <li>
+              Double-click on a cell to add an image to the grid via a file
+              picker.
+            </li>
+          </ul>
+        </section>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
