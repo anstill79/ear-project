@@ -12,7 +12,7 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
+  /* margin: 0; */
   padding: 0;
 }
 @view-transition {
@@ -485,7 +485,7 @@ body.print-preview {
 
 @page {
   size: 8.5in 11in;
-  margin: 0;
+  /* margin: 0; */
 }
 
 #helpModal::backdrop {

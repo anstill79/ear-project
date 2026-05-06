@@ -202,3 +202,9 @@ function printPreview(onOff) {
     previewBtn.style.display = "none";
   }
 }
+function printPage() {
+  const nav = document.querySelector(".ui-bar");
+  nav.style.display = "none";
+  window.print();
+  nav.style.display = "flex";
+}
