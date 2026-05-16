@@ -255,6 +255,89 @@ kbd {
   color: var(--text-muted);
 }
 
+/* ── Audio File Select (customizable select) ── */
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.4rem 0.75rem;
+  border-radius: 7px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+select:hover,
+select:focus {
+  background: var(--bg);
+  border-color: var(--accent);
+}
+
+select::picker-icon {
+  color: var(--text-muted);
+  transition: 0.3s rotate;
+}
+
+select:open::picker-icon {
+  rotate: 180deg;
+}
+
+::picker(select) {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--container-bg);
+  padding: 0.3rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.25s allow-discrete;
+}
+
+:open::picker(select) {
+  opacity: 1;
+}
+
+@starting-style {
+  :open::picker(select) {
+    opacity: 0;
+  }
+}
+
+option {
+  display: flex;
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.45rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-size: 0.85rem;
+}
+
+option:hover,
+option:focus {
+  background: var(--primary);
+  color: #fff;
+}
+
+option:checked {
+  font-weight: 700;
+}
+
+option::checkmark {
+  order: 1;
+  margin-left: auto;
+  color: var(--accent);
+}
+
 /* File input — hidden, triggered by styled label */
 input[type="file"] {
   display: none;
