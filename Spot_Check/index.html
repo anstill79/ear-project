@@ -53,12 +53,9 @@
 
         <!-- Monitor controls -->
         <section class="monitor-section">
-          <button id="startBtn" class="btn btn-start">
-            &#9679; Start Monitoring
-          </button>
-          <div class="monitor-active-row" id="monitorActiveRow" style="display: none;">
-            <button id="stopBtn" class="btn btn-stop">
-              &#9632; Stop
+          <div class="monitor-row">
+            <button id="monitorBtn" class="btn btn-start">
+              &#9679; Start
             </button>
             <button id="saveDelay" class="btn btn-save-delay" disabled>
               Save in 3 s
@@ -67,13 +64,13 @@
           </div>
         </section>
 
-        <!-- Signal settings -->
+        <!-- Test setup: audiometer signal + session info -->
         <section class="controls-section">
-          <h2 class="section-title">Audiometer Signal</h2>
-          <div class="control-row">
-            <label class="control-label">Frequency</label>
-            <div class="freq-stepper-wrap">
-              <div class="freq-viz" id="freqViz"></div>
+          <h2 class="section-title">Test Setup</h2>
+          <div class="freq-viz" id="freqViz"></div>
+          <div class="settings-grid">
+            <div class="field">
+              <label class="field-label" for="stim_freq">Frequency</label>
               <div class="stepper">
                 <button class="stepper-btn" onclick="changeFreq('up')">
                   &#8249;
@@ -93,60 +90,58 @@
                 </button>
               </div>
             </div>
-          </div>
-          <div class="control-row">
-            <label class="control-label">Pres. Level</label>
-            <div class="stepper">
-              <button class="stepper-btn" onclick="changeLevel('down')">
-                &#8249;
-              </button>
-              <select id="pres_level" class="stepper-select">
-                <option>80 dB</option>
-                <option>75 dB</option>
-                <option selected>70 dB</option>
-                <option>65 dB</option>
-                <option>60 dB</option>
-                <option>55 dB</option>
-                <option>50 dB</option>
-              </select>
-              <button class="stepper-btn" onclick="changeLevel('up')">
-                &#8250;
-              </button>
+            <div class="field">
+              <label class="field-label" for="pres_level">Pres. Level</label>
+              <div class="stepper">
+                <button class="stepper-btn" onclick="changeLevel('down')">
+                  &#8249;
+                </button>
+                <select id="pres_level" class="stepper-select">
+                  <option>80 dB</option>
+                  <option>75 dB</option>
+                  <option selected>70 dB</option>
+                  <option>65 dB</option>
+                  <option>60 dB</option>
+                  <option>55 dB</option>
+                  <option>50 dB</option>
+                </select>
+                <button class="stepper-btn" onclick="changeLevel('up')">
+                  &#8250;
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="control-row">
-            <label class="control-label" for="speaker_name">Speaker</label>
-            <select id="speaker_name" class="text-input">
-              <option value="" disabled selected></option>
-              <option value="Right">Right</option>
-              <option value="Left">Left</option>
-              <option value="Center">Center</option>
-            </select>
+            <div class="field">
+              <label class="field-label" for="speaker_name">Speaker</label>
+              <select id="speaker_name" class="text-input">
+                <option value="" disabled selected></option>
+                <option value="Right">Right</option>
+                <option value="Left">Left</option>
+                <option value="Center">Center</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label" for="booth_name">Booth</label>
+              <input
+                id="booth_name"
+                type="text"
+                class="text-input"
+                placeholder="Booth name"
+              />
+            </div>
+            <div class="field">
+              <label class="field-label" for="date">Date</label>
+              <input id="date" type="date" class="text-input" />
+            </div>
+            <div class="field">
+              <label class="field-label" for="note">Note</label>
+              <input id="note" type="text" class="text-input" placeholder="Optional" maxlength="50" />
+            </div>
           </div>
         </section>
 
-        <!-- Session info -->
+        <!-- Results -->
         <section class="controls-section">
-          <h2 class="section-title">Session</h2>
-          <div class="control-row">
-            <label class="control-label" for="booth_name">Booth</label>
-            <input
-              id="booth_name"
-              type="text"
-              class="text-input"
-              placeholder="Booth name"
-            />
-          </div>
-          <div class="control-row">
-            <label class="control-label" for="date">Date</label>
-            <input id="date" type="date" class="text-input" />
-          </div>
-          <div class="control-row">
-            <label class="control-label" for="note">Note</label>
-            <input id="note" type="text" class="text-input" placeholder="Optional note" maxlength="50" />
-          </div>
-
-          <h2 class="section-title results-title">Results</h2>
+          <h2 class="section-title">Results</h2>
           <div class="table-wrap">
             <table class="results-table">
               <thead>
@@ -213,7 +208,7 @@
         </p>
         <p>
           <strong>2.</strong> Start the tone on the audiometer, then tap
-          <strong>Start Monitoring</strong>.
+          <strong>Start</strong>.
         </p>
         <p>
           <strong>3.</strong> Wait for the reading to settle, then tap

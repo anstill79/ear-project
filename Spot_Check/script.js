@@ -83,8 +83,7 @@ function drawChart(now) {
   ctx.stroke();
 }
 
-const startBtn = document.getElementById("startBtn");
-const stopBtn = document.getElementById("stopBtn");
+const monitorBtn = document.getElementById("monitorBtn");
 const meterFill = document.getElementById("meterFill");
 const levelText = document.getElementById("levelText");
 const levelUnit = document.getElementById("levelUnit");
@@ -94,8 +93,9 @@ const peakText = document.getElementById("peakText");
 let sessions = JSON.parse(localStorage.getItem("spotcheck_sessions") || "[]");
 let currentSessionIndex = null;
 
-startBtn.addEventListener("click", startMonitoring);
-stopBtn.addEventListener("click", stopMonitoring);
+monitorBtn.addEventListener("click", () =>
+  audioContext ? stopMonitoring() : startMonitoring(),
+);
 document.addEventListener("keydown", (e) => {
   const tag = e.target.tagName;
   if (e.code === "Space" && tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
@@ -149,8 +149,8 @@ async function startMonitoring() {
 
     levelText.classList.add("level-value--active");
     levelUnit.style.display = "";
-    startBtn.style.display = "none";
-    document.getElementById("monitorActiveRow").style.display = "flex";
+    monitorBtn.classList.replace("btn-start", "btn-stop");
+    monitorBtn.innerHTML = "&#9632; Stop";
     document.getElementById("save").disabled = false;
     document.getElementById("saveDelay").disabled = false;
   } catch (err) {
@@ -162,6 +162,9 @@ function stopMonitoring() {
   if (workletNode) workletNode.disconnect();
   if (microphone) microphone.disconnect();
   if (audioContext) audioContext.close();
+  workletNode = null;
+  microphone = null;
+  audioContext = null;
 
   peak = -Infinity;
   smoothedDb = 0;
@@ -169,8 +172,8 @@ function stopMonitoring() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   peakText.textContent = "—";
 
-  startBtn.style.display = "";
-  document.getElementById("monitorActiveRow").style.display = "none";
+  monitorBtn.classList.replace("btn-stop", "btn-start");
+  monitorBtn.innerHTML = "&#9679; Start";
   document.getElementById("save").disabled = true;
   document.getElementById("saveDelay").disabled = true;
   meterFill.style.width = "0%";
