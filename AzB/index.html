@@ -49,7 +49,7 @@
         scroll-margin-top: var(--list-nav-height, 60px);
       }
       .list > .sentence-text {
-        padding: 6px 8px;
+        padding: 4px 8px;
       }
       .list-heading {
         grid-column: 1 / span 4;
@@ -103,6 +103,11 @@
         position: relative;
         overflow: hidden;
         transition: background-color 0.18s ease;
+        cursor: pointer;
+        user-select: none;
+      }
+      .sentence-score--last {
+        border-bottom: 1px solid black;
       }
       .sentence-score.sentence-complete {
         background: #eef7ee;
@@ -146,8 +151,7 @@
       }
       .word {
         cursor: pointer;
-        padding: 2px 3px;
-        margin: 1px;
+        padding: 4px 4px;
         border-radius: 3px;
         display: inline-block;
         user-select: none;
@@ -167,26 +171,41 @@
       .list-total-label {
         grid-column: 1 / span 3;
         justify-self: end;
+        align-self: center;
         font-weight: bold;
-        background: #f7f7f7;
-        border-top: 2px solid black;
+        padding: 4px 8px;
       }
       .list-total-score {
         justify-self: center;
         align-self: center;
         font-weight: bold;
-        background: #f7f7f7;
-        border-top: 2px solid black;
+        padding: 4px 8px;
+        width: 84%;
+        text-align: center;
       }
-      .grand-total {
-        width: 90%;
-        margin: 0 auto 40px;
-        padding: 12px;
-        border: 2px solid black;
-        display: grid;
-        grid-template-columns: 1fr auto;
-        font-size: 18px;
+      .list-total-correct {
+        border-bottom: 1px solid black;
+      }
+      .list-total-percent {
+        border: 1px solid black;
+      }
+      .list-notes-label {
+        grid-column: 1;
+        justify-self: end;
+        align-self: start;
         font-weight: bold;
+        padding: 8px;
+      }
+      .list-notes {
+        grid-column: 2 / -1;
+        width: 100%;
+        min-height: 90px;
+        margin: 8px 8px 8px 0;
+        padding: 6px 8px;
+        border: 1px solid black;
+        font-family: inherit;
+        font-size: 13px;
+        resize: vertical;
       }
       .controls {
         width: 90%;
@@ -257,21 +276,20 @@
     </style>
 
     <h1>AzBio Sentence Test Scoring</h1>
+    <div style="display: flex; align-items: center; width: 90%; margin: auto">
+      <div class="test_conditions">
+        <label for="name" class="grid-right bold">Name:</label>
+        <input type="text" id="name" name="name" class="border-bottom" />
 
-    <div class="test_conditions">
-      <label for="name" class="grid-right bold">Name:</label>
-      <input type="text" id="name" name="name" class="border-bottom" />
-
-      <label for="date" class="grid-right bold">Date:</label>
-      <input type="date" id="date" name="date" class="border-bottom" />
+        <label for="date" class="grid-right bold">Date:</label>
+        <input type="date" id="date" name="date" class="border-bottom" />
+      </div>
+      <div>
+        <button id="reset-all-btn" type="button" class="no-print">
+          Reset All
+        </button>
+      </div>
     </div>
-
-    <div class="controls">
-      <button id="reset-all-btn" type="button" class="no-print">
-        Reset All
-      </button>
-    </div>
-
     <nav
       id="list-nav"
       class="list-nav no-print"
@@ -279,11 +297,6 @@
     ></nav>
 
     <div id="lists"></div>
-
-    <div class="grand-total">
-      <div>Total Score</div>
-      <div id="grand-total-value">0 / 0 (0%)</div>
-    </div>
 
     <script>
       const rawListsText = `List 1
@@ -640,7 +653,6 @@ He worried about money constantly. 5
       const testData = parseLists(rawListsText);
 
       const listsContainer = document.getElementById("lists");
-      const grandTotalValue = document.getElementById("grand-total-value");
 
       function tokenize(sentence) {
         return sentence.split(" ").filter((w) => w.length > 0);
@@ -655,6 +667,29 @@ He worried about money constantly. 5
         } else {
           el.classList.add("correct");
         }
+      }
+
+      function cycleSentenceScore(textEl) {
+        const words = Array.from(textEl.querySelectorAll(".word"));
+        if (words.length === 0) return;
+
+        const allCorrect = words.every((w) => w.classList.contains("correct"));
+        const allIncorrect = words.every((w) =>
+          w.classList.contains("incorrect"),
+        );
+
+        const nextState = allCorrect
+          ? "incorrect"
+          : allIncorrect
+            ? "none"
+            : "correct";
+
+        words.forEach((wordEl) => {
+          wordEl.classList.remove("correct", "incorrect");
+          if (nextState !== "none") {
+            wordEl.classList.add(nextState);
+          }
+        });
       }
 
       function buildApp() {
@@ -675,7 +710,9 @@ He worried about money constantly. 5
           resetListBtn.className = "reset-list-btn no-print";
           resetListBtn.textContent = "Reset This List";
           resetListBtn.addEventListener("click", () => {
-            resetList(listEl);
+            if (confirm(`Reset all scores for ${list.name}?`)) {
+              resetList(listEl);
+            }
           });
 
           listHeading.appendChild(header);
@@ -707,7 +744,6 @@ He worried about money constantly. 5
                 cycleState(wordEl);
                 updateSentenceScore(textEl, possibleEl, scoreEl);
                 updateListTotal(listEl);
-                updateGrandTotal();
               });
               textEl.appendChild(wordEl);
               textEl.appendChild(document.createTextNode(" "));
@@ -718,11 +754,20 @@ He worried about money constantly. 5
             possibleEl.textContent = words.length;
 
             const scoreEl = document.createElement("div");
-            scoreEl.className = "sentence-score";
+            scoreEl.className =
+              sentenceIndex === list.sentences.length - 1
+                ? "sentence-score sentence-score--last"
+                : "sentence-score";
             const scoreValueEl = document.createElement("span");
             scoreValueEl.className = "score-value";
             scoreValueEl.textContent = "0";
+            scoreValueEl.dataset.value = "0";
             scoreEl.appendChild(scoreValueEl);
+            scoreEl.addEventListener("dblclick", () => {
+              cycleSentenceScore(textEl);
+              updateSentenceScore(textEl, possibleEl, scoreEl);
+              updateListTotal(listEl);
+            });
 
             listEl.appendChild(numEl);
             listEl.appendChild(textEl);
@@ -730,16 +775,46 @@ He worried about money constantly. 5
             listEl.appendChild(scoreEl);
           });
 
-          const totalLabel = document.createElement("div");
-          totalLabel.className = "list-total-label";
-          totalLabel.textContent = "List Total";
+          const correctLabel = document.createElement("div");
+          correctLabel.className = "list-total-label";
+          correctLabel.textContent = "Words Correct";
 
-          const totalScore = document.createElement("div");
-          totalScore.className = "list-total-score";
-          totalScore.textContent = "0 / 0 (0%)";
+          const correctValue = document.createElement("div");
+          correctValue.className = "list-total-score list-total-correct";
+          correctValue.textContent = "0";
 
-          listEl.appendChild(totalLabel);
-          listEl.appendChild(totalScore);
+          const possibleLabel = document.createElement("div");
+          possibleLabel.className = "list-total-label";
+          possibleLabel.textContent = "Words Possible";
+
+          const possibleValue = document.createElement("div");
+          possibleValue.className = "list-total-score list-total-possible";
+          possibleValue.textContent = "0";
+
+          const percentLabel = document.createElement("div");
+          percentLabel.className = "list-total-label";
+          percentLabel.textContent = "Percent Correct";
+
+          const percentValue = document.createElement("div");
+          percentValue.className = "list-total-score list-total-percent";
+          percentValue.textContent = "0%";
+
+          const notesLabel = document.createElement("div");
+          notesLabel.className = "list-notes-label";
+          notesLabel.textContent = "Notes:";
+
+          const notesArea = document.createElement("textarea");
+          notesArea.className = "list-notes";
+          notesArea.rows = 4;
+
+          listEl.appendChild(correctLabel);
+          listEl.appendChild(correctValue);
+          listEl.appendChild(possibleLabel);
+          listEl.appendChild(possibleValue);
+          listEl.appendChild(percentLabel);
+          listEl.appendChild(percentValue);
+          listEl.appendChild(notesLabel);
+          listEl.appendChild(notesArea);
 
           listsContainer.appendChild(listEl);
         });
@@ -812,31 +887,56 @@ He worried about money constantly. 5
           "sentence-complete",
           totalWords > 0 && markedWords === totalWords,
         );
+        scoreEl
+          .querySelector(".score-value")
+          .classList.toggle("has-score", markedWords > 0);
       }
 
       function rollScoreValue(scoreEl, newValue) {
         const valueEl = scoreEl.querySelector(".score-value");
-        const oldValue = Number(valueEl.textContent);
+        const oldValue = Number(valueEl.dataset.value ?? valueEl.textContent);
+        valueEl.dataset.value = newValue;
         if (newValue === oldValue) return;
         const goingUp = newValue > oldValue;
 
+        if (valueEl._cancelRoll) {
+          valueEl._cancelRoll();
+        }
+
+        const settle = () => {
+          valueEl.classList.add("no-transition");
+          valueEl.classList.remove(
+            "roll-out-up",
+            "roll-out-down",
+            "roll-in-from-down",
+            "roll-in-from-up",
+          );
+          void valueEl.offsetWidth;
+          valueEl.classList.remove("no-transition");
+        };
+
+        const handleTransitionEnd = () => {
+          valueEl.classList.add("no-transition");
+          valueEl.classList.remove("roll-out-up", "roll-out-down");
+          valueEl.classList.add(
+            goingUp ? "roll-in-from-down" : "roll-in-from-up",
+          );
+          void valueEl.offsetWidth;
+          valueEl.textContent = newValue;
+          valueEl.classList.remove("no-transition");
+          valueEl.classList.remove("roll-in-from-down", "roll-in-from-up");
+          valueEl.removeEventListener("transitionend", handleTransitionEnd);
+          valueEl._cancelRoll = null;
+        };
+
+        valueEl.addEventListener("transitionend", handleTransitionEnd);
+        valueEl._cancelRoll = () => {
+          valueEl.removeEventListener("transitionend", handleTransitionEnd);
+          settle();
+          valueEl._cancelRoll = null;
+        };
+
         valueEl.classList.add(goingUp ? "roll-out-up" : "roll-out-down");
-        valueEl.addEventListener(
-          "transitionend",
-          () => {
-            valueEl.classList.add("no-transition");
-            valueEl.classList.remove("roll-out-up", "roll-out-down");
-            valueEl.classList.add(
-              goingUp ? "roll-in-from-down" : "roll-in-from-up",
-            );
-            void valueEl.offsetWidth;
-            valueEl.textContent = newValue;
-            valueEl.classList.toggle("has-score", newValue > 0);
-            valueEl.classList.remove("no-transition");
-            valueEl.classList.remove("roll-in-from-down", "roll-in-from-up");
-          },
-          { once: true },
-        );
       }
 
       function updateListTotal(listEl) {
@@ -847,8 +947,9 @@ He worried about money constantly. 5
         possibleEls.forEach((el) => (possible += Number(el.textContent)));
         scoreEls.forEach((el) => (score += Number(el.textContent)));
         const pct = possible === 0 ? 0 : Math.round((score / possible) * 100);
-        listEl.querySelector(".list-total-score").textContent =
-          `${score} / ${possible} (${pct}%)`;
+        listEl.querySelector(".list-total-correct").textContent = score;
+        listEl.querySelector(".list-total-possible").textContent = possible;
+        listEl.querySelector(".list-total-percent").textContent = `${pct}%`;
 
         const hasProgress =
           listEl.querySelector(".word.correct, .word.incorrect") !== null;
@@ -858,18 +959,7 @@ He worried about money constantly. 5
         if (navButton) {
           navButton.classList.toggle("has-progress", hasProgress);
         }
-      }
-
-      function updateGrandTotal() {
-        const possibleEls =
-          listsContainer.querySelectorAll(".sentence-possible");
-        const scoreEls = listsContainer.querySelectorAll(".sentence-score");
-        let possible = 0;
-        let score = 0;
-        possibleEls.forEach((el) => (possible += Number(el.textContent)));
-        scoreEls.forEach((el) => (score += Number(el.textContent)));
-        const pct = possible === 0 ? 0 : Math.round((score / possible) * 100);
-        grandTotalValue.textContent = `${score} / ${possible} (${pct}%)`;
+        listEl.classList.toggle("no-print", !hasProgress);
       }
 
       function resetScoresWithin(container) {
@@ -877,6 +967,9 @@ He worried about money constantly. 5
           wordEl.classList.remove("correct", "incorrect");
         });
         container.querySelectorAll(".score-value").forEach((el) => {
+          if (el._cancelRoll) {
+            el._cancelRoll();
+          }
           el.classList.remove(
             "roll-out-up",
             "roll-out-down",
@@ -884,6 +977,7 @@ He worried about money constantly. 5
             "roll-in-from-up",
             "has-score",
           );
+          el.dataset.value = "0";
           el.textContent = "0";
         });
         container.querySelectorAll(".sentence-score").forEach((el) => {
@@ -894,18 +988,19 @@ He worried about money constantly. 5
       function resetList(listEl) {
         resetScoresWithin(listEl);
         updateListTotal(listEl);
-        updateGrandTotal();
       }
 
       document.getElementById("reset-all-btn").addEventListener("click", () => {
-        resetScoresWithin(listsContainer);
-        listsContainer.querySelectorAll(".list").forEach(updateListTotal);
-        updateGrandTotal();
+        if (confirm("Reset all scores for every list?")) {
+          resetScoresWithin(listsContainer);
+          listsContainer.querySelectorAll(".list").forEach(updateListTotal);
+        }
       });
 
       buildApp();
       buildNav();
       watchActiveList();
+      listsContainer.querySelectorAll(".list").forEach(updateListTotal);
 
       const dateInput = document.getElementById("date");
       dateInput.addEventListener("input", () => {
