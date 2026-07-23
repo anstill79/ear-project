@@ -11,6 +11,10 @@
         box-sizing: border-box;
         font-family: Arial, sans-serif;
       }
+      body {
+        width: 8.5in;
+        margin: 0 auto;
+      }
       h1 {
         text-align: center;
         margin-top: 20px;
@@ -18,9 +22,9 @@
       }
       .test_conditions {
         display: grid;
-        grid-template-columns: 200px 1fr;
+        grid-template-columns: 15mm 1fr;
         gap: 10px;
-        width: 90%;
+        width: 130mm;
         margin: 0 auto 20px;
       }
       .grid-right {
@@ -33,29 +37,46 @@
         border: none;
         border-bottom: 2px solid black;
       }
+      input[type="date"]:not(:focus):not(.has-value)::-webkit-datetime-edit {
+        color: transparent;
+      }
       .list {
         display: grid;
-        grid-template-columns: 60px 1fr 90px 90px;
+        grid-template-columns: 19mm 1fr 60px 90px;
         width: 90%;
         margin: 0 auto 30px;
         border: 1px solid #ccc;
+        scroll-margin-top: var(--list-nav-height, 60px);
       }
-      .list > div {
-        border-bottom: 1px solid #ccc;
+      .list > .sentence-text {
         padding: 6px 8px;
       }
-      h2 {
+      .list-heading {
         grid-column: 1 / span 4;
-        font-size: 18px;
-        margin: 0;
-        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         background: #eee;
         border-bottom: 1px solid #ccc;
+      }
+      h2 {
+        font-size: 16px;
+        margin: 0;
+        padding: 8px;
+      }
+      .reset-list-btn {
+        margin-right: 8px;
+        font-size: 12px;
+        padding: 4px 10px;
       }
       .list-header {
         font-weight: bold;
         font-size: 14px;
-        background: #f7f7f7;
+        text-align: center;
+        align-self: center;
+      }
+      .list-header.sentence-text {
+        text-align: left;
       }
       .sentence-num {
         justify-self: center;
@@ -68,7 +89,60 @@
       .sentence-score {
         justify-self: center;
         align-self: center;
+      }
+      .sentence-possible {
+        color: #ada8a8;
+      }
+      .sentence-score {
+        border: 1px solid black;
+        border-bottom: none;
+        width: 20mm;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        position: relative;
+        overflow: hidden;
+        transition: background-color 0.18s ease;
+      }
+      .sentence-score.sentence-complete {
+        background: #eef7ee;
+      }
+      .sentence-score.sentence-complete::after {
+        content: "\2713";
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        font-size: 10px;
+        line-height: 1;
+        color: #2f7d32;
+      }
+      .score-value {
+        display: inline-block;
+        transition:
+          transform 0.18s ease,
+          opacity 0.18s ease;
+      }
+      .score-value.has-score {
         font-weight: bold;
+      }
+      .score-value.roll-out-up {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      .score-value.roll-out-down {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      .score-value.roll-in-from-down {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      .score-value.roll-in-from-up {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      .score-value.no-transition {
+        transition: none !important;
       }
       .word {
         cursor: pointer;
@@ -119,11 +193,66 @@
         margin: 0 auto 20px;
         text-align: right;
       }
+      .list-nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+        width: 90%;
+        margin: 0 auto 20px;
+        padding-block: 10px;
+        background: #fff;
+        border-bottom: 2px solid black;
+      }
+      .list-nav button {
+        position: relative;
+        font-family: inherit;
+        font-size: 13px;
+        padding: 10px 5px 10px 4px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #f7f7f7;
+      }
+      .list-nav button:hover {
+        background: #e0e0e0;
+      }
+      .list-nav button.active {
+        background: black;
+        color: #fff;
+        border-color: black;
+      }
+      .list-nav button.has-progress::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #2f7d32;
+      }
+      .list-nav button.active.has-progress::after {
+        background: #fff;
+      }
       button {
         font-family: inherit;
         font-size: 14px;
         padding: 6px 14px;
         cursor: pointer;
+      }
+      @media print {
+        .no-print {
+          display: none;
+        }
+      }
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.25s;
+        animation-timing-function: ease;
       }
     </style>
 
@@ -138,8 +267,16 @@
     </div>
 
     <div class="controls">
-      <button id="reset-btn" type="button">Reset Scores</button>
+      <button id="reset-all-btn" type="button" class="no-print">
+        Reset All
+      </button>
     </div>
+
+    <nav
+      id="list-nav"
+      class="list-nav no-print"
+      aria-label="Jump to list"
+    ></nav>
 
     <div id="lists"></div>
 
@@ -524,15 +661,31 @@ He worried about money constantly. 5
         testData.forEach((list, listIndex) => {
           const listEl = document.createElement("div");
           listEl.className = "list";
+          listEl.id = `list-${listIndex}`;
           listEl.dataset.listIndex = listIndex;
+
+          const listHeading = document.createElement("div");
+          listHeading.className = "list-heading";
 
           const header = document.createElement("h2");
           header.textContent = list.name;
-          listEl.appendChild(header);
 
-          ["Sentence", "Text", "Possible", "Score"].forEach((label) => {
+          const resetListBtn = document.createElement("button");
+          resetListBtn.type = "button";
+          resetListBtn.className = "reset-list-btn no-print";
+          resetListBtn.textContent = "Reset This List";
+          resetListBtn.addEventListener("click", () => {
+            resetList(listEl);
+          });
+
+          listHeading.appendChild(header);
+          listHeading.appendChild(resetListBtn);
+          listEl.appendChild(listHeading);
+
+          ["Sentence", "Text", "Poss", "Score"].forEach((label) => {
             const headerCell = document.createElement("div");
-            headerCell.className = "list-header";
+            headerCell.className =
+              label === "Text" ? "list-header sentence-text" : "list-header";
             headerCell.textContent = label;
             listEl.appendChild(headerCell);
           });
@@ -566,7 +719,10 @@ He worried about money constantly. 5
 
             const scoreEl = document.createElement("div");
             scoreEl.className = "sentence-score";
-            scoreEl.textContent = 0;
+            const scoreValueEl = document.createElement("span");
+            scoreValueEl.className = "score-value";
+            scoreValueEl.textContent = "0";
+            scoreEl.appendChild(scoreValueEl);
 
             listEl.appendChild(numEl);
             listEl.appendChild(textEl);
@@ -589,9 +745,98 @@ He worried about money constantly. 5
         });
       }
 
+      function jumpToList(listIndex) {
+        const target = document.getElementById(`list-${listIndex}`);
+        const jump = () => target.scrollIntoView({ block: "start" });
+        if (document.startViewTransition) {
+          document.startViewTransition(jump);
+        } else {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      function buildNav() {
+        const nav = document.getElementById("list-nav");
+        testData.forEach((list, listIndex) => {
+          const navButton = document.createElement("button");
+          navButton.type = "button";
+          navButton.textContent = list.name;
+          navButton.dataset.listIndex = listIndex;
+          navButton.addEventListener("click", () => {
+            jumpToList(listIndex);
+          });
+          nav.appendChild(navButton);
+        });
+
+        const syncNavHeight = () => {
+          document.documentElement.style.setProperty(
+            "--list-nav-height",
+            `${nav.offsetHeight}px`,
+          );
+        };
+        syncNavHeight();
+        new ResizeObserver(syncNavHeight).observe(nav);
+      }
+
+      function watchActiveList() {
+        const navButtons = document.querySelectorAll("#list-nav button");
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const activeIndex = entry.target.dataset.listIndex;
+              navButtons.forEach((navButton) => {
+                navButton.classList.toggle(
+                  "active",
+                  navButton.dataset.listIndex === activeIndex,
+                );
+              });
+            });
+          },
+          { rootMargin: "-45% 0px -45% 0px" },
+        );
+        document
+          .querySelectorAll(".list")
+          .forEach((listEl) => observer.observe(listEl));
+      }
+
       function updateSentenceScore(textEl, possibleEl, scoreEl) {
         const correctCount = textEl.querySelectorAll(".word.correct").length;
-        scoreEl.textContent = correctCount;
+        rollScoreValue(scoreEl, correctCount);
+
+        const totalWords = textEl.querySelectorAll(".word").length;
+        const markedWords = textEl.querySelectorAll(
+          ".word.correct, .word.incorrect",
+        ).length;
+        scoreEl.classList.toggle(
+          "sentence-complete",
+          totalWords > 0 && markedWords === totalWords,
+        );
+      }
+
+      function rollScoreValue(scoreEl, newValue) {
+        const valueEl = scoreEl.querySelector(".score-value");
+        const oldValue = Number(valueEl.textContent);
+        if (newValue === oldValue) return;
+        const goingUp = newValue > oldValue;
+
+        valueEl.classList.add(goingUp ? "roll-out-up" : "roll-out-down");
+        valueEl.addEventListener(
+          "transitionend",
+          () => {
+            valueEl.classList.add("no-transition");
+            valueEl.classList.remove("roll-out-up", "roll-out-down");
+            valueEl.classList.add(
+              goingUp ? "roll-in-from-down" : "roll-in-from-up",
+            );
+            void valueEl.offsetWidth;
+            valueEl.textContent = newValue;
+            valueEl.classList.toggle("has-score", newValue > 0);
+            valueEl.classList.remove("no-transition");
+            valueEl.classList.remove("roll-in-from-down", "roll-in-from-up");
+          },
+          { once: true },
+        );
       }
 
       function updateListTotal(listEl) {
@@ -604,10 +849,20 @@ He worried about money constantly. 5
         const pct = possible === 0 ? 0 : Math.round((score / possible) * 100);
         listEl.querySelector(".list-total-score").textContent =
           `${score} / ${possible} (${pct}%)`;
+
+        const hasProgress =
+          listEl.querySelector(".word.correct, .word.incorrect") !== null;
+        const navButton = document.querySelector(
+          `#list-nav button[data-list-index="${listEl.dataset.listIndex}"]`,
+        );
+        if (navButton) {
+          navButton.classList.toggle("has-progress", hasProgress);
+        }
       }
 
       function updateGrandTotal() {
-        const possibleEls = listsContainer.querySelectorAll(".sentence-possible");
+        const possibleEls =
+          listsContainer.querySelectorAll(".sentence-possible");
         const scoreEls = listsContainer.querySelectorAll(".sentence-score");
         let possible = 0;
         let score = 0;
@@ -617,18 +872,45 @@ He worried about money constantly. 5
         grandTotalValue.textContent = `${score} / ${possible} (${pct}%)`;
       }
 
-      document.getElementById("reset-btn").addEventListener("click", () => {
-        listsContainer.querySelectorAll(".word").forEach((wordEl) => {
+      function resetScoresWithin(container) {
+        container.querySelectorAll(".word").forEach((wordEl) => {
           wordEl.classList.remove("correct", "incorrect");
         });
-        listsContainer.querySelectorAll(".sentence-score").forEach((el) => {
-          el.textContent = 0;
+        container.querySelectorAll(".score-value").forEach((el) => {
+          el.classList.remove(
+            "roll-out-up",
+            "roll-out-down",
+            "roll-in-from-down",
+            "roll-in-from-up",
+            "has-score",
+          );
+          el.textContent = "0";
         });
+        container.querySelectorAll(".sentence-score").forEach((el) => {
+          el.classList.remove("sentence-complete");
+        });
+      }
+
+      function resetList(listEl) {
+        resetScoresWithin(listEl);
+        updateListTotal(listEl);
+        updateGrandTotal();
+      }
+
+      document.getElementById("reset-all-btn").addEventListener("click", () => {
+        resetScoresWithin(listsContainer);
         listsContainer.querySelectorAll(".list").forEach(updateListTotal);
         updateGrandTotal();
       });
 
       buildApp();
+      buildNav();
+      watchActiveList();
+
+      const dateInput = document.getElementById("date");
+      dateInput.addEventListener("input", () => {
+        dateInput.classList.toggle("has-value", dateInput.value !== "");
+      });
     </script>
   </body>
 </html>
