@@ -1,0 +1,329 @@
+List 1
+The pool was filled with dirt and leaves. 8
+2 He ducked under the counter to avoid eye contact. 9
+3 What are you feeding this dog? 6
+4 Do you think this is easy? 6
+5 Today we honor a legend. 5
+6 Traffic school was not where I wanted to be. 9
+7 She struggled with a significant weight problem. 7
+8 You are welcome, regardless of your age. 7
+9 I have a sneaking suspicion history will repeat itself. 9
+10 There is no need to be cruel. 7
+11 They cleaned the office for the new faculty member. 9
+12 He cried when the pet goat was sent to market. 10
+13 He did not have an original thought in his head. 10
+14 Do you believe in miracles? 5
+15 How does a lizard's tail grow back? 7
+16 The dog ate the snow. 5
+17 Try to stay focused on the task at hand. 9
+18 The bone structure of her face was striking. 8
+19 She directly said no to the family's plea. 8
+20 It was the first time she ever offered to pay.
+
+List 2
+She had a sly way of introducing insults.
+She was not looking forward to meeting his acquaintance.
+They found a beak in the Thanksgiving turkey. 
+That is a great piece of information. 
+Her parents wanted to pay.
+He did not like smoky bars. 
+I think I need a nap. 
+I just need a little air. 
+Take a big wild guess. 
+The engagement was not official yet. 
+The nasty weather caused severe flooding. 
+Your place really turned out great. 
+Why did the dog have to die in the end? 
+Why do you try to manipulate the system? 
+There is something suspicious afoot. 
+We celebrate African American culture. 5
+He is completing his apprenticeship at the funeral home.
+It became quite apparent that he had been drinking.
+The blatant display of favoritism was shocking to the class.
+She did not require an escort up the stairs. 
+
+List 3
+His organizational skills were lacking. 5
+2 The squeaky wheel was continually ignored. 6
+3 A fortune cookie does not supply reliable information. 8
+4 Reality television is extremely popular. 5
+5 Why don't people like me? 5
+6 The mall closed early on Sundays 6
+7 He was quite angry about the noise. 7
+8 The harder you work the luckier you get. 8
+9 The general public has a right to know. 8
+10 How many times can she say no? 7
+11 The princess' hair looked like two cinnamon rolls. 8
+12 Don’t live beyond your means. 5
+13 This headache is getting worse every minute. 7
+14 I need to cash this check. 6
+15 What was that movie with the rainbow and ruby shoes? 10
+16 How many kitchen utensils do you own? 7
+17 Do I need a reason to be kind? 8
+18 The velvet suit fit perfectly. 5
+19 It takes talent to conceal such dislike. 7
+20 Sometimes life just isn't fair.
+
+List 4
+He was her favorite visitor so far. 7
+2 He used the leftovers for lunch the next day. 9
+3 Can you type forty words per minute? 7
+4 I do not like the word "swivel". 7
+5 The power struggle was between the teacher and student. 9
+6 He accidentally shaved off his eyebrows 6
+7 I'll have a cranberry and vodka please. 7
+8 He received the invitation too late. 6
+9 The old trunk is filled with past treasures. 8
+10 She did not think the feeling would ever return. 9
+11 We are not equipped to handle heavy rains here. 9
+12 It was homemade banana bread. 5
+13 He started slicking his hair back. 6
+14 It is really none of your business. 7
+15 The old man fell asleep in his moving motorized chair 10
+16 A strange fruit hung from the tree. 7
+17 It looks like a modern day castle. 7
+18 The hot tub was contaminated. 5
+19 You are contributing to bettering peoples lives. 7
+20 She wanted to give it a personal touch.
+
+List 5
+He got five ulcers trying to retire before forty. 9
+2 The flying monkeys aimed to capture her. 7
+3 The office smelled like popcorn. 5
+4 There was still so much to do. 7
+5 The bread is stale. 4
+6 I don't appreciate your candor. 5
+7 I'm not sure it's due to a thyroid problem. 9
+8 Where's the beef? 3
+9 Are you going to find out the sex of the baby? 11
+10 I don't drink tap water. 5
+11 Strangely, they claim sun exposure can cause cancer. 8
+12 He introduced her as the decorator. 6
+13 I don't mind if we stay home tonight. 8
+14 Do not judge by appearances. 5
+15 Anyone who would do this must be incredibly giving. 9
+16 She abandoned those ways years ago. 6
+17 The instructor said she was not smart enough. 8
+18 Women can be intellectual as well as beautiful. 8
+19 The necklace is from a small village. 7
+20 How could you do such a thing?
+
+List 6
+Shopping can become an addiction I hear. 7
+2 He bit the head off the gingerbread man. 8
+3 I accidentally overwound grandpa's watch. 5
+4 You are an exceptional person. 5
+5 The bandage became bothersome. 4
+6 He drank to excess after the hamster's death. 8
+7 She finally stood up to the abuse. 7
+8 Love is not sacrifice. 4
+9 I think it is about time to lose weight. 9
+10 That cologne smells great. 4
+11 There were not enough hours in the day. 8
+12 Speak now or forever hold your peace. 7
+13 The city was filled with famous sculptures. 7
+14 You should try to get six hours of sleep. 9
+15 Her dress is made out of wheat. 7
+16 Her roots were three inches long. 6
+17 Go ahead and have a second helping. 7
+18 Her smile revealed a silver tooth. 6
+19 From now on I will be a voice for my own. 11
+20 It was an easy mistake to make.
+
+List 7
+He was a bit on the dramatic side. 8
+2 The lack of attention he received brought turmoil. 8
+3 I should have gone into medicine. 6
+4 There is a surgery that will prevent sweating. 8
+5 The effects were not immediate. 5
+6 Don't let him talk you out of it. 8
+7 You really surprised me. 4
+8 The bottom of the bathrobe was wet. 7
+9 I received a dozen red, long-stem roses. 8
+10 Thank you so much for the bracelet! 7
+11 The incessant bird chirping became irritating 6
+12 Who is to say what is normal? 7
+13 This was a thrill I can't define. 7
+14 We are going to the monster truck show. 8
+15 The calculator was missing the number eight. 7
+16 He never looks like the picture. 6
+17 You are great looking for your age. 7
+18 Grandmother had several nice rings. 5
+19 I forgot the name of the show with that kid doctor. 11
+20 He became quite grouchy after dinner.
+
+List 8
+The microwave caused static in the television picture. 8
+2 Her shopping carts always had a wheel stuck. 8
+3 That's quite a mug you have. 6
+4 I wanted to become a skilled critical thinker. 8
+5 A stuffy nose can leave you unable to taste. 9
+6 There was no place to park. 6
+7 Be a positive force in someone's life. 7
+8 Today we celebrate a chapter of civil rights. 8
+9 I see the competition as already won. 7
+10 She lied to herself about who she really was. 9
+11 They would not tolerate drunkenness. 5
+12 The insurance company does not treat me fairly. 8
+13 You stole my idea. 4
+14 She could only sleep for five hours. 7
+15 Internet dating is taking off. 5
+16 The toilet seat inopportunely broke in half. 7
+17 Remember that you are helping others. 6
+18 He gave her the prize out of the cereal box. 10
+19 The art show comes through town next week. 8
+20 The personalized license plate did not make any sense.
+
+List 9
+Good customer service is becoming obsolete. 6
+2 They stayed in a bed and breakfast. 7
+3 A real friend does not ignore an obligation. 8
+4 Quitting is not an option. 5
+5 Observe the world with a positive outlook. 7
+6 Sometimes laughter is not the best medicine. 7
+7 Divorce is simply not an option. 6
+8 The children were slightly misguided. 5
+9 A sister- in- law can be a toxic poison. 9
+10 Sometimes it is better to let things go. 8
+11 The television program contained many insulting remarks. 7
+12 The bakery opened early. 4
+13 They are not her natural born children 7
+14 She was a well financed women. 6
+15 The towing company damaged the car. 6
+16 We don't have sidewalk cafes in America. 7
+17 We went golfing everyday for the whole week. 8
+18 He looked quite silly shadowing his every move. 8
+19 She swallowed her pride in the name of unity. 9
+20 I wonder how much money a mortician makes.
+
+List 10
+He tried to leave earlier than usual on Fridays. 9
+2 The thick makeup clogged her pores. 6
+3 He died when you were only seven. 7
+4 It was a strapless white dress. 6
+5 You deserve a break today. 5
+6 I am so frustrated with this task. 7
+7 They went sledding down the hill. 6
+8 You should learn to keep unwelcomed opinions to yourself 9
+9 Stay positive and it will all be over soon. 9
+10 I could use a long bubble bath. 7
+11 After several attempts at marriage he finally got it right. 10
+12 He gave me a thirty eight special. 7
+13 There are several ways to pronounce "nucleus". 7
+14 Something seems different about you. 5
+15 Will you change the laundry at the commercial? 8
+16 He finds your life offensive. 5
+17 In family feuds, the winner is the loser. 8
+18 The father was ashamed of his son. 7
+19 You look awesome in red. 5
+20 I can not take it anymore.
+
+List 11
+That memory seems like only yesterday. 6
+2 The plane circled for an hour before landing. 8
+3 They needed a lock on the refrigerator. 7
+4 You are speaking a little too loudly. 7
+5 Do you know why you have the day off today? 10
+6 The researcher was said to be a brilliant man. 9
+7 The event was free, but parking was seven dollars. 9
+8 He added chili powder to everything. 6
+9 It's your world, boss. 4
+10 I couldn't believe my eyes. 5
+11 Gun control is a touchy issue. 6
+12 He held an impressive record. 5
+13 Everything is great for the first year. 7
+14 I need to clean out all those drawers. 8
+15 She is a conversational wizard. 5
+16 Please don't steal my ideas. 5
+17 I would never have guessed she was that old. 9
+18 Her boyfriend was a great copycat. 6
+19 She ignored his agony and put herself first. 8
+20 Her laugh was like nails on a chalkboard. 8
+
+List 12
+Can I have a break please? 6
+2 Her poor attitude did not win her any friends. 9
+3 Consequently, he lost his best friend. 6
+4 We have plenty of drama queens in the world. 9
+5 You have to be willing to challenge everything. 8
+6 The child caused a ruckus in the restaurant. 8
+7 He secretly bought a house three doors down. 8
+8 Can you make me laugh? 5
+9 She was disrespectful of others time and comfort. 8
+10 I can't wait to be the center of attention. 9
+11 Her had an ear to ear grin. 7
+12 He broke the bottle of wine on the carpet. 9
+13 She had to babysit in the afternoon. 7
+14 Please disconnect my telephone service. 5
+15 It will be an early day tomorrow. 7
+16 Project your imagination to the point of visualizing success. 9
+17 This will be a perfect weekend to relax. 8
+18 She was bold and yet polite. 6
+19 She should be a martyr for Halloween. 7
+20 She laughed out loud in spite of herself. 8
+
+List 13
+You can be so smug at times. 7
+2 She seriously injured her hand knitting. 6
+3 I appreciate your help very much. 6
+4 He was described as having pizzazz. 6
+5 The fireman did not have eyebrows. 6
+6 Why should we believe you? 5
+7 What is the new, hot topic? 6
+8 The teachers seriously lacked teaching skills. 6
+9 How can you not notice your transparency? 7
+10 If only you could choose your family members. 8
+11 He compared life to a box of chocolates. 8
+12 They carry different styles at other stores. 7
+13 He gave her a leaf blower as an anniversary gift. 10
+14 What is your secret? 4
+15 Maybe it was best they did not have children. 9
+16 He brought the mayor pencils. 5
+17 This is supposed to be hard. 6
+18 This was purely a means to an end. 8
+19 They thought the green glob was avocado. 7
+20 She picked the raisins out of the bread
+
+List 14
+The shark was of gigantic proportions. 6
+2 He clearly paid little attention to details. 7
+3 The dog had only a stump for a tail. 9
+4 He left without saying goodbye. 5
+5 You are the king of excuses. 5
+6 Are you aware of your arrogance? 6
+7 The water-proof mascara ran down her cheek. 8
+8 He worked at the nuclear power plant. 7
+9 An apology would never be uttered from her lips. 9
+10 I just can't get my mind around it. 8
+11 He planned to return to school later. 7
+12 The hot water bottle was used to keep warm. 9
+13 The refrigerator was filled with colorful magnets. 7
+14 What's going on down there? 5
+15 Why must you always play the victim? 7
+16 You saved the glass table in one fail swoop. 9
+17 There were no reservations available at the restaurant. 8
+18 Barbeque sauce does not compliment vanilla ice cream. 8
+19 The slacks were too tight. 5
+20 He had a severe allergic reaction to peanuts
+
+List 15
+He worried about money constantly. 5
+2 Those two were like peas and carrots. 7
+3 She omitted her invitation. 4
+4 Organization is the key. 4
+5 There was an enormous age difference. 6
+6 It's what's on the inside that really counts. 8
+7 There was not any medication available for the tourists. 9
+8 The boy enjoyed dancing with his dog. 7
+9 I wish she would convince herself she could fly. 9
+10 She always had to have things her way. 8
+11 She returned the shirt because it required future ironing. 9
+12 I don't think those eggs are cooked well. 8
+13 He didn't notice his sister had grown up. 8
+14 It was an inspirational story. 5
+15 Having a garbage disposal is great! 6
+16 She mowed the lawn at thirty six weeks pregnant. 9
+17 Mom called to check on me. 6
+18 They found her missing mother. 5
+19 What exactly do they make hotdogs out of? 8
+20 Isn't this considered cruel and unusual punishment?
