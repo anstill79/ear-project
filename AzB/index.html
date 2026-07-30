@@ -103,8 +103,6 @@
         position: relative;
         overflow: hidden;
         transition: background-color 0.18s ease;
-        cursor: pointer;
-        user-select: none;
       }
       .sentence-score--last {
         border-bottom: 1px solid black;
@@ -148,6 +146,43 @@
       }
       .score-value.no-transition {
         transition: none !important;
+      }
+      .score-input {
+        width: 30px;
+        height: 26px;
+        border: none;
+        background: transparent;
+        text-align: center;
+        font: inherit;
+        font-size: 14px;
+        padding: 0;
+      }
+      .score-input:focus {
+        outline: 2px solid #4a90d9;
+        outline-offset: -2px;
+        background: #fff;
+        border-radius: 2px;
+      }
+      .cycle-score-btn {
+        position: absolute;
+        bottom: 2px;
+        right: 2px;
+        width: 16px;
+        height: 16px;
+        display: grid;
+        place-items: center;
+        padding: 0;
+        line-height: 1;
+        font-size: 10px;
+        border: 1px solid #bbb;
+        border-radius: 3px;
+        background: #f7f7f7;
+        color: #555;
+        cursor: pointer;
+      }
+      .cycle-score-btn:hover {
+        background: #e0e0e0;
+        color: #222;
       }
       .word {
         cursor: pointer;
@@ -758,16 +793,51 @@ He worried about money constantly. 5
               sentenceIndex === list.sentences.length - 1
                 ? "sentence-score sentence-score--last"
                 : "sentence-score";
-            const scoreValueEl = document.createElement("span");
-            scoreValueEl.className = "score-value";
-            scoreValueEl.textContent = "0";
-            scoreValueEl.dataset.value = "0";
-            scoreEl.appendChild(scoreValueEl);
-            scoreEl.addEventListener("dblclick", () => {
+
+            const scoreInput = document.createElement("input");
+            scoreInput.type = "text";
+            scoreInput.inputMode = "numeric";
+            scoreInput.pattern = "\\d*";
+            scoreInput.autocomplete = "off";
+            scoreInput.className = "score-value score-input";
+            scoreInput.value = "0";
+            scoreInput.dataset.value = "0";
+            scoreInput.setAttribute(
+              "aria-label",
+              `Score for sentence ${sentenceIndex + 1}`,
+            );
+            scoreInput.addEventListener("focus", () => scoreInput.select());
+            scoreInput.addEventListener("keydown", (event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                scoreInput.blur();
+              }
+            });
+            scoreInput.addEventListener("change", () => {
+              commitManualScore(scoreEl, possibleEl, listEl);
+            });
+            scoreEl.addEventListener("click", (event) => {
+              if (event.target === scoreEl) scoreInput.focus();
+            });
+
+            const cycleBtn = document.createElement("button");
+            cycleBtn.type = "button";
+            cycleBtn.className = "cycle-score-btn no-print";
+            cycleBtn.textContent = "⟳";
+            cycleBtn.title = "Cycle: all correct / all incorrect / clear";
+            cycleBtn.setAttribute(
+              "aria-label",
+              "Cycle all words correct, incorrect, or clear",
+            );
+            cycleBtn.addEventListener("click", (event) => {
+              event.stopPropagation();
               cycleSentenceScore(textEl);
               updateSentenceScore(textEl, possibleEl, scoreEl);
               updateListTotal(listEl);
             });
+
+            scoreEl.appendChild(scoreInput);
+            scoreEl.appendChild(cycleBtn);
 
             listEl.appendChild(numEl);
             listEl.appendChild(textEl);
@@ -894,7 +964,7 @@ He worried about money constantly. 5
 
       function rollScoreValue(scoreEl, newValue) {
         const valueEl = scoreEl.querySelector(".score-value");
-        const oldValue = Number(valueEl.dataset.value ?? valueEl.textContent);
+        const oldValue = Number(valueEl.dataset.value ?? valueEl.value);
         valueEl.dataset.value = newValue;
         if (newValue === oldValue) return;
         const goingUp = newValue > oldValue;
@@ -922,7 +992,7 @@ He worried about money constantly. 5
             goingUp ? "roll-in-from-down" : "roll-in-from-up",
           );
           void valueEl.offsetWidth;
-          valueEl.textContent = newValue;
+          valueEl.value = newValue;
           valueEl.classList.remove("no-transition");
           valueEl.classList.remove("roll-in-from-down", "roll-in-from-up");
           valueEl.removeEventListener("transitionend", handleTransitionEnd);
@@ -939,13 +1009,38 @@ He worried about money constantly. 5
         valueEl.classList.add(goingUp ? "roll-out-up" : "roll-out-down");
       }
 
+      function commitManualScore(scoreEl, possibleEl, listEl) {
+        const input = scoreEl.querySelector(".score-value");
+        const max = Number(possibleEl.textContent);
+        const raw = input.value.trim();
+        const touched = raw !== "";
+        let value = touched ? Math.round(Number(raw)) : 0;
+        if (!Number.isFinite(value)) value = 0;
+        value = Math.min(Math.max(value, 0), max);
+
+        if (input._cancelRoll) input._cancelRoll();
+        input.classList.remove(
+          "roll-out-up",
+          "roll-out-down",
+          "roll-in-from-down",
+          "roll-in-from-up",
+        );
+        input.value = touched ? String(value) : "0";
+        input.dataset.value = String(value);
+        input.classList.toggle("has-score", touched);
+        scoreEl.classList.toggle("sentence-complete", touched);
+        updateListTotal(listEl);
+      }
+
       function updateListTotal(listEl) {
         const possibleEls = listEl.querySelectorAll(".sentence-possible");
         const scoreEls = listEl.querySelectorAll(".sentence-score");
         let possible = 0;
         let score = 0;
         possibleEls.forEach((el) => (possible += Number(el.textContent)));
-        scoreEls.forEach((el) => (score += Number(el.textContent)));
+        scoreEls.forEach((el) => {
+          score += Number(el.querySelector(".score-value").value) || 0;
+        });
         const pct = possible === 0 ? 0 : Math.round((score / possible) * 100);
         listEl.querySelector(".list-total-correct").textContent = score;
         listEl.querySelector(".list-total-possible").textContent = possible;
@@ -978,7 +1073,7 @@ He worried about money constantly. 5
             "has-score",
           );
           el.dataset.value = "0";
-          el.textContent = "0";
+          el.value = "0";
         });
         container.querySelectorAll(".sentence-score").forEach((el) => {
           el.classList.remove("sentence-complete");
