@@ -1548,7 +1548,7 @@ CHILL|CH|I|LL`;
           if (config.showTestedCount) {
             const testedEl = document.createElement("div");
             testedEl.className = "list-total-extra list-total-tested";
-            testedEl.textContent = "Words Tested: 0 / 0";
+            testedEl.textContent = `${config.unitLabelSingular}s Tested: 0 / 0`;
             listEl.appendChild(testedEl);
           }
 
@@ -1780,7 +1780,7 @@ CHILL|CH|I|LL`;
         if (config.showTestedCount) {
           const testedEl = listEl.querySelector(".list-total-tested");
           if (testedEl) {
-            testedEl.textContent = `Words Tested: ${testedCount} / ${textEls.length}`;
+            testedEl.textContent = `${config.unitLabelSingular}s Tested: ${testedCount} / ${textEls.length}`;
           }
         }
 
@@ -1862,8 +1862,8 @@ CHILL|CH|I|LL`;
         unitLabelSingular: "Sentence",
         totalLabel: "Words",
         showWholeUnitStat: false,
-        showTestedCount: false,
-        possibleFromTestedOnly: false,
+        showTestedCount: true,
+        possibleFromTestedOnly: true,
         hasPossibleColumn: true,
         blankUntilScored: false,
         columnLabels: ["Sentence", "Text", "Poss", "Score"],
