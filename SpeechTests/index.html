@@ -1545,9 +1545,16 @@ CHILL|CH|I|LL`;
           listEl.appendChild(percentLabel);
           listEl.appendChild(percentValue);
 
+          if (config.showTestedCount) {
+            const testedEl = document.createElement("div");
+            testedEl.className = "list-total-extra list-total-tested";
+            testedEl.textContent = "Words Tested: 0 / 0";
+            listEl.appendChild(testedEl);
+          }
+
           if (config.showWholeUnitStat) {
             const extraEl = document.createElement("div");
-            extraEl.className = "list-total-extra";
+            extraEl.className = "list-total-extra list-total-whole";
             extraEl.textContent = "Whole Words Correct: 0 / 0 (0%)";
             listEl.appendChild(extraEl);
           }
@@ -1735,35 +1742,57 @@ CHILL|CH|I|LL`;
       function updateListTotal(listEl, config) {
         const possibleEls = listEl.querySelectorAll(".sentence-possible");
         const scoreEls = listEl.querySelectorAll(".sentence-score");
+        const textEls = listEl.querySelectorAll(".entry-text");
+
         let possible = 0;
         let score = 0;
-        possibleEls.forEach((el) => (possible += Number(el.textContent)));
-        scoreEls.forEach((el) => {
-          const valueEl = el.querySelector(".score-value");
+        let testedCount = 0;
+        let wholeCorrect = 0;
+
+        textEls.forEach((textEl, i) => {
+          const possibleCount = Number(possibleEls[i].textContent);
+          const correctCount = textEl.querySelectorAll(".word.correct").length;
+          const markedWords = textEl.querySelectorAll(
+            ".word.correct, .word.incorrect",
+          ).length;
+          const tested = markedWords > 0;
+
+          if (!config.possibleFromTestedOnly || tested) {
+            possible += possibleCount;
+          }
+
+          const valueEl = scoreEls[i].querySelector(".score-value");
           score += Number(valueEl.dataset.value ?? valueEl.value) || 0;
+
+          if (tested) {
+            testedCount += 1;
+            if (possibleCount > 0 && correctCount === possibleCount) {
+              wholeCorrect += 1;
+            }
+          }
         });
+
         const pct = possible === 0 ? 0 : Math.round((score / possible) * 100);
         listEl.querySelector(".list-total-correct").textContent = score;
         listEl.querySelector(".list-total-possible").textContent = possible;
         listEl.querySelector(".list-total-percent").textContent = `${pct}%`;
 
+        if (config.showTestedCount) {
+          const testedEl = listEl.querySelector(".list-total-tested");
+          if (testedEl) {
+            testedEl.textContent = `Words Tested: ${testedCount} / ${textEls.length}`;
+          }
+        }
+
         if (config.showWholeUnitStat) {
-          const textEls = listEl.querySelectorAll(".entry-text");
-          let wholeCorrect = 0;
-          textEls.forEach((textEl, i) => {
-            const possibleCount = Number(possibleEls[i].textContent);
-            const correctCount =
-              textEl.querySelectorAll(".word.correct").length;
-            if (possibleCount > 0 && correctCount === possibleCount) {
-              wholeCorrect += 1;
-            }
-          });
-          const total = textEls.length;
+          const wholeTotal = config.possibleFromTestedOnly
+            ? testedCount
+            : textEls.length;
           const wholePct =
-            total === 0 ? 0 : Math.round((wholeCorrect / total) * 100);
-          const extraEl = listEl.querySelector(".list-total-extra");
+            wholeTotal === 0 ? 0 : Math.round((wholeCorrect / wholeTotal) * 100);
+          const extraEl = listEl.querySelector(".list-total-whole");
           if (extraEl) {
-            extraEl.textContent = `Whole Words Correct: ${wholeCorrect} / ${total} (${wholePct}%)`;
+            extraEl.textContent = `Whole Words Correct: ${wholeCorrect} / ${wholeTotal} (${wholePct}%)`;
           }
         }
 
@@ -1833,6 +1862,8 @@ CHILL|CH|I|LL`;
         unitLabelSingular: "Sentence",
         totalLabel: "Words",
         showWholeUnitStat: false,
+        showTestedCount: false,
+        possibleFromTestedOnly: false,
         hasPossibleColumn: true,
         blankUntilScored: false,
         columnLabels: ["Sentence", "Text", "Poss", "Score"],
@@ -1849,6 +1880,8 @@ CHILL|CH|I|LL`;
         unitLabelSingular: "Word",
         totalLabel: "Phonemes",
         showWholeUnitStat: true,
+        showTestedCount: true,
+        possibleFromTestedOnly: true,
         hasPossibleColumn: false,
         blankUntilScored: true,
         columnLabels: ["Word #", "Target", "Score"],
