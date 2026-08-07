@@ -93,6 +93,9 @@
         border: 1px solid #ccc;
         scroll-margin-top: var(--list-nav-height, 60px);
       }
+      .list.list-no-poss {
+        grid-template-columns: 19mm 1fr 90px;
+      }
       .list > .sentence-text {
         padding: 4px 8px;
       }
@@ -103,6 +106,9 @@
         justify-content: space-between;
         background: #eee;
         border-bottom: 1px solid #ccc;
+      }
+      .list-no-poss .list-heading {
+        grid-column: 1 / span 3;
       }
       h2 {
         font-size: 16px;
@@ -138,7 +144,7 @@
       .cnc-word-label {
         font-weight: bold;
         letter-spacing: 0.5px;
-        disply: grid; 
+        display: grid;
         place-content: center;
       }
       .phoneme-row {
@@ -269,6 +275,12 @@
         align-self: center;
         font-weight: bold;
         padding: 4px 8px;
+      }
+      .list-no-poss .list-total-label {
+        grid-column: 1 / span 2;
+      }
+      .sentence-possible.column-hidden {
+        display: none;
       }
       .list-total-score {
         justify-self: center;
@@ -1365,7 +1377,9 @@ CHILL|CH|I|LL`;
         );
         config.testData.forEach((list, listIndex) => {
           const listEl = document.createElement("div");
-          listEl.className = "list";
+          listEl.className = config.hasPossibleColumn
+            ? "list"
+            : "list list-no-poss";
           listEl.id = `${config.key}-list-${listIndex}`;
           listEl.dataset.listIndex = listIndex;
 
@@ -1381,7 +1395,7 @@ CHILL|CH|I|LL`;
           resetListBtn.textContent = "Reset This List";
           resetListBtn.addEventListener("click", () => {
             if (confirm(`Reset all scores for ${list.name}?`)) {
-              resetScoresWithin(listEl);
+              resetScoresWithin(listEl, config);
               updateListTotal(listEl, config);
             }
           });
@@ -1411,7 +1425,9 @@ CHILL|CH|I|LL`;
               : "sentence-text entry-text";
 
             const possibleEl = document.createElement("div");
-            possibleEl.className = "sentence-possible";
+            possibleEl.className = config.hasPossibleColumn
+              ? "sentence-possible"
+              : "sentence-possible column-hidden";
             possibleEl.textContent = tokens.length;
 
             const scoreEl = document.createElement("div");
@@ -1437,7 +1453,7 @@ CHILL|CH|I|LL`;
               wordEl.textContent = tok;
               wordEl.addEventListener("click", () => {
                 cycleState(wordEl);
-                updateSentenceScore(textEl, possibleEl, scoreEl);
+                updateSentenceScore(textEl, possibleEl, scoreEl, config);
                 updateListTotal(listEl, config);
               });
               wordHost.appendChild(wordEl);
@@ -1452,7 +1468,7 @@ CHILL|CH|I|LL`;
             scoreInput.pattern = "\\d*";
             scoreInput.autocomplete = "off";
             scoreInput.className = "score-value score-input";
-            scoreInput.value = "0";
+            scoreInput.value = config.blankUntilScored ? "" : "0";
             scoreInput.dataset.value = "0";
             scoreInput.setAttribute(
               "aria-label",
@@ -1485,7 +1501,7 @@ CHILL|CH|I|LL`;
             cycleBtn.addEventListener("click", (event) => {
               event.stopPropagation();
               cycleSentenceScore(textEl);
-              updateSentenceScore(textEl, possibleEl, scoreEl);
+              updateSentenceScore(textEl, possibleEl, scoreEl, config);
               updateListTotal(listEl, config);
             });
 
@@ -1615,14 +1631,15 @@ CHILL|CH|I|LL`;
           .forEach((listEl) => observer.observe(listEl));
       }
 
-      function updateSentenceScore(textEl, possibleEl, scoreEl) {
+      function updateSentenceScore(textEl, possibleEl, scoreEl, config) {
         const correctCount = textEl.querySelectorAll(".word.correct").length;
-        rollScoreValue(scoreEl, correctCount);
-
         const totalWords = textEl.querySelectorAll(".word").length;
         const markedWords = textEl.querySelectorAll(
           ".word.correct, .word.incorrect",
         ).length;
+        const hasScore = config.blankUntilScored ? markedWords > 0 : true;
+        rollScoreValue(scoreEl, correctCount, hasScore);
+
         scoreEl.classList.toggle(
           "sentence-complete",
           totalWords > 0 && markedWords === totalWords,
@@ -1632,16 +1649,25 @@ CHILL|CH|I|LL`;
           .classList.toggle("has-score", markedWords > 0);
       }
 
-      function rollScoreValue(scoreEl, newValue) {
+      function rollScoreValue(scoreEl, correctCount, hasScore) {
         const valueEl = scoreEl.querySelector(".score-value");
-        const oldValue = Number(valueEl.dataset.value ?? valueEl.value);
-        valueEl.dataset.value = newValue;
-        if (newValue === oldValue) return;
-        const goingUp = newValue > oldValue;
+        const oldNumeric = Number(valueEl.dataset.value ?? 0);
+        const oldText = valueEl.value;
+        const newText = hasScore ? String(correctCount) : "";
+        valueEl.dataset.value = correctCount;
+
+        if (newText === oldText) return;
 
         if (valueEl._cancelRoll) {
           valueEl._cancelRoll();
         }
+
+        if (oldText === "" || newText === "") {
+          valueEl.value = newText;
+          return;
+        }
+
+        const goingUp = correctCount > oldNumeric;
 
         const settle = () => {
           valueEl.classList.add("no-transition");
@@ -1662,7 +1688,7 @@ CHILL|CH|I|LL`;
             goingUp ? "roll-in-from-down" : "roll-in-from-up",
           );
           void valueEl.offsetWidth;
-          valueEl.value = newValue;
+          valueEl.value = newText;
           valueEl.classList.remove("no-transition");
           valueEl.classList.remove("roll-in-from-down", "roll-in-from-up");
           valueEl.removeEventListener("transitionend", handleTransitionEnd);
@@ -1695,7 +1721,11 @@ CHILL|CH|I|LL`;
           "roll-in-from-down",
           "roll-in-from-up",
         );
-        input.value = touched ? String(value) : "0";
+        input.value = touched
+          ? String(value)
+          : config.blankUntilScored
+            ? ""
+            : "0";
         input.dataset.value = String(value);
         input.classList.toggle("has-score", touched);
         scoreEl.classList.toggle("sentence-complete", touched);
@@ -1748,7 +1778,7 @@ CHILL|CH|I|LL`;
         listEl.classList.toggle("no-print", !hasProgress);
       }
 
-      function resetScoresWithin(container) {
+      function resetScoresWithin(container, config) {
         container.querySelectorAll(".word").forEach((wordEl) => {
           wordEl.classList.remove("correct", "incorrect");
         });
@@ -1764,7 +1794,7 @@ CHILL|CH|I|LL`;
             "has-score",
           );
           el.dataset.value = "0";
-          el.value = "0";
+          el.value = config.blankUntilScored ? "" : "0";
         });
         container.querySelectorAll(".sentence-score").forEach((el) => {
           el.classList.remove("sentence-complete");
@@ -1789,7 +1819,7 @@ CHILL|CH|I|LL`;
               const container = document.getElementById(
                 config.listsContainerId,
               );
-              resetScoresWithin(container);
+              resetScoresWithin(container, config);
               container
                 .querySelectorAll(".list")
                 .forEach((listEl) => updateListTotal(listEl, config));
@@ -1803,6 +1833,8 @@ CHILL|CH|I|LL`;
         unitLabelSingular: "Sentence",
         totalLabel: "Words",
         showWholeUnitStat: false,
+        hasPossibleColumn: true,
+        blankUntilScored: false,
         columnLabels: ["Sentence", "Text", "Poss", "Score"],
         sectionId: "azbio-section",
         navId: "azbio-list-nav",
@@ -1817,7 +1849,9 @@ CHILL|CH|I|LL`;
         unitLabelSingular: "Word",
         totalLabel: "Phonemes",
         showWholeUnitStat: true,
-        columnLabels: ["Word #", "Target", "Poss", "Score"],
+        hasPossibleColumn: false,
+        blankUntilScored: true,
+        columnLabels: ["Word #", "Target", "Score"],
         sectionId: "cnc-section",
         navId: "cnc-list-nav",
         listsContainerId: "cnc-lists",
