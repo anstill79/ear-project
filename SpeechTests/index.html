@@ -93,6 +93,9 @@
         border: 1px solid #ccc;
         scroll-margin-top: var(--list-nav-height, 60px);
       }
+      .list.list-no-poss {
+        grid-template-columns: 19mm 1fr 90px;
+      }
       .list > .sentence-text {
         padding: 4px 8px;
       }
@@ -103,6 +106,9 @@
         justify-content: space-between;
         background: #eee;
         border-bottom: 1px solid #ccc;
+      }
+      .list-no-poss .list-heading {
+        grid-column: 1 / span 3;
       }
       h2 {
         font-size: 16px;
@@ -138,7 +144,7 @@
       .cnc-word-label {
         font-weight: bold;
         letter-spacing: 0.5px;
-        disply: grid; 
+        display: grid;
         place-content: center;
       }
       .phoneme-row {
@@ -270,6 +276,12 @@
         font-weight: bold;
         padding: 4px 8px;
       }
+      .list-no-poss .list-total-label {
+        grid-column: 1 / span 2;
+      }
+      .sentence-possible.column-hidden {
+        display: none;
+      }
       .list-total-score {
         justify-self: center;
         align-self: center;
@@ -360,6 +372,110 @@
         padding: 6px 14px;
         cursor: pointer;
       }
+      .cnc-paper-list {
+        display: block;
+      }
+      .cnc-columns {
+        display: flex;
+        gap: 24px;
+        padding: 10px;
+        flex-wrap: wrap;
+      }
+      .cnc-half-column {
+        flex: 1 1 0;
+        min-width: 300px;
+        display: grid;
+        grid-template-columns: 10mm 1fr auto;
+        align-items: center;
+        gap: 3px 8px;
+        font-size: 13px;
+      }
+      .cnc-half-header {
+        font-weight: bold;
+        font-size: 12px;
+        text-align: center;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #999;
+        margin-bottom: 2px;
+      }
+      .cnc-half-header-target {
+        text-align: left;
+      }
+      .cnc-score-header {
+        display: flex;
+        gap: 6px;
+      }
+      .cnc-score-header-num {
+        width: 18px;
+        text-align: center;
+      }
+      .cnc-half-column .cnc-text {
+        gap: 8px;
+      }
+      .cnc-half-column .word {
+        padding: 1px 3px;
+        font-size: 12px;
+      }
+      .cnc-row {
+        display: contents;
+      }
+      .cnc-row .sentence-score {
+        border: none;
+        background: none;
+        height: auto;
+        width: auto;
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        position: static;
+        overflow: visible;
+      }
+      .cnc-row .sentence-score.sentence-complete::after {
+        content: none;
+      }
+      .cnc-row:has(.sentence-score.sentence-complete) .sentence-num,
+      .cnc-row:has(.sentence-score.sentence-complete) .cnc-word-label {
+        color: #1a5e1a;
+      }
+      .phoneme-count-option {
+        width: 18px;
+        display: flex;
+        justify-content: center;
+      }
+      .phoneme-count-option input {
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+      }
+      .cnc-list-footer {
+        border-top: 1px solid #ccc;
+        padding: 12px;
+      }
+      .cnc-stats-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 20px;
+        margin-bottom: 8px;
+      }
+      .cnc-stat {
+        display: flex;
+        gap: 6px;
+        font-weight: bold;
+      }
+      .list-notes-label-flat {
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+      .list-notes-flat {
+        width: 100%;
+        min-height: 70px;
+        padding: 6px 8px;
+        border: 1px solid black;
+        font-family: inherit;
+        font-size: 13px;
+        resize: vertical;
+      }
       @media print {
         .no-print {
           display: none;
@@ -410,11 +526,12 @@
     <div class="test-section" id="cnc-section" data-test="cnc">
       <h1>CNC Word Test Scoring</h1>
       <p class="phoneme-hint">
-        Each word is scored on its three target phonemes &mdash; initial
-        consonant, vowel (nucleus), and final consonant, shown in that order.
-        Click a segment to cycle correct &rarr; incorrect &rarr; blank. A word
-        counts as whole-word correct only when all three segments are marked
-        correct.
+        Each word shows its three target phonemes &mdash; initial consonant,
+        vowel (nucleus), and final consonant, in that order. Click a segment
+        to cycle correct &rarr; incorrect &rarr; blank, which checks the
+        matching 0&ndash;3 box automatically, or check a box directly to
+        record the phoneme count without marking individual segments. A word
+        counts as whole-word correct only when the checked count is 3.
       </p>
       <div class="section-controls no-print">
         <button id="cnc-reset-all-btn" type="button">
@@ -1365,7 +1482,12 @@ CHILL|CH|I|LL`;
         );
         config.testData.forEach((list, listIndex) => {
           const listEl = document.createElement("div");
-          listEl.className = "list";
+          listEl.className =
+            config.layout === "cnc-paper"
+              ? "list cnc-paper-list"
+              : config.hasPossibleColumn
+                ? "list"
+                : "list list-no-poss";
           listEl.id = `${config.key}-list-${listIndex}`;
           listEl.dataset.listIndex = listIndex;
 
@@ -1381,7 +1503,7 @@ CHILL|CH|I|LL`;
           resetListBtn.textContent = "Reset This List";
           resetListBtn.addEventListener("click", () => {
             if (confirm(`Reset all scores for ${list.name}?`)) {
-              resetScoresWithin(listEl);
+              resetScoresWithin(listEl, config);
               updateListTotal(listEl, config);
             }
           });
@@ -1390,165 +1512,358 @@ CHILL|CH|I|LL`;
           listHeading.appendChild(resetListBtn);
           listEl.appendChild(listHeading);
 
-          config.columnLabels.forEach((label, i) => {
-            const headerCell = document.createElement("div");
-            headerCell.className =
-              i === 1 ? "list-header sentence-text" : "list-header";
-            headerCell.textContent = label;
-            listEl.appendChild(headerCell);
-          });
-
-          list.entries.forEach((entry, entryIndex) => {
-            const tokens = entry.tokens;
-
-            const numEl = document.createElement("div");
-            numEl.className = "sentence-num";
-            numEl.textContent = entryIndex + 1;
-
-            const textEl = document.createElement("div");
-            textEl.className = entry.prefix
-              ? "sentence-text entry-text cnc-text"
-              : "sentence-text entry-text";
-
-            const possibleEl = document.createElement("div");
-            possibleEl.className = "sentence-possible";
-            possibleEl.textContent = tokens.length;
-
-            const scoreEl = document.createElement("div");
-            scoreEl.className =
-              entryIndex === list.entries.length - 1
-                ? "sentence-score sentence-score--last"
-                : "sentence-score";
-
-            let wordHost = textEl;
-            if (entry.prefix) {
-              const labelEl = document.createElement("div");
-              labelEl.className = "cnc-word-label";
-              labelEl.textContent = entry.prefix;
-              textEl.appendChild(labelEl);
-              wordHost = document.createElement("div");
-              wordHost.className = "phoneme-row";
-              textEl.appendChild(wordHost);
-            }
-
-            tokens.forEach((tok) => {
-              const wordEl = document.createElement("span");
-              wordEl.className = "word";
-              wordEl.textContent = tok;
-              wordEl.addEventListener("click", () => {
-                cycleState(wordEl);
-                updateSentenceScore(textEl, possibleEl, scoreEl);
-                updateListTotal(listEl, config);
-              });
-              wordHost.appendChild(wordEl);
-              if (!entry.prefix) {
-                wordHost.appendChild(document.createTextNode(" "));
-              }
-            });
-
-            const scoreInput = document.createElement("input");
-            scoreInput.type = "text";
-            scoreInput.inputMode = "numeric";
-            scoreInput.pattern = "\\d*";
-            scoreInput.autocomplete = "off";
-            scoreInput.className = "score-value score-input";
-            scoreInput.value = "0";
-            scoreInput.dataset.value = "0";
-            scoreInput.setAttribute(
-              "aria-label",
-              `Score for ${config.unitLabelSingular.toLowerCase()} ${entryIndex + 1}`,
-            );
-            scoreInput.addEventListener("focus", () => scoreInput.select());
-            scoreInput.addEventListener("keydown", (event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                scoreInput.blur();
-              }
-            });
-            scoreInput.addEventListener("change", () => {
-              commitManualScore(scoreEl, possibleEl, listEl, config);
-            });
-            scoreEl.addEventListener("click", (event) => {
-              if (event.target === scoreEl) scoreInput.focus();
-            });
-
-            const cycleBtn = document.createElement("button");
-            cycleBtn.type = "button";
-            cycleBtn.className = "cycle-score-btn no-print";
-            cycleBtn.tabIndex = -1;
-            cycleBtn.textContent = "⟳";
-            cycleBtn.title = "Cycle: all correct / all incorrect / clear";
-            cycleBtn.setAttribute(
-              "aria-label",
-              "Cycle all words correct, incorrect, or clear",
-            );
-            cycleBtn.addEventListener("click", (event) => {
-              event.stopPropagation();
-              cycleSentenceScore(textEl);
-              updateSentenceScore(textEl, possibleEl, scoreEl);
-              updateListTotal(listEl, config);
-            });
-
-            scoreEl.appendChild(scoreInput);
-            scoreEl.appendChild(cycleBtn);
-
-            listEl.appendChild(numEl);
-            listEl.appendChild(textEl);
-            listEl.appendChild(possibleEl);
-            listEl.appendChild(scoreEl);
-          });
-
-          const correctLabel = document.createElement("div");
-          correctLabel.className = "list-total-label";
-          correctLabel.textContent = `${config.totalLabel} Correct`;
-
-          const correctValue = document.createElement("div");
-          correctValue.className = "list-total-score list-total-correct";
-          correctValue.textContent = "0";
-
-          const possibleLabel = document.createElement("div");
-          possibleLabel.className = "list-total-label";
-          possibleLabel.textContent = `${config.totalLabel} Possible`;
-
-          const possibleValue = document.createElement("div");
-          possibleValue.className = "list-total-score list-total-possible";
-          possibleValue.textContent = "0";
-
-          const percentLabel = document.createElement("div");
-          percentLabel.className = "list-total-label";
-          percentLabel.textContent = "Percent Correct";
-
-          const percentValue = document.createElement("div");
-          percentValue.className = "list-total-score list-total-percent";
-          percentValue.textContent = "0%";
-
-          listEl.appendChild(correctLabel);
-          listEl.appendChild(correctValue);
-          listEl.appendChild(possibleLabel);
-          listEl.appendChild(possibleValue);
-          listEl.appendChild(percentLabel);
-          listEl.appendChild(percentValue);
-
-          if (config.showWholeUnitStat) {
-            const extraEl = document.createElement("div");
-            extraEl.className = "list-total-extra";
-            extraEl.textContent = "Whole Words Correct: 0 / 0 (0%)";
-            listEl.appendChild(extraEl);
+          if (config.layout === "cnc-paper") {
+            buildCncPaperBody(listEl, list, config);
+          } else {
+            buildSingleColumnBody(listEl, list, config);
           }
-
-          const notesLabel = document.createElement("div");
-          notesLabel.className = "list-notes-label";
-          notesLabel.textContent = "Notes:";
-
-          const notesArea = document.createElement("textarea");
-          notesArea.className = "list-notes";
-          notesArea.rows = 4;
-
-          listEl.appendChild(notesLabel);
-          listEl.appendChild(notesArea);
 
           listsContainer.appendChild(listEl);
         });
+      }
+
+      function buildSingleColumnBody(listEl, list, config) {
+        config.columnLabels.forEach((label, i) => {
+          const headerCell = document.createElement("div");
+          headerCell.className =
+            i === 1 ? "list-header sentence-text" : "list-header";
+          headerCell.textContent = label;
+          listEl.appendChild(headerCell);
+        });
+
+        list.entries.forEach((entry, entryIndex) => {
+          const tokens = entry.tokens;
+
+          const numEl = document.createElement("div");
+          numEl.className = "sentence-num";
+          numEl.textContent = entryIndex + 1;
+
+          const textEl = document.createElement("div");
+          textEl.className = entry.prefix
+            ? "sentence-text entry-text cnc-text"
+            : "sentence-text entry-text";
+
+          const possibleEl = document.createElement("div");
+          possibleEl.className = config.hasPossibleColumn
+            ? "sentence-possible"
+            : "sentence-possible column-hidden";
+          possibleEl.textContent = tokens.length;
+
+          const scoreEl = document.createElement("div");
+          scoreEl.className =
+            entryIndex === list.entries.length - 1
+              ? "sentence-score sentence-score--last"
+              : "sentence-score";
+
+          let wordHost = textEl;
+          if (entry.prefix) {
+            const labelEl = document.createElement("div");
+            labelEl.className = "cnc-word-label";
+            labelEl.textContent = entry.prefix;
+            textEl.appendChild(labelEl);
+            wordHost = document.createElement("div");
+            wordHost.className = "phoneme-row";
+            textEl.appendChild(wordHost);
+          }
+
+          tokens.forEach((tok) => {
+            const wordEl = document.createElement("span");
+            wordEl.className = "word";
+            wordEl.textContent = tok;
+            wordEl.addEventListener("click", () => {
+              cycleState(wordEl);
+              updateSentenceScore(textEl, possibleEl, scoreEl, config);
+              updateListTotal(listEl, config);
+            });
+            wordHost.appendChild(wordEl);
+            if (!entry.prefix) {
+              wordHost.appendChild(document.createTextNode(" "));
+            }
+          });
+
+          const scoreInput = document.createElement("input");
+          scoreInput.type = "text";
+          scoreInput.inputMode = "numeric";
+          scoreInput.pattern = "\\d*";
+          scoreInput.autocomplete = "off";
+          scoreInput.className = "score-value score-input";
+          scoreInput.value = config.blankUntilScored ? "" : "0";
+          scoreInput.dataset.value = "0";
+          scoreInput.setAttribute(
+            "aria-label",
+            `Score for ${config.unitLabelSingular.toLowerCase()} ${entryIndex + 1}`,
+          );
+          scoreInput.addEventListener("focus", () => scoreInput.select());
+          scoreInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              scoreInput.blur();
+            }
+          });
+          scoreInput.addEventListener("change", () => {
+            commitManualScore(scoreEl, possibleEl, listEl, config);
+          });
+          scoreEl.addEventListener("click", (event) => {
+            if (event.target === scoreEl) scoreInput.focus();
+          });
+
+          const cycleBtn = document.createElement("button");
+          cycleBtn.type = "button";
+          cycleBtn.className = "cycle-score-btn no-print";
+          cycleBtn.tabIndex = -1;
+          cycleBtn.textContent = "⟳";
+          cycleBtn.title = "Cycle: all correct / all incorrect / clear";
+          cycleBtn.setAttribute(
+            "aria-label",
+            "Cycle all words correct, incorrect, or clear",
+          );
+          cycleBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            cycleSentenceScore(textEl);
+            updateSentenceScore(textEl, possibleEl, scoreEl, config);
+            updateListTotal(listEl, config);
+          });
+
+          scoreEl.appendChild(scoreInput);
+          scoreEl.appendChild(cycleBtn);
+
+          listEl.appendChild(numEl);
+          listEl.appendChild(textEl);
+          listEl.appendChild(possibleEl);
+          listEl.appendChild(scoreEl);
+        });
+
+        const correctLabel = document.createElement("div");
+        correctLabel.className = "list-total-label";
+        correctLabel.textContent = `${config.totalLabel} Correct`;
+
+        const correctValue = document.createElement("div");
+        correctValue.className = "list-total-score list-total-correct";
+        correctValue.textContent = "0";
+
+        const possibleLabel = document.createElement("div");
+        possibleLabel.className = "list-total-label";
+        possibleLabel.textContent = `${config.totalLabel} Possible`;
+
+        const possibleValue = document.createElement("div");
+        possibleValue.className = "list-total-score list-total-possible";
+        possibleValue.textContent = "0";
+
+        const percentLabel = document.createElement("div");
+        percentLabel.className = "list-total-label";
+        percentLabel.textContent = "Percent Correct";
+
+        const percentValue = document.createElement("div");
+        percentValue.className = "list-total-score list-total-percent";
+        percentValue.textContent = "0%";
+
+        listEl.appendChild(correctLabel);
+        listEl.appendChild(correctValue);
+        listEl.appendChild(possibleLabel);
+        listEl.appendChild(possibleValue);
+        listEl.appendChild(percentLabel);
+        listEl.appendChild(percentValue);
+
+        if (config.showTestedCount) {
+          const testedEl = document.createElement("div");
+          testedEl.className = "list-total-extra list-total-tested";
+          testedEl.textContent = `${config.unitLabelSingular}s Tested: 0 / 0`;
+          listEl.appendChild(testedEl);
+        }
+
+        if (config.showWholeUnitStat) {
+          const extraEl = document.createElement("div");
+          extraEl.className = "list-total-extra list-total-whole";
+          extraEl.textContent = "Whole Words Correct: 0 / 0 (0%)";
+          listEl.appendChild(extraEl);
+        }
+
+        const notesLabel = document.createElement("div");
+        notesLabel.className = "list-notes-label";
+        notesLabel.textContent = "Notes:";
+
+        const notesArea = document.createElement("textarea");
+        notesArea.className = "list-notes";
+        notesArea.rows = 4;
+
+        listEl.appendChild(notesLabel);
+        listEl.appendChild(notesArea);
+      }
+
+      function buildCncPaperBody(listEl, list, config) {
+        const columnsWrap = document.createElement("div");
+        columnsWrap.className = "cnc-columns";
+
+        const halfSize = Math.ceil(list.entries.length / 2);
+        const halves = [
+          list.entries.slice(0, halfSize),
+          list.entries.slice(halfSize),
+        ];
+
+        halves.forEach((halfEntries, halfIndex) => {
+          const columnEl = document.createElement("div");
+          columnEl.className = "cnc-half-column";
+
+          const numHeader = document.createElement("div");
+          numHeader.className = "cnc-half-header";
+          numHeader.textContent = "#";
+          columnEl.appendChild(numHeader);
+
+          const targetHeader = document.createElement("div");
+          targetHeader.className = "cnc-half-header cnc-half-header-target";
+          targetHeader.textContent = "Target";
+          columnEl.appendChild(targetHeader);
+
+          const scoreHeader = document.createElement("div");
+          scoreHeader.className = "cnc-half-header cnc-score-header";
+          [0, 1, 2, 3].forEach((n) => {
+            const numEl = document.createElement("span");
+            numEl.className = "cnc-score-header-num";
+            numEl.textContent = n;
+            scoreHeader.appendChild(numEl);
+          });
+          columnEl.appendChild(scoreHeader);
+
+          halfEntries.forEach((entry, idxInHalf) => {
+            const entryIndex = halfIndex * halfSize + idxInHalf;
+            columnEl.appendChild(
+              buildCncRow(entry, entryIndex, listEl, config),
+            );
+          });
+
+          columnsWrap.appendChild(columnEl);
+        });
+
+        listEl.appendChild(columnsWrap);
+        buildCncStatsFooter(listEl, config);
+      }
+
+      function buildCncRow(entry, entryIndex, listEl, config) {
+        const tokens = entry.tokens;
+
+        const rowEl = document.createElement("div");
+        rowEl.className = "cnc-row";
+
+        const numEl = document.createElement("div");
+        numEl.className = "sentence-num";
+        numEl.textContent = entryIndex + 1;
+
+        const textEl = document.createElement("div");
+        textEl.className = "sentence-text entry-text cnc-text";
+
+        const labelEl = document.createElement("div");
+        labelEl.className = "cnc-word-label";
+        labelEl.textContent = entry.prefix;
+        textEl.appendChild(labelEl);
+
+        const wordHost = document.createElement("div");
+        wordHost.className = "phoneme-row";
+        textEl.appendChild(wordHost);
+
+        const possibleEl = document.createElement("div");
+        possibleEl.className = "sentence-possible column-hidden";
+        possibleEl.textContent = tokens.length;
+
+        const scoreEl = document.createElement("div");
+        scoreEl.className = "sentence-score cnc-checkbox-score";
+
+        tokens.forEach((tok) => {
+          const wordEl = document.createElement("span");
+          wordEl.className = "word";
+          wordEl.textContent = tok;
+          wordEl.addEventListener("click", () => {
+            cycleState(wordEl);
+            updateSentenceScore(textEl, possibleEl, scoreEl, config);
+            updateListTotal(listEl, config);
+          });
+          wordHost.appendChild(wordEl);
+        });
+
+        [0, 1, 2, 3].forEach((value) => {
+          const optionWrap = document.createElement("span");
+          optionWrap.className = "phoneme-count-option";
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = String(value);
+          checkbox.setAttribute(
+            "aria-label",
+            `${value} phonemes correct for ${entry.prefix}`,
+          );
+          checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+              scoreEl
+                .querySelectorAll('input[type="checkbox"]')
+                .forEach((cb) => {
+                  if (cb !== checkbox) cb.checked = false;
+                });
+            }
+            updateListTotal(listEl, config);
+          });
+          optionWrap.appendChild(checkbox);
+          scoreEl.appendChild(optionWrap);
+        });
+
+        rowEl.appendChild(numEl);
+        rowEl.appendChild(textEl);
+        rowEl.appendChild(possibleEl);
+        rowEl.appendChild(scoreEl);
+
+        return rowEl;
+      }
+
+      function buildCncStatsFooter(listEl, config) {
+        const footer = document.createElement("div");
+        footer.className = "cnc-list-footer";
+
+        const statsRow = document.createElement("div");
+        statsRow.className = "cnc-stats-row";
+
+        function addStat(labelText, valueClass) {
+          const stat = document.createElement("span");
+          stat.className = "cnc-stat";
+          const label = document.createElement("span");
+          label.className = "cnc-stat-label";
+          label.textContent = labelText;
+          const value = document.createElement("span");
+          value.className = `cnc-stat-value ${valueClass}`;
+          value.textContent = "0";
+          stat.appendChild(label);
+          stat.appendChild(value);
+          statsRow.appendChild(stat);
+        }
+
+        addStat(`${config.totalLabel} Correct:`, "list-total-correct");
+        addStat(`${config.totalLabel} Possible:`, "list-total-possible");
+        addStat("Percent Correct:", "list-total-percent");
+
+        footer.appendChild(statsRow);
+
+        if (config.showTestedCount) {
+          const testedEl = document.createElement("div");
+          testedEl.className = "list-total-extra list-total-tested";
+          testedEl.textContent = `${config.unitLabelSingular}s Tested: 0 / 0`;
+          footer.appendChild(testedEl);
+        }
+
+        if (config.showWholeUnitStat) {
+          const extraEl = document.createElement("div");
+          extraEl.className = "list-total-extra list-total-whole";
+          extraEl.textContent = "Whole Words Correct: 0 / 0 (0%)";
+          footer.appendChild(extraEl);
+        }
+
+        const notesLabel = document.createElement("div");
+        notesLabel.className = "list-notes-label-flat";
+        notesLabel.textContent = "Notes:";
+
+        const notesArea = document.createElement("textarea");
+        notesArea.className = "list-notes-flat";
+        notesArea.rows = 3;
+
+        footer.appendChild(notesLabel);
+        footer.appendChild(notesArea);
+
+        listEl.appendChild(footer);
       }
 
       function jumpToList(config, listIndex) {
@@ -1615,33 +1930,66 @@ CHILL|CH|I|LL`;
           .forEach((listEl) => observer.observe(listEl));
       }
 
-      function updateSentenceScore(textEl, possibleEl, scoreEl) {
+      function updateSentenceScore(textEl, possibleEl, scoreEl, config) {
         const correctCount = textEl.querySelectorAll(".word.correct").length;
-        rollScoreValue(scoreEl, correctCount);
-
-        const totalWords = textEl.querySelectorAll(".word").length;
         const markedWords = textEl.querySelectorAll(
           ".word.correct, .word.incorrect",
         ).length;
-        scoreEl.classList.toggle(
-          "sentence-complete",
-          totalWords > 0 && markedWords === totalWords,
-        );
-        scoreEl
-          .querySelector(".score-value")
-          .classList.toggle("has-score", markedWords > 0);
+        const hasScore = config.blankUntilScored ? markedWords > 0 : true;
+        setRowScore(scoreEl, correctCount, hasScore, config);
+
+        if (!config.useCheckboxScore) {
+          scoreEl
+            .querySelector(".score-value")
+            .classList.toggle("has-score", markedWords > 0);
+        }
       }
 
-      function rollScoreValue(scoreEl, newValue) {
+      function setRowScore(scoreEl, value, hasScore, config) {
+        if (config.useCheckboxScore) {
+          scoreEl.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+            cb.checked = hasScore && Number(cb.value) === value;
+          });
+          return;
+        }
+        rollScoreValue(scoreEl, value, hasScore);
+      }
+
+      function getRowScore(scoreEl, config) {
+        if (config.useCheckboxScore) {
+          const checked = scoreEl.querySelector(
+            'input[type="checkbox"]:checked',
+          );
+          return checked
+            ? { value: Number(checked.value), hasScore: true }
+            : { value: 0, hasScore: false };
+        }
         const valueEl = scoreEl.querySelector(".score-value");
-        const oldValue = Number(valueEl.dataset.value ?? valueEl.value);
-        valueEl.dataset.value = newValue;
-        if (newValue === oldValue) return;
-        const goingUp = newValue > oldValue;
+        return {
+          value: Number(valueEl.dataset.value ?? valueEl.value) || 0,
+          hasScore: valueEl.classList.contains("has-score"),
+        };
+      }
+
+      function rollScoreValue(scoreEl, correctCount, hasScore) {
+        const valueEl = scoreEl.querySelector(".score-value");
+        const oldNumeric = Number(valueEl.dataset.value ?? 0);
+        const oldText = valueEl.value;
+        const newText = hasScore ? String(correctCount) : "";
+        valueEl.dataset.value = correctCount;
+
+        if (newText === oldText) return;
 
         if (valueEl._cancelRoll) {
           valueEl._cancelRoll();
         }
+
+        if (oldText === "" || newText === "") {
+          valueEl.value = newText;
+          return;
+        }
+
+        const goingUp = correctCount > oldNumeric;
 
         const settle = () => {
           valueEl.classList.add("no-transition");
@@ -1662,7 +2010,7 @@ CHILL|CH|I|LL`;
             goingUp ? "roll-in-from-down" : "roll-in-from-up",
           );
           void valueEl.offsetWidth;
-          valueEl.value = newValue;
+          valueEl.value = newText;
           valueEl.classList.remove("no-transition");
           valueEl.classList.remove("roll-in-from-down", "roll-in-from-up");
           valueEl.removeEventListener("transitionend", handleTransitionEnd);
@@ -1695,7 +2043,11 @@ CHILL|CH|I|LL`;
           "roll-in-from-down",
           "roll-in-from-up",
         );
-        input.value = touched ? String(value) : "0";
+        input.value = touched
+          ? String(value)
+          : config.blankUntilScored
+            ? ""
+            : "0";
         input.dataset.value = String(value);
         input.classList.toggle("has-score", touched);
         scoreEl.classList.toggle("sentence-complete", touched);
@@ -1705,40 +2057,67 @@ CHILL|CH|I|LL`;
       function updateListTotal(listEl, config) {
         const possibleEls = listEl.querySelectorAll(".sentence-possible");
         const scoreEls = listEl.querySelectorAll(".sentence-score");
+        const textEls = listEl.querySelectorAll(".entry-text");
+
         let possible = 0;
         let score = 0;
-        possibleEls.forEach((el) => (possible += Number(el.textContent)));
-        scoreEls.forEach((el) => {
-          const valueEl = el.querySelector(".score-value");
-          score += Number(valueEl.dataset.value ?? valueEl.value) || 0;
+        let testedCount = 0;
+        let wholeCorrect = 0;
+
+        textEls.forEach((textEl, i) => {
+          const possibleCount = Number(possibleEls[i].textContent);
+          const markedWords = textEl.querySelectorAll(
+            ".word.correct, .word.incorrect",
+          ).length;
+          const { value: rowValue, hasScore } = getRowScore(
+            scoreEls[i],
+            config,
+          );
+          const tested = markedWords > 0 || hasScore;
+
+          if (!config.possibleFromTestedOnly || tested) {
+            possible += possibleCount;
+          }
+
+          score += rowValue;
+
+          scoreEls[i].classList.toggle("sentence-complete", tested);
+
+          if (tested) {
+            testedCount += 1;
+            if (possibleCount > 0 && rowValue === possibleCount) {
+              wholeCorrect += 1;
+            }
+          }
         });
+
         const pct = possible === 0 ? 0 : Math.round((score / possible) * 100);
         listEl.querySelector(".list-total-correct").textContent = score;
         listEl.querySelector(".list-total-possible").textContent = possible;
         listEl.querySelector(".list-total-percent").textContent = `${pct}%`;
 
+        if (config.showTestedCount) {
+          const testedEl = listEl.querySelector(".list-total-tested");
+          if (testedEl) {
+            testedEl.textContent = `${config.unitLabelSingular}s Tested: ${testedCount} / ${textEls.length}`;
+          }
+        }
+
         if (config.showWholeUnitStat) {
-          const textEls = listEl.querySelectorAll(".entry-text");
-          let wholeCorrect = 0;
-          textEls.forEach((textEl, i) => {
-            const possibleCount = Number(possibleEls[i].textContent);
-            const correctCount =
-              textEl.querySelectorAll(".word.correct").length;
-            if (possibleCount > 0 && correctCount === possibleCount) {
-              wholeCorrect += 1;
-            }
-          });
-          const total = textEls.length;
+          const wholeTotal = config.possibleFromTestedOnly
+            ? testedCount
+            : textEls.length;
           const wholePct =
-            total === 0 ? 0 : Math.round((wholeCorrect / total) * 100);
-          const extraEl = listEl.querySelector(".list-total-extra");
+            wholeTotal === 0 ? 0 : Math.round((wholeCorrect / wholeTotal) * 100);
+          const extraEl = listEl.querySelector(".list-total-whole");
           if (extraEl) {
-            extraEl.textContent = `Whole Words Correct: ${wholeCorrect} / ${total} (${wholePct}%)`;
+            extraEl.textContent = `Whole Words Correct: ${wholeCorrect} / ${wholeTotal} (${wholePct}%)`;
           }
         }
 
         const hasProgress =
-          listEl.querySelector(".word.correct, .word.incorrect") !== null;
+          listEl.querySelector(".word.correct, .word.incorrect") !== null ||
+          listEl.querySelector('input[type="checkbox"]:checked') !== null;
         const navButton = document.querySelector(
           `#${config.navId} button[data-list-index="${listEl.dataset.listIndex}"]`,
         );
@@ -1748,24 +2127,30 @@ CHILL|CH|I|LL`;
         listEl.classList.toggle("no-print", !hasProgress);
       }
 
-      function resetScoresWithin(container) {
+      function resetScoresWithin(container, config) {
         container.querySelectorAll(".word").forEach((wordEl) => {
           wordEl.classList.remove("correct", "incorrect");
         });
-        container.querySelectorAll(".score-value").forEach((el) => {
-          if (el._cancelRoll) {
-            el._cancelRoll();
-          }
-          el.classList.remove(
-            "roll-out-up",
-            "roll-out-down",
-            "roll-in-from-down",
-            "roll-in-from-up",
-            "has-score",
-          );
-          el.dataset.value = "0";
-          el.value = "0";
-        });
+        if (config.useCheckboxScore) {
+          container.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+            cb.checked = false;
+          });
+        } else {
+          container.querySelectorAll(".score-value").forEach((el) => {
+            if (el._cancelRoll) {
+              el._cancelRoll();
+            }
+            el.classList.remove(
+              "roll-out-up",
+              "roll-out-down",
+              "roll-in-from-down",
+              "roll-in-from-up",
+              "has-score",
+            );
+            el.dataset.value = "0";
+            el.value = config.blankUntilScored ? "" : "0";
+          });
+        }
         container.querySelectorAll(".sentence-score").forEach((el) => {
           el.classList.remove("sentence-complete");
         });
@@ -1789,7 +2174,7 @@ CHILL|CH|I|LL`;
               const container = document.getElementById(
                 config.listsContainerId,
               );
-              resetScoresWithin(container);
+              resetScoresWithin(container, config);
               container
                 .querySelectorAll(".list")
                 .forEach((listEl) => updateListTotal(listEl, config));
@@ -1803,6 +2188,12 @@ CHILL|CH|I|LL`;
         unitLabelSingular: "Sentence",
         totalLabel: "Words",
         showWholeUnitStat: false,
+        showTestedCount: true,
+        possibleFromTestedOnly: true,
+        hasPossibleColumn: true,
+        blankUntilScored: false,
+        layout: "single-column",
+        useCheckboxScore: false,
         columnLabels: ["Sentence", "Text", "Poss", "Score"],
         sectionId: "azbio-section",
         navId: "azbio-list-nav",
@@ -1817,7 +2208,13 @@ CHILL|CH|I|LL`;
         unitLabelSingular: "Word",
         totalLabel: "Phonemes",
         showWholeUnitStat: true,
-        columnLabels: ["Word #", "Target", "Poss", "Score"],
+        showTestedCount: true,
+        possibleFromTestedOnly: true,
+        hasPossibleColumn: false,
+        blankUntilScored: true,
+        layout: "cnc-paper",
+        useCheckboxScore: true,
+        columnLabels: ["Word #", "Target", "Score"],
         sectionId: "cnc-section",
         navId: "cnc-list-nav",
         listsContainerId: "cnc-lists",
