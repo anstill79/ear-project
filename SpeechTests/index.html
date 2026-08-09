@@ -66,11 +66,9 @@
         color: #777;
       }
       .test_conditions {
-        display: grid;
-        grid-template-columns: 15mm 1fr;
+        display: flex;
         gap: 10px;
-        width: 130mm;
-        margin: 0 auto 20px;
+        justify-content: space-evenly;
       }
       .grid-right {
         justify-self: end;
@@ -488,28 +486,35 @@
       }
     </style>
 
-    <h1 class="page-title">Speech Recognition Test Scoring</h1>
+    <h1 class="page-title">Speech Testing</h1>
     <div class="test-selector no-print">
       <button type="button" class="test-tab active" data-test="azbio">
         AzBio Sentences
       </button>
-      <button type="button" class="test-tab" data-test="cnc">
-        CNC Words
-      </button>
+      <button type="button" class="test-tab" data-test="cnc">CNC Words</button>
     </div>
 
-    <div style="display: flex; align-items: center; width: 90%; margin: auto">
-      <div class="test_conditions">
+    <div class="test_conditions">
+      <div>
         <label for="name" class="grid-right bold">Name:</label>
-        <input type="text" id="name" name="name" class="border-bottom" />
-
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="border-bottom"
+          autocorrect="off"
+          autocomplete="off"
+          style="width: 300px"
+        />
+      </div>
+      <div>
         <label for="date" class="grid-right bold">Date:</label>
         <input type="date" id="date" name="date" class="border-bottom" />
       </div>
     </div>
 
     <div class="test-section active" id="azbio-section" data-test="azbio">
-      <h1>AzBio Sentence Test Scoring</h1>
+      <h2>AzBio Sentence Test Scoring</h2>
       <div class="section-controls no-print">
         <button id="azbio-reset-all-btn" type="button">
           Reset All AzBio Scores
@@ -524,14 +529,14 @@
     </div>
 
     <div class="test-section" id="cnc-section" data-test="cnc">
-      <h1>CNC Word Test Scoring</h1>
+      <h2>CNC Word Test Scoring<h>
       <p class="phoneme-hint">
         Each word shows its three target phonemes &mdash; initial consonant,
-        vowel (nucleus), and final consonant, in that order. Click a segment
-        to cycle correct &rarr; incorrect &rarr; blank, which checks the
-        matching 0&ndash;3 box automatically, or check a box directly to
-        record the phoneme count without marking individual segments. A word
-        counts as whole-word correct only when the checked count is 3.
+        vowel (nucleus), and final consonant, in that order. Click a segment to
+        cycle correct &rarr; incorrect &rarr; blank, which checks the matching
+        0&ndash;3 box automatically, or check a box directly to record the
+        phoneme count without marking individual segments. A word counts as
+        whole-word correct only when the checked count is 3.
       </p>
       <div class="section-controls no-print">
         <button id="cnc-reset-all-btn" type="button">
@@ -1477,9 +1482,7 @@ CHILL|CH|I|LL`;
       }
 
       function buildTestApp(config) {
-        const listsContainer = document.getElementById(
-          config.listsContainerId,
-        );
+        const listsContainer = document.getElementById(config.listsContainerId);
         config.testData.forEach((list, listIndex) => {
           const listEl = document.createElement("div");
           listEl.className =
@@ -1907,9 +1910,7 @@ CHILL|CH|I|LL`;
       }
 
       function watchActiveList(config) {
-        const navButtons = document.querySelectorAll(
-          `#${config.navId} button`,
-        );
+        const navButtons = document.querySelectorAll(`#${config.navId} button`);
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -2108,7 +2109,9 @@ CHILL|CH|I|LL`;
             ? testedCount
             : textEls.length;
           const wholePct =
-            wholeTotal === 0 ? 0 : Math.round((wholeCorrect / wholeTotal) * 100);
+            wholeTotal === 0
+              ? 0
+              : Math.round((wholeCorrect / wholeTotal) * 100);
           const extraEl = listEl.querySelector(".list-total-whole");
           if (extraEl) {
             extraEl.textContent = `Whole Words Correct: ${wholeCorrect} / ${wholeTotal} (${wholePct}%)`;
