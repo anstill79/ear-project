@@ -17,23 +17,30 @@
       }
       h1 {
         text-align: center;
-        margin-top: 20px;
         font-size: 24px;
       }
-      .page-title {
-        margin-bottom: 4px;
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+      }
+      .h2-group {
+        display: flex;
+        align-items: center;
+        padding-inline: 50px;
+        justify-content: flex-end;
+        margin-block: 10px;
       }
       .test-selector {
         display: flex;
         justify-content: center;
         gap: 8px;
-        margin: 0 auto 20px;
       }
       .test-tab {
         font-family: inherit;
         font-size: 15px;
         font-weight: bold;
-        padding: 10px 22px;
         border: 2px solid #333;
         border-radius: 6px;
         background: #f7f7f7;
@@ -53,22 +60,43 @@
       .test-section.active {
         display: block;
       }
-      .section-controls {
-        width: 90%;
-        margin: 0 auto 20px;
-        text-align: right;
-      }
+
       .phoneme-hint {
-        width: 90%;
-        margin: 0 auto 16px;
-        text-align: center;
-        font-size: 12px;
-        color: #777;
+        max-width: 420px;
+        margin: 0;
+        text-align: left;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #333;
+        padding: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+      .phoneme-hint:popover-open {
+        inset: unset;
+        top: 90px;
+        left: 50%;
+        translate: -50% 0;
+      }
+      .help-btn {
+        width: 22px;
+        height: 22px;
+        padding: 0;
+        border-radius: 50%;
+        border: 2px solid #333;
+        background: #f7f7f7;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 1;
+        cursor: pointer;
+      }
+      .help-btn:hover {
+        background: #e0e0e0;
       }
       .test_conditions {
         display: flex;
         gap: 10px;
-        justify-content: space-evenly;
+        justify-content: center;
       }
       .grid-right {
         justify-self: end;
@@ -485,13 +513,16 @@
         animation-timing-function: ease;
       }
     </style>
-
-    <h1 class="page-title">Speech Testing</h1>
-    <div class="test-selector no-print">
-      <button type="button" class="test-tab active" data-test="azbio">
-        AzBio Sentences
-      </button>
-      <button type="button" class="test-tab" data-test="cnc">CNC Words</button>
+    <div class="top">
+      <h1 class="page-title">Speech Testing</h1>
+      <div class="test-selector no-print">
+        <button type="button" class="test-tab active" data-test="azbio">
+          AzBio Sentences
+        </button>
+        <button type="button" class="test-tab" data-test="cnc">
+          CNC Words
+        </button>
+      </div>
     </div>
 
     <div class="test_conditions">
@@ -514,11 +545,12 @@
     </div>
 
     <div class="test-section active" id="azbio-section" data-test="azbio">
-      <h2>AzBio Sentence Test Scoring</h2>
-      <div class="section-controls no-print">
-        <button id="azbio-reset-all-btn" type="button">
-          Reset All AzBio Scores
-        </button>
+      <div class="h2-group">
+        <div class="no-print">
+          <button id="azbio-reset-all-btn" type="button">
+            Reset All AzBio Scores
+          </button>
+        </div>
       </div>
       <nav
         id="azbio-list-nav"
@@ -529,19 +561,28 @@
     </div>
 
     <div class="test-section" id="cnc-section" data-test="cnc">
-      <h2>CNC Word Test Scoring<h>
-      <p class="phoneme-hint">
-        Each word shows its three target phonemes &mdash; initial consonant,
-        vowel (nucleus), and final consonant, in that order. Click a segment to
-        cycle correct &rarr; incorrect &rarr; blank, which checks the matching
-        0&ndash;3 box automatically, or check a box directly to record the
-        phoneme count without marking individual segments. A word counts as
-        whole-word correct only when the checked count is 3.
-      </p>
-      <div class="section-controls no-print">
-        <button id="cnc-reset-all-btn" type="button">
-          Reset All CNC Scores
-        </button>
+      <div class="h2-group">
+        <div class="no-print">
+          <button
+            type="button"
+            class="help-btn"
+            popovertarget="cnc-help-popover"
+            aria-label="Scoring help"
+          >
+            ?
+          </button>
+          <div id="cnc-help-popover" class="phoneme-hint" popover>
+            Each word shows its three target phonemes &mdash; initial consonant,
+            vowel (nucleus), and final consonant, in that order. Click a segment
+            to cycle correct &rarr; incorrect &rarr; blank, which checks the
+            matching 0&ndash;3 box automatically, or check a box directly to
+            record the phoneme count without marking individual segments. A word
+            counts as whole-word correct only when the checked count is 3.
+          </div>
+          <button id="cnc-reset-all-btn" type="button">
+            Reset All CNC Scores
+          </button>
+        </div>
       </div>
       <nav
         id="cnc-list-nav"
@@ -1498,7 +1539,7 @@ CHILL|CH|I|LL`;
           listHeading.className = "list-heading";
 
           const header = document.createElement("h2");
-          header.textContent = list.name;
+          header.textContent = `${config.testLabel} ${list.name}`;
 
           const resetListBtn = document.createElement("button");
           resetListBtn.type = "button";
