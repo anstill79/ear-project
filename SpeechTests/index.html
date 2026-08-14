@@ -28,9 +28,21 @@
       .h2-group {
         display: flex;
         align-items: center;
+        gap: 16px;
         padding-inline: 50px;
         justify-content: flex-end;
         margin-block: 10px;
+        margin-bottom: 2px;
+      }
+      .azbio-list-set {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .azbio-list-set select {
+        font-family: inherit;
+        font-size: 14px;
+        padding: 5px 8px;
       }
       .test-selector {
         display: flex;
@@ -113,7 +125,7 @@
       }
       .list {
         display: grid;
-        grid-template-columns: 19mm 1fr 60px 90px;
+        grid-template-columns: 19mm 1fr 35px 90px;
         width: 90%;
         margin: 0 auto 30px;
         border: 1px solid #ccc;
@@ -546,6 +558,13 @@
 
     <div class="test-section active" id="azbio-section" data-test="azbio">
       <div class="h2-group">
+        <div class="no-print azbio-list-set">
+          <label for="azbio-list-set" class="bold">List Set:</label>
+          <select id="azbio-list-set">
+            <option value="mstb" selected>MSTB Subset (8 Lists)</option>
+            <option value="full">Full AzBio (15 Lists)</option>
+          </select>
+        </div>
         <div class="no-print">
           <button id="azbio-reset-all-btn" type="button">
             Reset All AzBio Scores
@@ -563,6 +582,9 @@
     <div class="test-section" id="cnc-section" data-test="cnc">
       <div class="h2-group">
         <div class="no-print">
+          <button id="cnc-reset-all-btn" type="button">
+            Reset All CNC Scores
+          </button>
           <button
             type="button"
             class="help-btn"
@@ -579,9 +601,6 @@
             record the phoneme count without marking individual segments. A word
             counts as whole-word correct only when the checked count is 3.
           </div>
-          <button id="cnc-reset-all-btn" type="button">
-            Reset All CNC Scores
-          </button>
         </div>
       </div>
       <nav
@@ -922,6 +941,184 @@ He worried about money constantly. 5
 18 They found her missing mother. 5
 19 What exactly do they make hotdogs out of? 8
 20 Isn't this considered cruel and unusual punishment?`;
+
+      const rawAzbioMSTBListsText = `
+List 1
+1 I could hear another conversation through the cordless phone. 9
+2 She relied on him for transportation. 6
+3 He was an ordinary person who did extraordinary things. 9
+4 How long has this been going on? 7
+5 His class was on Saturday. 5
+6 She was entitled to a bit of luxury occasionally. 9
+7 The vacation was cancelled on account of weather. 8
+8 The salon is not open on Mondays. 7
+9 She had a way to justify any of her wrongdoing. 10
+10 I feel sorry for my brother. 6
+11 On numerous occasions they left early. 6
+12 In private she let her hair down. 7
+13 A mother always has something better to do. 8
+14 You should be used to taking money from ladies. 9
+15 Who would lie about cancer for attention? 7
+16 Hang the air freshener from your rearview mirror. 8
+17 You can use your computer to make greeting cards. 9
+18 I guess you know what you're doing. 7
+19 You must live in a gingerbread house! 7
+20 The cat was born with six toes. 7
+
+List 2
+1 He tried to convince her she was not right. 9
+2 He was a very dedicated person. 6
+3 You smell like fresh lemons. 5
+4 There are several types of tuxedos. 6
+5 My life will start at thirty. 6
+6 The post office handles the snail mail. 7
+7 Self appraisal often underestimates good qualities. 6
+8 He goes out of his way for you. 8
+9 There's a fruit fly in the kitchen. 7
+10 Every crime has a suspect. 5
+11 The child apparently was not sleepy. 6
+12 Nothing tastes sweeter than self-discipline. 6
+13 They acted as if nothing had happened. 7
+14 I am concerned about your fever. 6
+15 I hope they catch that most wanted criminal. 8
+16 Empathy means you feel what another person feels. 8
+17 The golf cart driver lost control. 6
+18 Do you want a piece of me? 7
+19 I could spend hours in the card shop. 8
+20 She did not like to fly in planes.
+
+List 3
+1 How many times have you given this lecture? 8
+2 The little girl mistreated the pet cat. 7
+3 I never knew Timbuktu was a real place. 8
+4 I am craving chocolate chip cookies. 6
+5 Let's do something we have never done. 7
+6 She made her own business cards on the computer. 9
+7 The dog's paws were frostbitten. 5
+8 Do you still have the lizard? 6
+9 He works four ten-hour shifts. 6
+10 This is my favorite song. 5
+11 Meditation brings a higher level of awareness. 7
+12 Could you make the shake thicker please? 7
+13 He put a horse's head in their bed. 8
+14 Have a nice lunch. 4
+15 Her fake nails were unnaturally thick. 6
+16 She was top banana in the shock department. 8
+17 You can rest assured. 4
+18 The puppies will train to be Seeing Eye dogs. 9
+19 If I had a gold star you'd be wearing it. 10
+20 She wanted to follow in his footsteps. 7
+
+List 4
+1 I would be glad to take a message for him. 10
+2 His hospitality was matched by none. 6
+3 You don't have fifty million dollars? 6
+4 We will have champagne at the reception. 7
+5 Please pass the salt. 4
+6 The purple velvet curtains were very expensive. 7
+7 The road was all torn up and under construction. 9
+8 We are holding on to what is golden. 8
+9 I love the sound of thunder and heavy rain. 9
+10 I am not a psychiatrist, but I sense some issues. 10
+11 Their marriage is on the rocks. 6
+12 Most of the players had criminal records. 7
+13 I have had just about enough of you. 8
+14 She always wanted to be a ballerina. 7
+15 You have completely inspired me. 5
+16 A camel is not the most comfortable animal on which to ride. 12
+17 Subconsciously she sabotaged her chances. 5
+18 The gecko represented the car insurance agency. 7
+19 A new baby means that you need to be more organized. 11
+20 Could you speak up a little? 
+
+List 5
+1 They tried to fashion a weapon from a stick. 9
+2 The produce at the market was in horrible condition. 9
+3 The book was about a child sorcerer. 7
+4 What you call ugly, I call interesting. 7
+5 You can't change your life without getting out of bed. 10
+6 Will you marry me? 4
+7 Mom and Dad offered to pay for the wedding. 9
+8 A lot of things were said in anger. 8
+9 Her sister was anorexic as well as self-centered. 9
+10 These sentences are getting old. 5
+11 She watched the sneak preview of the new film. 9
+12 She made a scrapbook of important moments. 7
+13 The construction workers had a few beers on lunch break. 10
+14 Young girls should not wear lingerie. 6
+15 I am recharging the battery. 5
+16 Clear and refreshing water is the best kind. 8
+17 If I had hands I'd pat you on the back. 10
+18 What was the name of that famous ship that sank? 10
+19 Dad took a fishing trip in order to relax. 9
+20 The sleeves on the shirt were too long.
+
+List 6
+1 She missed a week of work and nobody noticed. 9
+2 The monkey learned some sign language. 6
+3 The house was painted bright orange. 6
+4 One day giants will take over the world. 8
+5 The new Barbie doll is pregnant. 6
+6 It was better to run at night after sunset. 9
+7 He never acknowledged the Christmas gift. 6
+8 She had the stomach flu for four days. 8
+9 How dare you call me a spineless wimp! 8
+10 Don't get me started. 4
+11 She was more than ready to come home. 8
+12 The artist's work had a childlike quality. 7
+13 He crushed a can on his head. 7
+14 She finally stood up for herself. 6
+15 Have a neighbor pick up your mail and paper. 9
+16 Only the ants' coiled carcasses remained after the extermination. 9
+17 It is wrong to borrow someone's car without permission. 9
+18 The candle smelled like sugar cookies. 6
+19 I doubt you were thinking too much. 7
+20 The chocolate cake claimed to be fat free.
+
+List 7
+1 We represent the lollypop guild. 5
+2 Her hurried pace makes me nervous. 6
+3 Wouldn't you like to be a pepper too? 8
+4 Does your wife dress you? 5
+5 Why don't you just drop the whole thing? 8
+6 The bulky sweater helped shield the breeze. 7
+7 He created his own lyrics to the songs. 8
+8 The mannequin looked so real. 5
+9 The choir was directed by a close friend of mine. 10
+10 I'll have the grilled cheese sandwich please. 7
+11 That religious Figurehead is very old. 6
+12 He can tie his shoes now. 6
+13 This is a travesty of justice! 6
+14 I thought I was on to something. 7
+15 The laundry detergent did not completely dissolve. 7
+16 A fireplace creates atmosphere when glowing. 6
+17 This conversation is between you and me. 7
+18 He cut out his carbohydrate intake and lost weight. 9
+19 She was married to a Latin musician. 7
+20 What makes you think you're so special?
+
+List 8
+1 The message was very clear. 5
+2 He used hard candy to replace his smoking habit. 9
+3 There is a national holiday. 5
+4 I am just giving myself a pedicure. 7
+5 Success should be measured by stability not stuff. 8
+6 His dirty fingernails left a bad impression. 7
+7 He could not balance a relationship with his friendship. 9
+8 She realized her mistake after the fact. 7
+9 You say "idiot" like it's a bad thing! 8
+10 The weather could not have been better. 7
+11 I am sorry but I didn't hear you. 8
+12 I will devote my life to earning money. 8
+13 There is no singing and dancing in the movies today. 10
+14 The universe is in harmony. 5
+15 She was talented in creating difficult situations. 7
+16 The snowy cabin was very romantic. 6
+17 You are a wonderful and attractive person. 7
+18 A strong drink can remedy that. 6
+19 I did not need to help you look bad. 9
+20 Do you have plans for the weekend?
+`;
 
       // CNC word lists. Format per line: WORD|initial|vowel|final
       // (silent letters are folded into the nearest phoneme segment for display).
@@ -1947,7 +2144,11 @@ CHILL|CH|I|LL`;
           );
         };
         syncNavHeight();
-        new ResizeObserver(syncNavHeight).observe(nav);
+        if (config._navResizeObserver) {
+          config._navResizeObserver.disconnect();
+        }
+        config._navResizeObserver = new ResizeObserver(syncNavHeight);
+        config._navResizeObserver.observe(nav);
       }
 
       function watchActiveList(config) {
@@ -1970,6 +2171,48 @@ CHILL|CH|I|LL`;
         document
           .querySelectorAll(`#${config.listsContainerId} .list`)
           .forEach((listEl) => observer.observe(listEl));
+        if (config._activeListObserver) {
+          config._activeListObserver.disconnect();
+        }
+        config._activeListObserver = observer;
+      }
+
+      function hasEnteredScores(container) {
+        return (
+          container.querySelector(".word.correct, .word.incorrect") !== null ||
+          container.querySelector('input[type="checkbox"]:checked') !== null ||
+          container.querySelector(".score-value.has-score") !== null
+        );
+      }
+
+      function setAzbioListSet(config, dataSets, setKey, selectEl) {
+        if (setKey === config.activeListSet) return;
+
+        const listsContainer = document.getElementById(config.listsContainerId);
+        const nav = document.getElementById(config.navId);
+
+        if (
+          hasEnteredScores(listsContainer) &&
+          !confirm(
+            "Switching AzBio list sets will clear all entered scores for this test. Continue?",
+          )
+        ) {
+          selectEl.value = config.activeListSet;
+          return;
+        }
+
+        listsContainer.innerHTML = "";
+        nav.innerHTML = "";
+
+        config.activeListSet = setKey;
+        config.testData = dataSets[setKey];
+
+        buildTestApp(config);
+        buildNav(config);
+        watchActiveList(config);
+        listsContainer
+          .querySelectorAll(".list")
+          .forEach((listEl) => updateListTotal(listEl, config));
       }
 
       function updateSentenceScore(textEl, possibleEl, scoreEl, config) {
@@ -2226,6 +2469,11 @@ CHILL|CH|I|LL`;
           });
       }
 
+      const azbioDataSets = {
+        full: parseAzbioLists(rawAzbioListsText),
+        mstb: parseAzbioLists(rawAzbioMSTBListsText),
+      };
+
       const azbioConfig = {
         key: "azbio",
         testLabel: "AzBio",
@@ -2243,7 +2491,8 @@ CHILL|CH|I|LL`;
         navId: "azbio-list-nav",
         listsContainerId: "azbio-lists",
         resetAllBtnId: "azbio-reset-all-btn",
-        testData: parseAzbioLists(rawAzbioListsText),
+        activeListSet: "mstb",
+        testData: azbioDataSets.mstb,
       };
 
       const cncConfig = {
@@ -2268,6 +2517,17 @@ CHILL|CH|I|LL`;
 
       initTest(azbioConfig);
       initTest(cncConfig);
+
+      const azbioListSetSelect = document.getElementById("azbio-list-set");
+      azbioListSetSelect.value = azbioConfig.activeListSet;
+      azbioListSetSelect.addEventListener("change", () => {
+        setAzbioListSet(
+          azbioConfig,
+          azbioDataSets,
+          azbioListSetSelect.value,
+          azbioListSetSelect,
+        );
+      });
 
       const tabButtons = document.querySelectorAll(".test-tab");
       tabButtons.forEach((btn) => {
