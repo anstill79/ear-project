@@ -19,6 +19,7 @@ body {
 }
 
 .container {
+  max-width: 980px;
   margin: 0 auto;
 }
 
@@ -44,9 +45,9 @@ body {
 
 .main-layout {
   display: grid;
-  /* gap: 15px; */
+  gap: 10px;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
 }
 
 /* this is the capsule style from Gemini */
@@ -150,7 +151,6 @@ td.input-error {
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   margin-bottom: 10px; /* Stronger separation from the chart */
-  margin-left: 10px;
 }
 
 /* 👇imported from SAL 1, to use in the norms modal */
