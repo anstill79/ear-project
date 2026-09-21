@@ -381,72 +381,154 @@
 
     <div id="help_text_modal" popover>
       <div id="help_content">
-        <h3>When should you use SAL?</h3>
+        <h3>What is this test, in plain terms?</h3>
         <p>
-          SAL is useful when traditional masking approaches are likely to
-          overmask and lead to masking dilemma. Bilateral conductive hearing
-          losses with large unmasked air-bone gaps are the most common use case
-          for SAL.
-        </p>
-        <h3>How do I do the test?</h3>
-
-        <p>
-          Measure unmasked AC thresholds 500Hz-4kHz in each ear and enter
-          results in the 'Initial AC' fields. Place the bone oscillator on
-          center of the forehead and present narrow-band masking noise through
-          it at the max level of channel 2 (or use the levels listed below the
-          grids) then remeasure AC thresholds and enter them in the 'Masked AC'
-          fields. The estimated BC thresholds will be calculated and displayed
-          in the 'Est. SAL BC' row.
+          SAL (Sensorineural Acuity Level) is a workaround for a specific
+          problem: sometimes you can't mask an ear properly with the usual
+          method because <strong>any</strong> masking noise loud enough to
+          reach the test ear is also loud enough to cross over into the ear
+          you're trying to mask &mdash; a "masking dilemma." Instead of
+          masking in the ear, SAL puts noise on the <strong>forehead</strong>
+          via the bone oscillator. If the ear has a conductive component, that
+          noise gets blocked from reaching the cochlea (just like an
+          air-conduction sound would be), so the air-conduction threshold gets
+          worse with the noise on. If the loss is purely sensorineural, the
+          noise reaches the cochlea just fine and barely changes the
+          threshold. That difference is used to estimate the true bone-conduction
+          threshold.
         </p>
 
-        <h3>How does it work?</h3>
-
+        <h3>When should I use it?</h3>
         <p>
-          SAL uses normative data based on each audiometer and averaged
-          responses from normal subjects. Each audiometer likely has different
-          maximum outputs for bone-conduction (BC) narrow-band noise (NBN) at
-          each freqeuncy. The SAL procedure asks you to set channel 2 to the
-          maximum level per frequency/NBN using the BC oscillator placed on the
-          patient's forehead. The max output will vary by frequency (usually
-          between 40-60dB). You can use the default norms but it is likely
-          better to establish specific norms for your booth. The BC masking
-          noise will cause the AC thresholds to increase if the ear has
-          conductive loss. If the loss is sensory the masking qon't cause much
-          shift. The amount of increase (unmasked AC vs masked AC) will guide
-          you on the estimated level of the true BC hearing threshold.
+          Use SAL when a patient has (or is suspected to have) a
+          <strong>conductive loss in both ears</strong> with large air-bone
+          gaps &mdash; the classic case where regular masking would overmask
+          and you can never get a stable, cross-checked threshold.
         </p>
 
+        <h3>Step-by-step: how to run the test</h3>
+        <ol>
+          <li>
+            <strong>Get an unmasked air-conduction (AC) threshold</strong> at
+            500&nbsp;Hz, 1000&nbsp;Hz, 2000&nbsp;Hz, and 4000&nbsp;Hz in each
+            ear, the normal way (headphones/inserts, no masking noise). Enter
+            these in the <strong>"Initial AC"</strong> row for the matching
+            ear.
+          </li>
+          <li>
+            <strong>Move the masking noise to the forehead.</strong> Place the
+            bone oscillator at the center of the forehead and route narrow-band
+            noise (NBN) to it through your audiometer's second channel.
+          </li>
+          <li>
+            <strong>Turn the forehead noise up to the reference level</strong>
+            for that frequency. This is the maximum noise output your
+            audiometer can deliver through the bone oscillator at that
+            frequency &mdash; use the default reference levels built into this
+            app, or your own measured norms (see below).
+          </li>
+          <li>
+            <strong>Re-test the same AC thresholds</strong>, at the same four
+            frequencies, in the same ear, with the forehead noise still
+            playing. Enter these new thresholds in the
+            <strong>"Masked AC"</strong> row.
+          </li>
+          <li>
+            Repeat steps 1&ndash;4 for the other ear. As you type, the
+            <strong>"Est. SAL BC"</strong> row and the chart below fill in
+            automatically &mdash; you don't calculate anything by hand.
+          </li>
+        </ol>
+
+        <h3>How do I read the chart?</h3>
+        <p>
+          For each ear and frequency, the chart shows three markers connected
+          by lines:
+        </p>
+        <ul>
+          <li>
+            <strong>Initial AC</strong> (open circle for right, "X" for left)
+            &mdash; your first, unmasked air-conduction threshold.
+          </li>
+          <li>
+            <strong>Masked AC</strong> (same shape, connected to Initial AC by
+            a solid curved line) &mdash; the threshold after adding forehead
+            noise. If this is much worse than the Initial AC, that's a sign of
+            conductive loss.
+          </li>
+          <li>
+            <strong>Est. SAL BC</strong> (bracket symbol, the standard
+            audiogram symbol for masked bone conduction) &mdash; the estimated
+            true bone-conduction threshold, calculated from how much the noise
+            shifted the AC threshold.
+          </li>
+          <li>
+            A thin dashed line (toggle it with the checkbox above the chart)
+            connects the Initial AC symbol straight down/up to the Est. SAL BC
+            bracket, so you can see at a glance how close &mdash; or how far
+            &mdash; the estimated bone score landed from where you started.
+          </li>
+        </ul>
+        <p>
+          Hover over any "Est. SAL BC" result to see warnings if a value looks
+          off (for example, if the masked threshold came back <em>better</em>
+          than the unmasked one, which shouldn't normally happen).
+        </p>
+
+        <h3>Why does the calculation work this way?</h3>
+        <p>
+          Each audiometer has a different maximum output for bone-conduction
+          narrow-band noise at each frequency (usually 40&ndash;60&nbsp;dB).
+          Manufacturers and researchers have measured, in people with normal
+          hearing, how much a threshold typically shifts when that maximum
+          noise is applied at the forehead &mdash; that's the "Norm Shift"
+          value in the table. If your patient's actual shift (Masked AC minus
+          Initial AC) is close to that normal shift, it suggests little or no
+          conductive component. If the shift is smaller than normal, it
+          suggests a conductive loss, and the app estimates the bone-conduction
+          threshold as: <code>Norm Shift &minus; (Masked AC &minus; Initial AC)</code>,
+          subtracted from the normative value, and displayed as the
+          "Est. SAL BC" result.
+        </p>
+
+        <h3>Should I use the built-in norms or my own?</h3>
+        <p>
+          The default "Norm Shift" values are reasonable starting points, but
+          every audiometer/transducer/booth combination is a little different.
+          For the most accurate results, measure your own norms (below) and
+          load them with the <strong>Custom Norms</strong> button.
+        </p>
         <h3>How do I create my own norms?</h3>
 
         <p>
-          Test air-conduction on a few normal subjects at 500Hz, 1kHz, 2kHz, and
-          4kHz in each ear (unilateral is also fine). Retest the same subjects
-          at the same frequencies via AC but place the BC oscillator on the
-          forehead and set channel 2 routed to BC with NBN signal at the highest
-          output allowed by the machine. Subtract the unmasked threshold from
-          the masked threshold to get the shift value for each frequency.
-          Average the shift values across your subjects to get the norm value
-          for that frequency.
+          Test air-conduction on a few normal-hearing subjects at 500Hz, 1kHz,
+          2kHz, and 4kHz in each ear (unilateral is also fine). Retest the
+          same subjects at the same frequencies via AC, but with the bone
+          oscillator on the forehead and channel 2 routed to bone conduction
+          with NBN signal at the highest output the machine allows. Subtract
+          the unmasked threshold from the masked threshold to get the shift
+          value for each frequency. Average the shift values across your
+          subjects to get the norm value for that frequency.
         </p>
 
         <h3>How do I save my norms?</h3>
         <p>
-          Click the Custom Norms button and enter your data and click save. The
-          norms data will only be saved locally to the computer you are
-          currently on. This SAL app does not send or sync any data remotely.
+          Click the Custom Norms button, enter your data, and click Save. The
+          norms are saved only on the computer you're currently using &mdash;
+          this app does not send or sync any data remotely.
         </p>
 
         <h3>
-          What do I do if I reach the limits of the equipment before a masked
-          response is obtained?
+          What if I run out of equipment headroom before I get a masked
+          response?
         </h3>
 
         <p>
-          This can happen when the loss is mixed and the best unmasked BC
-          thresolds are near the moderate range of hearing loss. Try another AC
-          transducer to see if there is higher output. If that doesn't help then
-          you may need to stick with "masking dilemma".
+          This can happen with mixed losses where the true bone-conduction
+          threshold is already in the moderate range. Try a different AC
+          transducer to see if it has more output. If that doesn't help, you
+          may need to report the result as "masking dilemma" rather than a
+          specific threshold.
         </p>
         <div class="research">
           <h3>Research &amp; Links</h3>
