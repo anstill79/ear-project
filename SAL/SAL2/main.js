@@ -9,6 +9,7 @@ const bcOffset = 12;
 const acOffset = 20;
 const pathOffset = 35;
 let hoveredData = null;
+let showUnmaskedToBCLink = true;
 
 const salPlugin = {
   id: "salPlugin",
@@ -62,6 +63,21 @@ const salPlugin = {
             ctx.lineTo(xSym, yPaired);
 
             ctx.stroke();
+          }
+
+          if (showUnmaskedToBCLink && point.pairedBCY != null && !isNaN(point.pairedBCY)) {
+            const xBC = xCenter + bcOffset * sign;
+            const yBC = y.getPixelForValue(point.pairedBCY);
+
+            ctx.save();
+            ctx.setLineDash([4, 3]);
+            ctx.globalAlpha = 0.55;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(xSym, yPos);
+            ctx.lineTo(xBC, yBC);
+            ctx.stroke();
+            ctx.restore();
           }
         }
 
@@ -299,8 +315,8 @@ function updateChart() {
         }
         // 2. Attach warnings to the data points
         const acPoints = [
-          { x: f, y: ac, pairedY: mac, warnings: warnings },
-          { x: f, y: mac, pairedY: null, warnings: warnings },
+          { x: f, y: ac, pairedY: mac, pairedBCY: estBC, warnings: warnings },
+          { x: f, y: mac, pairedY: null, pairedBCY: null, warnings: warnings },
         ];
 
         const bcPoint = { x: f, y: estBC, warnings: warnings };
@@ -322,6 +338,11 @@ function updateChart() {
   chart.data.datasets[1].data = d.rBC;
   chart.data.datasets[2].data = d.lAC;
   chart.data.datasets[3].data = d.lBC;
+  chart.update();
+}
+
+function toggleUnmaskedToBCLink(checked) {
+  showUnmaskedToBCLink = checked;
   chart.update();
 }
 
