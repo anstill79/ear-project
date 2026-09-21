@@ -216,6 +216,15 @@ h1 {
   gap: 5px;
   align-items: center;
 }
+.chart-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+}
 #help_content {
   display: grid;
   grid-template-columns: 80vw;
