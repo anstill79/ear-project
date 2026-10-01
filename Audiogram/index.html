@@ -54,7 +54,6 @@
           <button id="AC_button" class="button_T">AC</button>
           <button id="BC_button" class="button_T">BC</button>
 
-          <button id="word_rec" class="button_T">Speech</button>
           <button id="aided_button" class="button_T">Aided</button>
         </div>
         <div class="top-controls-container-item">
@@ -129,11 +128,41 @@
 
       <div class="spacer2" style="grid-column: 1"></div>
 
+      <div class="audiogram-toolbar no-print">
+        <button id="copy_ear_right" class="button_R copy-ear-btn">
+          Copy R &rarr; L
+        </button>
+        <div class="audiogram-toolbar-toggles">
+          <button
+            type="button"
+            class="button-row-summary"
+            data-toggle-panel="masking_panel"
+            aria-controls="masking_panel"
+            aria-expanded="false"
+          >
+            Masking
+          </button>
+          <button
+            type="button"
+            class="button-row-summary"
+            data-toggle-panel="NR_panel"
+            aria-controls="NR_panel"
+            aria-expanded="false"
+          >
+            NR
+          </button>
+        </div>
+        <button id="copy_ear_left" class="button_L copy-ear-btn">
+          Copy L &rarr; R
+        </button>
+      </div>
+
       <details
+        id="masking_panel"
         class="button-row-details no-print"
         style="grid-column: 1 / span 2"
       >
-        <summary class="button-row-summary">Masking</summary>
+        <summary>Masking</summary>
         <div class="button-row-container">
           <div class="button-row-R">
             <div>
@@ -339,34 +368,44 @@
       <div class="spacer2" style="grid-column: 1"></div>
 
       <details
+        id="NR_panel"
         class="button-row-details no-print"
         style="grid-column: 1 / span 2"
       >
-        <summary class="button-row-summary">NR</summary>
+        <summary>NR</summary>
         <div class="button-row-container">
           <div class="button-row-R">
-            <button data-ear="R" data-index="0" class="button_R_two NR">
-              NR
+            <div>
+              <button data-ear="R" data-index="0" class="button_R_two NR">
+                NR
+              </button>
+              <button data-ear="R" data-index="1" class="button_R NR">NR</button>
+              <button onClick="" class="invisible">..</button>
+              <button data-ear="R" data-index="3" class="button_R NR">NR</button>
+              <button data-ear="R" data-index="4" class="button_R_two NR">
+                NR
+              </button>
+              <button data-ear="R" data-index="5" class="button_R NR">NR</button>
+              <button data-ear="R" data-index="6" class="button_R_two NR">
+                NR
+              </button>
+              <button data-ear="R" data-index="7" class="button_R NR">NR</button>
+              <button data-ear="R" data-index="8" class="button_R_two NR">
+                NR
+              </button>
+              <button data-ear="R" data-index="9" class="button_R NR">NR</button>
+              <button data-ear="R" data-index="10" class="button_R_two NR">
+                NR
+              </button>
+              <button data-ear="R" data-index="11" class="button_R NR">NR</button>
+            </div>
+            <button
+              id="NR_all_right"
+              class="button_R"
+              style="width: 50px; margin: -2px"
+            >
+              NR All
             </button>
-            <button data-ear="R" data-index="1" class="button_R NR">NR</button>
-            <button onClick="" class="invisible">..</button>
-            <button data-ear="R" data-index="3" class="button_R NR">NR</button>
-            <button data-ear="R" data-index="4" class="button_R_two NR">
-              NR
-            </button>
-            <button data-ear="R" data-index="5" class="button_R NR">NR</button>
-            <button data-ear="R" data-index="6" class="button_R_two NR">
-              NR
-            </button>
-            <button data-ear="R" data-index="7" class="button_R NR">NR</button>
-            <button data-ear="R" data-index="8" class="button_R_two NR">
-              NR
-            </button>
-            <button data-ear="R" data-index="9" class="button_R NR">NR</button>
-            <button data-ear="R" data-index="10" class="button_R_two NR">
-              NR
-            </button>
-            <button data-ear="R" data-index="11" class="button_R NR">NR</button>
           </div>
           <div class="button-row-L">
             <button data-ear="L" data-index="0" class="button_L_two NR">
@@ -453,63 +492,53 @@
             >
               NR
             </button>
+            <button
+              id="NR_all_left"
+              class="button_L"
+              style="width: 50px; margin: -2px; justify-self: left"
+            >
+              NR All
+            </button>
           </div>
         </div>
       </details>
 
       <div class="spacer2" style="grid-column: 1"></div>
+      <div class="bar-controls no-print">
+        <div class="bar-control-group" role="group" aria-label="Compare">
+          <span class="bar-control-label">Compare</span>
+          <div class="bar-views">
+            <button type="button" data-bar-compare="previous" aria-pressed="false" title="Current thresholds vs. the previous test. Needs previous results">Previous</button>
+            <button type="button" data-bar-compare="aided" aria-pressed="false" title="Unaided minus aided (▲ = aided better). Needs unaided and aided thresholds">Aided</button>
+          </div>
+        </div>
+        <div class="bar-control-group" role="group" aria-label="Show">
+          <span class="bar-control-label">Show</span>
+          <div class="bar-views">
+            <button type="button" data-bar-resolution="full" aria-pressed="true" title="Each frequency">Freq</button>
+            <button type="button" data-bar-resolution="lowMidHigh" aria-pressed="false" title="Averaged for low, mid and high frequencies">L/M/H</button>
+            <button type="button" data-bar-resolution="PTA" aria-pressed="false" title="Pure-tone average">PTA</button>
+          </div>
+        </div>
+      </div>
       <div
         class="bar_R grid-item right-position"
         style="grid-column: 1; padding-right: 5px"
       >
-        <canvas id="change_R"> </canvas>
+        <div class="bar-head">
+          <span class="bar-title" id="bar_title_R">Change vs. previous</span>
+        </div>
+        <canvas id="change_R" title="Click to switch Freq / L/M/H / PTA"> </canvas>
       </div>
 
       <div
         class="bar_L grid-item left-position"
         style="grid-column: 2; padding-right: 5px"
       >
-        <canvas id="change_L"> </canvas>
-      </div>
-
-      <div
-        style="grid-column: 1; justify-self: right; padding-right: 223px"
-        class="no-print"
-      >
-        <button
-          id="copy_ear_right"
-          class="button_R"
-          style="width: 80px; transition-duration: 0.9s"
-        >
-          Copy R &gt; L
-        </button>
-      </div>
-
-      <div
-        style="grid-column: 2; justify-self: left; padding-left: 257px"
-        class="no-print"
-      >
-        <button
-          id="copy_ear_left"
-          class="button_L"
-          style="width: 80px; transition-duration: 0.9s"
-        >
-          Copy R &lt; L
-        </button>
-      </div>
-
-      <div class="word-rec-simple">
-        <div></div>
-        <div class="wrs-col-header wrs-right-header">Right</div>
-        <div class="wrs-col-header wrs-left-header">Left</div>
-
-        <div class="wrs-row-label">PTA</div>
-        <div id="PTA_right_simple" class="wrs-value wrs-right-val"></div>
-        <div id="PTA_left_simple" class="wrs-value wrs-left-val"></div>
-
-        <div class="wrs-row-label">Word Rec</div>
-        <div id="WR_right_simple" class="wrs-value wrs-right-val"></div>
-        <div id="WR_left_simple" class="wrs-value wrs-left-val"></div>
+        <div class="bar-head">
+          <span class="bar-title" id="bar_title_L">Change vs. previous</span>
+        </div>
+        <canvas id="change_L" title="Click to switch Freq / L/M/H / PTA"> </canvas>
       </div>
 
       <div class="legend-table-container">
@@ -565,179 +594,104 @@
         </table>
       </div>
 
-      <!--end of container-->
-    </div>
-
-    <!-- The Modal, word rec-->
-    <div id="WR_modal" class="WR-modal">
-      <div id="WR_modal_content" class="WR-modal-content">
-        <p class="wr-title">Word Recognition</p>
-        <div class="word-rec-advanced">
-          <!-- Header -->
-          <div></div>
-          <div class="wr-ear-header wr-right">Right</div>
-          <div class="wr-ear-header wr-left">Left</div>
-
-          <!-- PTA -->
-          <div class="wr-row-label">PTA</div>
-          <div id="PTA_R_forWR" class="wr-value wr-right"></div>
-          <div id="PTA_L_forWR" class="wr-value wr-left"></div>
-
-          <!-- SRT -->
-          <div class="wr-row-label">SRT</div>
-          <div class="wr-input-group">
-            <input
-              type="number"
-              id="SRT_right_advanced"
-              class="wr-input wr-right"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
-              value="90"
-            />
-            <div class="wr-mask-row">
-              <span class="wr-mask-label">&#8627; mask</span>
-              <input
-                type="number"
-                id="SRT_right_masking"
-                class="wr-input wr-mask"
-                step="5"
-                min="0"
-                max="120"
-              />
+      <section class="speech-section" aria-label="Speech audiometry">
+        <h2 class="sp-section-title">Speech Audiometry</h2>
+        <div class="sp-ear sp-right" style="grid-column: 1">
+          <div class="sp-ear-head">
+            <span>Right</span>
+            <span class="sp-pta">PTA <span id="PTA_R_speech"></span></span>
+          </div>
+          <div class="sp-block" data-kind="thresh" data-ear="R" data-default-rows="1">
+            <div class="sp-block-head">
+              <span class="sp-block-title">Threshold</span>
+              <button type="button" class="sp-add no-print" title="Add row">+</button>
             </div>
+            <div class="sp-cols sp-cols-thresh"><span>Test</span><span>dB HL</span><span></span><span>Mask</span><span>Mode</span></div>
+            <div class="sp-rows"></div>
           </div>
-          <div class="wr-input-group">
-            <input
-              type="number"
-              id="SRT_left_advanced"
-              class="wr-input wr-left"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
-            />
-            <div class="wr-mask-row">
-              <span class="wr-mask-label">&#8627; mask</span>
-              <input
-                type="number"
-                id="SRT_left_masking"
-                class="wr-input wr-mask"
-                step="5"
-                min="0"
-                max="120"
-              />
+          <div class="sp-block" data-kind="wr" data-ear="R" data-default-rows="1">
+            <div class="sp-block-head">
+              <span class="sp-block-title">Word recognition</span>
+              <button type="button" class="sp-add no-print" title="Add row">+</button>
             </div>
-          </div>
-
-          <!-- WR% -->
-          <div class="wr-row-label">WR %</div>
-          <div class="wr-value wr-right">
-            <input
-              type="number"
-              id="WR_right_advanced"
-              class="wr-score-input"
-              min="0"
-              max="100"
-              step="4"
-            />
-            <span class="wr-score-pct">%</span>
-          </div>
-          <div class="wr-value wr-left">
-            <input
-              type="number"
-              id="WR_left_advanced"
-              class="wr-score-input"
-              min="0"
-              max="100"
-              step="4"
-            />
-            <span class="wr-score-pct">%</span>
-          </div>
-
-          <!-- Pres. level + Mask -->
-          <div class="wr-row-label">Pres. level</div>
-          <div class="wr-input-group">
-            <input
-              type="number"
-              id="WR_right_pres_level"
-              class="wr-input wr-right"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
-            />
-            <div class="wr-mask-row">
-              <span class="wr-mask-label">&#8627; mask</span>
-              <input
-                type="number"
-                id="WR_right_mask_level"
-                class="wr-input wr-mask"
-                step="5"
-                min="0"
-                max="120"
-              />
-            </div>
-          </div>
-          <div class="wr-input-group">
-            <input
-              type="number"
-              id="WR_left_pres_level"
-              class="wr-input wr-left"
-              step="5"
-              min="0"
-              max="120"
-              onclick="calcMasking()"
-              onblur="calcMasking()"
-            />
-            <div class="wr-mask-row">
-              <span class="wr-mask-label">&#8627; mask</span>
-              <input
-                type="number"
-                id="WR_left_mask_level"
-                class="wr-input wr-mask"
-                step="5"
-                min="0"
-                max="120"
-              />
-            </div>
-          </div>
-
-          <!-- List -->
-          <div class="wr-row-label">List</div>
-          <div id="WR_right_list" class="wr-value wr-right">NU-6 List 1A</div>
-          <div id="WR_left_list" class="wr-value wr-left">NU-6 List 2A</div>
-
-          <!-- Mode -->
-          <div class="wr-row-label">Mode</div>
-          <div style="grid-column: 2 / span 2">
-            <select name="WR_mode" id="WR_mode" class="wr-select">
-              <option value="">--</option>
-              <option value="recorded">Recorded</option>
-              <option value="live voice">Live Voice</option>
-            </select>
-          </div>
-
-          <!-- Masking calc -->
-          <div class="wr-checkbox-row" style="grid-column: 1 / span 3">
-            <input
-              type="checkbox"
-              id="calc_WR_masking_please"
-              name="calc_WR_masking"
-            />
-            <label for="calc_WR_masking_please" class="wr-checkbox-label"
-              >Calculate masking levels</label
-            >
+            <div class="sp-cols sp-cols-wr"><span>List</span><span>Score</span><span>Level</span><span>Mask</span><span>Mode</span></div>
+            <div class="sp-rows"></div>
           </div>
         </div>
-        <button id="closeWR" class="top-controls-button wr-close-btn">
-          Close
-        </button>
-      </div>
+        <div class="sp-ear sp-left" style="grid-column: 2">
+          <div class="sp-ear-head">
+            <span>Left</span>
+            <span class="sp-pta">PTA <span id="PTA_L_speech"></span></span>
+          </div>
+          <div class="sp-block" data-kind="thresh" data-ear="L" data-default-rows="1">
+            <div class="sp-block-head">
+              <span class="sp-block-title">Threshold</span>
+              <button type="button" class="sp-add no-print" title="Add row">+</button>
+            </div>
+            <div class="sp-cols sp-cols-thresh"><span>Test</span><span>dB HL</span><span></span><span>Mask</span><span>Mode</span></div>
+            <div class="sp-rows"></div>
+          </div>
+          <div class="sp-block" data-kind="wr" data-ear="L" data-default-rows="1">
+            <div class="sp-block-head">
+              <span class="sp-block-title">Word recognition</span>
+              <button type="button" class="sp-add no-print" title="Add row">+</button>
+            </div>
+            <div class="sp-cols sp-cols-wr"><span>List</span><span>Score</span><span>Level</span><span>Mask</span><span>Mode</span></div>
+            <div class="sp-rows"></div>
+          </div>
+        </div>
+        <div class="sp-ear sp-bin sp-center">
+          <div class="sp-block" data-kind="wr" data-ear="B" data-default-rows="0">
+            <div class="sp-block-head">
+              <span class="sp-block-title">Binaural word recognition</span>
+              <button type="button" class="sp-add no-print" title="Add row">+</button>
+            </div>
+            <div class="sp-cols sp-cols-wr"><span>List</span><span>Score</span><span>Level</span><span></span><span>Mode</span></div>
+            <div class="sp-rows"></div>
+          </div>
+        </div>
+
+        <div class="sp-group sp-aided-group">
+          <h2 class="sp-section-title sp-aided-title">Aided (MSTB)</h2>
+          <div class="sp-ear sp-right" style="grid-column: 1">
+            <div class="sp-block" data-kind="aided" data-ear="R" data-default-rows="0">
+              <div class="sp-block-head">
+                <span class="sp-block-title">Right aided</span>
+                <button type="button" class="sp-add no-print" title="Add row">+</button>
+              </div>
+              <div class="sp-cols sp-cols-aided"><span>Test</span><span>List</span><span>Score</span><span>dB SPL</span></div>
+              <div class="sp-rows"></div>
+            </div>
+          </div>
+          <div class="sp-ear sp-left" style="grid-column: 2">
+            <div class="sp-block" data-kind="aided" data-ear="L" data-default-rows="0">
+              <div class="sp-block-head">
+                <span class="sp-block-title">Left aided</span>
+                <button type="button" class="sp-add no-print" title="Add row">+</button>
+              </div>
+              <div class="sp-cols sp-cols-aided"><span>Test</span><span>List</span><span>Score</span><span>dB SPL</span></div>
+              <div class="sp-rows"></div>
+            </div>
+          </div>
+          <div class="sp-ear sp-bin sp-center">
+            <div class="sp-block" data-kind="aided" data-ear="B" data-default-rows="0">
+              <div class="sp-block-head">
+                <span class="sp-block-title">Binaural aided</span>
+                <button type="button" class="sp-add no-print" title="Add row">+</button>
+              </div>
+              <div class="sp-cols sp-cols-aided"><span>Test</span><span>List</span><span>Score</span><span>dB SPL</span></div>
+              <div class="sp-rows"></div>
+            </div>
+          </div>
+        </div>
+
+        <label class="sp-calc no-print">
+          <input type="checkbox" id="speech_calc_masking" />
+          Calculate masking levels
+        </label>
+      </section>
+
+      <!--end of container-->
     </div>
 
     <!-- Command Palette modal-->

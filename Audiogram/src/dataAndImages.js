@@ -129,8 +129,6 @@ export const audiogramData = {
   PTA_L: null,
   SRT_R: [null],
   SRT_L: [null],
-  wordRec_R: [null],
-  wordRec_L: [null],
   thresh_AC_R: [
     null,
     null,

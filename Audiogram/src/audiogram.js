@@ -20,6 +20,8 @@ import {
 
 import { createOptionsR, createOptionsL } from "./chartConfig_audiogram.js";
 
+import { initSpeech, updateSpeechPTA, getSpeechSummary } from "./speech.js";
+
 import {
   options_bar_R,
   options_bar_L,
@@ -40,133 +42,57 @@ const CrosshairRemover = {
 };
 Chart.register(CrosshairRemover);
 
-function calcMasking() {
-  const OKtoCalc = document.getElementById("calc_WR_masking_please");
-  if (OKtoCalc.checked === false) {
-    return;
-  }
-  const SRT_R = document.getElementById("SRT_right_advanced").value;
-  const SRT_L = document.getElementById("SRT_left_advanced").value;
-  const WR_R = document.getElementById("WR_right_pres_level").value;
-  const WR_L = document.getElementById("WR_left_pres_level").value;
-  const maskSRT_R = document.getElementById("SRT_right_masking");
-  const maskSRT_L = document.getElementById("SRT_left_masking");
-  const maskWR_R = document.getElementById("WR_right_mask_level");
-  const maskWR_L = document.getElementById("WR_left_mask_level");
+// Change charts under the audiograms (see refreshBarCharts). Both ears share
+// one comparison (current vs. previous, or unaided vs. aided) and one
+// breakdown (each frequency, low/mid/high, or PTA).
+const barState = { compare: null, chosenCompare: null, resolution: "full" };
+const aidedBenefit = {
+  R: { full: Array(12).fill(null), lowMidHigh: [null, null, null], PTA: [null] },
+  L: { full: Array(12).fill(null), lowMidHigh: [null, null, null], PTA: [null] },
+};
+const BAR_LABELS = { full: lilHz, lowMidHigh: ["Low", "Mid", "High"], PTA: ["PTA"] };
+const BAR_SUFFIX = { full: "", lowMidHigh: " (L/M/H)", PTA: " (PTA)" };
 
-  if (SRT_R) {
-    maskSRT_R.value = SRT_R - 35;
-    if (maskSRT_R.value <= SRT_L) {
-      maskSRT_R.value = parseInt(SRT_L) + 5;
-    }
-    if (SRT_R <= 40) {
-      maskSRT_R.value = "";
-    }
-  }
-  if (SRT_L) {
-    maskSRT_L.value = SRT_L - 35;
-    if (maskSRT_L.value <= SRT_R) {
-      maskSRT_L.value = parseInt(SRT_R) + 5;
-    }
-    if (SRT_L <= 40) {
-      maskSRT_L.value = "";
-    }
-  }
-  if (WR_R) {
-    maskWR_R.value = WR_R - 35;
-    if (maskWR_R.value <= WR_L) {
-      maskWR_R.value = parseInt(WR_L) + 5;
-    }
-    if (WR_R <= 40) {
-      maskWR_R.value = "";
-    }
-  }
-  if (WR_L) {
-    maskWR_L.value = WR_L - 35;
-    if (maskWR_L.value <= WR_R) {
-      maskWR_L.value = parseInt(WR_R) + 5;
-    }
-    if (WR_L <= 40) {
-      maskWR_L.value = "";
-    }
-  }
-}
 copy_data.addEventListener("click", copyData);
 function copyData() {
-  const RPTA = !audiogramData.PTA_R
-    ? "Not available"
-    : Math.floor(audiogramData.PTA_R) + " dB";
-  const LPTA = !audiogramData.PTA_L
-    ? "Not available"
-    : Math.floor(audiogramData.PTA_L) + " dB";
-  const RWR = !audiogramData.wordRec_R[0]
-    ? "Not available"
-    : audiogramData.wordRec_R + " %";
-  const LWR = !audiogramData.wordRec_L[0]
-    ? "Not available"
-    : audiogramData.wordRec_L + " %";
+  const pta = (value) =>
+    !value ? "Not available" : Math.floor(value) + " dB";
+  const speech = (ear) => {
+    const { thresholds, wordRec } = getSpeechSummary(ear);
+    const lines = [
+      ...thresholds.map((t) => `${t.type}: ${t.score} dB HL`),
+      ...wordRec.map(
+        (w) => `Word Recognition: ${w.score} %${w.level ? ` at ${w.level} dB HL` : ""}`
+      ),
+    ];
+    return lines.length ? lines.join("\n      ") : "Word Recognition: Not available";
+  };
 
   const resultt = `Right Ear:
-    	PTA: 
-      	${RPTA}.
-      Word Recognition: 
-      	${RWR}.
-        
+      PTA: ${pta(audiogramData.PTA_R)}
+      ${speech("R")}
+
 Left Ear:
-    	PTA: 
-      	${LPTA}.
-      Word Recognition: 
-      	${LWR}.`;
+      PTA: ${pta(audiogramData.PTA_L)}
+      ${speech("L")}`;
   alert(resultt);
 }
 
-const WR_modal = document.getElementById("WR_modal");
-const closeWRbutton = document.getElementById("closeWR");
-function closeWordRec(event) {
-  if (event.target === WR_modal || event.target === closeWRbutton) {
-    WR_modal.style.display = "none";
-    WR_modal.removeEventListener("click", closeWordRec);
-  }
-}
-word_rec.addEventListener("click", launchWordRec);
-function launchWordRec() {
-  WR_modal.style.display = "block";
-  WR_modal.addEventListener("click", closeWordRec);
-  updatePTAforWR();
-}
+initSpeech();
 
-document.getElementById("WR_right_advanced").addEventListener("input", function () {
-  audiogramData.wordRec_R.splice(0, 1, this.value !== "" ? parseInt(this.value) : null);
-  updateSimpleView();
-});
-
-document.getElementById("WR_left_advanced").addEventListener("input", function () {
-  audiogramData.wordRec_L.splice(0, 1, this.value !== "" ? parseInt(this.value) : null);
-  updateSimpleView();
-});
-
-function updateSimpleView() {
-  document.getElementById("PTA_right_simple").innerText =
-    audiogramData.PTA_R !== undefined ? Math.round(audiogramData.PTA_R) + " dB" : "";
-  document.getElementById("PTA_left_simple").innerText =
-    audiogramData.PTA_L !== undefined ? Math.round(audiogramData.PTA_L) + " dB" : "";
-  document.getElementById("WR_right_simple").innerText =
-    audiogramData.wordRec_R[0] ? audiogramData.wordRec_R[0] + " %" : "";
-  document.getElementById("WR_left_simple").innerText =
-    audiogramData.wordRec_L[0] ? audiogramData.wordRec_L[0] + " %" : "";
-}
-
-function updatePTAforWR() {
-  const PTA_R = document.getElementById("PTA_R_forWR");
-  const PTA_L = document.getElementById("PTA_L_forWR");
-  PTA_R.innerText = audiogramData.PTA_R !== undefined
-    ? `${Math.round(audiogramData.PTA_R)} dB`
-    : "";
-  PTA_L.innerText = audiogramData.PTA_L !== undefined
-    ? `${Math.round(audiogramData.PTA_L)} dB`
-    : "";
-}
-
+// Browsers change a focused number input's value on mouse wheel / trackpad
+// scroll. Keep arrow keys working but let the wheel scroll the page instead.
+document.addEventListener(
+  "wheel",
+  (event) => {
+    const input = event.target;
+    if (input.matches?.('input[type="number"]') && input === document.activeElement) {
+      event.preventDefault();
+      window.scrollBy(event.deltaX, event.deltaY);
+    }
+  },
+  { passive: false }
+);
 
 const NRbtns = document.querySelectorAll(".NR");
 NRbtns.forEach((btn) => {
@@ -541,6 +467,7 @@ function moveIt(freqIndex, dB, ear) {
   annotatePTA();
 }
 export function updateCharts() {
+  refreshBarCharts();
   myChart.update();
   myChart2.update();
   myChart3.update();
@@ -874,7 +801,7 @@ function calcChange(index, ear) {
             }
           }
           barColors.splice(i, 1, color);
-          myChart3.config.data.datasets[0].backgroundColor = barColors;
+          myChart4.config.data.datasets[0].backgroundColor = barColors;
         }
       }
       if (audiogramData.changeDetails.changeResolution_L === "PTA") {
@@ -888,7 +815,7 @@ function calcChange(index, ear) {
             break;
           }
         }
-        myChart3.config.data.datasets[0].backgroundColor = barColors;
+        myChart4.config.data.datasets[0].backgroundColor = barColors;
       }
     }
     updateCharts();
@@ -914,7 +841,7 @@ const ctx4 = document.getElementById("change_L").getContext("2d");
 const myChart4 = new Chart(ctx4, options_bar_L);
 
 change_R.addEventListener("click", function (evt) {
-  changeResolution("R");
+  changeResolution();
 });
 
 const legendHidden = { AC: false, BC: false, NR: false, previous: false, Aided: false };
@@ -956,7 +883,7 @@ document.querySelectorAll(".legend-label").forEach((td) => {
   );
 });
 change_L.addEventListener("click", function (evt) {
-  changeResolution("L");
+  changeResolution();
 });
 
 function download_image() {
@@ -1016,6 +943,62 @@ function maskAll() {
   updateCharts();
 }
 
+// NR All: if the ear has any regular responses on the current transducer,
+// mark every tested point NR; otherwise turn every NR point back into a
+// regular threshold at the same level.
+NR_all_right.addEventListener("click", nrAll);
+NR_all_left.addEventListener("click", nrAll);
+function nrAll() {
+  const ear = this.id === "NR_all_right" ? "R" : "L";
+  const data = {
+    AC: {
+      thresh: audiogramData[`thresh_AC_${ear}`],
+      NR: audiogramData[`thresh_NR_${ear}`],
+      IO: audiogramData[`interOctTested_AC_${ear}`],
+    },
+    Aided: {
+      thresh: audiogramData[`thresh_Aided_${ear}`],
+      NR: audiogramData[`thresh_NR_Aided_${ear}`],
+      IO: audiogramData[`interOctTested_Aided_${ear}`],
+    },
+  };
+  const indices = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+  if (transducer === "BC") {
+    const thresh = audiogramData[`thresh_BC_${ear}`];
+    const sizeNR = audiogramData[`pointSize_NR_BC_${ear}`];
+    const tested = indices.filter((i) => thresh[i] !== null && thresh[i] !== undefined);
+    const anyRegular = tested.some((i) => sizeNR[i] !== 10);
+    tested.forEach((i) => {
+      if (anyRegular) sizeNR.splice(i, 1, 10);
+      else moveIt(i, thresh[i], ear);
+    });
+    updateCharts();
+    return;
+  }
+
+  const { thresh, NR, IO } = data[transducer];
+  const regular = indices.filter((i) => thresh[i] !== null && IO[i] !== 0);
+  if (regular.length > 0) {
+    regular.forEach((i) => setNR.call({ dataset: { index: String(i), ear } }));
+  } else {
+    indices
+      .filter((i) => NR[i] !== null && NR[i] !== undefined)
+      .forEach((i) => moveIt(i, NR[i], ear));
+  }
+}
+
+// Masking / NR toolbar pills open their <details> panel
+document.querySelectorAll("[data-toggle-panel]").forEach((button) => {
+  const panel = document.getElementById(button.dataset.togglePanel);
+  button.addEventListener("click", () => {
+    panel.open = !panel.open;
+  });
+  panel.addEventListener("toggle", () => {
+    button.setAttribute("aria-expanded", String(panel.open));
+  });
+});
+
 copy_ear_right.addEventListener("click", copyEar);
 copy_ear_left.addEventListener("click", copyEar);
 function copyEar() {
@@ -1028,71 +1011,36 @@ function copyEar() {
   const copyAlertMessage = `Are you sure you want to copy ${
     ear === "R" ? "right" : "left"
   } ${transducer} to ${ear === "R" ? "left" : "right"} ${transducer}?`;
-  const copyObj = {};
-  if (ear === "R" && transducer === "AC") {
-    copyObj.sourceThresh = audiogramData.thresh_AC_R;
-    copyObj.sourcePS = audiogramData.pointSize_AC_R;
-    copyObj.sourcePsNr = audiogramData.pointSize_NR_R;
-    copyObj.sourceThreshNR = audiogramData.thresh_NR_R;
-    copyObj.sourceInterOctTested = audiogramData.interOctTested_AC_R;
-    copyObj.targetThresh = audiogramData.thresh_AC_L;
-    copyObj.targetPS = audiogramData.pointSize_AC_L;
-    copyObj.targetPsNr = audiogramData.pointSize_NR_L;
-    copyObj.targetThreshNR = audiogramData.thresh_NR_L;
-    copyObj.targetinterOctTested = audiogramData.interOctTested_AC_L;
-  }
-  if (ear === "L" && transducer === "AC") {
-    copyObj.sourceThresh = audiogramData.thresh_AC_L;
-    copyObj.sourcePS = audiogramData.pointSize_AC_L;
-    copyObj.sourcePsNr = audiogramData.pointSize_NR_L;
-    copyObj.sourceThreshNR = audiogramData.thresh_NR_L;
-    copyObj.sourceInterOctTested = audiogramData.interOctTested_AC_L;
-    copyObj.targetThresh = audiogramData.thresh_AC_R;
-    copyObj.targetPS = audiogramData.pointSize_AC_R;
-    copyObj.targetPsNr = audiogramData.pointSize_NR_R;
-    copyObj.targetThreshNR = audiogramData.thresh_NR_R;
-    copyObj.targetinterOctTested = audiogramData.interOctTested_AC_R;
-  }
-  if (ear === "R" && transducer === "BC") {
-    copyObj.sourceThresh = audiogramData.thresh_BC_R;
-    copyObj.sourcePsNr = audiogramData.pointSize_NR_BC_R;
-    copyObj.sourceThreshNR = audiogramData.thresh_NR_R;
-    copyObj.targetThresh = audiogramData.thresh_BC_L;
-    copyObj.targetPsNr = audiogramData.pointSize_NR_L;
-    copyObj.targetThreshNR = audiogramData.thresh_NR_L;
-  }
-  if (ear === "L" && transducer === "BC") {
-    copyObj.sourceThresh = audiogramData.thresh_BC_L;
-    copyObj.sourcePsNr = audiogramData.pointSize_NR_L;
-    copyObj.sourceThreshNR = audiogramData.thresh_NR_L;
-    copyObj.targetThresh = audiogramData.thresh_BC_R;
-    copyObj.targetPsNr = audiogramData.pointSize_NR_R;
-    copyObj.targetThreshNR = audiogramData.thresh_NR_R;
-  }
-  if (confirm(copyAlertMessage)) {
-    //spread in the source arrays to the target arrays
-    copyObj.targetThresh.splice(
-      0,
-      copyObj.targetThresh.length,
-      ...copyObj.sourceThresh
-    );
-    copyObj.targetPS?.splice(0, copyObj.targetPS.length, ...copyObj.sourcePS);
-    copyObj.targetPsNr.splice(
-      0,
-      copyObj.targetPsNr.length,
-      ...copyObj.sourcePsNr
-    );
-    copyObj.targetThreshNR.splice(
-      0,
-      copyObj.targetThreshNR.length,
-      ...copyObj.sourceThreshNR
-    );
-    copyObj.targetinterOctTested?.splice(
-      0,
-      copyObj.targetinterOctTested.length,
-      ...copyObj.sourceInterOctTested
-    );
-  }
+  if (!confirm(copyAlertMessage)) return;
+
+  const from = ear;
+  const to = ear === "R" ? "L" : "R";
+  // Arrays that make up one ear's data for each transducer
+  const keysByTransducer = {
+    AC: (e) => [
+      `thresh_AC_${e}`,
+      `pointSize_AC_${e}`,
+      `pointSize_hover_AC_${e}`,
+      `pointSize_NR_${e}`,
+      `thresh_NR_${e}`,
+      `interOctTested_AC_${e}`,
+    ],
+    BC: (e) => [`thresh_BC_${e}`, `pointSize_NR_BC_${e}`, `thresh_NR_BC_${e}`],
+    Aided: (e) => [
+      `thresh_Aided_${e}`,
+      `pointSize_Aided_${e}`,
+      `pointSize_NR_Aided_${e}`,
+      `thresh_NR_Aided_${e}`,
+      `interOctTested_Aided_${e}`,
+    ],
+  };
+  const sourceKeys = keysByTransducer[transducer](from);
+  const targetKeys = keysByTransducer[transducer](to);
+  sourceKeys.forEach((key, i) => {
+    const target = audiogramData[targetKeys[i]];
+    target.splice(0, target.length, ...audiogramData[key]);
+  });
+
   if (ear === "R" && transducer === "AC") {
     audiogramData.symbols_L.forEach(function (part, index, theArray) {
       if (audiogramData.symbols_R[index] === "triangle") {
@@ -1128,6 +1076,12 @@ function copyEar() {
         audiogramData.symbols_BC_R[index] = BC_R;
       }
     });
+  }
+  if (transducer === "AC") {
+    for (let i = 0; i < 12; i++) calcChange(i, to);
+    audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
+    audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+    annotatePTA();
   }
   updateCharts();
 }
@@ -1265,6 +1219,7 @@ let annotatePTApref = "on";
 annotatePTAon.addEventListener("click", annotatePTA);
 annotatePTAoff.addEventListener("click", annotatePTA);
 function annotatePTA() {
+  updateSpeechPTA(audiogramData.PTA_R, audiogramData.PTA_L);
   if (this == annotatePTAon) {
     annotatePTApref = "on";
   }
@@ -1308,8 +1263,6 @@ function annotatePTA() {
     labelL.display = true;
   }
   updateCharts();
-  updatePTAforWR();
-  updateSimpleView();
 }
 
 function LMH(array, ear) {
@@ -1335,68 +1288,139 @@ function LMH(array, ear) {
   }
 }
 
-function changeResolution(ear) {
-  //  this changes which bar chart is showing. change calc is done elsewhere
-  let state =
-    ear === "R"
-      ? audiogramData.changeDetails.changeResolution_R
-      : audiogramData.changeDetails.changeResolution_L;
-  const changePTA =
-    ear === "R"
-      ? audiogramData.changeDetails.changePTA_R
-      : audiogramData.changeDetails.changePTA_L;
-
-  if (state === "full") {
-    if (ear === "R") {
-      myChart3.config.data.datasets[0].data = audiogramData.changeDetails.LMH_R;
-      myChart3.config.data.labels = ["Low", "Mid", "High"];
-      myChart3.update();
-      audiogramData.changeDetails.changeResolution_R = "lowMidHigh";
-      return;
-    } else {
-      myChart4.config.data.datasets[0].data = audiogramData.changeDetails.LMH_L;
-      myChart4.config.data.labels = ["Low", "Mid", "High"];
-      myChart4.update();
-      audiogramData.changeDetails.changeResolution_L = "lowMidHigh";
-      return;
-    }
-  }
-  if (state === "lowMidHigh") {
-    if (ear === "R") {
-      myChart3.config.data.datasets[0].data = changePTA;
-      myChart3.config.data.labels = ["PTA"];
-      myChart3.update();
-      audiogramData.changeDetails.changeResolution_R = "PTA";
-      return;
-    } else {
-      myChart4.config.data.datasets[0].data = changePTA;
-      myChart4.config.data.labels = ["PTA"];
-      myChart4.update();
-      audiogramData.changeDetails.changeResolution_L = "PTA";
-      return;
-    }
-  }
-  if (state === "PTA") {
-    if (ear === "R") {
-      myChart3.config.data.datasets[0].data =
-        audiogramData.changeDetails.change_R;
-      myChart3.config.data.labels = lilHz;
-      myChart3.update();
-      audiogramData.changeDetails.changeResolution_R = "full";
-      return;
-    } else {
-      myChart4.config.data.datasets[0].data =
-        audiogramData.changeDetails.change_L;
-      myChart4.config.data.labels = lilHz;
-      myChart4.update();
-      audiogramData.changeDetails.changeResolution_L = "full";
-      return;
-    }
-  }
+function barTint(ear, value) {
+  const rgb = ear === "R" ? "255, 0, 0" : "0, 0, 255";
+  const size = Math.abs(value);
+  const alpha = size < 10 ? 0.05 : size < 20 ? 0.1 : size < 30 ? 0.2 : 0.3;
+  return `rgba(${rgb}, ${alpha})`;
 }
+
+function hasAnyThreshold(...arrays) {
+  return arrays.some((array) => array.some((value) => value !== null && value !== undefined));
+}
+
+function compareAvailable(compare) {
+  if (compare === "previous") {
+    return hasAnyThreshold(
+      oldAudiogramData.thresh_AC_R,
+      oldAudiogramData.thresh_AC_L,
+      oldAudiogramData.thresh_NR_R,
+      oldAudiogramData.thresh_NR_L
+    );
+  }
+  // aided: either ear has both unaided and aided thresholds
+  return ["R", "L"].some(
+    (ear) =>
+      hasAnyThreshold(audiogramData[`thresh_AC_${ear}`], audiogramData[`thresh_NR_${ear}`]) &&
+      hasAnyThreshold(audiogramData[`thresh_Aided_${ear}`], audiogramData[`thresh_NR_Aided_${ear}`])
+  );
+}
+
+// Aided benefit = unaided AC minus aided, so positive means aided is better.
+// Frequencies missing either threshold, or an untested inter-octave, are skipped.
+function calcAidedBenefit(ear) {
+  const unaided = audiogramData[`thresh_AC_${ear}`];
+  const aided = audiogramData[`thresh_Aided_${ear}`];
+  const ioUnaided = audiogramData[`interOctTested_AC_${ear}`];
+  const ioAided = audiogramData[`interOctTested_Aided_${ear}`];
+  const benefit = aidedBenefit[ear];
+  for (let i = 0; i < 12; i++) {
+    const comparable =
+      i !== 2 && unaided[i] !== null && aided[i] !== null && ioUnaided[i] !== 0 && ioAided[i] !== 0;
+    benefit.full.splice(i, 1, comparable ? unaided[i] - aided[i] : null);
+  }
+  const average = (a, b) => (a === null || b === null ? null : Math.floor((a + b) / 2));
+  const f = benefit.full;
+  benefit.lowMidHigh.splice(0, 3, average(f[1], f[3]), average(f[5], f[7]), average(f[9], f[11]));
+  const pta = calcPTA(f);
+  benefit.PTA.splice(0, 1, pta === undefined ? null : Math.floor(pta));
+}
+
+function barTitle() {
+  if (barState.compare === "previous") {
+    const date = oldAudiogramData.DateOfTest;
+    return `Change vs. ${date ? date : "previous"}${BAR_SUFFIX[barState.resolution]}`;
+  }
+  if (barState.compare === "aided") return `Aided benefit${BAR_SUFFIX[barState.resolution]}`;
+  return "No comparison available";
+}
+
+function barSeries(ear) {
+  const res = barState.resolution;
+  const details = audiogramData.changeDetails;
+  if (barState.compare === "previous") {
+    const data = { full: details[`change_${ear}`], lowMidHigh: details[`LMH_${ear}`], PTA: details[`changePTA_${ear}`] }[res];
+    const colors = {
+      full: ear === "R" ? barColors_R : barColors_L,
+      lowMidHigh: ear === "R" ? barColors_LMH_R : barColors_LMH_L,
+      PTA: ear === "R" ? barColors_PTA_R : barColors_PTA_L,
+    }[res];
+    return [data, colors];
+  }
+  if (barState.compare === "aided") {
+    const data = aidedBenefit[ear][res];
+    return [data, data.map((value) => (value === null ? null : barTint(ear, value)))];
+  }
+  return [[], []];
+}
+
+// Picks the comparison (the user's choice if still available, otherwise
+// previous, then aided) and points both charts at the right series.
+// Called from updateCharts, so it stays current as thresholds change.
+function refreshBarCharts() {
+  calcAidedBenefit("R");
+  calcAidedBenefit("L");
+  const order = [barState.chosenCompare, "previous", "aided"].filter(Boolean);
+  barState.compare = order.find(compareAvailable) ?? null;
+
+  // calcChange colors L/M/H and PTA bars only when it sees those modes
+  const changeMode = barState.compare === "previous" ? barState.resolution : "full";
+  audiogramData.changeDetails.changeResolution_R = changeMode;
+  audiogramData.changeDetails.changeResolution_L = changeMode;
+
+  [["R", myChart3], ["L", myChart4]].forEach(([ear, chart]) => {
+    const [data, colors] = barSeries(ear);
+    chart.config.data.datasets[0].data = data;
+    chart.config.data.datasets[0].backgroundColor = colors;
+    chart.config.data.labels = BAR_LABELS[barState.resolution];
+    document.getElementById(`bar_title_${ear}`).textContent = barTitle();
+  });
+
+  document.querySelectorAll("[data-bar-compare]").forEach((button) => {
+    const value = button.dataset.barCompare;
+    button.disabled = !compareAvailable(value);
+    button.setAttribute("aria-pressed", String(value === barState.compare));
+  });
+  document.querySelectorAll("[data-bar-resolution]").forEach((button) => {
+    button.disabled = barState.compare === null;
+    button.setAttribute("aria-pressed", String(button.dataset.barResolution === barState.resolution));
+  });
+}
+
+function setBarView({ compare, resolution }) {
+  if (compare) barState.chosenCompare = compare;
+  if (resolution) barState.resolution = resolution;
+  // calcChange fills the L/M/H and PTA bar colors for the previous comparison
+  if (resolution) calcChangeOnLoad();
+  updateCharts();
+}
+
+function changeResolution() {
+  const order = ["full", "lowMidHigh", "PTA"];
+  setBarView({ resolution: order[(order.indexOf(barState.resolution) + 1) % order.length] });
+}
+
+document.querySelectorAll("[data-bar-compare]").forEach((button) => {
+  button.addEventListener("click", () => setBarView({ compare: button.dataset.barCompare }));
+});
+document.querySelectorAll("[data-bar-resolution]").forEach((button) => {
+  button.addEventListener("click", () => setBarView({ resolution: button.dataset.barResolution }));
+});
+refreshBarCharts();
 
 audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
 audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+updateSpeechPTA(audiogramData.PTA_R, audiogramData.PTA_L);
 
 oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R);
 oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L);
