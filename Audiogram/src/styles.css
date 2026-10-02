@@ -135,6 +135,13 @@
   height: 26px;
   padding: 0 10px;
 }
+.top-controls-button.small-button {
+  height: 20px;
+  padding: 0 6px;
+  font-size: 10px;
+  color: #666;
+}
+
 .top-controls-button:hover {
   background-color: #f5f5f5;
   border-color: #888;
@@ -161,6 +168,48 @@
   cursor: pointer;
 }
 
+/* Patient demographics, then the test date, transducer and reliability:
+   printed at the top of the report */
+.patient-info {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1.4fr 1.4fr 1fr 1fr;
+  gap: 6px 12px;
+  padding: 8px 12px 6px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.patient-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.patient-field input,
+.patient-field select {
+  min-width: 0;
+  width: 100%;
+  height: 22px;
+  padding: 0 2px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: transparent;
+  font-family: Rubik, sans-serif;
+  font-size: 13px;
+  color: #333;
+}
+
+.patient-field input:focus,
+.patient-field select:focus {
+  outline: none;
+  border-bottom-color: #3277df;
+}
+
+.patient-field input::placeholder {
+  color: #bbb;
+}
+
 .top-controls-container {
   display: flex;
   gap: 16px;
@@ -176,6 +225,37 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.top-controls-container button {
+  white-space: nowrap;
+}
+
+/* Two rows in one column of the top bar */
+.top-controls-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.control-inline .control-label {
+  width: 52px;
+  text-align: right;
+}
+
+.control-inline select {
+  width: 120px;
+}
+
+.view-toggle button {
+  padding: 3px 10px;
+  font-size: 12px;
 }
 
 .control-select-group {
@@ -215,6 +295,39 @@ select {
   color: #808080;
 }
 
+/* Pure-tone and speech audiometry each sit in their own card with a header
+   band. Cards share the page's two columns so the ears stay aligned. */
+.report-section {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-content: start;
+  margin: 8px 8px 0;
+  padding-bottom: 10px;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  break-inside: avoid;
+}
+
+.report-section:last-child {
+  margin-bottom: 8px;
+}
+
+.report-section-title {
+  grid-column: 1 / -1;
+  margin: 0 0 6px;
+  padding: 6px 12px;
+  border-bottom: 1px solid #e2e2e2;
+  border-radius: 8px 8px 0 0;
+  background-color: #f6f7f9;
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #666;
+}
+
 .speech-section {
   --sp-right: darkred;
   --sp-right-tint: rgba(200, 0, 0, 0.06);
@@ -225,11 +338,7 @@ select {
   --sp-bin: #4b2a7a;
   --sp-bin-tint: rgba(90, 40, 150, 0.07);
   --sp-bin-line: rgba(90, 40, 150, 0.4);
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: subgrid;
   row-gap: 10px;
-  padding-block: 8px 12px;
   font-family: Rubik, sans-serif;
   font-size: 12px;
   color: #444;
@@ -237,9 +346,7 @@ select {
 
 .sp-section-title {
   grid-column: 1 / -1;
-  justify-self: center;
-  width: 720px;
-  margin: 6px 0 0;
+  margin: 6px 12px 0;
   padding-bottom: 3px;
   border-bottom: 1px solid #ddd;
   font-size: 12px;
@@ -634,35 +741,6 @@ tr.legend-row-hidden .legend-label {
   text-decoration: line-through;
 }
 
-.PHI-sub-grid {
-  display: grid;
-  width: 220px;
-  grid-template-columns: min-content auto;
-  grid-gap: 2px;
-  border: solid;
-  border-color: grey;
-  border-radius: 3px;
-  border-width: 1px;
-  margin: 5px;
-  margin-bottom: -1px;
-  padding-bottom: 4px;
-  padding-top: 1px;
-}
-
-.PHI-sub-grid-item {
-  padding-left: 5px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-  margin-top: 2px;
-  background-color: white;
-  font-size: 12px;
-  font-family: Rubik;
-  font-weight: normal;
-  width: 30px;
-  align-self: center;
-  color: purple;
-}
-
 body {
   min-width: 720px;
   max-width: 740px;
@@ -855,6 +933,122 @@ h3 {
   background-color: #f8f8f8;
   border: 1px solid #e0e0e0;
   padding: 0.5rem;
+}
+
+/* Overlay view: one audiogram with both ears in place of the split pair.
+   The masking and NR rows stack under it, each lined up the way it is
+   under its own ear's chart. */
+.overlay-audiogram,
+.ear-select,
+.grid-container.overlay .split-audiogram {
+  display: none;
+}
+
+.grid-container.overlay .overlay-audiogram {
+  display: block;
+}
+
+.grid-container.overlay .ear-select {
+  display: flex;
+}
+
+.grid-container.overlay .button-row-container {
+  grid-template-columns: 480px;
+  justify-content: center;
+  row-gap: 6px;
+}
+
+/* Overlay rows are as wide as the chart; each frequency button sits at its
+   column's x position (--x, set from the chart's scale) and the
+   Mask All / NR All buttons sit just left of the chart. */
+.grid-container.overlay .button-row-R,
+.grid-container.overlay .button-row-L {
+  position: relative;
+  justify-self: stretch;
+  height: 20px;
+  padding: 0;
+}
+
+.grid-container.overlay .button-row-container [data-index] {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  transform: translateX(-50%);
+}
+
+.grid-container.overlay .button-row-container .invisible {
+  display: none;
+}
+
+.grid-container.overlay #mask_right,
+.grid-container.overlay #mask_left,
+.grid-container.overlay #NR_all_right,
+.grid-container.overlay #NR_all_left {
+  position: absolute;
+  top: 0;
+  right: 100%;
+  margin: 0 !important;
+}
+
+/* Under AC / BC / Aided / Pen: the ear picker (overlay view) and the pen's
+   Undo / Clear (while drawing), sharing the row's width */
+.tool-row {
+  display: flex;
+  gap: 8px;
+}
+
+.ear-select,
+.pen-tools {
+  flex: 1;
+  gap: 8px;
+}
+
+.ear-select button,
+.pen-tools button {
+  flex: 1;
+}
+
+.pen-tools {
+  display: none;
+}
+
+.grid-container.pen-on .pen-tools {
+  display: flex;
+}
+
+.pen-button[aria-pressed="true"] {
+  border: 1.5px solid #b08900;
+  background-color: #fff4c2;
+  color: #333;
+}
+
+/* Pen layer over each chart: ignores the pointer until the pen is on */
+.pen-wrap {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 0;
+}
+
+.pen-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  touch-action: none;
+}
+
+.grid-container.pen-on .pen-layer {
+  pointer-events: auto;
+  cursor: crosshair;
+}
+
+.ear-select [data-ear="R"] {
+  color: darkred;
+}
+
+.ear-select [data-ear="L"] {
+  color: darkblue;
 }
 
 .button-row-R {
@@ -1136,30 +1330,28 @@ h3 {
     display: none;
   }
 
-  /* Report fields in the top bar print as plain text */
-  #select_transducer,
-  #Reliability {
-    appearance: none;
-    -webkit-appearance: none;
-    border: none;
-    background: transparent;
-    padding: 0;
-    height: auto;
-    font-size: 13px;
-    color: #333;
+  .patient-field input::placeholder {
+    color: transparent;
   }
 
-  #select_transducer:has(option[value="blank"]:checked),
-  #Reliability:has(option[value="blank"]:checked) {
-    visibility: hidden;
+  /* Selects print as plain text; an unset one prints as a blank line */
+  .patient-field select {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .patient-field select:has(option[value="blank"]:checked) {
+    color: transparent;
   }
 
   /* Speech table prints as plain text: no input chrome */
-  .speech-section {
+  .report-section {
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
+  }
+
+  .speech-section {
     row-gap: 6px;
-    padding-block: 4px 0;
   }
 
   .sp-ear {

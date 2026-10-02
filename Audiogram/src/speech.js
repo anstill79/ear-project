@@ -286,8 +286,11 @@ export function updateSpeechPTA(ptaR, ptaL) {
   document.getElementById("PTA_L_speech").textContent = format(ptaL);
 }
 
+// Binaural has no threshold block, so a missing block reads as no rows
 function readRows(kind, ear) {
-  return [...blocks(kind, ear).querySelectorAll(".sp-row")].map((row) =>
+  const block = blocks(kind, ear);
+  if (!block) return [];
+  return [...block.querySelectorAll(".sp-row")].map((row) =>
     Object.fromEntries(
       [...row.querySelectorAll("[data-field]")].map((f) => [f.dataset.field, f.value])
     )
@@ -298,5 +301,6 @@ export function getSpeechSummary(ear) {
   return {
     thresholds: readRows("thresh", ear).filter((r) => r.score !== ""),
     wordRec: readRows("wr", ear).filter((r) => r.score !== ""),
+    aided: readRows("aided", ear).filter((r) => r.score !== ""),
   };
 }

@@ -7,6 +7,8 @@ import {
   BC_L_M,
   AidedSymbol_R,
   AidedSymbol_L,
+  AidedNR_Symbol_R,
+  AidedNR_Symbol_L,
 } from "./dataAndImages.js";
 
 import {
@@ -18,9 +20,17 @@ import {
   aidedPointSize,
 } from "./adjustPointSizes.js";
 
-import { createOptionsR, createOptionsL } from "./chartConfig_audiogram.js";
+import {
+  createOptionsR,
+  createOptionsL,
+  createOptionsOverlay,
+} from "./chartConfig_audiogram.js";
 
 import { initSpeech, updateSpeechPTA, getSpeechSummary } from "./speech.js";
+
+import { initPatient, getPatientInfo } from "./patient.js";
+
+import { initPen, setPen } from "./pen.js";
 
 import {
   options_bar_R,
@@ -75,10 +85,57 @@ function copyData() {
 Left Ear:
       PTA: ${pta(audiogramData.PTA_L)}
       ${speech("L")}`;
-  alert(resultt);
+  copyToClipboard(copy_data, resultt);
+}
+
+// Copies text and briefly shows the result on the button that asked for it
+async function copyToClipboard(button, text) {
+  const label = button.textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = "Copied";
+  } catch {
+    button.textContent = "Copy failed";
+  }
+  setTimeout(() => (button.textContent = label), 1500);
+}
+
+// Copy JSON: the raw data for pasting into another system. Index i of every
+// 12-long array is frequencies[i]; index 2 only joins the 250 and 500 points.
+// Image symbols are written as their names (e.g. "BC_R_M").
+const FREQUENCIES = [125, 250, null, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000, 8000];
+const SYMBOL_NAMES = new Map(
+  Object.entries({
+    BC_R, BC_L, BC_R_M, BC_L_M,
+    AidedSymbol_R, AidedSymbol_L, AidedNR_Symbol_R, AidedNR_Symbol_L,
+  }).map(([name, symbol]) => [symbol, name])
+);
+
+copy_json.addEventListener("click", copyJSON);
+function copyJSON() {
+  const data = {
+    exportedAt: new Date().toISOString(),
+    ...getPatientInfo(),
+    frequencies: FREQUENCIES,
+    audiogramData,
+    previous: oldAudiogramData,
+    speech: {
+      R: getSpeechSummary("R"),
+      L: getSpeechSummary("L"),
+      binaural: getSpeechSummary("B"),
+    },
+  };
+  const json = JSON.stringify(data, (key, value) => SYMBOL_NAMES.get(value) ?? value, 2);
+  copyToClipboard(copy_json, json);
 }
 
 initSpeech();
+initPatient();
+initPen();
+
+// Save PDF is the print dialog: browsers offer Save as PDF as a destination
+document.getElementById("print").addEventListener("click", () => window.print());
+document.getElementById("save_pdf").addEventListener("click", () => window.print());
 
 // Browsers change a focused number input's value on mouse wheel / trackpad
 // scroll. Keep arrow keys working but let the wheel scroll the page instead.
@@ -470,6 +527,7 @@ export function updateCharts() {
   refreshBarCharts();
   myChart.update();
   myChart2.update();
+  overlayChart.update();
   myChart3.update();
   myChart4.update();
   fillInLegend();
@@ -538,36 +596,8 @@ function HideHrgLossShade() {
 
 let crosshairFlag = "on";
 const crosshairOptions = {
-  audioRight: {
-    sync: {
-      enabled: false,
-    },
-    line: {
-      width: 3,
-      color: "red",
-    },
-    zoom: {
-      enabled: false,
-    },
-    snap: {
-      enabled: false,
-    },
-  },
-  audioLeft: {
-    sync: {
-      enabled: false,
-    },
-    line: {
-      width: 3,
-      color: "blue",
-    },
-    zoom: {
-      enabled: false,
-    },
-    snap: {
-      enabled: false,
-    },
-  },
+  audioRight: { color: "red", width: 1.5 },
+  audioLeft: { color: "blue", width: 1.5 },
   barRight: {
     sync: {
       enabled: false,
@@ -607,12 +637,14 @@ function toggleNormShade() {
   if (this.id === "shade_norm_off") {
     myChart.config.options.plugins.annotation.annotations.normAdult.yMax = 0;
     myChart2.config.options.plugins.annotation.annotations.normAdult.yMax = 0;
+    overlayChart.config.options.plugins.annotation.annotations.normAdult.yMax = 0;
     shade_norm_on.classList.add("toggle-button-disabled");
     shade_norm_off.classList.add("toggle-button-enabled");
   }
   if (this.id === "shade_norm_on") {
     myChart.config.options.plugins.annotation.annotations.normAdult.yMax = 25;
     myChart2.config.options.plugins.annotation.annotations.normAdult.yMax = 25;
+    overlayChart.config.options.plugins.annotation.annotations.normAdult.yMax = 25;
     shade_norm_off.classList.add("toggle-button-disabled");
     shade_norm_on.classList.add("toggle-button-enabled");
   }
@@ -625,8 +657,9 @@ function toggleCrosshair() {
   crosshairOff.removeAttribute("class");
 
   if (this.id === "crosshairOff") {
-    myChart.config.options.plugins.crosshair = false;
-    myChart2.config.options.plugins.crosshair = false;
+    myChart.config.options.plugins.audiogramCrosshair = false;
+    myChart2.config.options.plugins.audiogramCrosshair = false;
+    overlayChart.config.options.plugins.audiogramCrosshair = false;
     myChart3.config.options.plugins.crosshair = false;
     myChart4.config.options.plugins.crosshair = false;
     crosshairOn.classList.add("toggle-button-disabled");
@@ -634,8 +667,9 @@ function toggleCrosshair() {
     userPrefs.crosshairFlag = "off";
   }
   if (this.id === "crosshairOn") {
-    myChart.config.options.plugins.crosshair = crosshairOptions.audioRight;
-    myChart2.config.options.plugins.crosshair = crosshairOptions.audioLeft;
+    myChart.config.options.plugins.audiogramCrosshair = crosshairOptions.audioRight;
+    myChart2.config.options.plugins.audiogramCrosshair = crosshairOptions.audioLeft;
+    overlayChart.config.options.plugins.audiogramCrosshair = overlayCrosshair();
     myChart3.config.options.plugins.crosshair = crosshairOptions.barRight;
     myChart4.config.options.plugins.crosshair = crosshairOptions.barLeft;
     crosshairOn.classList.add("toggle-button-enabled");
@@ -834,6 +868,83 @@ const myChart = new Chart(ctx, options_R);
 const ctx2 = document.getElementById("audiogram_L").getContext("2d");
 const myChart2 = new Chart(ctx2, options_L);
 
+// Overlay view: both ears on one chart, plotting into the selected ear
+let overlayEar = "R";
+const OVERLAY_L_OFFSET = options_R.data.datasets.length;
+const GHOST_DATASET = 5;
+const overlayCanvas = document.getElementById("audiogram_overlay");
+const overlayConfig = createOptionsOverlay(
+  prepareMovement,
+  () => overlayEar,
+  options_R,
+  options_L
+);
+overlayConfig.plugins.push({
+  id: "overlay-button-rows",
+  afterLayout: placeOverlayButtons,
+});
+const overlayChart = new Chart(overlayCanvas.getContext("2d"), overlayConfig);
+
+// The overlay chart is bigger than the split charts, so its masking and NR
+// buttons are placed from its x scale rather than by fixed spacing.
+function placeOverlayButtons(chart) {
+  document
+    .querySelectorAll(".button-row-container [data-index]")
+    .forEach((button) => {
+      const x = chart.scales.x.getPixelForValue(Number(button.dataset.index));
+      button.style.setProperty("--x", `${x}px`);
+    });
+}
+// The other-ear ghost is redundant when both ears are on the chart
+overlayChart.hide(GHOST_DATASET);
+overlayChart.hide(GHOST_DATASET + OVERLAY_L_OFFSET);
+
+function overlayCrosshair() {
+  return overlayEar === "R"
+    ? crosshairOptions.audioRight
+    : crosshairOptions.audioLeft;
+}
+
+// Shows or hides one dataset (indexed as on a single ear's chart) on every
+// audiogram. The overlay holds the right ear's datasets, then the left's.
+function setDatasetVisible(index, visible) {
+  [myChart, myChart2].forEach((chart) =>
+    visible ? chart.show(index) : chart.hide(index)
+  );
+  const showOnOverlay = visible && index !== GHOST_DATASET;
+  [index, index + OVERLAY_L_OFFSET].forEach((i) =>
+    showOnOverlay ? overlayChart.show(i) : overlayChart.hide(i)
+  );
+}
+
+function selectOverlayEar(ear) {
+  overlayEar = ear;
+  ear_R_button.className = ear === "R" ? "button_U" : "button_T";
+  ear_L_button.className = ear === "L" ? "button_U" : "button_T";
+  if (userPrefs.crosshairFlag === "on") {
+    overlayChart.config.options.plugins.audiogramCrosshair = overlayCrosshair();
+  }
+  overlayChart.update("none");
+}
+ear_R_button.addEventListener("click", () => selectOverlayEar("R"));
+ear_L_button.addEventListener("click", () => selectOverlayEar("L"));
+
+function setOverlayView(on) {
+  document.querySelector(".grid-container").classList.toggle("overlay", on);
+  document.querySelectorAll("[data-view]").forEach((button) => {
+    const pressed = (button.dataset.view === "overlay") === on;
+    button.setAttribute("aria-pressed", String(pressed));
+  });
+  try {
+    localStorage.setItem("audiogramView", on ? "overlay" : "split");
+  } catch {}
+}
+document.querySelectorAll("[data-view]").forEach((button) => {
+  button.addEventListener("click", () =>
+    setOverlayView(button.dataset.view === "overlay")
+  );
+});
+
 const ctx3 = document.getElementById("change_R").getContext("2d");
 const myChart3 = new Chart(ctx3, options_bar_R);
 
@@ -851,10 +962,7 @@ function toggleLegendCategory(category) {
   const hidden = legendHidden[category];
 
   const setVisibility = (datasets) => {
-    datasets.forEach((i) => {
-      hidden ? myChart.hide(i) : myChart.show(i);
-      hidden ? myChart2.hide(i) : myChart2.show(i);
-    });
+    datasets.forEach((i) => setDatasetVisible(i, !hidden));
   };
 
   if (category === "AC") {
@@ -1103,6 +1211,10 @@ function nonFreq(a, b, ear) {
 AC_button.addEventListener("click", toggleTransducer);
 BC_button.addEventListener("click", toggleTransducer);
 aided_button.addEventListener("click", toggleTransducer);
+// Picking a transducer goes back to plotting
+[AC_button, BC_button, aided_button].forEach((button) =>
+  button.addEventListener("click", () => setPen(false))
+);
 function toggleTransducer(initialState) {
   document.getElementById("AC_button").className = "button_T";
   document.getElementById("BC_button").className = "button_T";
@@ -1159,26 +1271,20 @@ secondary_data.addEventListener("change", toggleData);
 function toggleData() {
   const selectedValue = secondary_data.value;
   if (selectedValue === "None") {
-    myChart.hide(5);
-    myChart2.hide(5);
-    myChart.hide(6);
-    myChart2.hide(6);
+    setDatasetVisible(5, false);
+    setDatasetVisible(6, false);
     previousLegend.style.display = "none";
     return;
   }
   if (selectedValue === "Prev. Results") {
     //previous is visible
-    myChart.hide(5);
-    myChart2.hide(5);
-    myChart.show(6);
-    myChart2.show(6);
+    setDatasetVisible(5, false);
+    setDatasetVisible(6, true);
     previousLegend.style.display = "table-row";
   }
   if (selectedValue === "Other Ear") {
-    myChart.hide(6);
-    myChart2.hide(6);
-    myChart.show(5);
-    myChart2.show(5);
+    setDatasetVisible(6, false);
+    setDatasetVisible(5, true);
     previousLegend.style.display = "none";
   }
 }
@@ -1241,6 +1347,8 @@ function annotatePTA() {
   if (annotatePTApref === "off") {
     myChart.options.plugins.annotation.annotations.labelPTA.display = false;
     myChart2.options.plugins.annotation.annotations.labelPTA.display = false;
+    overlayChart.options.plugins.annotation.annotations.labelPTA_R.display = false;
+    overlayChart.options.plugins.annotation.annotations.labelPTA_L.display = false;
     updateCharts();
     return;
   }
@@ -1262,6 +1370,20 @@ function annotatePTA() {
     labelL.content = ["PTA", String(Math.round(audiogramData.PTA_L))];
     labelL.display = true;
   }
+
+  // Overlay: the same labels on one chart, nudged apart when the PTAs are close
+  const overlayLabels = overlayChart.options.plugins.annotation.annotations;
+  const gap = audiogramData.PTA_L - audiogramData.PTA_R;
+  const nudge = Math.abs(gap) < 12 ? (gap >= 0 ? 13 : -13) : 0;
+  [
+    [overlayLabels.labelPTA_R, labelR, -nudge],
+    [overlayLabels.labelPTA_L, labelL, nudge],
+  ].forEach(([label, source, yAdjust]) => {
+    label.display = source.display;
+    label.yValue = source.yValue;
+    label.content = source.content;
+    label.yAdjust = yAdjust;
+  });
   updateCharts();
 }
 
@@ -1548,21 +1670,24 @@ const maskingNorms = {
 
 window.onload = () => {
   toggleTransducer("AC");
+  selectOverlayEar("R");
+  try {
+    setOverlayView(localStorage.getItem("audiogramView") === "overlay");
+  } catch {}
   toggleData(5);
   toggleData(6);
   fillInLegendPrevDate();
 };
 
-window.onbeforeprint = (event) => {
-  if (userPrefs.crosshairFlag === "on") {
-    toggleCrosshair("off");
-  }
+// Keep the crosshair off the printout, then put the user's setting back
+let restoreCrosshairAfterPrint = false;
+window.onbeforeprint = () => {
+  restoreCrosshairAfterPrint = userPrefs.crosshairFlag === "on";
+  if (restoreCrosshairAfterPrint) toggleCrosshair.call(crosshairOff);
 };
 
-window.onafterprint = (event) => {
-  if (userPrefs.crosshairFlag === "on") {
-    toggleCrosshair("on");
-  }
+window.onafterprint = () => {
+  if (restoreCrosshairAfterPrint) toggleCrosshair.call(crosshairOn);
 };
 
 ac_point_size_slider.addEventListener("change", adjustAllACpointSizes);

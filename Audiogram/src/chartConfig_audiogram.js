@@ -5,6 +5,36 @@ import {
   L_NR,
 } from "./dataAndImages.js";
 
+// Crosshair for the audiograms: a vertical and a horizontal line through the
+// pointer, kept inside the plot area. Set plugins.audiogramCrosshair to
+// { color, width }, or false to turn it off.
+const AudiogramCrosshair = {
+  id: "audiogramCrosshair",
+  afterEvent(chart, args) {
+    const { event, inChartArea } = args;
+    const point = event.type !== "mouseout" && inChartArea ? { x: event.x, y: event.y } : null;
+    if (point?.x !== chart.$crosshair?.x || point?.y !== chart.$crosshair?.y) {
+      chart.$crosshair = point;
+      args.changed = true;
+    }
+  },
+  afterDraw(chart, args, options) {
+    const point = chart.$crosshair;
+    if (!point) return;
+    const { ctx, chartArea } = chart;
+    ctx.save();
+    ctx.strokeStyle = options.color;
+    ctx.lineWidth = options.width;
+    ctx.beginPath();
+    ctx.moveTo(point.x, chartArea.top);
+    ctx.lineTo(point.x, chartArea.bottom);
+    ctx.moveTo(chartArea.left, point.y);
+    ctx.lineTo(chartArea.right, point.y);
+    ctx.stroke();
+    ctx.restore();
+  },
+};
+
 export const bigHz = [
   125,
   250,
@@ -23,6 +53,7 @@ export const bigHz = [
 export function createOptionsR(prepareMovement) {
   return {
     type: "line",
+    plugins: [AudiogramCrosshair],
     data: {
       labels: bigHz,
       datasets: [
@@ -280,21 +311,9 @@ export function createOptionsR(prepareMovement) {
           font: { size: 16, family: "Rubik", weight: "500" },
           padding: { top: 6, bottom: 4 },
         },
-        crosshair: {
-          sync: {
-            enabled: false,
-          },
-          line: {
-            width: 3,
-            color: "red",
-          },
-          zoom: {
-            enabled: false,
-          },
-          snap: {
-            enabled: false,
-          },
-        },
+        // The library crosshair is vertical only; audiograms use their own
+        crosshair: false,
+        audiogramCrosshair: { color: "red", width: 1.5 },
       },
       scales: {
         y: {
@@ -345,9 +364,38 @@ export function createOptionsR(prepareMovement) {
   };
 }
 
+// Both ears on one chart. It reuses the split charts' dataset objects (right
+// ear first, then left) so any change to a dataset shows on both views.
+// getEar says which ear a click plots.
+export function createOptionsOverlay(prepareMovement, getEar, optionsR, optionsL) {
+  const config = createOptionsR(prepareMovement);
+  const { options } = config;
+  config.data.datasets = [...optionsR.data.datasets, ...optionsL.data.datasets];
+
+  options.plugins.title.display = false;
+  options.scales.y.ticks.color = "rgba(0,0,0,0.7)";
+  options.scales.x.ticks.color = "rgba(0,0,0,0.7)";
+
+  const { normAdult, labelPTA } = options.plugins.annotation.annotations;
+  options.plugins.annotation.annotations = {
+    normAdult,
+    labelPTA_R: labelPTA,
+    labelPTA_L: { ...labelPTA, color: "rgba(0,0,255,0.9)" },
+  };
+
+  options.onClick = function (e) {
+    const xLabel = this.scales.x.getValueForPixel(e.x);
+    let yLabel = this.scales.y.getValueForPixel(e.y);
+    yLabel = Math.round(yLabel / 5) * 5;
+    prepareMovement(xLabel, yLabel, getEar());
+  };
+  return config;
+}
+
 export function createOptionsL(prepareMovement) {
   return {
     type: "line",
+    plugins: [AudiogramCrosshair],
     data: {
       labels: bigHz,
       datasets: [
@@ -606,21 +654,9 @@ export function createOptionsL(prepareMovement) {
           font: { size: 16, family: "Rubik", weight: "500" },
           padding: { top: 6, bottom: 4 },
         },
-        crosshair: {
-          sync: {
-            enabled: false,
-          },
-          line: {
-            width: 3,
-            color: "blue",
-          },
-          zoom: {
-            enabled: false,
-          },
-          snap: {
-            enabled: false,
-          },
-        },
+        // The library crosshair is vertical only; audiograms use their own
+        crosshair: false,
+        audiogramCrosshair: { color: "blue", width: 1.5 },
       },
       scales: {
         y: {

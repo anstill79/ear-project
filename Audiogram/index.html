@@ -19,77 +19,92 @@
     <!-- <site-header site-name="Ear Project"></site-header> -->
 
     <div class="grid-container">
-      <!-- Pt info component. Removing for now -->
-      <!-- <div
-        id="PHI_box"
-        class="PHI-sub-grid"
-        style="
-          grid-column: 1;
-          grid-row: 1;
-          justify-self: right;
-          margin-right: 80px;
-        "
-      >
-        <div class="PHI-sub-grid-item">Name:</div>
+      <section class="patient-info" aria-label="Patient">
+        <label class="patient-field">
+          <span class="control-label">Last name</span>
+          <input id="pt_last" type="text" autocomplete="off" />
+        </label>
+        <label class="patient-field">
+          <span class="control-label">First name</span>
+          <input id="pt_first" type="text" autocomplete="off" />
+        </label>
+        <label class="patient-field">
+          <span class="control-label">DOB</span>
+          <input id="pt_dob" type="text" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="mm/dd/yyyy" data-date />
+        </label>
+        <label class="patient-field">
+          <span class="control-label">Patient ID</span>
+          <input id="pt_id" type="text" autocomplete="off" />
+        </label>
+        <label class="patient-field">
+          <span class="control-label">Test date</span>
+          <input id="test_date" type="text" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="mm/dd/yyyy" data-date />
+        </label>
+        <label class="patient-field">
+          <span class="control-label">Transducer</span>
+          <select id="select_transducer" name="select_transducer">
+            <option value="blank">--</option>
+            <option value="circumaural">Circumaural</option>
+            <option value="insert">Insert</option>
+            <option value="supraaural">Supraaural</option>
+          </select>
+        </label>
+        <label class="patient-field">
+          <span class="control-label">Reliability</span>
+          <select id="Reliability" name="Reliability">
+            <option value="blank">--</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+        </label>
+      </section>
 
-        <div class="PHI-sub-grid-item">
-          <input type="text" id="name" />
-        </div>
-
-        <div class="PHI-sub-grid-item">Date:</div>
-
-        <div class="PHI-sub-grid-item">
-          <input type="date" />
-        </div>
-
-        <div class="PHI-sub-grid-item">AuD:</div>
-
-        <div class="PHI-sub-grid-item">
-          <input type="text" />
-        </div>
-      </div> -->
-
-      <div class="top-controls-container">
-        <div class="top-controls-container-item">
-          <button id="AC_button" class="button_T">AC</button>
-          <button id="BC_button" class="button_T">BC</button>
-
-          <button id="aided_button" class="button_T">Aided</button>
-        </div>
-        <div class="top-controls-container-item">
-          <div class="control-select-group">
-            <label for="select_transducer" class="control-label"
-              >Transducer</label
+      <div class="top-controls-container no-print">
+        <div class="top-controls-stack">
+          <div class="top-controls-container-item">
+            <button id="AC_button" class="button_T">AC</button>
+            <button id="BC_button" class="button_T">BC</button>
+            <button id="aided_button" class="button_T">Aided</button>
+            <button
+              id="pen_button"
+              class="button_T pen-button"
+              aria-pressed="false"
+              title="Draw on the charts without plotting"
             >
-            <select
-              name="select_transducer"
-              id="select_transducer"
-              class="top-controls-button"
-            >
-              <option value="blank">--</option>
-              <option value="circumaural">Circumaural</option>
-              <option value="insert">Insert</option>
-              <option value="supraaural">Supraaural</option>
-            </select>
+              Pen
+            </button>
           </div>
-          <div class="control-select-group">
-            <label for="Reliability" class="control-label">Reliability</label>
-            <select
-              id="Reliability"
-              name="Reliability"
-              class="top-controls-button"
+          <div class="tool-row">
+            <div
+              id="ear_select"
+              class="ear-select"
+              role="group"
+              aria-label="Ear to plot"
             >
-              <option value="blank">--</option>
-              <option value="Good">Good</option>
-              <option value="Fair">Fair</option>
-              <option value="Poor">Poor</option>
-            </select>
+              <button id="ear_R_button" class="button_T" data-ear="R">Right</button>
+              <button id="ear_L_button" class="button_T" data-ear="L">Left</button>
+            </div>
+            <div class="pen-tools" role="group" aria-label="Pen">
+              <button id="pen_undo" class="button_T">Undo</button>
+              <button id="pen_clear" class="button_T">Clear</button>
+            </div>
           </div>
-          <div class="control-select-group">
-            <!-- Secondary data -->
-            <label class="control-label" for="secondary_data"
-              >Secondary Data</label
-            >
+        </div>
+        <div class="top-controls-stack">
+          <div class="control-inline">
+            <span class="control-label">Ears</span>
+            <div class="bar-views view-toggle" role="group" aria-label="Ears">
+              <button type="button" data-view="split" aria-pressed="true">
+                Side by side
+              </button>
+              <button type="button" data-view="overlay" aria-pressed="false">
+                Overlaid
+              </button>
+            </div>
+          </div>
+          <div class="control-inline">
+            <label class="control-label" for="secondary_data">Secondary</label>
             <select id="secondary_data" class="command-select">
               <option>Prev. Results</option>
               <option>Other Ear</option>
@@ -97,505 +112,540 @@
             </select>
           </div>
         </div>
-        <div class="top-controls-container-item">
-          <button
-            id="command_palette"
-            class="button_T"
-            popovertarget="command_modal"
-          >
-            Controls
-          </button>
+        <div class="top-controls-stack">
+          <div class="top-controls-container-item">
+            <button id="print" class="top-controls-button">Print</button>
+            <button
+              id="save_pdf"
+              class="top-controls-button"
+              title="Opens the print dialog. Choose Save as PDF as the destination"
+            >
+              Save PDF
+            </button>
+            <button
+              id="command_palette"
+              class="button_T"
+              popovertarget="command_modal"
+            >
+              Controls
+            </button>
+          </div>
+          <div class="top-controls-container-item">
+            <button id="copy_data" class="top-controls-button">Copy Data</button>
+            <button
+              id="copy_json"
+              class="top-controls-button small-button"
+              title="Copy the raw data as JSON for use in another system"
+            >
+              JSON
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="grid-item" style="grid-column: 1; justify-self: right">
-        <canvas
-          id="audiogram_R"
-          class="crosshair"
-          style="height: 350px; width: 350px"
-        >
-        </canvas>
-      </div>
-
-      <div class="grid-item" style="grid-column: 2; justify-self: left">
-        <canvas
-          id="audiogram_L"
-          class="crosshair"
-          style="height: 350px; width: 350px"
-        >
-        </canvas>
-      </div>
-
-      <div class="spacer2" style="grid-column: 1"></div>
-
-      <div class="audiogram-toolbar no-print">
-        <button id="copy_ear_right" class="button_R copy-ear-btn">
-          Copy R &rarr; L
-        </button>
-        <div class="audiogram-toolbar-toggles">
-          <button
-            type="button"
-            class="button-row-summary"
-            data-toggle-panel="masking_panel"
-            aria-controls="masking_panel"
-            aria-expanded="false"
-          >
-            Masking
-          </button>
-          <button
-            type="button"
-            class="button-row-summary"
-            data-toggle-panel="NR_panel"
-            aria-controls="NR_panel"
-            aria-expanded="false"
-          >
-            NR
-          </button>
-        </div>
-        <button id="copy_ear_left" class="button_L copy-ear-btn">
-          Copy L &rarr; R
-        </button>
-      </div>
-
-      <details
-        id="masking_panel"
-        class="button-row-details no-print"
-        style="grid-column: 1 / span 2"
+      <section
+        class="report-section audiometry-section"
+        aria-label="Pure-tone audiometry"
       >
-        <summary>Masking</summary>
-        <div class="button-row-container">
-          <div class="button-row-R">
-            <div>
+        <h2 class="report-section-title">Pure-tone Audiometry</h2>
+
+        <div
+          class="grid-item split-audiogram"
+          style="grid-column: 1; justify-self: right"
+        >
+          <canvas
+            id="audiogram_R"
+            class="crosshair"
+            style="height: 350px; width: 350px"
+          >
+          </canvas>
+        </div>
+
+        <div
+          class="grid-item split-audiogram"
+          style="grid-column: 2; justify-self: left"
+        >
+          <canvas
+            id="audiogram_L"
+            class="crosshair"
+            style="height: 350px; width: 350px"
+          >
+          </canvas>
+        </div>
+
+        <div class="grid-item overlay-audiogram" style="grid-column: 1 / -1">
+          <canvas
+            id="audiogram_overlay"
+            class="crosshair"
+            style="height: 480px; width: 480px"
+          >
+          </canvas>
+        </div>
+
+        <div class="spacer2" style="grid-column: 1"></div>
+
+        <div class="audiogram-toolbar no-print">
+          <button id="copy_ear_right" class="button_R copy-ear-btn">
+            Copy R &rarr; L
+          </button>
+          <div class="audiogram-toolbar-toggles">
+            <button
+              type="button"
+              class="button-row-summary"
+              data-toggle-panel="masking_panel"
+              aria-controls="masking_panel"
+              aria-expanded="false"
+            >
+              Masking
+            </button>
+            <button
+              type="button"
+              class="button-row-summary"
+              data-toggle-panel="NR_panel"
+              aria-controls="NR_panel"
+              aria-expanded="false"
+            >
+              NR
+            </button>
+          </div>
+          <button id="copy_ear_left" class="button_L copy-ear-btn">
+            Copy L &rarr; R
+          </button>
+        </div>
+
+        <details
+          id="masking_panel"
+          class="button-row-details no-print"
+          style="grid-column: 1 / span 2"
+        >
+          <summary>Masking</summary>
+          <div class="button-row-container">
+            <div class="button-row-R">
+              <div>
+                <button
+                  data-ear="R"
+                  data-index="0"
+                  data-masking="true"
+                  class="button_R_two masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="1"
+                  data-masking="true"
+                  class="button_R masking"
+                >
+                  M
+                </button>
+                <button onClick="" class="invisible">..</button>
+                <button
+                  data-ear="R"
+                  data-index="3"
+                  data-masking="true"
+                  class="button_R masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="4"
+                  data-masking="true"
+                  class="button_R_two masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="5"
+                  data-masking="true"
+                  class="button_R masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="6"
+                  data-masking="true"
+                  class="button_R_two masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="7"
+                  data-masking="true"
+                  class="button_R masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="8"
+                  data-masking="true"
+                  class="button_R_two masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="9"
+                  data-masking="true"
+                  class="button_R masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="10"
+                  data-masking="true"
+                  class="button_R_two masking"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="11"
+                  data-masking="true"
+                  class="button_R masking"
+                >
+                  M
+                </button>
+              </div>
               <button
-                data-ear="R"
+                id="mask_right"
+                class="button_R"
+                style="width: 50px; margin: -2px"
+              >
+                Mask All
+              </button>
+            </div>
+            <!-- left ear masking buttons -->
+            <div class="button-row-L">
+              <button
+                data-ear="L"
                 data-index="0"
                 data-masking="true"
-                class="button_R_two masking"
+                class="button_L_two masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="1"
                 data-masking="true"
-                class="button_R masking"
+                class="button_L masking"
               >
                 M
               </button>
               <button onClick="" class="invisible">..</button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="3"
                 data-masking="true"
-                class="button_R masking"
+                class="button_L masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="4"
                 data-masking="true"
-                class="button_R_two masking"
+                class="button_L_two masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="5"
                 data-masking="true"
-                class="button_R masking"
+                class="button_L masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="6"
                 data-masking="true"
-                class="button_R_two masking"
+                class="button_L_two masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="7"
                 data-masking="true"
-                class="button_R masking"
+                class="button_L masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="8"
                 data-masking="true"
-                class="button_R_two masking"
+                class="button_L_two masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="9"
                 data-masking="true"
-                class="button_R masking"
+                class="button_L masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="10"
                 data-masking="true"
-                class="button_R_two masking"
+                class="button_L_two masking"
               >
                 M
               </button>
               <button
-                data-ear="R"
+                data-ear="L"
                 data-index="11"
                 data-masking="true"
-                class="button_R masking"
+                class="button_L masking"
               >
                 M
               </button>
+              <button
+                id="mask_left"
+                class="button_L"
+                style="width: 50px; margin: -2px; justify-self: left"
+              >
+                Mask All
+              </button>
             </div>
-            <button
-              id="mask_right"
-              class="button_R"
-              style="width: 50px; margin: -2px"
-            >
-              Mask All
-            </button>
           </div>
-          <!-- left ear masking buttons -->
-          <div class="button-row-L">
-            <button
-              data-ear="L"
-              data-index="0"
-              data-masking="true"
-              class="button_L_two masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="1"
-              data-masking="true"
-              class="button_L masking"
-            >
-              M
-            </button>
-            <button onClick="" class="invisible">..</button>
-            <button
-              data-ear="L"
-              data-index="3"
-              data-masking="true"
-              class="button_L masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="4"
-              data-masking="true"
-              class="button_L_two masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="5"
-              data-masking="true"
-              class="button_L masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="6"
-              data-masking="true"
-              class="button_L_two masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="7"
-              data-masking="true"
-              class="button_L masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="8"
-              data-masking="true"
-              class="button_L_two masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="9"
-              data-masking="true"
-              class="button_L masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="10"
-              data-masking="true"
-              class="button_L_two masking"
-            >
-              M
-            </button>
-            <button
-              data-ear="L"
-              data-index="11"
-              data-masking="true"
-              class="button_L masking"
-            >
-              M
-            </button>
-            <button
-              id="mask_left"
-              class="button_L"
-              style="width: 50px; margin: -2px; justify-self: left"
-            >
-              Mask All
-            </button>
-          </div>
-        </div>
-      </details>
-      <div class="spacer2" style="grid-column: 1"></div>
+        </details>
+        <div class="spacer2" style="grid-column: 1"></div>
 
-      <details
-        id="NR_panel"
-        class="button-row-details no-print"
-        style="grid-column: 1 / span 2"
-      >
-        <summary>NR</summary>
-        <div class="button-row-container">
-          <div class="button-row-R">
-            <div>
-              <button data-ear="R" data-index="0" class="button_R_two NR">
+        <details
+          id="NR_panel"
+          class="button-row-details no-print"
+          style="grid-column: 1 / span 2"
+        >
+          <summary>NR</summary>
+          <div class="button-row-container">
+            <div class="button-row-R">
+              <div>
+                <button data-ear="R" data-index="0" class="button_R_two NR">
+                  NR
+                </button>
+                <button data-ear="R" data-index="1" class="button_R NR">NR</button>
+                <button onClick="" class="invisible">..</button>
+                <button data-ear="R" data-index="3" class="button_R NR">NR</button>
+                <button data-ear="R" data-index="4" class="button_R_two NR">
+                  NR
+                </button>
+                <button data-ear="R" data-index="5" class="button_R NR">NR</button>
+                <button data-ear="R" data-index="6" class="button_R_two NR">
+                  NR
+                </button>
+                <button data-ear="R" data-index="7" class="button_R NR">NR</button>
+                <button data-ear="R" data-index="8" class="button_R_two NR">
+                  NR
+                </button>
+                <button data-ear="R" data-index="9" class="button_R NR">NR</button>
+                <button data-ear="R" data-index="10" class="button_R_two NR">
+                  NR
+                </button>
+                <button data-ear="R" data-index="11" class="button_R NR">NR</button>
+              </div>
+              <button
+                id="NR_all_right"
+                class="button_R"
+                style="width: 50px; margin: -2px"
+              >
+                NR All
+              </button>
+            </div>
+            <div class="button-row-L">
+              <button data-ear="L" data-index="0" class="button_L_two NR">
                 NR
               </button>
-              <button data-ear="R" data-index="1" class="button_R NR">NR</button>
+              <button
+                data-ear="L"
+                data-index="1"
+                class="button_L NR"
+              >
+                NR
+              </button>
               <button onClick="" class="invisible">..</button>
-              <button data-ear="R" data-index="3" class="button_R NR">NR</button>
-              <button data-ear="R" data-index="4" class="button_R_two NR">
+              <button
+                data-ear="L"
+                data-index="3"
+                class="button_L NR"
+              >
                 NR
               </button>
-              <button data-ear="R" data-index="5" class="button_R NR">NR</button>
-              <button data-ear="R" data-index="6" class="button_R_two NR">
+              <button
+                data-ear="L"
+                data-index="4"
+                class="button_L_two NR"
+              >
                 NR
               </button>
-              <button data-ear="R" data-index="7" class="button_R NR">NR</button>
-              <button data-ear="R" data-index="8" class="button_R_two NR">
+              <button
+                data-ear="L"
+                data-index="5"
+                class="button_L NR"
+              >
                 NR
               </button>
-              <button data-ear="R" data-index="9" class="button_R NR">NR</button>
-              <button data-ear="R" data-index="10" class="button_R_two NR">
+              <button
+                data-ear="L"
+                data-index="6"
+                class="button_L_two NR"
+              >
                 NR
               </button>
-              <button data-ear="R" data-index="11" class="button_R NR">NR</button>
+              <button
+                data-ear="L"
+                data-index="7"
+                class="button_L NR"
+              >
+                NR
+              </button>
+              <button
+                data-ear="L"
+                data-index="8"
+                class="button_L_two NR"
+              >
+                NR
+              </button>
+              <button
+                data-ear="L"
+                data-index="9"
+                class="button_L NR"
+              >
+                NR
+              </button>
+              <button
+                data-ear="L"
+                data-index="10"
+                class="button_L_two NR"
+              >
+                NR
+              </button>
+              <button
+                data-ear="L"
+                data-index="11"
+                class="button_L NR"
+              >
+                NR
+              </button>
+              <button
+                id="NR_all_left"
+                class="button_L"
+                style="width: 50px; margin: -2px; justify-self: left"
+              >
+                NR All
+              </button>
             </div>
-            <button
-              id="NR_all_right"
-              class="button_R"
-              style="width: 50px; margin: -2px"
-            >
-              NR All
-            </button>
           </div>
-          <div class="button-row-L">
-            <button data-ear="L" data-index="0" class="button_L_two NR">
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="1"
-              class="button_L NR"
-              style="left: 433px; top: 395px"
-            >
-              NR
-            </button>
-            <button onClick="" class="invisible">..</button>
-            <button
-              data-ear="L"
-              data-index="3"
-              class="button_L NR"
-              style="left: 481px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="4"
-              class="button_L_two NR"
-              style="left: 505px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="5"
-              class="button_L NR"
-              style="left: 530px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="6"
-              class="button_L_two NR"
-              style="left: 554px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="7"
-              class="button_L NR"
-              style="left: 578px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="8"
-              class="button_L_two NR"
-              style="left: 603px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="9"
-              class="button_L NR"
-              style="left: 627px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="10"
-              class="button_L_two NR"
-              style="left: 651px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              data-ear="L"
-              data-index="11"
-              class="button_L NR"
-              style="left: 675px; top: 395px"
-            >
-              NR
-            </button>
-            <button
-              id="NR_all_left"
-              class="button_L"
-              style="width: 50px; margin: -2px; justify-self: left"
-            >
-              NR All
-            </button>
-          </div>
-        </div>
-      </details>
+        </details>
 
-      <div class="spacer2" style="grid-column: 1"></div>
-      <div class="bar-controls no-print">
-        <div class="bar-control-group" role="group" aria-label="Compare">
-          <span class="bar-control-label">Compare</span>
-          <div class="bar-views">
-            <button type="button" data-bar-compare="previous" aria-pressed="false" title="Current thresholds vs. the previous test. Needs previous results">Previous</button>
-            <button type="button" data-bar-compare="aided" aria-pressed="false" title="Unaided minus aided (▲ = aided better). Needs unaided and aided thresholds">Aided</button>
+        <div class="spacer2" style="grid-column: 1"></div>
+        <div class="bar-controls no-print">
+          <div class="bar-control-group" role="group" aria-label="Compare">
+            <span class="bar-control-label">Compare</span>
+            <div class="bar-views">
+              <button type="button" data-bar-compare="previous" aria-pressed="false" title="Current thresholds vs. the previous test. Needs previous results">Previous</button>
+              <button type="button" data-bar-compare="aided" aria-pressed="false" title="Unaided minus aided (▲ = aided better). Needs unaided and aided thresholds">Aided</button>
+            </div>
+          </div>
+          <div class="bar-control-group" role="group" aria-label="Show">
+            <span class="bar-control-label">Show</span>
+            <div class="bar-views">
+              <button type="button" data-bar-resolution="full" aria-pressed="true" title="Each frequency">Freq</button>
+              <button type="button" data-bar-resolution="lowMidHigh" aria-pressed="false" title="Averaged for low, mid and high frequencies">L/M/H</button>
+              <button type="button" data-bar-resolution="PTA" aria-pressed="false" title="Pure-tone average">PTA</button>
+            </div>
           </div>
         </div>
-        <div class="bar-control-group" role="group" aria-label="Show">
-          <span class="bar-control-label">Show</span>
-          <div class="bar-views">
-            <button type="button" data-bar-resolution="full" aria-pressed="true" title="Each frequency">Freq</button>
-            <button type="button" data-bar-resolution="lowMidHigh" aria-pressed="false" title="Averaged for low, mid and high frequencies">L/M/H</button>
-            <button type="button" data-bar-resolution="PTA" aria-pressed="false" title="Pure-tone average">PTA</button>
+        <div
+          class="bar_R grid-item right-position"
+          style="grid-column: 1; padding-right: 5px"
+        >
+          <div class="bar-head">
+            <span class="bar-title" id="bar_title_R">Change vs. previous</span>
           </div>
+          <canvas id="change_R" title="Click to switch Freq / L/M/H / PTA"> </canvas>
         </div>
-      </div>
-      <div
-        class="bar_R grid-item right-position"
-        style="grid-column: 1; padding-right: 5px"
+
+        <div
+          class="bar_L grid-item left-position"
+          style="grid-column: 2; padding-right: 5px"
+        >
+          <div class="bar-head">
+            <span class="bar-title" id="bar_title_L">Change vs. previous</span>
+          </div>
+          <canvas id="change_L" title="Click to switch Freq / L/M/H / PTA"> </canvas>
+        </div>
+
+        <div class="legend-table-container">
+          <table>
+            <tr>
+              <th style="width: 130px; font-style: italic">Legend:</th>
+              <th>Right</th>
+              <th>Left</th>
+            </tr>
+
+            <tr id="ACnormal" style="display: none">
+              <td class="legend-label" data-category="AC">Air Conduction (AC)</td>
+              <td>O</td>
+              <td>X</td>
+            </tr>
+            <tr id="ACmasked" style="display: none">
+              <td class="legend-label" data-category="AC">AC masked</td>
+              <td>△</td>
+              <td>□</td>
+            </tr>
+            <tr id="BCnormal" style="display: none">
+              <td class="legend-label" data-category="BC">
+                Bone Conduction (BC)
+              </td>
+              <td>&lt;</td>
+              <td>&gt;</td>
+            </tr>
+            <tr id="BCmasked" style="display: none">
+              <td class="legend-label" data-category="BC">BC masked</td>
+              <td>[</td>
+              <td>]</td>
+            </tr>
+            <tr id="NR" style="display: none">
+              <td class="legend-label" data-category="NR">No response</td>
+              <td>↙</td>
+              <td>↘</td>
+            </tr>
+            <tr id="AidedLegend" style="display: none">
+              <td class="legend-label" data-category="Aided">Aided</td>
+              <td style="color: red; font-weight: bold">A</td>
+              <td style="color: blue; font-weight: bold">A</td>
+            </tr>
+            <tr id="previousLegend" style="display: none">
+              <td
+                id="previous_dateContent"
+                class="legend-label"
+                data-category="previous"
+              >
+                Previous
+              </td>
+              <td colspan="2">●---●</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <section
+        class="report-section speech-section"
+        aria-label="Speech audiometry"
       >
-        <div class="bar-head">
-          <span class="bar-title" id="bar_title_R">Change vs. previous</span>
-        </div>
-        <canvas id="change_R" title="Click to switch Freq / L/M/H / PTA"> </canvas>
-      </div>
-
-      <div
-        class="bar_L grid-item left-position"
-        style="grid-column: 2; padding-right: 5px"
-      >
-        <div class="bar-head">
-          <span class="bar-title" id="bar_title_L">Change vs. previous</span>
-        </div>
-        <canvas id="change_L" title="Click to switch Freq / L/M/H / PTA"> </canvas>
-      </div>
-
-      <div class="legend-table-container">
-        <table>
-          <tr>
-            <th style="width: 130px; font-style: italic">Legend:</th>
-            <th>Right</th>
-            <th>Left</th>
-          </tr>
-
-          <tr id="ACnormal" style="display: none">
-            <td class="legend-label" data-category="AC">Air Conduction (AC)</td>
-            <td>O</td>
-            <td>X</td>
-          </tr>
-          <tr id="ACmasked" style="display: none">
-            <td class="legend-label" data-category="AC">AC masked</td>
-            <td>△</td>
-            <td>□</td>
-          </tr>
-          <tr id="BCnormal" style="display: none">
-            <td class="legend-label" data-category="BC">
-              Bone Conduction (BC)
-            </td>
-            <td>&lt;</td>
-            <td>&gt;</td>
-          </tr>
-          <tr id="BCmasked" style="display: none">
-            <td class="legend-label" data-category="BC">BC masked</td>
-            <td>[</td>
-            <td>]</td>
-          </tr>
-          <tr id="NR" style="display: none">
-            <td class="legend-label" data-category="NR">No response</td>
-            <td>↙</td>
-            <td>↘</td>
-          </tr>
-          <tr id="AidedLegend" style="display: none">
-            <td class="legend-label" data-category="Aided">Aided</td>
-            <td style="color: red; font-weight: bold">A</td>
-            <td style="color: blue; font-weight: bold">A</td>
-          </tr>
-          <tr id="previousLegend" style="display: none">
-            <td
-              id="previous_dateContent"
-              class="legend-label"
-              data-category="previous"
-            >
-              Previous
-            </td>
-            <td colspan="2">●---●</td>
-          </tr>
-        </table>
-      </div>
-
-      <section class="speech-section" aria-label="Speech audiometry">
-        <h2 class="sp-section-title">Speech Audiometry</h2>
+        <h2 class="report-section-title">Speech Audiometry</h2>
         <div class="sp-ear sp-right" style="grid-column: 1">
           <div class="sp-ear-head">
             <span>Right</span>
@@ -795,8 +845,6 @@
 
       <!-- Action buttons -->
       <div class="command-section command-action-row">
-        <button id="copy_data" class="top-controls-button">Copy Data</button>
-        <button id="print" class="top-controls-button">Print</button>
         <button id="save_image" class="top-controls-button">DL Image</button>
       </div>
     </div>
