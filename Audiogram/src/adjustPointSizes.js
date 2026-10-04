@@ -4,13 +4,10 @@ import {
   BC_L,
   BC_R_M,
   BC_L_M,
-  R_NR,
-  L_NR,
   AidedSymbol_R,
   AidedSymbol_L,
   AidedNR_Symbol_R,
   AidedNR_Symbol_L,
-  drawNRArrow,
 } from "./dataAndImages.js";
 
 import { updateCharts, options_R, options_L } from "./audiogram.js";
@@ -135,16 +132,12 @@ export function adjustAllBCpointSizes() {
 
   bcPointSize = BCpointSizeMap[desiredPointSize];
 
-  BC_R.height = BCpointSizeMap[desiredPointSize][0];
-  BC_R.width = BCpointSizeMap[desiredPointSize][1];
-  BC_L.height = BCpointSizeMap[desiredPointSize][0];
-  BC_L.width = BCpointSizeMap[desiredPointSize][1];
-  BC_R_M.height = BCpointSizeMap[desiredPointSize][0];
-  BC_R_M.width = BCpointSizeMap[desiredPointSize][1];
-  BC_L_M.height = BCpointSizeMap[desiredPointSize][0];
-  BC_L_M.width = BCpointSizeMap[desiredPointSize][1];
-  drawNRArrow(R_NR, "SW", "rgb(255, 0, 0)", BCpointSizeMap[desiredPointSize][0]);
-  drawNRArrow(L_NR, "SE", "rgb(0, 0, 255)", BCpointSizeMap[desiredPointSize][0]);
+  // [width, height]: the BC images are twice as wide as they are tall
+  const [width, height] = BCpointSizeMap[desiredPointSize];
+  for (const img of [BC_R, BC_L, BC_R_M, BC_L_M]) {
+    img.width = width;
+    img.height = height;
+  }
   updateCharts();
 }
 

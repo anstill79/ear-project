@@ -1,8 +1,9 @@
 import {
   audiogramData,
   oldAudiogramData,
-  R_NR,
-  L_NR,
+  BC_R_M,
+  BC_L_M,
+  AidedNR_Symbol_R,
 } from "./dataAndImages.js";
 
 // Crosshair for the audiograms: a vertical and a horizontal line through the
@@ -35,6 +36,113 @@ const AudiogramCrosshair = {
   },
 };
 
+// No-response arrows in the usual audiogram style: a short arrow leaving the
+// symbol's lower outer corner at 45°, pointing down and away from the chart
+// center (right ear down-left, left ear down-right), faded like the NR symbol.
+// Datasets marked with nrArrow: { ear, kind, alpha } only supply positions;
+// the arrows are drawn here so they stay sharp and sit on the edge of the
+// symbol at every point size.
+
+// Stands in for a BC symbol while the faded copy is drawn below.
+const BLANK_SYMBOL = document.createElement("canvas");
+BLANK_SYMBOL.width = 1;
+BLANK_SYMBOL.height = 1;
+
+// BC symbols are hidden at NR points so NoResponseArrows can draw them faded.
+function bcSymbol(ear) {
+  return (context) =>
+    audiogramData[`pointSize_NR_BC_${ear}`][context.dataIndex] > 0
+      ? BLANK_SYMBOL
+      : audiogramData[`symbols_BC_${ear}`][context.dataIndex];
+}
+
+const NR_SHOWN = {
+  AC: (ear, i) => audiogramData[`pointSize_NR_${ear}`][i] > 0,
+  BC: (ear, i) => audiogramData[`pointSize_NR_BC_${ear}`][i] > 0,
+  Aided: (ear, i) => audiogramData[`pointSize_NR_Aided_${ear}`][i] > 0,
+};
+
+// The symbol's lower outer corner as an offset from the point (dx outward,
+// dy down), plus s, the symbol's half-size, which scales the arrow.
+const NR_CORNER = {
+  AC(ear, i) {
+    const r = audiogramData[`pointSize_NR_${ear}`][i];
+    // Chart.js puts the triangle's base corners 30° below the horizontal;
+    // circle, X and square all reach their corner on the 45° diagonal.
+    return audiogramData[`symbols_${ear}`][i] === "triangle"
+      ? { dx: 0.866 * r, dy: 0.5 * r, s: r }
+      : { dx: Math.SQRT1_2 * r, dy: Math.SQRT1_2 * r, s: r };
+  },
+  BC(ear, i) {
+    const img = audiogramData[`symbols_BC_${ear}`][i];
+    const masked = img === BC_R_M || img === BC_L_M;
+    // Measured from the PNGs: the foot of < or > and the bottom corner of [ or ].
+    return {
+      dx: (masked ? 0.37 : 0.18) * img.width,
+      dy: (masked ? 0.38 : 0.36) * img.height,
+      s: img.height / 2,
+    };
+  },
+  Aided() {
+    // Foot of the "A", whose font is 0.7 × the symbol canvas.
+    const s = AidedNR_Symbol_R.width / 2;
+    return { dx: 0.45 * s, dy: 0.48 * s, s };
+  },
+};
+
+function drawNRArrow(ctx, x, y, dir, { dx, dy, s }) {
+  const lineWidth = Math.min(2, Math.max(1.5, s * 0.2));
+  const gap = lineWidth * Math.SQRT1_2;
+  const shaft = s * 1.3 * Math.SQRT1_2;
+  const head = s * 0.55;
+  const x0 = x + dir * (dx + gap);
+  const y0 = y + dy + gap;
+  const x1 = x0 + dir * shaft;
+  const y1 = y0 + shaft;
+
+  ctx.lineWidth = lineWidth;
+  ctx.beginPath();
+  ctx.moveTo(x0, y0);
+  ctx.lineTo(x1, y1);
+  // Barbs run straight up and straight back, 45° either side of the shaft.
+  ctx.moveTo(x1, y1 - head);
+  ctx.lineTo(x1, y1);
+  ctx.lineTo(x1 - dir * head, y1);
+  ctx.stroke();
+}
+
+const NoResponseArrows = {
+  id: "noResponseArrows",
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    chart.data.datasets.forEach((dataset, index) => {
+      const nr = dataset.nrArrow;
+      if (!nr || !chart.isDatasetVisible(index)) return;
+      const { ear, kind, alpha } = nr;
+      const color = ear === "R" ? "255, 0, 0" : "0, 0, 255";
+      const dir = ear === "R" ? -1 : 1;
+
+      ctx.save();
+      ctx.strokeStyle = `rgba(${color}, ${alpha})`;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      chart.getDatasetMeta(index).data.forEach((point, i) => {
+        if (point.skip || !NR_SHOWN[kind](ear, i)) return;
+        if (kind === "BC") {
+          const img = audiogramData[`symbols_BC_${ear}`][i];
+          if (img.complete) {
+            ctx.globalAlpha = alpha;
+            ctx.drawImage(img, point.x - img.width / 2, point.y - img.height / 2, img.width, img.height);
+            ctx.globalAlpha = 1;
+          }
+        }
+        drawNRArrow(ctx, point.x, point.y, dir, NR_CORNER[kind](ear, i));
+      });
+      ctx.restore();
+    });
+  },
+};
+
 export const bigHz = [
   125,
   250,
@@ -53,7 +161,7 @@ export const bigHz = [
 export function createOptionsR(prepareMovement) {
   return {
     type: "line",
-    plugins: [AudiogramCrosshair],
+    plugins: [AudiogramCrosshair, NoResponseArrows],
     data: {
       labels: bigHz,
       datasets: [
@@ -87,7 +195,7 @@ export function createOptionsR(prepareMovement) {
           label: "BC_R",
           data: audiogramData.thresh_BC_R,
           borderWidth: 0,
-          pointStyle: audiogramData.symbols_BC_R,
+          pointStyle: bcSymbol("R"),
           pointBackgroundColor: "rgba(0, 0, 0, 0)",
           pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
           lineTension: 0,
@@ -101,8 +209,10 @@ export function createOptionsR(prepareMovement) {
         {
           label: "AC NR arrow",
           data: audiogramData.thresh_NR_R,
-          pointRadius: audiogramData.pointSize_NR_R,
-          pointStyle: R_NR,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          pointHitRadius: 0,
+          nrArrow: { ear: "R", kind: "AC", alpha: 0.3 },
           borderWidth: 0,
           clip: {
             left: false,
@@ -131,9 +241,10 @@ export function createOptionsR(prepareMovement) {
         {
           label: "BC NR arrow",
           data: audiogramData.thresh_BC_R,
-          pointRadius: audiogramData.pointSize_NR_BC_R,
-          pointStyle: R_NR,
+          pointRadius: 0,
           pointHoverRadius: 0,
+          pointHitRadius: 0,
+          nrArrow: { ear: "R", kind: "BC", alpha: 0.3 },
           borderWidth: 0,
           clip: {
             left: false,
@@ -191,8 +302,10 @@ export function createOptionsR(prepareMovement) {
         {
           label: "Aided NR arrow",
           data: audiogramData.thresh_NR_Aided_R,
-          pointRadius: audiogramData.pointSize_NR_Aided_R,
-          pointStyle: R_NR,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          pointHitRadius: 0,
+          nrArrow: { ear: "R", kind: "Aided", alpha: 0.35 },
           borderWidth: 0,
           clip: {
             left: false,
@@ -395,7 +508,7 @@ export function createOptionsOverlay(prepareMovement, getEar, optionsR, optionsL
 export function createOptionsL(prepareMovement) {
   return {
     type: "line",
-    plugins: [AudiogramCrosshair],
+    plugins: [AudiogramCrosshair, NoResponseArrows],
     data: {
       labels: bigHz,
       datasets: [
@@ -429,7 +542,7 @@ export function createOptionsL(prepareMovement) {
           label: "BC_L",
           data: audiogramData.thresh_BC_L,
           borderWidth: 0,
-          pointStyle: audiogramData.symbols_BC_L,
+          pointStyle: bcSymbol("L"),
           pointBackgroundColor: "rgba(0, 0, 0, 0)",
           pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
           lineTension: 0,
@@ -443,8 +556,10 @@ export function createOptionsL(prepareMovement) {
         {
           label: "AC NR arrow",
           data: audiogramData.thresh_NR_L,
-          pointRadius: audiogramData.pointSize_NR_L,
-          pointStyle: L_NR,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          pointHitRadius: 0,
+          nrArrow: { ear: "L", kind: "AC", alpha: 0.3 },
           borderWidth: 0,
           clip: {
             left: false,
@@ -473,9 +588,10 @@ export function createOptionsL(prepareMovement) {
         {
           label: "BC NR arrow",
           data: audiogramData.thresh_BC_L,
-          pointRadius: audiogramData.pointSize_NR_BC_L,
-          pointStyle: L_NR,
+          pointRadius: 0,
           pointHoverRadius: 0,
+          pointHitRadius: 0,
+          nrArrow: { ear: "L", kind: "BC", alpha: 0.3 },
           borderWidth: 0,
           clip: {
             left: false,
@@ -540,8 +656,10 @@ export function createOptionsL(prepareMovement) {
         {
           label: "Aided NR arrow",
           data: audiogramData.thresh_NR_Aided_L,
-          pointRadius: audiogramData.pointSize_NR_Aided_L,
-          pointStyle: L_NR,
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          pointHitRadius: 0,
+          nrArrow: { ear: "L", kind: "Aided", alpha: 0.35 },
           borderWidth: 0,
           clip: {
             left: false,
