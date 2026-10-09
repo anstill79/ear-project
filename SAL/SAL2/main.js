@@ -238,8 +238,19 @@ const chart = new Chart(ctx, {
         },
         displayColors: false, // Removes the little color square
         callbacks: {
-          // Remove the standard frequency title
-          title: () => null,
+          // Label which field the hovered point refers to
+          title: function (context) {
+            const item = context[0];
+            if (!item) return null;
+            const ds = item.dataset;
+            const side = ds.label.startsWith("Right") ? "Right" : "Left";
+            let field = "Est. BC";
+            if (ds.isAC) {
+              // AC points alternate: initial AC, then masked AC
+              field = item.dataIndex % 2 === 0 ? "Initial AC" : "Masked AC";
+            }
+            return `${side} ${field} @ ${item.raw.x}`;
+          },
 
           // Remove the standard "Dataset Label: Value" line
           label: () => null,
@@ -254,7 +265,10 @@ const chart = new Chart(ctx, {
           },
         },
         // Optional styling to make it look like a warning box
-        backgroundColor: "rgba(255, 243, 224, 1)", // Light orange background
+        backgroundColor: "#fff3e0", // Opaque light orange background
+        titleColor: "#7a3a00",
+        titleFont: { weight: "bold", size: 11 },
+        titleMarginBottom: 6,
         bodyColor: "#d35400", // Burnt orange text
         bodyFont: {
           weight: "bold",
@@ -353,11 +367,20 @@ function syncValues(ear, freq) {
   // Only auto-fill if AC has a value and MAC is currently empty
   if (acIn.value !== "" && macIn.value === "") {
     macIn.value = acIn.value;
+    macIn.classList.add("auto-filled");
     // Manually trigger updateChart since changing .value via JS
     // doesn't always fire the 'oninput' event automatically
     updateChart();
   }
 }
+
+// Once the user edits a masked AC value, it is no longer auto-filled
+document.querySelectorAll('input[id^="mac"]').forEach((input) => {
+  input.addEventListener("input", () => {
+    input.classList.remove("auto-filled");
+    input.classList.toggle("user-edited", input.value !== "");
+  });
+});
 
 // Select all text-based inputs
 const allInputs = document.querySelectorAll('input[type="number"]');
