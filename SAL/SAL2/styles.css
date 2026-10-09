@@ -51,6 +51,21 @@ body {
 }
 
 /* this is the capsule style from Gemini */
+
+/* Masked AC: auto-filled from unmasked AC vs. edited by the user */
+input.auto-filled {
+  background-color: #f1f3f5;
+  color: #868e96;
+  font-style: italic;
+  border-style: dashed;
+}
+
+input.user-edited {
+  background-color: #e7f5ff;
+  border-color: #339af0;
+  color: #1864ab;
+  font-weight: 700;
+}
 table {
   width: 100%;
   /* Changed to separate to allow spacing between the capsules */
