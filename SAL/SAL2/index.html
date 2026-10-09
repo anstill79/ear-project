@@ -18,30 +18,25 @@
     <div class="container">
       <header>
         <div class="tiny-flex">
-          <a href="https://ear-project.netlify.app/sal/sal" class="btn"
-            >SAL v1</a
+          <button
+            popovertarget="help_text_modal"
+            id="helpButton"
+            class="btn header-btn"
           >
-
-          <button popovertarget="help_text_modal" id="helpButton" class="btn">
             Help
           </button>
           <button
             popovertarget="custom_norms_modal"
             id="normsButton"
-            class="btn"
+            class="btn header-btn"
           >
             Custom Norms
           </button>
-
-          <label class="chart-toggle">
-            <input
-              type="checkbox"
-              id="unmaskedToBCToggle"
-              checked
-              onchange="toggleUnmaskedToBCLink(this.checked)"
-            />
-            Show Unmasked AC &rarr; Est. SAL BC link
-          </label>
+          <a
+            href="https://ear-project.netlify.app/sal/sal"
+            class="btn header-btn legacy-link"
+            >SAL v1</a
+          >
         </div>
       </header>
 
@@ -142,7 +137,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nr500Hz"
+                    id="nr500Hz" class="norm-input"
                     value="50"
                     step="5"
                     oninput="updateChart(event)"
@@ -151,7 +146,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nr1kHz"
+                    id="nr1kHz" class="norm-input"
                     value="60"
                     step="5"
                     oninput="updateChart(event)"
@@ -160,7 +155,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nr2kHz"
+                    id="nr2kHz" class="norm-input"
                     value="60"
                     step="5"
                     oninput="updateChart(event)"
@@ -169,7 +164,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nr4kHz"
+                    id="nr4kHz" class="norm-input"
                     value="60"
                     step="5"
                     oninput="updateChart(event)"
@@ -283,7 +278,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nl500Hz"
+                    id="nl500Hz" class="norm-input"
                     value="50"
                     step="5"
                     oninput="updateChart(event)"
@@ -292,7 +287,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nl1kHz"
+                    id="nl1kHz" class="norm-input"
                     value="60"
                     step="5"
                     oninput="updateChart(event)"
@@ -301,7 +296,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nl2kHz"
+                    id="nl2kHz" class="norm-input"
                     value="60"
                     step="5"
                     oninput="updateChart(event)"
@@ -310,7 +305,7 @@
                 <td>
                   <input
                     type="number"
-                    id="nl4kHz"
+                    id="nl4kHz" class="norm-input"
                     value="50"
                     step="5"
                     oninput="updateChart(event)"
@@ -331,6 +326,15 @@
 
       <div class="chart-wrapper card">
         <canvas id="salChart"></canvas>
+        <label class="chart-toggle">
+          <input
+            type="checkbox"
+            id="unmaskedToBCToggle"
+            checked
+            onchange="toggleUnmaskedToBCLink(this.checked)"
+          />
+          Show Unmasked AC &rarr; Est. SAL BC link
+        </label>
       </div>
     </div>
     <div id="custom_norms_modal" popover>
