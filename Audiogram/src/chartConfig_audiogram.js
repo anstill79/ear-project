@@ -4,6 +4,7 @@ import {
   BC_R_M,
   BC_L_M,
   AidedNR_Symbol_R,
+  N_STANDARD,
 } from "./dataAndImages.js";
 import { SpeechDotsPlugin } from "./speechDots.js";
 
@@ -159,6 +160,47 @@ export const bigHz = [
   8000,
 ];
 
+// Extended high frequencies, shown to the right of 8000 when turned on (see
+// syncEHF in audiogram.js). The slots are narrower then, so every label
+// above 500 switches to kHz to keep them clear of each other.
+export const hzWithEHF = [125, 250, "", 500, "", "1k", "", "2k", "", "4k", "", "8k", "10k", "12.5k", "16k"];
+
+// The EHF slots are a different test on a third-octave spacing, so the
+// threshold line is dashed from 8000 onwards.
+const ehfSegment = {
+  borderDash: (context) => (context.p0DataIndex >= N_STANDARD - 1 ? [4, 3] : undefined),
+};
+
+// Smaller frequency labels while the EHF slots narrow the columns
+function ehfTickFont(context) {
+  if (context.chart.data.labels.length <= N_STANDARD) return { size: 12 };
+  return { size: context.index >= N_STANDARD ? 9 : 11 };
+}
+
+// Faint band behind the EHF slots, with a small caption; hidden until shown
+function ehfAnnotations() {
+  return {
+    ehfZone: {
+      type: "box",
+      xMin: N_STANDARD - 0.5,
+      backgroundColor: "rgba(0, 0, 0, 0.04)",
+      borderWidth: 0,
+      drawTime: "beforeDatasetsDraw",
+      display: false,
+    },
+    ehfLabel: {
+      type: "label",
+      xValue: N_STANDARD + 1,
+      yValue: -10,
+      yAdjust: 8,
+      content: "EHF",
+      color: "rgba(0, 0, 0, 0.4)",
+      font: { size: 9, family: "Rubik", weight: "500" },
+      display: false,
+    },
+  };
+}
+
 export function createOptionsR(prepareMovement) {
   return {
     type: "line",
@@ -177,6 +219,7 @@ export function createOptionsR(prepareMovement) {
           pointBackgroundColor: "rgba(0, 0, 0, 0)",
           lineTension: 0,
           spanGaps: false,
+          segment: ehfSegment,
           borderColor: "rgba(255,0,0,0.7)",
           clip: {
             left: false,
@@ -198,7 +241,7 @@ export function createOptionsR(prepareMovement) {
           borderWidth: 0,
           pointStyle: bcSymbol("R"),
           pointBackgroundColor: "rgba(0, 0, 0, 0)",
-          pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+          pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0, 0],
           lineTension: 0,
           clip: {
             left: false,
@@ -292,6 +335,7 @@ export function createOptionsR(prepareMovement) {
           pointBorderWidth: 0,
           lineTension: 0,
           spanGaps: false,
+          segment: ehfSegment,
           borderColor: "rgba(255,0,0,0.7)",
           clip: {
             left: false,
@@ -380,6 +424,8 @@ export function createOptionsR(prepareMovement) {
         mode: "index",
       },
       responsive: false,
+      // The width changes when the EHF slots show; the height stays put
+      maintainAspectRatio: false,
       plugins: {
         autocolors: false,
         annotation: {
@@ -390,6 +436,7 @@ export function createOptionsR(prepareMovement) {
               yMin: 0,
               yMax: 25,
               xMin: 1,
+              xMax: N_STANDARD - 1,
               backgroundColor: "rgba(230, 255, 110, 0.1)",
               borderColor: "gray",
               borderWidth: 0,
@@ -405,6 +452,7 @@ export function createOptionsR(prepareMovement) {
               font: { size: 10, family: "Rubik", weight: "600" },
               display: false,
             },
+            ...ehfAnnotations(),
           },
         },
         legend: {
@@ -455,7 +503,7 @@ export function createOptionsR(prepareMovement) {
           grid: {
             display: true,
             drawTicks: false,
-            lineWidth: [0, 0.5, 0, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5],
+            lineWidth: [0, 0.5, 0, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.2, 0.5],
             color: "grey",
           },
           ticks: {
@@ -464,9 +512,7 @@ export function createOptionsR(prepareMovement) {
             color: "red",
             maxRotation: 0,
             autoSkip: false,
-            font: {
-              size: 12,
-            },
+            font: ehfTickFont,
           },
         },
       },
@@ -492,9 +538,11 @@ export function createOptionsOverlay(prepareMovement, getEar, optionsR, optionsL
   options.scales.y.ticks.color = "rgba(0,0,0,0.7)";
   options.scales.x.ticks.color = "rgba(0,0,0,0.7)";
 
-  const { normAdult, labelPTA } = options.plugins.annotation.annotations;
+  const { normAdult, labelPTA, ehfZone, ehfLabel } = options.plugins.annotation.annotations;
   options.plugins.annotation.annotations = {
     normAdult,
+    ehfZone,
+    ehfLabel,
     labelPTA_R: labelPTA,
     labelPTA_L: { ...labelPTA, color: "rgba(0,0,255,0.9)" },
   };
@@ -526,6 +574,7 @@ export function createOptionsL(prepareMovement) {
           pointBackgroundColor: "rgba(0, 0, 0, 0)",
           lineTension: 0,
           spanGaps: false,
+          segment: ehfSegment,
           borderColor: "rgba(0,0,255,0.7)",
           clip: {
             left: false,
@@ -547,7 +596,7 @@ export function createOptionsL(prepareMovement) {
           borderWidth: 0,
           pointStyle: bcSymbol("L"),
           pointBackgroundColor: "rgba(0, 0, 0, 0)",
-          pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+          pointRadius: [10, 10, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0, 0],
           lineTension: 0,
           clip: {
             left: false,
@@ -648,6 +697,7 @@ export function createOptionsL(prepareMovement) {
           pointBorderWidth: 0,
           lineTension: 0,
           spanGaps: false,
+          segment: ehfSegment,
           borderColor: "rgba(0,0,255,0.7)",
           clip: {
             left: false,
@@ -731,6 +781,8 @@ export function createOptionsL(prepareMovement) {
         mode: "index",
       },
       responsive: false,
+      // The width changes when the EHF slots show; the height stays put
+      maintainAspectRatio: false,
       plugins: {
         annotation: {
           clip: false,
@@ -740,6 +792,7 @@ export function createOptionsL(prepareMovement) {
               yMin: 0,
               yMax: 25,
               xMin: 1,
+              xMax: N_STANDARD - 1,
               backgroundColor: "rgba(230, 255, 110, 0.1)",
               borderColor: "gray",
               borderWidth: 0,
@@ -755,6 +808,7 @@ export function createOptionsL(prepareMovement) {
               font: { size: 10, family: "Rubik", weight: "600" },
               display: false,
             },
+            ...ehfAnnotations(),
           },
         },
         legend: {
@@ -805,7 +859,7 @@ export function createOptionsL(prepareMovement) {
           grid: {
             display: true,
             drawTicks: false,
-            lineWidth: [0, 0.5, 0, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5],
+            lineWidth: [0, 0.5, 0, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.5, 0.2, 0.2, 0.5],
             color: "grey",
           },
           ticks: {
@@ -814,9 +868,7 @@ export function createOptionsL(prepareMovement) {
             color: "blue",
             maxRotation: 0,
             autoSkip: false,
-            font: {
-              size: 12,
-            },
+            font: ehfTickFont,
           },
         },
       },

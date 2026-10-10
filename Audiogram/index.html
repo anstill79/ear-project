@@ -111,6 +111,20 @@
               <option>None</option>
             </select>
           </div>
+          <div class="control-inline">
+            <span class="control-label">EHF</span>
+            <div
+              class="bar-views view-toggle"
+              role="group"
+              aria-label="Extended high frequencies (10k to 16k Hz)"
+              title="Extended high frequencies: 10k, 12.5k and 16k Hz, air conduction only"
+            >
+              <button type="button" data-ehf="off" aria-pressed="true">Off</button>
+              <button type="button" data-ehf="on" aria-pressed="false">
+                10k&ndash;16k
+              </button>
+            </div>
+          </div>
         </div>
         <div class="top-controls-stack">
           <div class="top-controls-container-item">
@@ -320,6 +334,30 @@
                 >
                   M
                 </button>
+                <button
+                  data-ear="R"
+                  data-index="12"
+                  data-masking="true"
+                  class="button_R masking ehf-slot"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="13"
+                  data-masking="true"
+                  class="button_R masking ehf-slot"
+                >
+                  M
+                </button>
+                <button
+                  data-ear="R"
+                  data-index="14"
+                  data-masking="true"
+                  class="button_R masking ehf-slot"
+                >
+                  M
+                </button>
               </div>
               <button
                 id="mask_right"
@@ -421,6 +459,30 @@
                 M
               </button>
               <button
+                data-ear="L"
+                data-index="12"
+                data-masking="true"
+                class="button_L masking ehf-slot"
+              >
+                M
+              </button>
+              <button
+                data-ear="L"
+                data-index="13"
+                data-masking="true"
+                class="button_L masking ehf-slot"
+              >
+                M
+              </button>
+              <button
+                data-ear="L"
+                data-index="14"
+                data-masking="true"
+                class="button_L masking ehf-slot"
+              >
+                M
+              </button>
+              <button
                 id="mask_left"
                 class="button_L"
                 style="width: 50px; margin: -2px; justify-self: left"
@@ -463,6 +525,9 @@
                   NR
                 </button>
                 <button data-ear="R" data-index="11" class="button_R NR">NR</button>
+                <button data-ear="R" data-index="12" class="button_R NR ehf-slot">NR</button>
+                <button data-ear="R" data-index="13" class="button_R NR ehf-slot">NR</button>
+                <button data-ear="R" data-index="14" class="button_R NR ehf-slot">NR</button>
               </div>
               <button
                 id="NR_all_right"
@@ -544,6 +609,27 @@
                 data-ear="L"
                 data-index="11"
                 class="button_L NR"
+              >
+                NR
+              </button>
+              <button
+                data-ear="L"
+                data-index="12"
+                class="button_L NR ehf-slot"
+              >
+                NR
+              </button>
+              <button
+                data-ear="L"
+                data-index="13"
+                class="button_L NR ehf-slot"
+              >
+                NR
+              </button>
+              <button
+                data-ear="L"
+                data-index="14"
+                class="button_L NR ehf-slot"
               >
                 NR
               </button>

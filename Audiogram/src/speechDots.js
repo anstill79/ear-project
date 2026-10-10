@@ -55,7 +55,8 @@ export function hzToIndex(hz) {
 // AC thresholds for one ear with no responses counted at the level tested,
 // so a dot is only audible if it is louder than the limits of the audiometer.
 function acThresholds(ear) {
-  const thresh = audiogramData[`thresh_AC_${ear}`];
+  // Speech sits below 8000 Hz, so the extended high frequencies are left out
+  const thresh = audiogramData[`thresh_AC_${ear}`].slice(0, AXIS_HZ.length);
   const nr = audiogramData[`thresh_NR_${ear}`];
   return thresh.map((value, i) => (value ?? nr[i] ?? null));
 }
