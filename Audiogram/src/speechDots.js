@@ -1,72 +1,45 @@
 import { audiogramData } from "./dataAndImages.js";
 
 // "Count-the-dots" speech audibility (Killion & Mueller, Hearing Journal
-// 2010, 63(1):10; after Mueller & Killion 1990). 100 dots sit in the
-// long-term speech area; each dot audible to an ear (at or below its air
-// conduction threshold on the chart) is worth 1% of the articulation index.
+// 2010, 63(1):10). 100 dots sit in the long-term speech area; each dot
+// audible to an ear (at or below its air conduction threshold on the chart)
+// is worth 1% of the articulation index.
 //
-// The dots are rebuilt from the same model the chart is drawn from, the
-// ANSI S3.5-1997 SII: each 1/3-octave band gets dots in proportion to its
-// importance for average speech, spread evenly over that band's 30 dB speech
-// range. Counting them therefore matches the SII's audibility weighting in
-// quiet; positions are close to, not traced from, the published chart.
-
-// [band centre Hz, importance, speech range top (soft) in dB HL]
-const BANDS = [
-  [160, 0.0083, 30],
-  [200, 0.0095, 30],
-  [250, 0.015, 28],
-  [315, 0.0289, 27],
-  [400, 0.044, 25],
-  [500, 0.0578, 25],
-  [630, 0.0653, 24],
-  [800, 0.0711, 23],
-  [1000, 0.0818, 22],
-  [1250, 0.0844, 22],
-  [1600, 0.0882, 22],
-  [2000, 0.0898, 23],
-  [2500, 0.0868, 23],
-  [3150, 0.0844, 23],
-  [4000, 0.0771, 22],
-  [5000, 0.0527, 22],
-  [6300, 0.0364, 22],
-  [8000, 0.0185, 23],
+// Dot positions are digitized from the published 2010 chart: one column per
+// 1/3-octave band, at the frequency where the chart draws it (to 5 Hz; a few
+// sit slightly above the nominal band centre), levels to 0.5 dB HL.
+// [column Hz, [dot levels in dB HL]]
+const KILLION_DOTS = [
+  [200, [27]],
+  [250, [24, 33.5]],
+  [320, [20, 29.5, 39]],
+  [400, [21.5, 28.5, 36, 44]],
+  [500, [22.5, 27.5, 32.5, 37, 42, 47]],
+  [625, [22, 27.5, 33, 37, 42, 47]],
+  [795, [21.5, 26, 31.5, 35, 39.5, 43.5, 47.5]],
+  [1000, [21.5, 25, 28.5, 32.5, 35.5, 40, 44, 48.5]],
+  [1275, [21.5, 24.5, 28, 31.5, 35, 38.5, 42.5, 46, 49.5]],
+  [1600, [21.5, 24.5, 28, 31.5, 35, 38.5, 42.5, 45.5, 49.5]],
+  [2000, [21.5, 24.5, 28, 31.5, 35, 38.5, 42.5, 45.5, 49.5]],
+  [2545, [21.5, 24.5, 28, 31.5, 35, 38, 42.5, 45.5, 49.5]],
+  [3240, [21.5, 25, 29.5, 33, 36.5, 40.5, 45, 48.5]],
+  [4000, [18.5, 22.5, 27, 30.5, 34.5, 38, 41.5, 46]],
+  [5045, [16, 22, 28, 35, 41.5]],
+  [6320, [13.5, 21, 28, 34.5]],
+  [8000, [14, 25.5]],
 ];
-const SPEECH_RANGE_DB = 30;
-const TOTAL_DOTS = 100;
 
-// Whole dots per band, by largest remainder so they add up to exactly 100
-function dotsPerBand() {
-  const exact = BANDS.map(([, importance]) => importance * TOTAL_DOTS);
-  const counts = exact.map(Math.floor);
-  let left = TOTAL_DOTS - counts.reduce((a, b) => a + b, 0);
-  exact
-    .map((value, i) => ({ i, rest: value - Math.floor(value) }))
-    .sort((a, b) => b.rest - a.rest)
-    .slice(0, left)
-    .forEach(({ i }) => counts[i]++);
-  return counts;
-}
+export const SPEECH_DOTS = KILLION_DOTS.flatMap(([hz, levels]) =>
+  levels.map((dB) => ({ hz, dB }))
+);
 
-// Each band's dots are stacked evenly through its speech range and staggered
-// across the band's width so the area reads as a scatter rather than columns.
-export const SPEECH_DOTS = (() => {
-  const dots = [];
-  dotsPerBand().forEach((n, band) => {
-    const [hz, , top] = BANDS[band];
-    for (let k = 0; k < n; k++) {
-      const dB = top + ((k + 0.5) / n) * SPEECH_RANGE_DB;
-      // Golden-ratio stagger within ±1/6 octave (one 1/3-octave band)
-      const spread = (((k * 0.618034 + band * 0.37) % 1) - 0.5) / 3.6;
-      dots.push({ hz: hz * 2 ** spread, dB });
-    }
-  });
-  return dots;
-})();
-
-// Frequencies at the audiogram's x categories (index 2 is the 375 Hz slot
-// between 250 and 500). Positions between them are interpolated on a log scale.
-const AXIS_HZ = [125, 250, 375, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000, 8000];
+// Where the audiogram's x categories sit in frequency. The chart draws the
+// inter-octave columns (750, 1500, 3000, 6000 Hz) and the 2nd slot halfway
+// between octaves, so they are placed at the half-octave points here; between
+// categories frequency is interpolated on a log scale. This keeps the dots in
+// the same place relative to the octave lines as on Killion's chart.
+const AXIS_HZ = [125, 250, 250 * Math.SQRT2, 500, 500 * Math.SQRT2, 1000,
+  1000 * Math.SQRT2, 2000, 2000 * Math.SQRT2, 4000, 4000 * Math.SQRT2, 8000];
 
 export function hzToIndex(hz) {
   if (hz <= AXIS_HZ[0]) return 0;
@@ -152,7 +125,8 @@ export const SpeechDotsPlugin = {
     if (!ears?.length) return;
     const { ctx, chartArea, scales } = chart;
     const audibility = Object.fromEntries(ears.map((ear) => [ear, dotAudibility(ear)]));
-    const radius = Math.max(2, (chartArea.right - chartArea.left) / 130);
+    // Square dots, as on the published chart
+    const half = Math.max(1.8, (chartArea.right - chartArea.left) / 150);
 
     ctx.save();
     ctx.lineWidth = 1;
@@ -161,7 +135,8 @@ export const SpeechDotsPlugin = {
       const y = scales.y.getPixelForValue(dot.dB);
       const style = dotStyle(ears, audibility, i);
       ctx.beginPath();
-      ctx.arc(x, y, style.stroke ? radius - 0.5 : radius, 0, Math.PI * 2);
+      const h = style.stroke ? half - 0.5 : half;
+      ctx.rect(x - h, y - h, h * 2, h * 2);
       ctx.fillStyle = style.fill;
       ctx.fill();
       if (style.stroke) {
