@@ -5,6 +5,7 @@ import {
   BC_L_M,
   AidedNR_Symbol_R,
 } from "./dataAndImages.js";
+import { SpeechDotsPlugin } from "./speechDots.js";
 
 // Crosshair for the audiograms: a vertical and a horizontal line through the
 // pointer, kept inside the plot area. Set plugins.audiogramCrosshair to
@@ -161,7 +162,7 @@ export const bigHz = [
 export function createOptionsR(prepareMovement) {
   return {
     type: "line",
-    plugins: [AudiogramCrosshair, NoResponseArrows],
+    plugins: [AudiogramCrosshair, NoResponseArrows, SpeechDotsPlugin],
     data: {
       labels: bigHz,
       datasets: [
@@ -427,6 +428,8 @@ export function createOptionsR(prepareMovement) {
         // The library crosshair is vertical only; audiograms use their own
         crosshair: false,
         audiogramCrosshair: { color: "red", width: 1.5 },
+        // Count-the-dots overlay, off until turned on in Controls
+        speechDots: false,
       },
       scales: {
         y: {
@@ -508,7 +511,7 @@ export function createOptionsOverlay(prepareMovement, getEar, optionsR, optionsL
 export function createOptionsL(prepareMovement) {
   return {
     type: "line",
-    plugins: [AudiogramCrosshair, NoResponseArrows],
+    plugins: [AudiogramCrosshair, NoResponseArrows, SpeechDotsPlugin],
     data: {
       labels: bigHz,
       datasets: [
@@ -775,6 +778,8 @@ export function createOptionsL(prepareMovement) {
         // The library crosshair is vertical only; audiograms use their own
         crosshair: false,
         audiogramCrosshair: { color: "blue", width: 1.5 },
+        // Count-the-dots overlay, off until turned on in Controls
+        speechDots: false,
       },
       scales: {
         y: {

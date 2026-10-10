@@ -32,6 +32,8 @@ import { initPatient, getPatientInfo } from "./patient.js";
 
 import { initPen, setPen } from "./pen.js";
 
+import { countAudibleDots } from "./speechDots.js";
+
 import {
   options_bar_R,
   options_bar_L,
@@ -525,6 +527,7 @@ function moveIt(freqIndex, dB, ear) {
 }
 export function updateCharts() {
   refreshBarCharts();
+  fillInSpeechDots();
   myChart.update();
   myChart2.update();
   overlayChart.update();
@@ -678,6 +681,41 @@ function toggleCrosshair() {
   }
   updateCharts();
 }
+// Count-the-dots speech audibility overlay (see speechDots.js). The charts
+// redraw the dots against the current AC thresholds on every update, so
+// plotting a threshold immediately changes which dots are audible.
+const speechDotsOnButton = document.getElementById("speechDotsOn");
+let speechDotsShown = false;
+function setSpeechDots(on) {
+  speechDotsShown = on;
+  myChart.config.options.plugins.speechDots = on ? { ears: ["R"] } : false;
+  myChart2.config.options.plugins.speechDots = on ? { ears: ["L"] } : false;
+  overlayChart.config.options.plugins.speechDots = on ? { ears: ["R", "L"] } : false;
+  speechDotsOnButton.className = on ? "toggle-button-enabled" : "toggle-button-disabled";
+  speechDotsOff.className = on ? "toggle-button-disabled" : "toggle-button-enabled";
+  speech_dots_button.setAttribute("aria-pressed", String(on));
+  try {
+    localStorage.setItem("audiogramSpeechDots", on ? "on" : "off");
+  } catch {}
+  updateCharts();
+}
+speechDotsOnButton.addEventListener("click", () => setSpeechDots(true));
+speechDotsOff.addEventListener("click", () => setSpeechDots(false));
+speech_dots_button.addEventListener("click", () => setSpeechDots(!speechDotsShown));
+
+// Audible dot counts (AI %) in the legend, for the report
+function fillInSpeechDots() {
+  speechDotsLegend.style.display = speechDotsShown ? "table-row" : "none";
+  if (!speechDotsShown) return;
+  [
+    ["R", speech_dots_R],
+    ["L", speech_dots_L],
+  ].forEach(([ear, cell]) => {
+    const count = countAudibleDots(ear);
+    cell.textContent = count === null ? "--" : `${count}%`;
+  });
+}
+
 //**
 function calcChange(index, ear) {
   if (ear === "R") {
@@ -985,7 +1023,7 @@ function toggleLegendCategory(category) {
   }
 }
 
-document.querySelectorAll(".legend-label").forEach((td) => {
+document.querySelectorAll(".legend-label[data-category]").forEach((td) => {
   td.addEventListener("click", () =>
     toggleLegendCategory(td.dataset.category)
   );
@@ -1673,6 +1711,9 @@ window.onload = () => {
   selectOverlayEar("R");
   try {
     setOverlayView(localStorage.getItem("audiogramView") === "overlay");
+  } catch {}
+  try {
+    if (localStorage.getItem("audiogramSpeechDots") === "on") setSpeechDots(true);
   } catch {}
   toggleData(5);
   toggleData(6);

@@ -927,6 +927,38 @@ h3 {
   transform: translateY(1px) rotate(-135deg);
 }
 
+/* Speech dots is an on/off switch, so a dot replaces the chevron */
+.dots-toggle::after {
+  width: 6px;
+  height: 6px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  transform: none;
+}
+
+.dots-toggle[aria-pressed="true"] {
+  background-color: #3277df;
+  border-color: #3277df;
+  color: white;
+}
+
+.dots-toggle[aria-pressed="true"]:hover {
+  background-color: #2a66c0;
+  color: white;
+}
+
+.dots-toggle[aria-pressed="true"]::after {
+  background-color: currentColor;
+}
+
+.legend-table-container .legend-static {
+  cursor: default;
+}
+
+.legend-table-container .legend-static:hover {
+  background-color: transparent;
+}
+
 .button-row-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
