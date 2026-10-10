@@ -1055,9 +1055,10 @@ function syncEHF() {
         width: parseFloat(chart.canvas.style.width),
         height: parseFloat(chart.canvas.style.height),
         slot: x.getPixelForValue(1) - x.getPixelForValue(0),
+        rightRoom: chart.width - chart.chartArea.right,
       });
     }
-    const { width, height, slot } = ehfBaseSizes.get(chart);
+    const { width, height, slot, rightRoom } = ehfBaseSizes.get(chart);
     chart.data.labels = ehfShown ? hzWithEHF : bigHz;
     const { annotations } = chart.options.plugins.annotation;
     annotations.ehfZone.display = ehfShown;
@@ -1074,6 +1075,9 @@ function syncEHF() {
     const extra = (N_FREQ - N_STANDARD) * slot;
     const newWidth = ehfShown ? Math.min(Math.round(width + extra), maxWidth) : width;
     if (split) chart.options.scales.y.ticks.padding = ehfShown ? 12 : 20;
+    // Chart.js leaves room right of the plot for half the last x label, and
+    // "16k" is narrower than "8000", so keep the room the PTA label needs
+    chart.options.layout.padding = ehfShown ? { right: rightRoom } : 0;
     chart.canvas.style.width = `${newWidth}px`;
     chart.resize(newWidth, height);
   });
