@@ -9,6 +9,8 @@ import {
   AidedSymbol_L,
   AidedNR_Symbol_R,
   AidedNR_Symbol_L,
+  N_STANDARD,
+  N_FREQ,
 } from "./dataAndImages.js";
 
 import {
@@ -24,6 +26,8 @@ import {
   createOptionsR,
   createOptionsL,
   createOptionsOverlay,
+  bigHz,
+  hzWithEHF,
 } from "./chartConfig_audiogram.js";
 
 import { initSpeech, updateSpeechPTA, getSpeechSummary } from "./speech.js";
@@ -103,9 +107,10 @@ async function copyToClipboard(button, text) {
 }
 
 // Copy JSON: the raw data for pasting into another system. Index i of every
-// 12-long array is frequencies[i]; index 2 only joins the 250 and 500 points.
+// per-frequency array is frequencies[i]; index 2 only joins the 250 and 500
+// points, and 10000 to 16000 are the extended high frequencies.
 // Image symbols are written as their names (e.g. "BC_R_M").
-const FREQUENCIES = [125, 250, null, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000, 8000];
+const FREQUENCIES = [125, 250, null, 500, 750, 1000, 1500, 2000, 3000, 4000, 6000, 8000, 10000, 12500, 16000];
 const SYMBOL_NAMES = new Map(
   Object.entries({
     BC_R, BC_L, BC_R_M, BC_L_M,
@@ -161,6 +166,8 @@ NRbtns.forEach((btn) => {
 function setNR() {
   const index = parseInt(this.dataset.index);
   const earNR = this.dataset.ear;
+  // Extended high frequencies are air conduction only
+  if (transducer === "BC" && index >= N_STANDARD) return;
 
   if (transducer === "Aided") {
     const IO = earNR === "R" ? audiogramData.interOctTested_Aided_R : audiogramData.interOctTested_Aided_L;
@@ -265,9 +272,11 @@ function setNR() {
 }
 
 function prepareMovement(index, dB, ear) {
-  if (index === 2 || index < 0 || index > 11 || dB < -10 || dB > 120) {
+  if (index === 2 || index < 0 || index >= N_FREQ || dB < -10 || dB > 120) {
     return;
   }
+  // Extended high frequencies are air conduction only
+  if (transducer === "BC" && index >= N_STANDARD) return;
   let olddB;
   if (ear === "R") {
     olddB =
@@ -390,7 +399,7 @@ function calcInterOct(index, dB, ear) {
     const pSize = isAided ? audiogramData.pointSize_Aided_R : audiogramData.pointSize_AC_R;
 
     //-----start of loop
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < N_FREQ; i++) {
       //sets point size to show if tested is true
       if (ioTested[i] === 1) {
         pSize.splice(i, 1, isAided ? aidedPointSize : acPointSize);
@@ -428,7 +437,7 @@ function calcInterOct(index, dB, ear) {
     const thresh = isAided ? audiogramData.thresh_Aided_L : audiogramData.thresh_AC_L;
     const pSize = isAided ? audiogramData.pointSize_Aided_L : audiogramData.pointSize_AC_L;
 
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < N_FREQ; i++) {
       if (ioTested[i] === 1) {
         pSize.splice(i, 1, isAided ? aidedPointSize : acPointSize);
         if (!isAided) audiogramData.pointSize_hover_AC_L.splice(i, 1, acPointSize);
@@ -526,6 +535,7 @@ function moveIt(freqIndex, dB, ear) {
   annotatePTA();
 }
 export function updateCharts() {
+  syncEHF();
   refreshBarCharts();
   fillInSpeechDots();
   myChart.update();
@@ -900,6 +910,23 @@ let transducer = "AC";
 export const options_R = createOptionsR(prepareMovement);
 export const options_L = createOptionsL(prepareMovement);
 
+// With the EHF slots showing, the split charts' slots are narrower than the
+// masking and NR buttons' fixed spacing, so each ear's buttons are placed
+// from its chart's x scale instead (as on the overlay chart).
+[["R", options_R], ["L", options_L]].forEach(([ear, config]) => {
+  config.plugins.push({
+    id: "split-button-rows",
+    afterLayout(chart) {
+      document
+        .querySelectorAll(`.button-row-container [data-ear="${ear}"][data-index]`)
+        .forEach((button) => {
+          const x = chart.scales.x.getPixelForValue(Number(button.dataset.index));
+          button.style.setProperty("--x-split", `${x}px`);
+        });
+    },
+  });
+});
+
 const ctx = document.getElementById("audiogram_R").getContext("2d");
 const myChart = new Chart(ctx, options_R);
 
@@ -981,6 +1008,83 @@ document.querySelectorAll("[data-view]").forEach((button) => {
   button.addEventListener("click", () =>
     setOverlayView(button.dataset.view === "overlay")
   );
+});
+
+// Extended high frequencies (10k to 16k Hz): three more slots right of 8000.
+// They show while the EHF toggle is on or any EHF result exists, so plotted
+// results can't be hidden by accident. The charts widen by those slots, as
+// far as the page allows (the split pair must still fit side by side).
+let ehfChosen = false;
+let ehfShown = false;
+const ehfCharts = [myChart, myChart2, overlayChart];
+const ehfBaseSizes = new Map();
+
+function hasEHF() {
+  const current = ["R", "L"].flatMap((ear) =>
+    ["thresh_AC", "thresh_NR", "thresh_Aided", "thresh_NR_Aided"].map(
+      (key) => audiogramData[`${key}_${ear}`]
+    )
+  );
+  const previous = ["thresh_AC_R", "thresh_AC_L", "thresh_NR_R", "thresh_NR_L"].map(
+    (key) => oldAudiogramData[key]
+  );
+  return [...current, ...previous].some((array) =>
+    array.slice(N_STANDARD).some((value) => value !== null && value !== undefined)
+  );
+}
+
+// Called from updateCharts, so the zone appears as soon as EHF data exists
+function syncEHF() {
+  const locked = hasEHF();
+  if (locked) ehfChosen = true;
+  document.querySelectorAll("[data-ehf]").forEach((button) => {
+    const on = button.dataset.ehf === "on";
+    button.setAttribute("aria-pressed", String(on === ehfChosen));
+    button.disabled = !on && locked;
+    if (!on) button.title = locked ? "Clear the 10k to 16k results to hide them" : "";
+  });
+  if (ehfChosen === ehfShown) return;
+  ehfShown = ehfChosen;
+
+  const grid = document.querySelector(".grid-container");
+  grid.classList.toggle("ehf", ehfShown);
+  ehfCharts.forEach((chart) => {
+    if (!ehfBaseSizes.has(chart)) {
+      const { x } = chart.scales;
+      ehfBaseSizes.set(chart, {
+        width: parseFloat(chart.canvas.style.width),
+        height: parseFloat(chart.canvas.style.height),
+        slot: x.getPixelForValue(1) - x.getPixelForValue(0),
+      });
+    }
+    const { width, height, slot } = ehfBaseSizes.get(chart);
+    chart.data.labels = ehfShown ? hzWithEHF : bigHz;
+    const { annotations } = chart.options.plugins.annotation;
+    annotations.ehfZone.display = ehfShown;
+    annotations.ehfLabel.display = ehfShown;
+    // PTA labels sit just past the last slot
+    Object.keys(annotations)
+      .filter((key) => key.startsWith("labelPTA"))
+      .forEach((key) => (annotations[key].xValue = chart.data.labels.length - 1));
+    // Widen by the new slots, but the split charts must still fit side by
+    // side in the card; they trim the gap beside the dB labels to make room.
+    const split = chart !== overlayChart;
+    const cardWidth = chart.canvas.closest(".report-section").clientWidth;
+    const maxWidth = split ? Math.floor(cardWidth / 2) : cardWidth;
+    const extra = (N_FREQ - N_STANDARD) * slot;
+    const newWidth = ehfShown ? Math.min(Math.round(width + extra), maxWidth) : width;
+    if (split) chart.options.scales.y.ticks.padding = ehfShown ? 12 : 20;
+    chart.canvas.style.width = `${newWidth}px`;
+    chart.resize(newWidth, height);
+  });
+  grid.style.setProperty("--overlay-width", overlayChart.canvas.style.width);
+  grid.style.setProperty("--split-width", myChart.canvas.style.width);
+}
+document.querySelectorAll("[data-ehf]").forEach((button) => {
+  button.addEventListener("click", () => {
+    ehfChosen = button.dataset.ehf === "on";
+    updateCharts();
+  });
 });
 
 const ctx3 = document.getElementById("change_R").getContext("2d");
@@ -1108,7 +1212,7 @@ function nrAll() {
       IO: audiogramData[`interOctTested_Aided_${ear}`],
     },
   };
-  const indices = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+  const indices = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
   if (transducer === "BC") {
     const thresh = audiogramData[`thresh_BC_${ear}`];
@@ -1224,7 +1328,7 @@ function copyEar() {
     });
   }
   if (transducer === "AC") {
-    for (let i = 0; i < 12; i++) calcChange(i, to);
+    for (let i = 0; i < N_FREQ; i++) calcChange(i, to);
     audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
     audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
     annotatePTA();
@@ -1509,7 +1613,7 @@ function barSeries(ear) {
   const res = barState.resolution;
   const details = audiogramData.changeDetails;
   if (barState.compare === "previous") {
-    const data = { full: details[`change_${ear}`], lowMidHigh: details[`LMH_${ear}`], PTA: details[`changePTA_${ear}`] }[res];
+    const data = { full: details[`change_${ear}`].slice(0, N_STANDARD), lowMidHigh: details[`LMH_${ear}`], PTA: details[`changePTA_${ear}`] }[res];
     const colors = {
       full: ear === "R" ? barColors_R : barColors_L,
       lowMidHigh: ear === "R" ? barColors_LMH_R : barColors_LMH_L,

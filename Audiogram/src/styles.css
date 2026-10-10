@@ -985,9 +985,59 @@ h3 {
 }
 
 .grid-container.overlay .button-row-container {
-  grid-template-columns: 480px;
+  grid-template-columns: var(--overlay-width, 480px);
   justify-content: center;
   row-gap: 6px;
+}
+
+/* Masking / NR buttons for the extended high frequencies, shown with them */
+.button-row-container .ehf-slot {
+  display: none;
+}
+
+.grid-container.ehf .button-row-container .ehf-slot {
+  display: inline-block;
+}
+
+/* Split view with the EHF slots: each row is as wide as its ear's chart and
+   the buttons sit at their column's x position (--x-split), narrower to fit
+   the slots. Mask All / NR All go on a line of their own below. */
+.grid-container.ehf:not(.overlay) .button-row-container {
+  padding: 0.5rem 0;
+  grid-template-columns: var(--split-width) var(--split-width);
+  justify-content: center;
+  column-gap: 0;
+}
+
+.grid-container.ehf:not(.overlay) .button-row-R,
+.grid-container.ehf:not(.overlay) .button-row-L {
+  position: relative;
+  justify-self: stretch;
+  height: 42px;
+  padding: 0;
+}
+
+.grid-container.ehf:not(.overlay) .button-row-container [data-index] {
+  position: absolute;
+  top: 0;
+  left: var(--x-split);
+  transform: translateX(-50%);
+  width: 18px;
+  font-size: 10px;
+}
+
+.grid-container.ehf:not(.overlay) .button-row-container .invisible {
+  display: none;
+}
+
+.grid-container.ehf:not(.overlay) #mask_right,
+.grid-container.ehf:not(.overlay) #mask_left,
+.grid-container.ehf:not(.overlay) #NR_all_right,
+.grid-container.ehf:not(.overlay) #NR_all_left {
+  position: absolute;
+  top: 22px;
+  left: 2px;
+  margin: 0 !important;
 }
 
 /* Overlay rows are as wide as the chart; each frequency button sits at its
