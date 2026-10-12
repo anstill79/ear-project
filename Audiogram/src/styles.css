@@ -30,57 +30,64 @@
 }
 
 .command-modal-content {
-  border: none;
-  border-radius: 10px;
-  padding: 18px 20px;
-  width: 260px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0;
+  width: 280px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
   font-family: Rubik, sans-serif;
   font-weight: normal;
   font-size: 12px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background-color: rgba(140, 20, 252, 0.09);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.35);
-
-  flex-direction: column;
-  gap: 0;
+  color: #333;
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
 }
 
 .command-modal-content::backdrop {
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.12);
 }
 
 .command-modal-title {
-  margin: 0 0 12px 0;
-  font-size: 14px;
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #333;
-  text-align: center;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e0e0e0;
   font-family: Rubik, sans-serif;
 }
 
 .command-section {
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .command-section:last-child {
   border-bottom: none;
-  padding-bottom: 0;
+}
+
+.command-section-title {
+  margin: 0 0 8px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888;
 }
 
 .command-toggle-grid {
   display: grid;
-  grid-template-columns: 1fr 40px 40px;
-  gap: 5px;
+  grid-template-columns: 1fr auto auto;
+  column-gap: 0;
+  row-gap: 6px;
   align-items: center;
 }
 
 .command-row-label {
-  font-size: 11px;
-  color: #555;
+  font-size: 12px;
+  color: #444;
   display: block;
   margin-bottom: 4px;
 }
@@ -102,7 +109,7 @@
 
 .command-slider-row .command-row-label {
   margin-bottom: 0;
-  width: 48px;
+  width: 64px;
   flex-shrink: 0;
 }
 
@@ -110,7 +117,6 @@
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  padding-top: 10px;
 }
 
 .command-select {
@@ -118,11 +124,16 @@
   height: 26px;
   font-size: 12px;
   font-family: Rubik, sans-serif;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #bbb;
   border-radius: 4px;
   padding: 0 4px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.6);
+  background: white;
+}
+
+.command-select:focus {
+  outline: none;
+  border-color: #3277df;
 }
 
 .top-controls-button {
@@ -148,24 +159,41 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-.toggle-button-disabled {
-  height: 25px;
-  width: 40px;
-  background-color: #fedee6;
-  border: 1px solid gray;
-  border-radius: 3px;
+/* On / Off pairs in the Controls panel read as one segmented switch;
+   "enabled" marks the selected half */
+.toggle-button-disabled,
+.toggle-button-enabled {
+  height: 24px;
+  width: 42px;
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  border: 1px solid #bbb;
   cursor: pointer;
 }
 
+.toggle-button-disabled {
+  background-color: white;
+  color: #666;
+}
+
+.toggle-button-disabled:hover {
+  background-color: #f5f5f5;
+}
+
 .toggle-button-enabled {
-  height: 25px;
-  width: 40px;
   background-color: #3277df;
-  border: 1px solid black;
-  border-radius: 3px;
+  border-color: #3277df;
   color: white;
-  font-weight: bold;
-  cursor: pointer;
+  font-weight: 500;
+}
+
+.command-toggle-grid button:nth-of-type(odd) {
+  border-radius: 4px 0 0 4px;
+}
+
+.command-toggle-grid button:nth-of-type(even) {
+  border-radius: 0 4px 4px 0;
+  margin-left: -1px;
 }
 
 /* Patient demographics, then the test date, transducer and reliability:
@@ -1488,17 +1516,13 @@ h3 {
   }
 }
 .point_size_slider {
-  width: 100px;
+  flex: 1;
+  min-width: 0;
   height: 20px;
   margin: 0;
+  accent-color: #3277df;
 }
+/* The slider's tick labels (tiny to huge) only clutter the narrow panel */
 .point_size_slider_list {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  writing-mode: vertical-lr;
-  width: 100px;
-  option {
-    padding: 0;
-  }
+  display: none;
 }
