@@ -979,6 +979,55 @@ h3 {
   background-color: currentColor;
 }
 
+/* Masking assistant: amber, the color of its cross-hearing halos */
+.masking-assistant-toggle[aria-pressed="true"],
+.masking-assistant-toggle[aria-pressed="true"]:hover {
+  background-color: #d97706;
+  border-color: #d97706;
+  color: white;
+}
+
+.masking-assistant-status {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin: 0 0 4px;
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  color: #666;
+}
+
+.masking-assistant-status.has-risk {
+  color: #b45309;
+}
+
+/* M buttons at frequencies the assistant flags */
+.masking.mask-risk {
+  opacity: 1;
+  background-color: #fde9c8;
+  border-color: #d97706;
+  color: #92400e;
+  animation: mask-risk-pulse 1.4s ease-out infinite;
+}
+
+.masking.mask-risk-provisional {
+  border-style: dashed;
+}
+
+@keyframes mask-risk-pulse {
+  from {
+    box-shadow: 0 0 0 0 rgba(236, 132, 0, 0.6);
+  }
+  to {
+    box-shadow: 0 0 0 6px rgba(236, 132, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .masking.mask-risk {
+    animation: none;
+  }
+}
+
 .legend-table-container .legend-static {
   cursor: default;
 }

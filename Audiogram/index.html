@@ -230,11 +230,28 @@
             >
               Speech dots
             </button>
+            <button
+              type="button"
+              id="masking_assistant_button"
+              class="button-row-summary dots-toggle masking-assistant-toggle"
+              aria-pressed="false"
+              aria-describedby="masking_assistant_status"
+              title="Highlight air conduction thresholds the other ear may have heard, using the selected transducer's interaural attenuation"
+            >
+              Masking assistant
+            </button>
           </div>
           <button id="copy_ear_left" class="button_L copy-ear-btn">
             Copy L &rarr; R
           </button>
         </div>
+
+        <p
+          id="masking_assistant_status"
+          class="masking-assistant-status no-print"
+          role="status"
+          hidden
+        ></p>
 
         <details
           id="masking_panel"
