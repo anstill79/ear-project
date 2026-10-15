@@ -39,6 +39,11 @@ import { initPen, setPen } from "./pen.js";
 import { countAudibleDots } from "./speechDots.js";
 
 import {
+  initMaskingAssistant,
+  refreshMaskingAssistant,
+} from "./maskingAssistant.js";
+
+import {
   options_bar_R,
   options_bar_L,
   barColors_R,
@@ -538,6 +543,7 @@ export function updateCharts() {
   syncEHF();
   refreshBarCharts();
   fillInSpeechDots();
+  refreshMaskingAssistant();
   myChart.update();
   myChart2.update();
   overlayChart.update();
@@ -1090,6 +1096,10 @@ document.querySelectorAll("[data-ehf]").forEach((button) => {
     updateCharts();
   });
 });
+
+// Masking assistant: highlights AC thresholds at risk of cross-hearing for
+// the selected transducer's interaural attenuation (see maskingAssistant.js)
+initMaskingAssistant([myChart, myChart2, overlayChart], updateCharts);
 
 const ctx3 = document.getElementById("change_R").getContext("2d");
 const myChart3 = new Chart(ctx3, options_bar_R);
@@ -1808,12 +1818,6 @@ function fillInLegend() {
   }
 }
 
-const maskingNorms = {
-  insert: [],
-  circumaural: [],
-  supraaural: [],
-};
-
 window.onload = () => {
   toggleTransducer("AC");
   selectOverlayEar("R");
@@ -1823,6 +1827,7 @@ window.onload = () => {
   try {
     if (localStorage.getItem("audiogramSpeechDots") === "on") setSpeechDots(true);
   } catch {}
+  refreshMaskingAssistant();
   toggleData(5);
   toggleData(6);
   fillInLegendPrevDate();

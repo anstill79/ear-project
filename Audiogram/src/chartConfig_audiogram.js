@@ -7,6 +7,7 @@ import {
   N_STANDARD,
 } from "./dataAndImages.js";
 import { SpeechDotsPlugin } from "./speechDots.js";
+import { MaskingRiskPlugin } from "./maskingAssistant.js";
 
 // Crosshair for the audiograms: a vertical and a horizontal line through the
 // pointer, kept inside the plot area. Set plugins.audiogramCrosshair to
@@ -204,13 +205,14 @@ function ehfAnnotations() {
 export function createOptionsR(prepareMovement) {
   return {
     type: "line",
-    plugins: [AudiogramCrosshair, NoResponseArrows, SpeechDotsPlugin],
+    plugins: [AudiogramCrosshair, NoResponseArrows, SpeechDotsPlugin, MaskingRiskPlugin],
     data: {
       labels: bigHz,
       datasets: [
         {
           label: "AC_R",
           data: audiogramData.thresh_AC_R,
+          maskingRisk: { ear: "R" },
           borderWidth: 1,
           pointStyle: audiogramData.symbols_R,
           pointRadius: audiogramData.pointSize_AC_R,
@@ -559,13 +561,14 @@ export function createOptionsOverlay(prepareMovement, getEar, optionsR, optionsL
 export function createOptionsL(prepareMovement) {
   return {
     type: "line",
-    plugins: [AudiogramCrosshair, NoResponseArrows, SpeechDotsPlugin],
+    plugins: [AudiogramCrosshair, NoResponseArrows, SpeechDotsPlugin, MaskingRiskPlugin],
     data: {
       labels: bigHz,
       datasets: [
         {
           label: "AC_L",
           data: audiogramData.thresh_AC_L,
+          maskingRisk: { ear: "L" },
           borderWidth: 1,
           pointStyle: audiogramData.symbols_L,
           pointRadius: audiogramData.pointSize_AC_L,
