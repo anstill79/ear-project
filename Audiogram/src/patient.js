@@ -68,8 +68,39 @@ export function getPatientInfo() {
   };
 }
 
+// Default transducer (Controls): remembered on this device, and fills in
+// the test's Transducer when the page opens. Changing the default also
+// updates the test's Transducer unless it was set to something else.
+const DEFAULT_TRANSDUCER_KEY = "audiogramDefaultTransducer";
+
+function initDefaultTransducer() {
+  const defaultSelect = document.getElementById("default_transducer");
+  const testSelect = document.getElementById("select_transducer");
+  const isOption = (value) => [...defaultSelect.options].some((o) => o.value === value);
+
+  let saved = null;
+  try {
+    saved = localStorage.getItem(DEFAULT_TRANSDUCER_KEY);
+  } catch {}
+  if (saved && isOption(saved)) defaultSelect.value = saved;
+  if (testSelect.value === "blank") testSelect.value = defaultSelect.value;
+
+  let previous = defaultSelect.value;
+  defaultSelect.addEventListener("change", () => {
+    try {
+      localStorage.setItem(DEFAULT_TRANSDUCER_KEY, defaultSelect.value);
+    } catch {}
+    if (testSelect.value === "blank" || testSelect.value === previous) {
+      testSelect.value = defaultSelect.value;
+      testSelect.dispatchEvent(new Event("change"));
+    }
+    previous = defaultSelect.value;
+  });
+}
+
 export function initPatient() {
   document.getElementById("test_date").value = today();
+  initDefaultTransducer();
 
   // The chosen transducer's icon beside each transducer select, for
   // browsers whose options can't show it
