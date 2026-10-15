@@ -71,15 +71,18 @@ export function getPatientInfo() {
 export function initPatient() {
   document.getElementById("test_date").value = today();
 
-  // The chosen transducer's icon, for browsers whose options can't show it
-  const transducer = document.getElementById("select_transducer");
-  const transducerIcon = document.getElementById("transducer_icon");
-  const showTransducerIcon = () => {
-    if (transducer.value === "blank") transducerIcon.removeAttribute("data-icon");
-    else transducerIcon.dataset.icon = transducer.value;
-  };
-  transducer.addEventListener("change", showTransducerIcon);
-  showTransducerIcon();
+  // The chosen transducer's icon beside each transducer select, for
+  // browsers whose options can't show it
+  document.querySelectorAll(".transducer-control").forEach((control) => {
+    const select = control.querySelector("select");
+    const icon = control.querySelector(".transducer-icon-outside");
+    const showIcon = () => {
+      if (select.value === "blank") icon.removeAttribute("data-icon");
+      else icon.dataset.icon = select.value;
+    };
+    select.addEventListener("change", showIcon);
+    showIcon();
+  });
 
   document.querySelectorAll(".patient-field [data-date]").forEach((input) => {
     input.addEventListener("input", (event) => {

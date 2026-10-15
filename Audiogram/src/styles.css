@@ -302,35 +302,44 @@
   color: #555;
 }
 
+.transducer-control select {
+  flex: 1;
+  min-width: 0;
+}
+
 @supports (appearance: base-select) {
   .transducer-icon-outside {
     display: none;
   }
 
-  #select_transducer,
-  #select_transducer::picker(select) {
+  .transducer-select,
+  .transducer-select::picker(select) {
     appearance: base-select;
   }
 
-  #select_transducer {
+  .transducer-select {
     display: flex;
     align-items: center;
-    border-radius: 0;
     cursor: pointer;
   }
 
-  #select_transducer selectedcontent {
+  /* The header select is underlined like the other fields */
+  .patient-field .transducer-select {
+    border-radius: 0;
+  }
+
+  .transducer-select selectedcontent {
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
-  #select_transducer::picker-icon {
+  .transducer-select::picker-icon {
     color: #888;
     font-size: 10px;
   }
 
-  #select_transducer::picker(select) {
+  .transducer-select::picker(select) {
     margin-top: 2px;
     padding: 4px;
     border: 1px solid #ddd;
@@ -339,7 +348,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   }
 
-  #select_transducer option {
+  .transducer-select option {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -350,21 +359,21 @@
     color: #333;
   }
 
-  #select_transducer option:hover,
-  #select_transducer option:focus-visible {
+  .transducer-select option:hover,
+  .transducer-select option:focus-visible {
     background-color: #eef3fc;
   }
 
-  #select_transducer option:checked {
+  .transducer-select option:checked {
     font-weight: 500;
   }
 
-  #select_transducer option::checkmark {
+  .transducer-select option::checkmark {
     display: none;
   }
 
   @media print {
-    #select_transducer::picker-icon {
+    .transducer-select::picker-icon {
       display: none;
     }
   }
