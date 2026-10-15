@@ -410,15 +410,7 @@ export function createOptionsR(prepareMovement) {
         },
       },
 
-      animations: {
-        tension: {
-          duration: 700,
-          easing: "easeInOutSine",
-          from: 0.4,
-          to: 0,
-          loop: false,
-        },
-      },
+      // Points and lines move straight to their new place
       animation: {
         duration: 0,
       },
@@ -769,14 +761,7 @@ export function createOptionsL(prepareMovement) {
         },
       },
 
-      animations: {
-        tension: {
-          duration: 700,
-          easing: "easeInOutSine",
-          from: 0.4,
-          to: 0,
-        },
-      },
+      // Points and lines move straight to their new place
       animation: {
         duration: 0,
       },

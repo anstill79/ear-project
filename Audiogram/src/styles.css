@@ -264,6 +264,121 @@
   color: #bbb;
 }
 
+/* Transducer icons (src/icons). They are masks filled with the text color,
+   so they follow it on screen and in print. Browsers with customizable
+   selects show them in the options and the closed select; others show the
+   chosen one beside the select (set in patient.js). */
+.transducer-control {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.transducer-icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  mask: center / contain no-repeat;
+}
+
+.transducer-icon:not([data-icon]) {
+  background-color: transparent;
+}
+
+.transducer-icon[data-icon="insert"] {
+  mask-image: url("icons/insert.svg");
+}
+
+.transducer-icon[data-icon="circumaural"] {
+  mask-image: url("icons/circumaural.svg");
+}
+
+.transducer-icon[data-icon="supraaural"] {
+  mask-image: url("icons/supraaural.svg");
+}
+
+.transducer-icon-outside {
+  color: #555;
+}
+
+.transducer-control select {
+  flex: 1;
+  min-width: 0;
+}
+
+@supports (appearance: base-select) {
+  .transducer-icon-outside {
+    display: none;
+  }
+
+  .transducer-select,
+  .transducer-select::picker(select) {
+    appearance: base-select;
+  }
+
+  .transducer-select {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  /* The header select is underlined like the other fields */
+  .patient-field .transducer-select {
+    border-radius: 0;
+  }
+
+  .transducer-select selectedcontent {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .transducer-select::picker-icon {
+    color: #888;
+    font-size: 10px;
+  }
+
+  .transducer-select::picker(select) {
+    margin-top: 2px;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .transducer-select option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-family: Rubik, sans-serif;
+    font-size: 13px;
+    color: #333;
+  }
+
+  .transducer-select option:hover,
+  .transducer-select option:focus-visible {
+    background-color: #eef3fc;
+  }
+
+  .transducer-select option:checked {
+    font-weight: 500;
+  }
+
+  .transducer-select option::checkmark {
+    display: none;
+  }
+
+  @media print {
+    .transducer-select::picker-icon {
+      display: none;
+    }
+  }
+}
+
 .top-controls-container {
   display: flex;
   gap: 16px;

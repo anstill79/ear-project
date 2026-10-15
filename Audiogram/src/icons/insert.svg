@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Foam insert tip, side on, with its nozzle and sound tube -->
+  <rect x="2" y="6" width="10.5" height="12" rx="3.5"/>
+  <path d="M5.75 8v8M8.75 8v8" stroke-width="1.1" opacity="0.6"/>
+  <path d="M12.5 10.25h3v3.5h-3"/>
+  <path d="M15.5 12h2.25a3.25 3.25 0 0 1 3.25 3.25V22"/>
+</svg>
