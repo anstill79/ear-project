@@ -198,13 +198,39 @@
 
 /* Patient demographics, then the test date, transducer and reliability:
    printed at the top of the report */
+/* Header: a Patient row (demographics) and a Test row (date, transducer,
+   reliability), each led by its title. The rows share columns so the fields
+   line up. */
 .patient-info {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1.4fr 1.4fr 1fr 1fr;
-  gap: 6px 12px;
-  padding: 8px 12px 6px;
+  grid-template-columns: auto 1.4fr 1.4fr 1fr 1fr;
+  column-gap: 12px;
+  padding: 0 12px;
   border-bottom: 1px solid #e0e0e0;
+}
+
+.info-group {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: end;
+  padding: 6px 0;
+}
+
+.test-group {
+  border-top: 1px dashed #e0e0e0;
+}
+
+.info-group-title {
+  align-self: center;
+  min-width: 56px;
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #888;
 }
 
 .patient-field {
