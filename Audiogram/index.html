@@ -47,12 +47,17 @@
           </label>
           <label class="patient-field">
             <span class="control-label">Transducer</span>
-            <select id="select_transducer" name="select_transducer">
-              <option value="blank">--</option>
-              <option value="circumaural">Circumaural</option>
-              <option value="insert">Insert</option>
-              <option value="supraaural">Supraaural</option>
-            </select>
+            <span class="transducer-control">
+              <!-- Shown beside the select where options can't hold icons -->
+              <span id="transducer_icon" class="transducer-icon transducer-icon-outside" aria-hidden="true"></span>
+              <select id="select_transducer" name="select_transducer">
+                <button><selectedcontent></selectedcontent></button>
+                <option value="blank"><span class="transducer-icon" aria-hidden="true"></span>--</option>
+                <option value="circumaural"><span class="transducer-icon" data-icon="circumaural" aria-hidden="true"></span>Circumaural</option>
+                <option value="insert"><span class="transducer-icon" data-icon="insert" aria-hidden="true"></span>Insert</option>
+                <option value="supraaural"><span class="transducer-icon" data-icon="supraaural" aria-hidden="true"></span>Supraaural</option>
+              </select>
+            </span>
           </label>
           <label class="patient-field">
             <span class="control-label">Reliability</span>
