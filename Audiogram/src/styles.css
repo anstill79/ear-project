@@ -1177,17 +1177,6 @@ h3 {
   background-color: transparent;
 }
 
-/* Drawn rather than a ▲ character, so it matches the chart's PTA marks
-   whatever fonts the computer has */
-.pta-marker {
-  display: inline-block;
-  width: 7px;
-  height: 6px;
-  margin-left: 2px;
-  background-color: rgba(0, 0, 0, 0.45);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-}
-
 .button-row-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
