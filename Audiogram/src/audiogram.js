@@ -140,7 +140,14 @@ const PTA_CHOICES = {
   with3k: { indices: [3, 5, 7, 8], label: "500, 1k, 2k, 3k Hz" },
 };
 const PTA_DEFAULT = "standard";
+// The last choice is kept for the next visit
+const PTA_CHOICE_KEY = "audiogramPtaChoice";
 let ptaChoice = PTA_DEFAULT;
+try {
+  const saved = localStorage.getItem(PTA_CHOICE_KEY);
+  if (saved in PTA_CHOICES) ptaChoice = saved;
+} catch {}
+pta_choice.value = ptaChoice;
 
 function ptaMark() {
   return ptaChoice === PTA_DEFAULT ? "" : "*";
@@ -163,6 +170,9 @@ function refreshPTA() {
 
 pta_choice.addEventListener("change", () => {
   ptaChoice = pta_choice.value in PTA_CHOICES ? pta_choice.value : PTA_DEFAULT;
+  try {
+    localStorage.setItem(PTA_CHOICE_KEY, ptaChoice);
+  } catch {}
   refreshPTA();
   oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R, oldAudiogramData.interOctTested_AC_R);
   oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L, oldAudiogramData.interOctTested_AC_L);
