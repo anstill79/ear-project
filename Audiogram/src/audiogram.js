@@ -181,27 +181,9 @@ pta_choice.addEventListener("change", () => {
   annotatePTA();
 });
 
-// Small ▲ marks under the x axis at the PTA frequencies, so the printout
-// shows which ones went into the average. They show with the PTA labels.
-const PTA_MARKER = {
-  type: "point",
-  yValue: 120,
-  yAdjust: 6,
-  radius: 3,
-  pointStyle: "triangle",
-  backgroundColor: "rgba(0, 0, 0, 0.45)",
-  borderWidth: 0,
-};
-function setPTAMarkers(show) {
-  const { indices } = PTA_CHOICES[ptaChoice];
-  [myChart, myChart2, overlayChart].forEach((chart) => {
-    const { annotations } = chart.options.plugins.annotation;
-    Object.keys(annotations)
-      .filter((key) => key.startsWith("ptaFreq"))
-      .forEach((key) => delete annotations[key]);
-    if (!show) return;
-    indices.forEach((i) => (annotations[`ptaFreq${i}`] = { ...PTA_MARKER, xValue: i }));
-  });
+// The legend row names the PTA frequencies, so the printout records them.
+// It shows with the PTA labels.
+function showPTALegend(show) {
   ptaLegend.style.display = show ? "table-row" : "none";
   pta_freqs_legend.textContent = `${ptaMark() ? "* " : ""}${PTA_CHOICES[ptaChoice].label}`;
 }
@@ -1635,7 +1617,7 @@ function annotatePTA() {
     myChart2.options.plugins.annotation.annotations.labelPTA.display = false;
     overlayChart.options.plugins.annotation.annotations.labelPTA_R.display = false;
     overlayChart.options.plugins.annotation.annotations.labelPTA_L.display = false;
-    setPTAMarkers(false);
+    showPTALegend(false);
     updateCharts();
     return;
   }
@@ -1658,7 +1640,7 @@ function annotatePTA() {
     labelL.content = [title, String(Math.round(audiogramData.PTA_L))];
     labelL.display = true;
   }
-  setPTAMarkers(labelR.display || labelL.display);
+  showPTALegend(labelR.display || labelL.display);
 
   // Overlay: the same labels on one chart, nudged apart when the PTAs are close
   const overlayLabels = overlayChart.options.plugins.annotation.annotations;
