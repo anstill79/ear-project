@@ -1387,6 +1387,29 @@ h3 {
   color: #777;
 }
 
+/* Better / Worse, centered in the gap between the change charts and
+   spanning their plot area (the left chart's 48px padding plus the right
+   chart's 5px). Up is better for both comparisons. */
+.bar_L {
+  position: relative;
+}
+
+.bar-direction {
+  position: absolute;
+  left: -5px;
+  width: 53px;
+  bottom: 28px;
+  height: 122px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Rubik, sans-serif;
+  font-size: 10px;
+  color: #777;
+  pointer-events: none;
+}
+
 .bar-controls {
   grid-column: 1 / -1;
   display: flex;
