@@ -89,12 +89,20 @@ function copyData() {
     return lines.length ? lines.join("\n      ") : "Word Recognition: Not available";
   };
 
+  // Band averages go in only while they're shown
+  const bands = (ear) => {
+    if (!bandAveragesShown) return "";
+    const [low, mid, high] = audiogramData[`bandAverages_${ear}`].map(pta);
+    return `\n      Low avg (250-750 Hz): ${low}\n      Mid avg (1k-2k Hz): ${mid}\n      High avg (3k-8k Hz): ${high}`;
+  };
+  const ptaTitle = `PTA (${PTA_CHOICES[ptaChoice].label})`;
+
   const resultt = `Right Ear:
-      PTA: ${pta(audiogramData.PTA_R)}
+      ${ptaTitle}: ${pta(audiogramData.PTA_R)}${bands("R")}
       ${speech("R")}
 
 Left Ear:
-      PTA: ${pta(audiogramData.PTA_L)}
+      ${ptaTitle}: ${pta(audiogramData.PTA_L)}${bands("L")}
       ${speech("L")}`;
   copyToClipboard(copy_data, resultt);
 }
@@ -122,6 +130,135 @@ const SYMBOL_NAMES = new Map(
     AidedSymbol_R, AidedSymbol_L, AidedNR_Symbol_R, AidedNR_Symbol_L,
   }).map(([name, symbol]) => [symbol, name])
 );
+
+// Pure-tone average frequencies: a fixed set of choices, by x slot index
+// (500 = 3, 1k = 5, 2k = 7, 3k = 8, 4k = 9). Any choice but the default is
+// flagged with an asterisk wherever the PTA shows.
+const PTA_CHOICES = {
+  standard: { indices: [3, 5, 7], label: "500, 1k, 2k Hz" },
+  with4k: { indices: [3, 5, 7, 9], label: "500, 1k, 2k, 4k Hz" },
+  with3k: { indices: [3, 5, 7, 8], label: "500, 1k, 2k, 3k Hz" },
+};
+const PTA_DEFAULT = "standard";
+// The last choice is kept for the next visit
+const PTA_CHOICE_KEY = "audiogramPtaChoice";
+let ptaChoice = PTA_DEFAULT;
+try {
+  const saved = localStorage.getItem(PTA_CHOICE_KEY);
+  if (saved in PTA_CHOICES) ptaChoice = saved;
+} catch {}
+pta_choice.value = ptaChoice;
+
+function ptaMark() {
+  return ptaChoice === PTA_DEFAULT ? "" : "*";
+}
+
+// tested (an interOctTested array) leaves out inter-octaves that were only
+// drawn between their neighbors, so 3k counts only when it was tested
+function calcPTA(array, tested) {
+  const { indices } = PTA_CHOICES[ptaChoice];
+  const values = indices.map((i) => (tested?.[i] === 0 ? null : array[i]));
+  if (values.some((value) => value === null || value === undefined)) return;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function refreshPTA() {
+  audiogramData.PTA_frequencies = PTA_CHOICES[ptaChoice].indices.map((i) => FREQUENCIES[i]);
+  audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R, audiogramData.interOctTested_AC_R);
+  audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L, audiogramData.interOctTested_AC_L);
+}
+
+pta_choice.addEventListener("change", () => {
+  ptaChoice = pta_choice.value in PTA_CHOICES ? pta_choice.value : PTA_DEFAULT;
+  try {
+    localStorage.setItem(PTA_CHOICE_KEY, ptaChoice);
+  } catch {}
+  refreshPTA();
+  oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R, oldAudiogramData.interOctTested_AC_R);
+  oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L, oldAudiogramData.interOctTested_AC_L);
+  // The change and aided-benefit PTA bars use the same frequencies
+  calcChangeOnLoad();
+  annotatePTA();
+});
+
+// Small ▲ marks under the x axis at the PTA frequencies, so the printout
+// shows which ones went into the average. They show with the PTA labels.
+const PTA_MARKER = {
+  type: "point",
+  yValue: 120,
+  yAdjust: 6,
+  radius: 3,
+  pointStyle: "triangle",
+  backgroundColor: "rgba(0, 0, 0, 0.45)",
+  borderWidth: 0,
+};
+function setPTAMarkers(show) {
+  const { indices } = PTA_CHOICES[ptaChoice];
+  [myChart, myChart2, overlayChart].forEach((chart) => {
+    const { annotations } = chart.options.plugins.annotation;
+    Object.keys(annotations)
+      .filter((key) => key.startsWith("ptaFreq"))
+      .forEach((key) => delete annotations[key]);
+    if (!show) return;
+    indices.forEach((i) => (annotations[`ptaFreq${i}`] = { ...PTA_MARKER, xValue: i }));
+  });
+  ptaLegend.style.display = show ? "table-row" : "none";
+  pta_freqs_legend.textContent = `${ptaMark() ? "* " : ""}${PTA_CHOICES[ptaChoice].label}`;
+}
+
+// Band averages: low (250 to 750), mid (1k to 2k) and high (3k to 8k). Each
+// needs its octave frequencies and takes in any tested inter-octaves.
+const BANDS = [
+  { required: [1, 3], optional: [4] },
+  { required: [5, 7], optional: [6] },
+  { required: [9, 11], optional: [8, 10] },
+];
+function calcBandAverages(ear) {
+  const thresh = audiogramData[`thresh_AC_${ear}`];
+  const tested = audiogramData[`interOctTested_AC_${ear}`];
+  const has = (i) => thresh[i] !== null && thresh[i] !== undefined && tested[i] !== 0;
+  return BANDS.map(({ required, optional }) => {
+    if (!required.every(has)) return null;
+    const values = [...required, ...optional.filter(has)].map((i) => thresh[i]);
+    return values.reduce((sum, value) => sum + value, 0) / values.length;
+  });
+}
+
+let bandAveragesShown = false;
+const bandAvgCells = {
+  R: [band_low_R, band_mid_R, band_high_R],
+  L: [band_low_L, band_mid_L, band_high_L],
+};
+function fillInBandAverages() {
+  ["R", "L"].forEach((ear) => {
+    const averages = calcBandAverages(ear);
+    audiogramData[`bandAverages_${ear}`] = averages;
+    averages.forEach((value, i) => {
+      bandAvgCells[ear][i].textContent = value === null ? "--" : `${Math.round(value)} dB`;
+    });
+  });
+  document.querySelectorAll(".band-avg-row").forEach((row) => {
+    row.style.display = bandAveragesShown ? "table-row" : "none";
+  });
+}
+
+function setBandAverages(on) {
+  bandAveragesShown = on;
+  bandAvgOn.className = on ? "toggle-button-enabled" : "toggle-button-disabled";
+  bandAvgOff.className = on ? "toggle-button-disabled" : "toggle-button-enabled";
+  document.querySelectorAll("[data-band-avg]").forEach((button) => {
+    button.setAttribute("aria-pressed", String((button.dataset.bandAvg === "on") === on));
+  });
+  try {
+    localStorage.setItem("audiogramBandAverages", on ? "on" : "off");
+  } catch {}
+  updateCharts();
+}
+bandAvgOn.addEventListener("click", () => setBandAverages(true));
+bandAvgOff.addEventListener("click", () => setBandAverages(false));
+document.querySelectorAll("[data-band-avg]").forEach((button) => {
+  button.addEventListener("click", () => setBandAverages(button.dataset.bandAvg === "on"));
+});
 
 copy_json.addEventListener("click", copyJSON);
 function copyJSON() {
@@ -270,8 +407,7 @@ function setNR() {
   } else {
     calcInterOct(index, null, earNR);
   }
-  audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
-  audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+  refreshPTA();
   annotatePTA();
   updateCharts();
 }
@@ -534,8 +670,7 @@ function moveIt(freqIndex, dB, ear) {
     );
     calcInterOct(freqIndex, dB, "L");
   }
-  audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
-  audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+  refreshPTA();
   updateCharts();
   annotatePTA();
 }
@@ -543,6 +678,7 @@ export function updateCharts() {
   syncEHF();
   refreshBarCharts();
   fillInSpeechDots();
+  fillInBandAverages();
   refreshMaskingAssistant();
   myChart.update();
   myChart2.update();
@@ -1343,8 +1479,7 @@ function copyEar() {
   }
   if (transducer === "AC") {
     for (let i = 0; i < N_FREQ; i++) calcChange(i, to);
-    audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
-    audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
+    refreshPTA();
     annotatePTA();
   }
   updateCharts();
@@ -1472,16 +1607,11 @@ function reduceOldPointSizes() {
 }
 reduceOldPointSizes();
 
-function calcPTA(array) {
-  if (array[3] === null || array[5] === null || array[7] === null) {
-  } else return (array[3] + array[5] + array[7]) / 3;
-}
-
 let annotatePTApref = "on";
 annotatePTAon.addEventListener("click", annotatePTA);
 annotatePTAoff.addEventListener("click", annotatePTA);
 function annotatePTA() {
-  updateSpeechPTA(audiogramData.PTA_R, audiogramData.PTA_L);
+  updateSpeechPTA(audiogramData.PTA_R, audiogramData.PTA_L, ptaMark());
   if (this == annotatePTAon) {
     annotatePTApref = "on";
   }
@@ -1505,27 +1635,30 @@ function annotatePTA() {
     myChart2.options.plugins.annotation.annotations.labelPTA.display = false;
     overlayChart.options.plugins.annotation.annotations.labelPTA_R.display = false;
     overlayChart.options.plugins.annotation.annotations.labelPTA_L.display = false;
+    setPTAMarkers(false);
     updateCharts();
     return;
   }
 
   const labelR = myChart.options.plugins.annotation.annotations.labelPTA;
   const labelL = myChart2.options.plugins.annotation.annotations.labelPTA;
+  const title = "PTA" + ptaMark();
 
   if (audiogramData.PTA_R === undefined) {
     labelR.display = false;
   } else {
     labelR.yValue = audiogramData.PTA_R;
-    labelR.content = ["PTA", String(Math.round(audiogramData.PTA_R))];
+    labelR.content = [title, String(Math.round(audiogramData.PTA_R))];
     labelR.display = true;
   }
   if (audiogramData.PTA_L === undefined) {
     labelL.display = false;
   } else {
     labelL.yValue = audiogramData.PTA_L;
-    labelL.content = ["PTA", String(Math.round(audiogramData.PTA_L))];
+    labelL.content = [title, String(Math.round(audiogramData.PTA_L))];
     labelL.display = true;
   }
+  setPTAMarkers(labelR.display || labelL.display);
 
   // Overlay: the same labels on one chart, nudged apart when the PTAs are close
   const overlayLabels = overlayChart.options.plugins.annotation.annotations;
@@ -1696,12 +1829,11 @@ document.querySelectorAll("[data-bar-resolution]").forEach((button) => {
 });
 refreshBarCharts();
 
-audiogramData.PTA_R = calcPTA(audiogramData.thresh_AC_R);
-audiogramData.PTA_L = calcPTA(audiogramData.thresh_AC_L);
-updateSpeechPTA(audiogramData.PTA_R, audiogramData.PTA_L);
+refreshPTA();
+updateSpeechPTA(audiogramData.PTA_R, audiogramData.PTA_L, ptaMark());
 
-oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R);
-oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L);
+oldAudiogramData.PTA_R = calcPTA(oldAudiogramData.thresh_AC_R, oldAudiogramData.interOctTested_AC_R);
+oldAudiogramData.PTA_L = calcPTA(oldAudiogramData.thresh_AC_L, oldAudiogramData.interOctTested_AC_L);
 
 function fillInLegendPrevDate() {
   if (
@@ -1826,6 +1958,9 @@ window.onload = () => {
   } catch {}
   try {
     if (localStorage.getItem("audiogramSpeechDots") === "on") setSpeechDots(true);
+  } catch {}
+  try {
+    if (localStorage.getItem("audiogramBandAverages") === "on") setBandAverages(true);
   } catch {}
   refreshMaskingAssistant();
   toggleData(5);

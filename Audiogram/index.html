@@ -689,6 +689,17 @@
               <button type="button" data-bar-resolution="PTA" aria-pressed="false" title="Pure-tone average">PTA</button>
             </div>
           </div>
+          <div class="bar-control-group" role="group" aria-label="Frequency averages">
+            <span
+              class="bar-control-label"
+              title="Air conduction averages for low (250&ndash;750 Hz), mid (1k&ndash;2k Hz) and high (3k&ndash;8k Hz) frequencies, shown in the legend"
+              >Freq. avgs</span
+            >
+            <div class="bar-views">
+              <button type="button" data-band-avg="off" aria-pressed="true">Off</button>
+              <button type="button" data-band-avg="on" aria-pressed="false">On</button>
+            </div>
+          </div>
         </div>
         <div
           class="bar_R grid-item right-position"
@@ -759,6 +770,30 @@
               </td>
               <td id="speech_dots_R">--</td>
               <td id="speech_dots_L">--</td>
+            </tr>
+            <tr id="ptaLegend" style="display: none">
+              <td
+                class="legend-label legend-static"
+                title="Frequencies marked &#9650; under the audiograms. * means other than the default 500, 1k, 2k Hz"
+              >
+                PTA frequencies &#9650;
+              </td>
+              <td colspan="2" id="pta_freqs_legend">500, 1k, 2k Hz</td>
+            </tr>
+            <tr class="band-avg-row" style="display: none">
+              <td class="legend-label legend-static">Low avg (250&ndash;750)</td>
+              <td id="band_low_R">--</td>
+              <td id="band_low_L">--</td>
+            </tr>
+            <tr class="band-avg-row" style="display: none">
+              <td class="legend-label legend-static">Mid avg (1k&ndash;2k)</td>
+              <td id="band_mid_R">--</td>
+              <td id="band_mid_L">--</td>
+            </tr>
+            <tr class="band-avg-row" style="display: none">
+              <td class="legend-label legend-static">High avg (3k&ndash;8k)</td>
+              <td id="band_high_R">--</td>
+              <td id="band_high_L">--</td>
             </tr>
             <tr id="previousLegend" style="display: none">
               <td
@@ -908,7 +943,22 @@
           <span class="command-row-label" title="Killion &amp; Mueller (2010) count-the-dots speech audibility">Speech dots</span>
           <button id="speechDotsOn" class="toggle-button-disabled">On</button>
           <button id="speechDotsOff" class="toggle-button-enabled">Off</button>
+
+          <span class="command-row-label" title="Low (250&ndash;750 Hz), mid (1k&ndash;2k Hz) and high (3k&ndash;8k Hz) air conduction averages">Freq. averages</span>
+          <button id="bandAvgOn" class="toggle-button-disabled">On</button>
+          <button id="bandAvgOff" class="toggle-button-enabled">Off</button>
         </div>
+      </div>
+
+      <!-- Pure-tone average frequencies -->
+      <div class="command-section">
+        <p class="command-section-title">Pure-tone average</p>
+        <label class="command-row-label" for="pta_choice">PTA frequencies</label>
+        <select id="pta_choice" class="command-select" autocomplete="off">
+          <option value="standard" selected>500, 1k, 2k Hz (default)</option>
+          <option value="with4k">500, 1k, 2k, 4k Hz *</option>
+          <option value="with3k">500, 1k, 2k, 3k Hz *</option>
+        </select>
       </div>
 
       <!-- Point size sliders -->

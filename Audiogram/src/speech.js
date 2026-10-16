@@ -280,8 +280,9 @@ export function initSpeech() {
   });
 }
 
-export function updateSpeechPTA(ptaR, ptaL) {
-  const format = (pta) => (pta === undefined ? "–" : `${Math.round(pta)} dB`);
+// mark is "*" when the PTA uses other than the default frequencies
+export function updateSpeechPTA(ptaR, ptaL, mark = "") {
+  const format = (pta) => (pta === undefined ? "–" : `${Math.round(pta)} dB${mark}`);
   document.getElementById("PTA_R_speech").textContent = format(ptaR);
   document.getElementById("PTA_L_speech").textContent = format(ptaL);
 }
