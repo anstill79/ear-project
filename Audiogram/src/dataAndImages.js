@@ -66,6 +66,11 @@ export const audiogramData = {
   },
   PTA_R: null,
   PTA_L: null,
+  // Frequencies (Hz) the PTA averages; set from the PTA choice in Controls
+  PTA_frequencies: [500, 1000, 2000],
+  // Low (250-750), mid (1k-2k) and high (3k-8k) AC averages
+  bandAverages_R: [null, null, null],
+  bandAverages_L: [null, null, null],
   SRT_R: [null],
   SRT_L: [null],
   thresh_AC_R: nulls(),
