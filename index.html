@@ -3,122 +3,441 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Free browser-based tools for audiologists."
+    />
+    <meta name="color-scheme" content="light dark" />
     <title>Ear Project</title>
-  </head>
-  <body>
     <style>
       @view-transition {
         navigation: auto;
       }
+      @font-face {
+        font-family: "Inter";
+        src: url("/Font/Inter-VariableFont_slnt,wght.ttf") format("truetype");
+        font-weight: 100 900;
+        font-display: swap;
+      }
+
+      :root {
+        --bg: #fbfaf6;
+        --surface: #ffffff;
+        --border: #e6e2d8;
+        --text: #1d1b2e;
+        --muted: #5f5d70;
+        --accent: #342590;
+        --accent-2: #28908d;
+        --wave-1: rgba(52, 37, 144, 0.55);
+        --wave-2: rgba(40, 144, 141, 0.5);
+        --wave-3: rgba(52, 37, 144, 0.2);
+        --shadow: 0 1px 2px rgba(29, 27, 46, 0.05),
+          0 4px 16px rgba(29, 27, 46, 0.06);
+        --shadow-hover: 0 2px 4px rgba(29, 27, 46, 0.06),
+          0 12px 28px rgba(29, 27, 46, 0.1);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #14131c;
+          --surface: #1d1c28;
+          --border: #2e2c3d;
+          --text: #ecebf3;
+          --muted: #a3a1b5;
+          --accent: #a99cff;
+          --accent-2: #5fd0cb;
+          --wave-1: rgba(169, 156, 255, 0.6);
+          --wave-2: rgba(95, 208, 203, 0.5);
+          --wave-3: rgba(169, 156, 255, 0.22);
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.45);
+        }
+      }
+
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family:
-          "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
       }
       body {
-        background-color: #fefdf9;
+        font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Header */
+      header {
+        text-align: center;
+        padding: 3.5rem 0 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .wave {
+        display: block;
+        width: 100%;
+        height: 96px;
+        margin-top: 2rem;
+        pointer-events: none;
+      }
+      .wave path {
+        fill: none;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+      .wave path:nth-child(1) {
+        stroke: var(--wave-1);
+      }
+      .wave path:nth-child(2) {
+        stroke: var(--wave-2);
+      }
+      .wave path:nth-child(3) {
+        stroke: var(--wave-3);
       }
       h1 {
-        text-shadow: 1px 1px 0px rgba(0, 0, 255, 0.6);
+        font-size: clamp(2.25rem, 6vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--accent);
       }
+      .tagline {
+        padding-inline: 1rem;
+        margin-top: 0.5rem;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        color: var(--muted);
+      }
+      /* Tool sections */
       main {
+        flex: 1;
+        width: 100%;
+        max-width: 1100px;
+        margin-inline: auto;
+        padding: 2.5rem 1rem 3rem;
+      }
+      section + section {
+        margin-top: 2.5rem;
+      }
+      h2 {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent-2);
+        margin-bottom: 1rem;
+      }
+      .grid {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+        gap: 1rem;
+      }
+      .card {
         display: flex;
-        justify-content: center;
-        div {
-          max-width: 800px;
-        }
+        gap: 1rem;
+        align-items: flex-start;
+        height: 100%;
+        padding: 1.25rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        color: inherit;
+        text-decoration: none;
+        transition:
+          transform 0.18s ease,
+          box-shadow 0.18s ease,
+          border-color 0.18s ease;
       }
-      li {
-        font-size: 2rem;
-        list-style-type: none;
-        margin-block: 2rem;
-        a {
-          text-decoration: none;
-          color: #342590;
-        }
-        p {
-          font-size: 1.5rem;
-          margin-top: 0.5rem;
-          color: #28908d;
-        }
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-hover);
+        border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
       }
-      a:hover {
-        background-color: lightgray;
+      .card:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
       }
-      a:visited {
-        color: #342590;
-      }
-      #wrapper {
-        margin-inline: 1rem;
-      }
-    </style>
-    <header style="display: grid; place-items: center; margin-top: 2rem">
-      <h1>Ear Project</h1>
-    </header>
-    <main>
-      <div id="wrapper">
-        <ul>
-          <li>
-            <a href="/SAL/SAL2/index.html">SAL</a>
-            <p>Interactive worksheet to help avoid BC masking dilemmas.</p>
-          </li>
-          <li>
-            <a href="/Loud_Text/index.html">LOUD Text</a>
-            <p>Handy communication tool for live typing in large font sizes.</p>
-          </li>
-
-          <li>
-            <a href="/Vestib_CI">Vestibular Test Summary</a>
-            <p>
-              A very simple interactive form for summarizing peripheral tests of
-              vestibular function.
-            </p>
-          </li>
-
-          <li>
-            <a href="/ListeningCheck/index.html">ListeningCheck</a>
-            <p>Listen to audio while adjusting hearing devices.</p>
-          </li>
-          <li>
-            <a href="/Audiogram">Audiogram</a>
-            <p>The best point and click audiogram on the web.</p>
-          </li>
-          <li>
-            <a href="/Spot_Check/index.html">Spot Check</a>
-            <p>
-              Use your smartphone to quickly check sound levels in your booth
-              and save readings.
-            </p>
-          </li>
-          <li>
-            <a href="/Screenshot Arranger/index.html">Screenshot Arranger</a>
-            <p>Create a quick print/copy layout using screenshots.</p>
-          </li>
-          <li>
-            <a href="/HNS Referral/index.html">HNS Referral Guidance</a>
-            <p>Interactive decision tree for referring patients to HNS.</p>
-          </li>
-          <li>
-            <a href="/Image_Comparer/index.html">Image Overlay</a>
-            <p>
-              Paste images to overlay and compare, drag, and adjust opacity.
-            </p>
-          </li>
-        </ul>
-      </div>
-    </main>
-    <footer
-      style="
+      .icon {
+        flex: none;
         display: grid;
         place-items: center;
-        padding: 1rem;
-        border-top: 1px solid black;
-      "
-    >
-      <p>Austin Swanson</p>
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 10px;
+        color: var(--accent);
+        background: color-mix(in srgb, var(--accent) 10%, transparent);
+      }
+      .icon svg {
+        width: 1.4rem;
+        height: 1.4rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .card h3 {
+        font-size: 1.1rem;
+        font-weight: 650;
+        letter-spacing: -0.01em;
+      }
+      .card p {
+        margin-top: 0.25rem;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 1.5rem 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      footer p + p {
+        margin-top: 0.35rem;
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .card {
+          transition: none;
+        }
+        .card:hover {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Ear Project</h1>
+      <p class="tagline">Free browser-based tools for audiologists</p>
+      <svg
+        class="wave"
+        viewBox="0 0 1200 160"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path /><path /><path />
+      </svg>
+    </header>
+
+    <main>
+      <section>
+        <h2>Testing</h2>
+        <ul class="grid">
+          <li>
+            <a class="card" href="/Audiogram">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 4v16h18" />
+                  <circle cx="7" cy="9" r="1.6" />
+                  <circle cx="12" cy="11" r="1.6" />
+                  <circle cx="17" cy="15" r="1.6" />
+                  <path d="M8.4 9.6l2.2.8M13.3 12l2.4 2.1" />
+                </svg>
+              </span>
+              <div>
+                <h3>Audiogram</h3>
+                <p>The best point and click audiogram on the web.</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="/SAL/SAL2/index.html">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="5" y="3" width="14" height="18" rx="2" />
+                  <path d="M9 3v2h6V3M9 11h6M9 15h4" />
+                </svg>
+              </span>
+              <div>
+                <h3>SAL</h3>
+                <p>Interactive worksheet to help avoid BC masking dilemmas.</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="/Spot_Check/index.html">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 16a8 8 0 1 1 16 0" />
+                  <path d="M12 16l4-5" />
+                  <circle cx="12" cy="16" r="1.2" />
+                </svg>
+              </span>
+              <div>
+                <h3>Spot Check</h3>
+                <p>
+                  Use your smartphone to quickly check sound levels in your
+                  booth and save readings.
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Devices &amp; communication</h2>
+        <ul class="grid">
+          <li>
+            <a class="card" href="/ListeningCheck/index.html">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+                  <rect x="3" y="14" width="4" height="6" rx="1.5" />
+                  <rect x="17" y="14" width="4" height="6" rx="1.5" />
+                </svg>
+              </span>
+              <div>
+                <h3>ListeningCheck</h3>
+                <p>Listen to audio while adjusting hearing devices.</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="/Loud_Text/index.html">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 7V5h12v2M10 5v14M8 19h4" />
+                  <path d="M15 12v-1h6v1M18 11v8M17 19h2" />
+                </svg>
+              </span>
+              <div>
+                <h3>LOUD Text</h3>
+                <p>
+                  Handy communication tool for live typing in large font sizes.
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Reports &amp; referrals</h2>
+        <ul class="grid">
+          <li>
+            <a class="card" href="/HNS Referral/index.html">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="9" y="3" width="6" height="4" rx="1" />
+                  <rect x="3" y="17" width="6" height="4" rx="1" />
+                  <rect x="15" y="17" width="6" height="4" rx="1" />
+                  <path d="M12 7v5M6 17v-5h12v5" />
+                </svg>
+              </span>
+              <div>
+                <h3>HNS Referral Guidance</h3>
+                <p>Interactive decision tree for referring patients to HNS.</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="/Vestib_CI">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M12 3a9 9 0 0 1 9 9M12 21a9 9 0 0 1-9-9" />
+                  <path d="M18.5 9.5L21 12l2-2.5M5.5 14.5L3 12l-2 2.5" />
+                </svg>
+              </span>
+              <div>
+                <h3>Vestibular Test Summary</h3>
+                <p>
+                  A very simple interactive form for summarizing peripheral
+                  tests of vestibular function.
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Utilities</h2>
+        <ul class="grid">
+          <li>
+            <a class="card" href="/Screenshot Arranger/index.html">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="8" height="8" rx="1.5" />
+                  <rect x="13" y="3" width="8" height="8" rx="1.5" />
+                  <rect x="3" y="13" width="18" height="8" rx="1.5" />
+                </svg>
+              </span>
+              <div>
+                <h3>Screenshot Arranger</h3>
+                <p>Create a quick print/copy layout using screenshots.</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="/Image_Comparer/index.html">
+              <span class="icon">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="12" height="12" rx="1.5" />
+                  <rect x="9" y="9" width="12" height="12" rx="1.5" />
+                </svg>
+              </span>
+              <div>
+                <h3>Image Overlay</h3>
+                <p>
+                  Paste images to overlay and compare, drag, and adjust
+                  opacity.
+                </p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Everything runs in your browser. No patient data is sent anywhere.
+      </p>
+      <p>
+        Built by Austin Swanson ·
+        <a href="https://github.com/anstill79/ear-project">Source on GitHub</a>
+      </p>
     </footer>
+
+    <script>
+      // Draw the header waveform: three sine waves under a tapering envelope.
+      const W = 1200;
+      const H = 160;
+      const waves = [
+        { freq: 14, phase: 0, amp: 60 },
+        { freq: 9, phase: 1.3, amp: 42 },
+        { freq: 22, phase: 2.1, amp: 24 },
+      ];
+      const paths = document.querySelectorAll(".wave path");
+      waves.forEach(({ freq, phase, amp }, i) => {
+        const steps = 300;
+        let d = "";
+        for (let s = 0; s <= steps; s++) {
+          const t = s / steps;
+          const env =
+            Math.sin(Math.PI * t) ** 1.5 * (0.6 + 0.4 * Math.sin(t * 9 + phase));
+          const y = H / 2 + amp * env * Math.sin(2 * Math.PI * freq * t + phase);
+          d += `${s ? "L" : "M"}${(W * t).toFixed(1)} ${y.toFixed(1)}`;
+        }
+        paths[i].setAttribute("d", d);
+      });
+    </script>
   </body>
 </html>
