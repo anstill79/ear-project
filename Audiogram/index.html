@@ -912,7 +912,27 @@
           <input type="checkbox" id="speech_calc_masking" />
           Calculate masking levels
         </label>
+        <button
+          type="button"
+          id="wr_chart_button"
+          class="sp-chart-btn no-print"
+          popovertarget="wr_chart_modal"
+          disabled
+        >
+          Chart word recognition by level
+        </button>
       </section>
+
+      <!-- Word recognition vs. level chart (on demand) -->
+      <div id="wr_chart_modal" popover="auto" class="wr-chart-modal">
+        <p class="command-modal-title">Word recognition by presentation level</p>
+        <div class="wr-chart-body">
+          <canvas id="wr_chart_canvas" width="440" height="320"></canvas>
+          <p id="wr_chart_empty" class="wr-chart-empty" hidden>
+            Enter word recognition at two or more levels to chart it.
+          </p>
+        </div>
+      </div>
 
       <!--end of container-->
     </div>
