@@ -177,6 +177,40 @@ function setFill(btn) {
 
 let activeButton = null;
 
+// ── Web Audio Gain ─────────────────────────────────────────────────────────
+// iOS Safari ignores HTMLMediaElement.volume (it is always 1), so each player
+// is routed through a GainNode and the level is set there instead.
+let audioCtx = null;
+const gainForPlayer = new Map();
+
+function initAudioGraph() {
+  if (audioCtx) return;
+  const Ctx = window.AudioContext || window.webkitAudioContext;
+  if (!Ctx) return;
+
+  // Play through the iOS silent switch like a normal media player would
+  if (navigator.audioSession) navigator.audioSession.type = "playback";
+
+  audioCtx = new Ctx();
+  allPlayers.forEach((player) => {
+    const source = audioCtx.createMediaElementSource(player);
+    const gain = audioCtx.createGain();
+    source.connect(gain).connect(audioCtx.destination);
+    gainForPlayer.set(player, gain);
+  });
+}
+
+function setPlayerVolume(player, volume) {
+  initAudioGraph();
+  const gain = gainForPlayer.get(player);
+  if (!gain) {
+    player.volume = volume;
+    return;
+  }
+  if (audioCtx.state === "suspended") audioCtx.resume();
+  gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+}
+
 function playAudio(event) {
   if (!audioFileInput.value) return;
 
@@ -196,7 +230,7 @@ function playAudio(event) {
   const sectionId = button.closest(".btn-column").id;
   const player = sectionId === "sectionA" ? audioPlayerA : audioPlayerB;
 
-  player.volume = volume;
+  setPlayerVolume(player, volume);
   applyLoop();
   player.play();
   startLoopTimer();
