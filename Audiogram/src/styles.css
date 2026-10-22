@@ -1739,3 +1739,51 @@ h3 {
 .point_size_slider_list {
   display: none;
 }
+
+/* Word recognition vs. level chart, opened on demand from the speech section */
+.sp-chart-btn {
+  grid-column: 1 / -1;
+  justify-self: center;
+  padding: 4px 12px;
+  font: 11px Rubik, sans-serif;
+  color: #444;
+  background: white;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.sp-chart-btn:hover:not(:disabled) {
+  background: #f3f3f3;
+}
+
+.sp-chart-btn:disabled {
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+.wr-chart-modal {
+  width: 480px;
+  max-width: calc(100vw - 32px);
+  padding: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: Rubik, sans-serif;
+  background: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.wr-chart-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+
+.wr-chart-body {
+  padding: 10px 14px 14px;
+}
+
+.wr-chart-empty {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}

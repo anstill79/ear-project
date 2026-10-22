@@ -32,6 +32,7 @@ import {
 
 import { initSpeech, updateSpeechPTA, getSpeechSummary } from "./speech.js";
 
+import { initWrChart } from "./wrChart.js";
 import { initPatient, getPatientInfo } from "./patient.js";
 
 import { initPen, setPen } from "./pen.js";
@@ -261,6 +262,7 @@ function copyJSON() {
 }
 
 initSpeech();
+initWrChart();
 initPatient();
 initPen();
 
