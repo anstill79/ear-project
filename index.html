@@ -76,6 +76,16 @@
         margin-top: 2rem;
         pointer-events: none;
       }
+      .ear-wave [data-layer="outer"] {
+        fill: var(--accent-2);
+      }
+      .ear-wave [data-layer="middle"],
+      .ear-wave [data-layer="inner"] {
+        fill: var(--accent);
+      }
+      .ear-wave line {
+        stroke: var(--accent);
+      }
       h1 {
         font-size: clamp(2.25rem, 6vw, 3.5rem);
         font-weight: 800;
@@ -203,10 +213,10 @@
       <h1>Ear Project</h1>
       <p class="tagline">Free browser-based tools for audiologists</p>
       <svg class="ear-wave" id="ear-wave" viewBox="0 0 1440 200" preserveAspectRatio="none" aria-hidden="true">
-  <path data-layer="outer"  fill="#7DBDB2" fill-opacity="0.22"></path>
-  <path data-layer="middle" fill="#8F84CC" fill-opacity="0.38"></path>
-  <path data-layer="inner"  fill="#3B3196" fill-opacity="0.9"></path>
-  <line x1="0" y1="100" x2="1440" y2="100" stroke="#2E2585" stroke-opacity="0.25"
+  <path data-layer="outer"  fill-opacity="0.22"></path>
+  <path data-layer="middle" fill-opacity="0.38"></path>
+  <path data-layer="inner"  fill-opacity="0.9"></path>
+  <line x1="0" y1="100" x2="1440" y2="100" stroke-opacity="0.25"
         stroke-width="1" vector-effect="non-scaling-stroke"></line>
 </svg>
     </header>
