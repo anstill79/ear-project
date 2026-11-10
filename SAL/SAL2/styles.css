@@ -47,7 +47,7 @@ body {
   display: grid;
   gap: 10px;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
 }
 
 /* this is the capsule style from Gemini */
@@ -70,12 +70,12 @@ table {
   width: 100%;
   /* Changed to separate to allow spacing between the capsules */
   border-collapse: separate;
-  border-spacing: 10px 0; /* Horizontal gap between pairs, no vertical gap */
+  border-spacing: 4px 0; /* Horizontal gap between pairs, no vertical gap */
   font-size: 13px;
 }
 
 td {
-  padding: 8px 12px;
+  padding: 8px 4px;
   text-align: center;
   border-left: 2px solid #64748b; /* The side borders of the capsule */
   border-right: 2px solid #64748b;
@@ -98,14 +98,18 @@ tr:last-child td:not(.row-label) {
 .row-label {
   text-align: left;
   font-weight: 600;
-  width: 150px;
+  width: 1%;
+  white-space: nowrap;
+  padding-left: 0;
   background: #f9fafb;
   border: none; /* Keep labels outside the capsule style */
 }
 
 input[type="number"] {
-  width: 40px;
-  padding: 4px;
+  width: 44px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 4px 2px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   text-align: center;
@@ -161,7 +165,7 @@ td.input-error {
   background: #ffffff;
   border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 24px;
+  padding: 20px 12px 20px 8px;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.05),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
